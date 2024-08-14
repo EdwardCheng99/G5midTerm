@@ -16,6 +16,9 @@ include("../pdoConnect.php");
     </head>
 
     <body>
+        <div class="container">
+            <h1>user change test</h1>
+        </div>
         <?php include("../nav.php"); ?>
         <?php include("../footer.php"); ?>
     </body>
