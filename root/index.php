@@ -19,6 +19,7 @@ include("../pdoConnect.php");
     <div class="container">
         <h1>user change test</h1>
         <span>Edward forktest</span>
+        <p>alice</p>
     </div>
     <?php include("../nav.php"); ?>
     <?php include("../footer.php"); ?>
