@@ -8,12 +8,8 @@ $stmt = $dbHost->prepare($sql);
 
 try {
     $stmt->execute();
-	while ($row = $stmt->fetch()) {
-    	// echo "接收到的資料：<pre>";
-    	// print_r($row);
-    	// echo "</pre>";
-	}
-    
+    $rows = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+    $userCount = $stmt->rowCount();
 } catch (PDOException $e) {
     echo "預處理陳述式執行失敗！ <br/>";
     echo "Error: " . $e->getMessage() . "<br/>";
@@ -34,20 +30,47 @@ print_r($row);
         content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <?php include("../js.php") ?>
+    <?php include("../css.php"); ?>
 </head>
 
 <body>
-    <div class="container">
-        <h1>Member</h1>
-        <?php 
-        $stmt->execute();
-        while ($row = $stmt->fetch()) {
-            echo "接收到的資料：<pre>";
-            print_r($row);
-            echo "</pre>";
-        } ?>
-    </div>
     <?php include("../nav.php"); ?>
+    <div class="container">
+    <?php if($userCount > 0): ?>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Level</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>CreateDate</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($rows as $user): ?>
+                            <tr>
+                                <td><?= $user["MemberID"]; ?></td>
+                                <td><?= $user["MemberName"]; ?></td>
+                                <td><?= $user["MemberLevel"]; ?></td>
+                                <td><?= $user["MembereMail"]; ?></td>
+                                <td><?= $user["MemberPhone"]; ?></td>
+                                <td><?= $user["MemberCreateDate"]; ?></td>
+                                <td>
+                                    <a class="btn btn-primary" href="pdoUser.php?id=<?= $user["id"] ?>"><i class="fa-solid fa-eye"></i></a>
+                                    <a class="btn btn-primary" href="pdoUser2.php?id=<?= $user["id"] ?>"><i class="fa-solid fa-eye"></i>2</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php else: ?>
+                目前沒有使用者
+            <?php endif; ?>
+    </div>
+    
     <?php include("../footer.php"); ?>
 </body>
 
