@@ -22,7 +22,8 @@ print_r($row);
 <html lang="en">
 
 <head>
-    <title>Title</title>
+    <!-- 暫定為Member頁面 -->
+    <title>Member</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta
@@ -36,39 +37,41 @@ print_r($row);
 <body>
     <?php include("../nav.php"); ?>
     <div class="container">
-    <?php if($userCount > 0): ?>
-                <table class="table table-bordered">
-                    <thead>
+        <h1>Member List</h1>
+        <?php if($userCount > 0): ?>
+            <div class="py-2">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Level</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>CreateDate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($rows as $user): ?>
                         <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Level</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>CreateDate</th>
-                            <th></th>
+                            <td><?= $user["MemberID"]; ?></td>
+                            <td><?= $user["MemberName"]; ?></td>
+                            <td><?= $user["MemberLevel"]; ?></td>
+                            <td><?= $user["MembereMail"]; ?></td>
+                            <td><?= $user["MemberPhone"]; ?></td>
+                            <td><?= $user["MemberCreateDate"]; ?></td>
+                            <td>
+                                <a class="btn btn-primary" href="pdoUser.php?id=<?= $user["id"] ?>"><i class="fa-solid fa-eye"></i></a>
+                                <a class="btn btn-primary" href="pdoUser2.php?id=<?= $user["id"] ?>"><i class="fa-solid fa-eye"></i>2</a>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach($rows as $user): ?>
-                            <tr>
-                                <td><?= $user["MemberID"]; ?></td>
-                                <td><?= $user["MemberName"]; ?></td>
-                                <td><?= $user["MemberLevel"]; ?></td>
-                                <td><?= $user["MembereMail"]; ?></td>
-                                <td><?= $user["MemberPhone"]; ?></td>
-                                <td><?= $user["MemberCreateDate"]; ?></td>
-                                <td>
-                                    <a class="btn btn-primary" href="pdoUser.php?id=<?= $user["id"] ?>"><i class="fa-solid fa-eye"></i></a>
-                                    <a class="btn btn-primary" href="pdoUser2.php?id=<?= $user["id"] ?>"><i class="fa-solid fa-eye"></i>2</a>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
             <?php else: ?>
                 目前沒有使用者
             <?php endif; ?>
+            </div>
     </div>
     
     <?php include("../footer.php"); ?>
