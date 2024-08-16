@@ -2,7 +2,7 @@
 include("../pdoConnect.php");
 
 // sql connect test
-$sql = "SELECT * FROM Member WHERE MemberValid = 1 AND MemberID = 1";
+$sql = "SELECT * FROM Member WHERE MemberValid = 1 LIMIT 20";
 
 $stmt = $dbHost->prepare($sql);
 
