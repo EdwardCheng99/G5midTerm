@@ -112,7 +112,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="/G5midTerm/PetComm/PetCommList.php" class='sidebar-link'>
+                    <a href="/G5midTerm/PetCommunicator/petcommunicators.php" class='sidebar-link'>
                         <i class="fa-solid fa-paw"></i>
                         <span>寵物溝通師管理</span>
                     </a>
