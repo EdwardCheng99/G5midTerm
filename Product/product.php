@@ -28,89 +28,132 @@ try {
 }
 
 ?>
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <title>Title</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品操作</title>
 
-    <!-- Bootstrap CSS v5.2.1 -->
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-        crossorigin="anonymous" />
+    <?php include("../headlink.php") ?>
 </head>
 
 <body>
-    <?php include("../css.php") ?>
-    <div class="container">
-        <div class="py-2">
-            <a class="btn btn-primary" href="product-list.php" title="回商品管理"><i class="fa-solid fa-left-long"></i></a>
-        </div>
-        <div class="row ">
-            <div class="col-lg-4">
-                <?php if ($productCount > 0) : ?>
-                    <table class="table table-bordered">
-                        <?php foreach ($rows as $row) : ?>
-                            <tr>
-                                <th>商品編號</th>
-                                <td><?= $row["product_id"] ?></td>
-                            </tr>
-                            <tr>
-                                <th>商品圖片</th>
-                                <td> <div class="ratio ratio-1x1">
-                                    <img class="object-fit-cover" src="./g5productimg/<?= $row["product_img"] ?>" alt="<?= $row["product_name"] ?>">
-                                </div></td>
-                            </tr>
-                            <tr>
-                                <th>商品名稱</th>
-                                <td><?= $row["product_name"] ?></td>
-                            </tr>
-                            <tr>
-                                <th>品牌</th>
-                                <td><?= $row["product_brand"] ?></td>
-                            </tr>
-                            <tr>
-                                <th>分類</th>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th>類別</th>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th>原價</th>
-                                <td><?= $row["product_origin_price"] ?></td>
-                            </tr>
-                            <tr>
-                                <th>售價</th>
-                                <td><?= $row["product_sale_price"] ?></td>
-                            </tr>
-                            <tr>
-                                <th>庫存</th>
-                                <td><?= $row["product_stock"] ?></td>
-                            </tr>
-                            <tr>
-                                <th>建立時間</th>
-                                <td><?= $row["product_create_date"] ?></td>
-                            </tr>
-                            <tr>
-                                <th>更新時間</th>
-                                <td><?= $row["product_update_date"] ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </table>
-                <?php endif; ?>
+    <script src="../assets/static/js/initTheme.js"></script>
+    <div id="app">
+        <?php include("../sidebar.php") ?>
+        <div id="main" class='layout-navbar navbar-fixed'>
+            <header>
+            </header>
+            <div id="main-content">
+                <div class="page-heading">
+                    <div class="page-title">
+                        <div class="row">
+                            <div class="col-12 col-md-6 order-md-1 order-last">
+                                <h3>商品操作</h3>
+                                <p class="text-subtitle text-muted"></p>
+                            </div>
+                            <div class="col-12 col-md-6 order-md-2 order-first">
+                                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="index.html"><i class="fa-solid fa-house"></i></a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">商品操作</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                    <section class="section">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+
+                                    <div class="container">
+                                        <div class="py-2">
+                                            <a class="btn btn-primary" href="ProductList.php" title="回商品管理"><i class="fa-solid fa-left-long"></i></a>
+                                        </div>
+                                        <div class="row ">
+                                            <div class="col-lg-4">
+                                                <?php if ($productCount > 0) : ?>
+                                                    <table class="table table-bordered">
+                                                        <?php foreach ($rows as $row) : ?>
+                                                            <tr>
+                                                                <th>商品編號</th>
+                                                                <td><?= $row["product_id"] ?></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>商品圖片</th>
+                                                                <td>
+                                                                    <div class="ratio ratio-1x1">
+                                                                        <img class="object-fit-cover" src="./g5productimg/<?= $row["product_img"] ?>" alt="<?= $row["product_name"] ?>">
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>商品名稱</th>
+                                                                <td><?= $row["product_name"] ?></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>品牌</th>
+                                                                <td><?= $row["product_brand"] ?></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>分類</th>
+                                                                <td></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>類別</th>
+                                                                <td></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>原價</th>
+                                                                <td><?= $row["product_origin_price"] ?></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>售價</th>
+                                                                <td><?= $row["product_sale_price"] ?></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>庫存</th>
+                                                                <td><?= $row["product_stock"] ?></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>建立時間</th>
+                                                                <td><?= $row["product_create_date"] ?></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>更新時間</th>
+                                                                <td><?= $row["product_update_date"] ?></td>
+                                                            </tr>
+                                                        <?php endforeach; ?>
+                                                    </table>
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
             </div>
+            <footer>
+                <div class="footer clearfix mb-0 text-muted">
+                    <div class="float-start">
+                    </div>
+                    <div class="float-end">
+                    </div>
+                </div>
+            </footer>
         </div>
     </div>
-    <?php include("./footer.php") ?>
+    <script src="../assets/static/js/components/dark.js"></script>
+    <script src="../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+
+    <script src="../assets/compiled/js/app.js"></script>
+
+
 </body>
 
 </html>
