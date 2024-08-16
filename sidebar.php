@@ -51,68 +51,68 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="/Mazer/Member/Member.php" class='sidebar-link'>
+                    <a href="/Mazer/Member/MemberList.php" class='sidebar-link'>
                         <i class="fa-solid fa-address-card"></i>
                         <span>會員資料管理</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="/Mazer/Member/Order.php" class='sidebar-link'>
+                    <a href="/Mazer/Member/OrderList.php" class='sidebar-link'>
                         <i class="fa-regular fa-clipboard"></i>
                         <span>訂單管理</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="/Mazer/Product/Product.php" class='sidebar-link'>
+                    <a href="/Mazer/Product/ProductList.php" class='sidebar-link'>
                         <i class="bi bi-stack"></i>
                         <span>商品管理</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="/Mazer/Product/ProductCategory.php" class='sidebar-link'>
+                    <a href="/Mazer/Product/ProductCategoryList.php" class='sidebar-link'>
                         <i class="fa-solid fa-list"></i>
                         <span>商品類別管理</span>
                     </a>
                 </li>
 
                 <li class="sidebar-item">
-                    <a href="/Mazer/Promotion/Discount.php" class='sidebar-link'>
+                    <a href="/Mazer/Promotion/DiscountList.php" class='sidebar-link'>
                         <i class="fa-solid fa-comment-dollar"></i>
                         <span>促銷管理</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="/Mazer/Promotion/Coupon.php" class='sidebar-link'>
+                    <a href="/Mazer/Promotion/CouponList.php" class='sidebar-link'>
                         <i class="fa-solid fa-ticket"></i>
                         <span>優惠券管理</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="/Mazer/Article/Article.php" class='sidebar-link'>
+                    <a href="/Mazer/Article/ArticleList.php" class='sidebar-link'>
                         <i class="fa-solid fa-newspaper"></i>
                         <span>文章管理</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="/Mazer/Article/Tag.php" class='sidebar-link'>
+                    <a href="/Mazer/Article/TagList.php" class='sidebar-link'>
                         <i class="fa-solid fa-tags"></i>
                         <span>標籤管理</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="/Mazer/Events/OfficialEvents.php" class='sidebar-link'>
+                    <a href="/Mazer/Events/OfficialEventsList.php" class='sidebar-link'>
                         <i class="fa-solid fa-people-roof"></i>
                         <span>官方活動管理</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="/Mazer/Events/Vendor.php" class='sidebar-link'>
+                    <a href="/Mazer/Events/VendorList.php" class='sidebar-link'>
                         <i class="fa-solid fa-handshake"></i>
                         <span>廠商管理</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="/Mazer/PetComm/PetComm.php" class='sidebar-link'>
+                    <a href="/Mazer/PetComm/PetCommList.php" class='sidebar-link'>
                         <i class="fa-solid fa-paw"></i>
                         <span>寵物溝通師管理</span>
                     </a>
