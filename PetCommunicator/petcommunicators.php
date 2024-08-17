@@ -6,7 +6,7 @@ $stmtAll = $dbHost->prepare($sqlAll);
 
 $page = 1;
 $start_item = 0;
-$per_page = 10;
+$per_page = 5;
 
 
 if (isset($_GET["p"])) {
@@ -138,8 +138,6 @@ $total_page = ceil($CommCounts / $per_page);
                                                         <td><?= $user["PetCommCertificateid"] ?></td>
                                                         <td><?= $user["PetCommCertificateDate"] ?></td>
                                                         <td><?= $user["PetCommStatus"] ?></td>
-
-                                                        <td></td>
                                                         <td>
                                                             <a href="Edit-communicator.php?id=<?= $user["PetCommID"] ?>"> <i class="fa-solid fa-pen-to-square fa-lg"></i></a>
                                                         </td>
@@ -187,13 +185,11 @@ $total_page = ceil($CommCounts / $per_page);
             </footer>
         </div>
     </div>
-    <script>
-        // const selectElement = document.querySelector('.dataTable-selector');
-        // selectElement.addEventListener('change', function() {
-        //     const newPerPage = parseInt(this.value, 10);
-        //     console.log(newPerPage);
-        // });
-    </script>
+
+
+    <script src="../assets/static/js/components/dark.js"></script>
+    <script src="../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="../assets/compiled/js/app.js"></script>
 
 
 </body>
