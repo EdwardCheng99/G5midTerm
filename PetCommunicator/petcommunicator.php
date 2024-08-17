@@ -79,7 +79,7 @@ try {
                                             </tr>
                                             <tr>
                                                 <th>性別</th>
-                                                <td><?= $row["PetCommSex"] ?></td>
+                                                <td><?= $row["PetCommSex"] === "Female" ? "女" : "男" ?></td>
                                             </tr>
                                             <tr>
                                                 <th>證照</th>

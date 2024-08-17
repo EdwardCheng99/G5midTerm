@@ -39,19 +39,22 @@
                             <div class="card-body">
                             <a href="petcommunicators.php?p=1" class="btn btn-primary mb-2">返回</a>
                             
-                                <form action="doCreat.php">
+                                <form action="doCreat.php" method="post">
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="col">
+                                            <input type="hidden" id="" class="form-control" placeholder="" name="PetCommStatus" value="未刊登">
+                                            <input type="hidden" id="" class="form-control" placeholder="" name="valid" value="1">
+                                            
                                                 <div class="form-group">
                                                     <label for="">名稱</label>
-                                                    <input type="text" id="" class="form-control" placeholder="" name="">
+                                                    <input type="text" id="" class="form-control" placeholder="" name="PetCommName">
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label for="">性別</label>
-                                                    <select class="dataTable-selector form-select">
+                                                    <select class="dataTable-selector form-select" name="PetCommSex">
                                                         <option value="male">男</option>
                                                         <option value="female">女</option>
                                                     </select>
@@ -60,44 +63,45 @@
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label for="">證照編號</label>
-                                                    <input type="text" id="" class="form-control" placeholder="" name="" value="動溝證字第">
+                                                    <input type="text" id="" class="form-control" placeholder="" name="PetCommCertificateid" value="動溝證字第">
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label for="">取證日期</label>
-                                                    <input type="text" id="" class="form-control" placeholder="" name="">
+                                                    <input type="text" id="" class="form-control" placeholder="" name="PetCommCertificateDate">
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label for="">服務項目</label>
-                                                    <input type="text" id="" class="form-control" placeholder="" name="">
+                                                    <input type="text" id="" class="form-control" placeholder="" name="PetCommService">
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label for="">進行方式</label>
-                                                    <input type="text" id="" class="form-control" placeholder="" name="">
+                                                    <input type="text" id="" class="form-control" placeholder="" name="PetCommApproach">
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label for="">預約費用</label>
-                                                    <input type="text" id="" class="form-control" placeholder="" name="">
+                                                    <input type="text" id="" class="form-control" placeholder="" name="PetCommFee">
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label for="">Eamil</label>
-                                                    <input type="text" id="" class="form-control" placeholder="" name="">
+                                                    <input type="text" id="" class="form-control" placeholder="" name="PetCommEmail">
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label for="">介紹</label>
-                                                    <textarea class="form-control" placeholder="" name=""></textarea>
+                                                    <textarea class="form-control" placeholder="" name="PetCommIntroduction"></textarea>
                                                 </div>
+                                                
                                             </div>
 
 
@@ -105,7 +109,7 @@
                                         <div class="col-6">
                                             <div class="mb-3">
                                                 <label for="formFile" class="form-label">相片</label>
-                                                <input class="form-control" type="file" id="formFile" accept="image/*">
+                                                <input class="form-control" type="file" id="formFile" accept="image/*" name="PetCommImg">
                                             </div>
                                             <div class="ratio ratio-4x3 border">
                                             <img id="imagePreview" class="img-preview" src="" alt="Image Preview" style="display: none;">

@@ -56,14 +56,12 @@ try {
 
                         <div class="card">
                             <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <a href="petcommunicators.php?p=1" class="btn btn-primary mb-2">返回</a>
+                                    <button type="" class="btn btn-danger mb-2">刪除</button>
+                                </div>
                                 <form action="doEdit.php" method="post">
-                                    <div class="d-flex justify-content-between">
-
-                                        <a href="petcommunicators.php?p=1" class="btn btn-primary mb-2">返回</a>
-                                        <button type="submit" class="btn btn-success mb-2">完成</button>
-                                    </div>
                                     <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-
                                         <div class="dataTable-container">
                                             <table class="table table-striped dataTable-table" id="table1">
                                                 <th>相片</th>
@@ -116,7 +114,12 @@ try {
                                                 </tr>
                                                 <tr>
                                                     <th>狀態</th>
-                                                    <td><input class="form-control" type="text" value="<?= $row["PetCommStatus"] ?>" name="PetCommStatus">
+                                                    <td>
+                                                        <select name="PetCommStatus" id="" class="form-control" >
+                                                            <option value="已刊登" <?= $row["PetCommStatus"] === '已刊登' ? 'selected' : '' ?>>已刊登</option>
+                                                            <option value="未刊登" <?= $row["PetCommStatus"] === '未刊登' ? 'selected' : '' ?>>未刊登</option>
+                                                        </select>
+                                                        
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -126,10 +129,11 @@ try {
 
                                                     <input class="form-control" type="hidden" value="<?= $row["valid"] ?>" name="valid">
                                                 </tr>
-                                                
                                             </table>
                                         </div>
-
+                                    </div>
+                                    <div class="d-flex justify-content-end">
+                                        <button type="submit" class="btn btn-success mb-2">完成</button>
                                     </div>
                                 </form>
                             </div>

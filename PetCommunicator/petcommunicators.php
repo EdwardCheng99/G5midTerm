@@ -1,6 +1,6 @@
 <?php
 require_once("../pdoConnect.php");
-$sqlAll = "SELECT * FROM Petcommunicator";
+$sqlAll = "SELECT * FROM Petcommunicator WHERE valid=1";
 $stmtAll = $dbHost->prepare($sqlAll);
 
 
@@ -12,11 +12,11 @@ $per_page = 10;
 if (isset($_GET["p"])) {
     $page = $_GET["p"];
     $start_item = ($page - 1) * $per_page;
-    $sql = "SELECT * FROM Petcommunicator LIMIT $start_item, $per_page ";
+    $sql = "SELECT * FROM Petcommunicator WHERE valid=1 LIMIT $start_item, $per_page ";
     $stmt = $dbHost->prepare($sql);
 } elseif (isset($_GET["search"])) {
     $search = $_GET["search"];
-    $sql = "SELECT * FROM Petcommunicator WHERE PetCommName LIKE :search";
+    $sql = "SELECT * FROM Petcommunicator WHERE PetCommName LIKE :search AND valid=1";
     $stmt = $dbHost->prepare($sql);
     $stmt->bindValue(':search', "%$search%", PDO::PARAM_STR);
 } else {
@@ -82,9 +82,15 @@ $total_page = ceil($CommCounts / $per_page);
                         
                         <div class="card">
                             <div class="card-body">
+                            <?php if(!isset($_GET["search"])) : ?>
                             <a href="Creat-communicator.php" class="btn btn-primary mb-2">新增師資</a>
+                            <?php endif ?>
+                            <?php if(isset($_GET["search"])) : ?>
+                            <a href="petcommunicators.php" class="btn btn-primary mb-2">返回</a>
+                            <?php endif ?>
                                 <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
                                     <div class="dataTable-top">
+                                    <?php if(!isset($_GET["search"])) : ?>
                                         <label>每頁</label>
                                         <div class="dataTable-dropdown">
                                             <select class="dataTable-selector form-select">
@@ -96,6 +102,7 @@ $total_page = ceil($CommCounts / $per_page);
                                             </select>
                                         </div>
                                         <label>筆</label>
+                                        <?php endif ?>
                                         <div class="dataTable-search">
                                             <form action="">
                                                 <div class="input-group ">
@@ -151,16 +158,18 @@ $total_page = ceil($CommCounts / $per_page);
                                             查無溝通師
                                         <?php endif; ?>
                                     </div>
+                                    <?php if(!isset($_GET["search"])) : ?>
                                     <div class="dataTable-bottom">
                                         <div class="dataTable-info">顯示 <?= $start_item + 1 ?> 到 <?= $start_item + $per_page ?> 共 <?= $CommCounts ?> 筆</div>
-                                        <nav class="">
+                                        <nav aria-label="Page navigation">
                                             <ul class=" pagination pagination-primary">
-                                                <?php for ($i = 0; $i < $total_page; $i++) : ?>
-                                                    <li class=" page-item"><a href="petcommunicators.php?p=<?= $i + 1 ?>" class="page-link"><?= $i + 1 ?></a></li>
+                                                <?php for ($i = 1; $i <= $total_page; $i++) : ?>
+                                                    <li class="page-item <?php if($page == $i) echo "active"?>"><a href="petcommunicators.php?p=<?= $i ?>" class="page-link"><?= $i ?></a></li>
                                                 <?php endfor; ?>
                                             </ul>
                                         </nav>
                                     </div>
+                                    <?php endif ?>
                                 </div>
                             </div>
                         </div>
