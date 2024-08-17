@@ -56,74 +56,84 @@ try {
 
                         <div class="card">
                             <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                            <a href="petcommunicators.php?p=1" class="btn btn-primary mb-2">返回</a>
-                            <a href="Edit-communicator.php?id=<?= $row["PetCommID"] ?>" class="btn btn-success mb-2">完成</a>
-                            </div>
-                                <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                                <form action="doEdit.php" method="post">
+                                    <div class="d-flex justify-content-between">
 
-                                    <div class="dataTable-container">
-                                        <table class="table table-striped dataTable-table" id="table1">
-                                            <th>相片</th>
-                                            <td><div class="ratio ratio-4x3 object-fit-cover">
-                                                <img class="object-fit-contain" src="./images/<?= $row["PetCommImg"] ?>.webp" alt="">
-                                                </div></td>
-                                            </tr>
-                                            <tr>
-                                                <th>編號</th>
-                                                <td><?= $row["PetCommID"] ?></td>
-                                            </tr>
-                                            <tr>
-                                                <th>名稱</th>
-                                                <td><input class="form-control" type="text" value="<?= $row["PetCommName"] ?>"></td>
-                                            </tr>
-                                            <tr>
-                                                <th>性別</th>
-                                                <td><input class="form-control" type="text" value="<?= $row["PetCommSex"] ?>"></td>
-                                            </tr>
-                                            <tr>
-                                                <th>證照</th>
-                                                <td><input class="form-control" type="text" value="<?= $row["PetCommCertificateid"] ?>">
-                                                    </td>
-                                            </tr>
-                                            <tr>
-                                                <th>取證日期</th>
-                                                <td><input class="form-control" type="text" value="<?= $row["PetCommCertificateDate"] ?>">
-                                                    </td>
-                                            </tr>
-                                            <th>服務項目</th>
-                                            <td><input class="form-control" type="text" value="<?= $row["PetCommService"] ?>">
-                                                </td>
-                                            <tr>
-                                                <th>進行方式</th>
-                                                <td><input class="form-control" type="text" value="<?= $row["PetCommApproach"] ?>">
-                                                    </td>
-                                            </tr>
-                                            <tr>
-                                                <th>預約費用</th>
-                                                <td><input class="form-control" type="text" value="<?= $row["PetCommFee"] ?>">
-                                                    </td>
-                                            </tr>
-                                            <tr>
-                                                <th>Eamil</th>
-                                                <td><input class="form-control" type="text" value="<?= $row["PetCommEmail"] ?>">
-                                                    </td>
-                                            </tr>
-                                            <tr>
-                                                <th>狀態</th>
-                                                <td><input class="form-control" type="text" value="<?= $row["PetCommStatus"] ?>">
-                                                    </td>
-                                            </tr>
-                                            <tr>
-                                                <th>介紹</th>
-                                                <td><input class="form-control" type="text" value="<?= $row["PetCommIntroduction"] ?>">
-                                                </td>
-                                            </tr>
-                                        </table>
+                                        <a href="petcommunicators.php?p=1" class="btn btn-primary mb-2">返回</a>
+                                        <button type="submit" class="btn btn-success mb-2">完成</button>
                                     </div>
+                                    <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
 
-                                </div>
+                                        <div class="dataTable-container">
+                                            <table class="table table-striped dataTable-table" id="table1">
+                                                <th>相片</th>
+                                                <td>
+                                                    <div class="ratio ratio-4x3 object-fit-cover">
+                                                        <img class="object-fit-contain" src="./images/<?= $row["PetCommImg"] ?>.webp" alt="">
+                                                    </div>
+                                                </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>編號</th>
+                                                    <td><?= $row["PetCommID"] ?></td>
+                                                    <input class="form-control" type="hidden" value="<?= $row["PetCommID"] ?>" name="PetCommID"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>名稱</th>
+                                                    <td><input class="form-control" type="text" value="<?= $row["PetCommName"] ?>" name="PetCommName"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>性別</th>
+                                                    <td><input class="form-control" type="text" value="<?= $row["PetCommSex"] ?>" name="PetCommSex"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>證照</th>
+                                                    <td><input class="form-control" type="text" value="<?= $row["PetCommCertificateid"] ?>" name="PetCommCertificateid">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>取證日期</th>
+                                                    <td><input class="form-control" type="text" value="<?= $row["PetCommCertificateDate"] ?>" name="PetCommCertificateDate">
+                                                    </td>
+                                                </tr>
+                                                <th>服務項目</th>
+                                                <td><input class="form-control" type="text" value="<?= $row["PetCommService"] ?>" name="PetCommService">
+                                                </td>
+                                                <tr>
+                                                    <th>進行方式</th>
+                                                    <td><input class="form-control" type="text" value="<?= $row["PetCommApproach"] ?>" name="PetCommApproach">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>預約費用</th>
+                                                    <td><input class="form-control" type="text" value="<?= $row["PetCommFee"] ?>" name="PetCommFee">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Eamil</th>
+                                                    <td><input class="form-control" type="text" value="<?= $row["PetCommEmail"] ?>" name="PetCommEmail">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>狀態</th>
+                                                    <td><input class="form-control" type="text" value="<?= $row["PetCommStatus"] ?>" name="PetCommStatus">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>介紹</th>
+                                                    <td><input class="form-control" type="text" value="<?= $row["PetCommIntroduction"] ?>" name="PetCommIntroduction">
+                                                    </td>
+
+                                                    <input class="form-control" type="hidden" value="<?= $row["valid"] ?>" name="valid">
+                                                </tr>
+                                                
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </form>
                             </div>
+
                         </div>
 
                     </section>
