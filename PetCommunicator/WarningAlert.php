@@ -22,12 +22,18 @@ if (isset($_GET["p"])) {
     $start_item = ($page - 1) * $per_page;
     $sql = "SELECT * FROM Petcommunicator WHERE valid=1 ORDER BY $orderID $orderValue LIMIT $start_item, $per_page ";
     $stmt = $dbHost->prepare($sql);
+
+    $del = $_GET["del"];
+    $delsql = "SELECT * FROM Petcommunicator WHERE PetCommID=$del AND valid=1";
+    $delstmt = $dbHost->prepare($delsql);
+
+
 } elseif (isset($_GET["search"])) {
     $search = $_GET["search"];
     $sql = "SELECT * FROM Petcommunicator WHERE PetCommName LIKE :search AND valid=1";
     $stmt = $dbHost->prepare($sql);
     $stmt->bindValue(':search', "%$search%", PDO::PARAM_STR);
-} else {
+}else {
     header("location: petcommunicators.php?p=1");
 }
 
@@ -35,6 +41,8 @@ try {
     $stmtAll->execute();
     $CommCounts = $stmtAll->rowCount();
 
+    $delstmt->execute();
+    $delrow = $delstmt->fetch(PDO::FETCH_ASSOC);
 
     $stmt->execute();
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -46,7 +54,7 @@ try {
     exit;
 }
 $total_page = ceil($CommCounts / $per_page);
-
+$c=":"
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -61,6 +69,39 @@ $total_page = ceil($CommCounts / $per_page);
 
 <body>
     <script src="../assets/static/js/initTheme.js"></script>
+    
+    <div class="warningalert justify-content-center align-items-center d-flex">
+        <form action="doSoftDel.php" method="post">
+            <input type="hidden" name="PetCommID" id="" value="<?= $delrow["PetCommID"] ?>">
+            <input type="hidden" name="valid" id="" value="0">
+            <input type="hidden" name="page" id="" value=<?= $page ?>>
+            <input type="hidden" name="order" id="" value="<?= $orderID.':'.$orderValue ?>">
+        <div class="warningcard card p-4">
+            <h1>確定要刪除?</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>編號</th>
+                        <th>名稱</th>
+                        <th>性別</th>
+                        <th>狀態</th>
+                    </tr>
+                </thead>
+                    <tr>
+                        <td><?= $delrow["PetCommID"] ?></td>
+                        <td><?= $delrow["PetCommName"] ?></td>
+                        <td><?= $delrow["PetCommSex"] === "Female" ? "女" : "男" ?></td>
+                        <td><?= $delrow["PetCommStatus"] ?></td>
+                    </tr>
+                
+            </table>
+            <div class="text-end">
+                <button type="sbumit" class="btn btn-danger">確定</button>
+                <a href="petcommunicators.php?p=<?= $page ?>&order=<?=$orderID?>:<?= $orderValue?>" class="btn btn-secondary">取消</a>
+            </div>
+        </div>
+        </form>
+    </div>
     <div id="app">
         <?php include("../sidebar.php") ?>
         <div id="main" class='layout-navbar navbar-fixed'>
@@ -152,7 +193,7 @@ $total_page = ceil($CommCounts / $per_page);
                                                                 <a href="petcommunicator.php?id=<?= $user["PetCommID"] ?>"><i class="fa-solid fa-circle-info"></i></a>
                                                             </td>
                                                             <td>
-                                                                <a id="delBtn" href="WarningAlert.php?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&del=<?= $user["PetCommID"] ?>"><i class="fa-solid fa-trash-can"></i></a>
+                                                                <a id="delBtn" href="?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&del=<?= $user["PetCommID"] ?>"><i class="fa-solid fa-trash-can"></i></a>
                                                             </td>
 
                                                         </tr>

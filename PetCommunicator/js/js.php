@@ -1,5 +1,6 @@
 <script>
-    document.getElementById('formFile').addEventListener('change', function(event) {
+    const formFile=document.querySelector("#formFile")
+    formFile.addEventListener('change', function(event) {
         const file = event.target.files[0];
         if (file && file.type.startsWith('image/')) {
             const reader = new FileReader();

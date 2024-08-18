@@ -23,12 +23,24 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>寵物溝通師-<?= $row["PetCommName"] ?></title>
-
+    <link rel="stylesheet" href="./css/css.css">
     <?php include("../headlink.php") ?>
 </head>
 
 <body>
     <script src="../assets/static/js/initTheme.js"></script>
+    <div id="delAlert" class="warningalert justify-content-center align-items-center d-none">
+        <form action="doSoftDel.php" method="post">
+            <input type="hidden" name="PetCommID" id="" value="<?=$id?>">
+        <div class="warningcard card p-4">
+            <h1>確定要刪除?</h1>
+            <div class="text-end">
+                <button type="sbumit" class="btn btn-danger">確定</button>
+                <a href="Edit-communicator.php?id=<?=$id?>" class="btn btn-secondary" id="delAlertCancel">取消</a>
+            </div>
+        </div>
+        </form>
+    </div>
     <div id="app">
         <?php include("../sidebar.php") ?>
         <div id="main" class='layout-navbar navbar-fixed'>
@@ -58,7 +70,7 @@ try {
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
                                     <a href="petcommunicators.php?p=1" class="btn btn-primary mb-2">返回</a>
-                                    <button type="" class="btn btn-danger mb-2">刪除</button>
+                                    <button type="text" class="btn btn-danger mb-2" id="delBtn">刪除</button>
                                 </div>
                                 <form action="doEdit.php" method="post">
                                     <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
@@ -154,6 +166,20 @@ try {
             </footer>
         </div>
     </div>
+<script>
+    const delBtn=document.querySelector("#delBtn");
+    const delAlert=document.querySelector("#delAlert");
+    const delAlertCancel=document.querySelector("#delAlertCancel");
+
+    delBtn.addEventListener("click",function(){
+        delAlert.classList.remove("d-none")
+        delAlert.classList.add("d-flex")
+    })
+    delAlertCancel.addEventListener("click",function(){
+        delAlert.classList.remove("d-none")
+    })
+</script>
+
     <script src="../assets/static/js/components/dark.js"></script>
     <script src="../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 
