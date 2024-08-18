@@ -60,7 +60,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                                             echo 'active';
                                         } ?>">
                     <a href="/G5midTerm/Member/MemberList.php" class='sidebar-link'>
-                        <i class="fa-solid fa-address-card"></i>
+                        <i class="fa-solid fa-address-card fa-fw"></i>
                         <span>會員資料管理</span>
                     </a>
                 </li>
@@ -68,7 +68,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                                             echo 'active';
                                         } ?>">
                     <a href="/G5midTerm/Member/OrderList.php" class='sidebar-link'>
-                        <i class="fa-regular fa-clipboard"></i>
+                        <i class="fa-regular fa-clipboard fa-fw"></i>
                         <span>訂單管理</span>
                     </a>
                 </li>
@@ -76,7 +76,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                                             echo 'active';
                                         } ?>">
                     <a href="/G5midTerm/Product/ProductList.php" class='sidebar-link'>
-                        <i class="bi bi-stack"></i>
+                        <i class="fa-solid fa-layer-group fa-fw"></i>
                         <span>商品管理</span>
                     </a>
                 </li>
@@ -84,7 +84,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                                             echo 'active';
                                         } ?>">
                     <a href="/G5midTerm/Product/ProductCategoryList.php" class='sidebar-link'>
-                        <i class="fa-solid fa-list"></i>
+                        <i class="fa-solid fa-list fa-fw"></i>
                         <span>商品類別管理</span>
                     </a>
                 </li>
@@ -93,7 +93,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                                             echo 'active';
                                         } ?>">
                     <a href="/G5midTerm/Promotion/DiscountList.php" class='sidebar-link'>
-                        <i class="fa-solid fa-comment-dollar"></i>
+                        <i class="fa-solid fa-comment-dollar fa-fw"></i>
                         <span>促銷管理</span>
                     </a>
                 </li>
@@ -101,7 +101,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                                             echo 'active';
                                         } ?>">
                     <a href="/G5midTerm/Promotion/CouponList.php" class='sidebar-link'>
-                        <i class="fa-solid fa-ticket"></i>
+                        <i class="fa-solid fa-ticket fa-fw"></i>
                         <span>優惠券管理</span>
                     </a>
                 </li>
@@ -109,7 +109,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                                             echo 'active';
                                         } ?>">
                     <a href="/G5midTerm/Article/ArticleList.php" class='sidebar-link'>
-                        <i class="fa-solid fa-newspaper"></i>
+                        <i class="fa-solid fa-newspaper fa-fw"></i>
                         <span>文章管理</span>
                     </a>
                 </li>
@@ -117,7 +117,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                                             echo 'active';
                                         } ?>">
                     <a href="/G5midTerm/Article/TagList.php" class='sidebar-link'>
-                        <i class="fa-solid fa-tags"></i>
+                        <i class="fa-solid fa-tags fa-fw"></i>
                         <span>標籤管理</span>
                     </a>
                 </li>
@@ -125,7 +125,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                                             echo 'active';
                                         } ?>">
                     <a href="/G5midTerm/Events/OfficialEventsList.php" class='sidebar-link'>
-                        <i class="fa-solid fa-people-roof"></i>
+                        <i class="fa-solid fa-people-roof fa-fw"></i>
                         <span>官方活動管理</span>
                     </a>
                 </li>
@@ -133,7 +133,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                                             echo 'active';
                                         } ?>">
                     <a href="/G5midTerm/Events/VendorList.php" class='sidebar-link'>
-                        <i class="fa-solid fa-handshake"></i>
+                        <i class="fa-solid fa-handshake fa-fw"></i>
                         <span>廠商管理</span>
                     </a>
                 </li>
@@ -142,7 +142,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                                         } ?>">
                     <a href="/G5midTerm/PetCommunicator/petcommunicators.php" class='sidebar-link'>
 
-                        <i class="fa-solid fa-paw"></i>
+                        <i class="fa-solid fa-paw fa-fw"></i>
                         <span>寵物溝通師管理</span>
                     </a>
                 </li>
