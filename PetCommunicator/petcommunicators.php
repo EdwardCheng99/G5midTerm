@@ -7,14 +7,14 @@ $stmtAll = $dbHost->prepare($sqlAll);
 $page = 1;
 $start_item = 0;
 $per_page = 5;
-$orderID = 'PetCommID'; 
-$orderValue = 'ASC'; 
+$orderID = 'PetCommID';
+$orderValue = 'ASC';
 
 
 if (isset($_GET['order'])) {
     $orderArray = explode(':', $_GET['order']);
-        $orderID = $orderArray[0];
-        $orderValue = $orderArray[1] == 'DESC' ? 'DESC' : 'ASC';
+    $orderID = $orderArray[0];
+    $orderValue = $orderArray[1] == 'DESC' ? 'DESC' : 'ASC';
 }
 
 if (isset($_GET["p"])) {
@@ -33,14 +33,12 @@ if (isset($_GET["p"])) {
 
 try {
     $stmtAll->execute();
-    $rows = $stmtAll->fetchAll(PDO::FETCH_ASSOC);
     $CommCounts = $stmtAll->rowCount();
 
-    
+
     $stmt->execute();
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $CommCount = $stmt->rowCount();
-    
 } catch (PDOException $e) {
     echo "預處理陳述式執行失敗！ <br/>";
     echo "Error: " . $e->getMessage() . "<br/>";
@@ -57,7 +55,7 @@ $total_page = ceil($CommCounts / $per_page);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>寵物溝通師管理</title>
-
+    <link rel="stylesheet" href="./css/css.css">
     <?php include("../headlink.php") ?>
 </head>
 
@@ -87,29 +85,30 @@ $total_page = ceil($CommCounts / $per_page);
                         </div>
                     </div>
                     <section class="section">
-                        
+
                         <div class="card">
                             <div class="card-body">
-                            <?php if(!isset($_GET["search"])) : ?>
-                            <a href="Creat-communicator.php" class="btn btn-primary mb-2">新增師資</a>
-                            <?php endif ?>
-                            <?php if(isset($_GET["search"])) : ?>
-                            <a href="petcommunicators.php" class="btn btn-primary mb-2">返回</a>
-                            <?php endif ?>
+
+                                <?php if (!isset($_GET["search"])) : ?>
+                                    <a href="Creat-communicator.php" class="btn btn-primary mb-2">新增師資</a>
+                                <?php endif ?>
+                                <?php if (isset($_GET["search"])) : ?>
+                                    <a href="petcommunicators.php" class="btn btn-primary mb-2">返回</a>
+                                <?php endif ?>
                                 <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
                                     <div class="dataTable-top">
-                                    <?php if(!isset($_GET["search"])) : ?>
-                                        <label>每頁</label>
-                                        <div class="dataTable-dropdown">
-                                            <select class="dataTable-selector form-select">
-                                                <option value="5">5</option>
-                                                <option value="10">10</option>
-                                                <option value="15">15</option>
-                                                <option value="20">20</option>
-                                                <option value="25">25</option>
-                                            </select>
-                                        </div>
-                                        <label>筆</label>
+                                        <?php if (!isset($_GET["search"])) : ?>
+                                            <label>每頁</label>
+                                            <div class="dataTable-dropdown">
+                                                <select class="dataTable-selector form-select">
+                                                    <option value="5">5</option>
+                                                    <option value="10">10</option>
+                                                    <option value="15">15</option>
+                                                    <option value="20">20</option>
+                                                    <option value="25">25</option>
+                                                </select>
+                                            </div>
+                                            <label>筆</label>
                                         <?php endif ?>
                                         <div class="dataTable-search">
                                             <form action="">
@@ -121,60 +120,60 @@ $total_page = ceil($CommCounts / $per_page);
                                         </div>
                                     </div>
                                     <div class="dataTable-container">
-                                        <?php if ($CommCount>0) : ?>
-                                        <table class="table table-striped dataTable-table" id="table1">
-                                            <thead>
-                                                <tr>
-                                                    <th data-sortable="" class="desc" aria-sort="descending"><a href="?p=<?= $page ?>&order=PetCommID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">編號</a></th>
-                                                    <th data-sortable=""><a href="?p=<?= $page ?>&order=PetCommName:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">名稱</a></th>
-                                                    <th data-sortable=""><a href="?p=<?= $page ?>&order=PetCommSex:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">性別</a></th>
-                                                    <th data-sortable=""><a href="?p=<?= $page ?>&order=PetCommCertificateid:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">證書編號</a></th>
-                                                    <th data-sortable=""><a href="?p=<?= $page ?>&order=PetCommCertificateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">取證日期</a></th>
-                                                    <th data-sortable=""><a href="?p=<?= $page ?>&order=PetCommStatus:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刊登狀態</a></th>
-
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php foreach ($rows as $user): ?>
+                                        <?php if ($CommCount > 0) : ?>
+                                            <table class="table table-striped dataTable-table" id="table1">
+                                                <thead>
                                                     <tr>
-                                                        <td><?= $user["PetCommID"] ?></td>
-                                                        <td><?= $user["PetCommName"] ?></td>
-                                                        <td><?= $user["PetCommSex"] === "Female" ? "女" : "男" ?></td>
-                                                        <td><?= $user["PetCommCertificateid"] ?></td>
-                                                        <td><?= $user["PetCommCertificateDate"] ?></td>
-                                                        <td><?= $user["PetCommStatus"] ?></td>
-                                                        <td>
-                                                            <a href="Edit-communicator.php?id=<?= $user["PetCommID"] ?>"> <i class="fa-solid fa-pen-to-square fa-lg"></i></a>
-                                                        </td>
-                                                        <td>
-                                                            <a href="petcommunicator.php?id=<?= $user["PetCommID"] ?>"><i class="fa-solid fa-circle-info"></i></a>
-                                                        </td>
-                                                        <td>
-                                                            <a href=""><i class="fa-solid fa-trash-can"></i></a>
-                                                        </td>
+                                                        <th data-sortable="" class="desc" aria-sort="descending"><a href="?p=<?= $page ?>&order=PetCommID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">編號</a></th>
+                                                        <th data-sortable=""><a href="?p=<?= $page ?>&order=PetCommName:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">名稱</a></th>
+                                                        <th data-sortable=""><a href="?p=<?= $page ?>&order=PetCommSex:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">性別</a></th>
+                                                        <th data-sortable=""><a href="?p=<?= $page ?>&order=PetCommCertificateid:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">證書編號</a></th>
+                                                        <th data-sortable=""><a href="?p=<?= $page ?>&order=PetCommCertificateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">取證日期</a></th>
+                                                        <th data-sortable=""><a href="?p=<?= $page ?>&order=PetCommStatus:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刊登狀態</a></th>
 
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th></th>
                                                     </tr>
-                                                <?php endforeach ?>
-                                            </tbody>
-                                        </table>
-                                        <?php else :?>
+                                                </thead>
+                                                <tbody>
+                                                    <?php foreach ($rows as $user): ?>
+                                                        <tr>
+                                                            <td><?= $user["PetCommID"] ?></td>
+                                                            <td><?= $user["PetCommName"] ?></td>
+                                                            <td><?= $user["PetCommSex"] === "Female" ? "女" : "男" ?></td>
+                                                            <td><?= $user["PetCommCertificateid"] ?></td>
+                                                            <td><?= $user["PetCommCertificateDate"] ?></td>
+                                                            <td><?= $user["PetCommStatus"] ?></td>
+                                                            <td>
+                                                                <a href="Edit-communicator.php?id=<?= $user["PetCommID"] ?>"> <i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+                                                            </td>
+                                                            <td>
+                                                                <a href="petcommunicator.php?id=<?= $user["PetCommID"] ?>"><i class="fa-solid fa-circle-info"></i></a>
+                                                            </td>
+                                                            <td>
+                                                                <a id="delBtn" href="WarningAlert.php?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&del=<?= $user["PetCommID"] ?>"><i class="fa-solid fa-trash-can"></i></a>
+                                                            </td>
+
+                                                        </tr>
+                                                    <?php endforeach ?>
+                                                </tbody>
+                                            </table>
+                                        <?php else : ?>
                                             查無溝通師
                                         <?php endif; ?>
                                     </div>
-                                    <?php if(!isset($_GET["search"])) : ?>
-                                    <div class="dataTable-bottom">
-                                        <div class="dataTable-info">顯示 <?= $start_item + 1 ?> 到 <?= $start_item + $per_page ?> 共 <?= $CommCounts ?> 筆</div>
-                                        <nav aria-label="Page navigation">
-                                            <ul class=" pagination pagination-primary">
-                                                <?php for ($i = 1; $i <= $total_page; $i++) : ?>
-                                                    <li class="page-item <?php if($page == $i) echo "active"?>"><a href="petcommunicators.php?p=<?= $i ?>" class="page-link"><?= $i ?></a></li>
-                                                <?php endfor; ?>
-                                            </ul>
-                                        </nav>
-                                    </div>
+                                    <?php if (!isset($_GET["search"])) : ?>
+                                        <div class="dataTable-bottom">
+                                            <div class="dataTable-info">顯示 <?= $start_item + 1 ?> 到 <?= $start_item + $per_page ?> 共 <?= $CommCounts ?> 筆</div>
+                                            <nav aria-label="Page navigation">
+                                                <ul class=" pagination pagination-primary">
+                                                    <?php for ($i = 1; $i <= $total_page; $i++) : ?>
+                                                        <li class="page-item <?php if ($page == $i) echo "active" ?>"><a href="petcommunicators.php?p=<?= $i ?>" class="page-link"><?= $i ?></a></li>
+                                                    <?php endfor; ?>
+                                                </ul>
+                                            </nav>
+                                        </div>
                                     <?php endif ?>
                                 </div>
                             </div>
@@ -193,7 +192,15 @@ $total_page = ceil($CommCounts / $per_page);
             </footer>
         </div>
     </div>
+<script>
+    const delBtn=document.querySelector("#delBtn");
+    const warningAlert=document.querySelector("#warningAlert");
+    delBtn.addEventListener("click",function(){
+        warningAlert.classList.add('flex');
+    })
 
+
+</script>
 
     <script src="../assets/static/js/components/dark.js"></script>
     <script src="../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
