@@ -137,10 +137,11 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                         <span>廠商管理</span>
                     </a>
                 </li>
-                <li class="sidebar-item <?php if ($currentPage == 'PetCommList.php') {
+                <li class="sidebar-item <?php if ($currentPage == 'petcommunicators.php') {
                                             echo 'active';
                                         } ?>">
-                    <a href="/G5midTerm/PetComm/PetCommList.php" class='sidebar-link'>
+                    <a href=/G5midTerm/PetCommunicator/petcommunicators.php" class='sidebar-link'>
+
                         <i class="fa-solid fa-paw"></i>
                         <span>寵物溝通師管理</span>
                     </a>
