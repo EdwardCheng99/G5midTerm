@@ -27,13 +27,40 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
     $searchName = $_GET["searchName"];
     $searchLevel = $_GET["searchLevel"];
     $sql = "SELECT * FROM Member WHERE MemberName LIKE '%$searchName%' OR MemberLevel = '$searchLevel'";
-}else if(isset($_GET["p"])){
+}else if(isset($_GET["p"]) && isset($_GET["sorter"])){
     $page = $_GET["p"];
     $start = ($page - 1) * $perPage;
+    $sorter = $_GET["sorter"];
 
-    $sql = "SELECT * FROM Member WHERE MemberValid = '1' LIMIT $start, $perPage";
+    switch($sorter){
+        case 1:
+            $orderClause = "ORDER BY MemberID ASC";
+            break;
+        case -1:
+            $orderClause = "ORDER BY MemberID DESC";
+            break;
+        case 2:
+            $orderClause = "ORDER BY MemberName ASC";
+            break;
+        case -2:
+            $orderClause = "ORDER BY MemberName DESC";
+            break;
+        case 3:
+            $orderClause = "ORDER BY MemberLevel ASC";
+            break;
+        case -3:
+            $orderClause = "ORDER BY MemberLevel DESC";
+            break;
+        case 4:
+            $orderClause = "ORDER BY MemberCreateDate ASC";
+            break;
+        case -4:
+            $orderClause = "ORDER BY MemberCreateDate DESC";
+            break;
+    }
+    $sql = "SELECT * FROM Member WHERE MemberValid = '1' $orderClause LIMIT $start, $perPage";
 }else{
-    header("location: MemberList.php?p=1");
+    header("location: MemberList.php?p=1&sorter=1");
 };
 
 
@@ -152,12 +179,12 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                                 <table class="table table-striped dataTable-table">
                                                     <thead>
                                                         <tr>
-                                                            <th data-sortable="" class="desc" aria-sort="descending"><a href="#" class="dataTable-sorter">ID</th>
-                                                            <th data-sortable=""><a href="#" class="dataTable-sorter">Name</a></th>
-                                                            <th data-sortable=""><a href="#" class="dataTable-sorter">Level</a></th>
+                                                            <th data-sortable="" class="desc" aria-sort="descending"><a href="MemberList.php?p=<?= $page ?>&sorter=<?= (isset($_GET["sorter"]) && $_GET["sorter"] == 1) ? -1 : 1; ?>" class="dataTable-sorter">ID</th>
+                                                            <th data-sortable=""><a href="MemberList.php?p=<?= $page ?>&sorter=<?= (isset($_GET["sorter"]) && $_GET["sorter"] == 2) ? -2 : 2; ?>" class="dataTable-sorter">Name</a></th>
+                                                            <th data-sortable=""><a href="MemberList.php?p=<?= $page ?>&sorter=<?= (isset($_GET["sorter"]) && $_GET["sorter"] == 3) ? -3 : 3; ?>" class="dataTable-sorter">Level</a></th>
                                                             <th data-sortable=""><a href="#" class="dataTable-sorter">Email</a></th>
                                                             <th data-sortable=""><a href="#" class="dataTable-sorter">Phone</a></th>
-                                                            <th data-sortable=""><a href="#" class="dataTable-sorter">CreateDate</a></th>
+                                                            <th data-sortable=""><a href="MemberList.php?p=<?= $page ?>&sorter=<?= (isset($_GET["sorter"]) && $_GET["sorter"] == 4) ? -4 : 4; ?>" class="dataTable-sorter">CreateDate</a></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
