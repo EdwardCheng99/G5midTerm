@@ -7,12 +7,20 @@ $stmtAll = $dbHost->prepare($sqlAll);
 $page = 1;
 $start_item = 0;
 $per_page = 5;
+$orderID = 'PetCommID'; 
+$orderValue = 'ASC'; 
 
+
+if (isset($_GET['order'])) {
+    $orderArray = explode(':', $_GET['order']);
+        $orderID = $orderArray[0];
+        $orderValue = $orderArray[1] == 'DESC' ? 'DESC' : 'ASC';
+}
 
 if (isset($_GET["p"])) {
     $page = $_GET["p"];
     $start_item = ($page - 1) * $per_page;
-    $sql = "SELECT * FROM Petcommunicator WHERE valid=1 LIMIT $start_item, $per_page ";
+    $sql = "SELECT * FROM Petcommunicator WHERE valid=1 ORDER BY $orderID $orderValue LIMIT $start_item, $per_page ";
     $stmt = $dbHost->prepare($sql);
 } elseif (isset($_GET["search"])) {
     $search = $_GET["search"];
@@ -117,12 +125,12 @@ $total_page = ceil($CommCounts / $per_page);
                                         <table class="table table-striped dataTable-table" id="table1">
                                             <thead>
                                                 <tr>
-                                                    <th data-sortable="" class="desc" aria-sort="descending"><a href="#" class="dataTable-sorter">編號</a></th>
-                                                    <th data-sortable=""><a href="#" class="dataTable-sorter">名稱</a></th>
-                                                    <th data-sortable=""><a href="#" class="dataTable-sorter">性別</a></th>
-                                                    <th data-sortable=""><a href="#" class="dataTable-sorter">證書編號</a></th>
-                                                    <th data-sortable=""><a href="#" class="dataTable-sorter">取證日期</a></th>
-                                                    <th data-sortable=""><a href="#" class="dataTable-sorter">刊登狀態</a></th>
+                                                    <th data-sortable="" class="desc" aria-sort="descending"><a href="?p=<?= $page ?>&order=PetCommID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">編號</a></th>
+                                                    <th data-sortable=""><a href="?p=<?= $page ?>&order=PetCommName:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">名稱</a></th>
+                                                    <th data-sortable=""><a href="?p=<?= $page ?>&order=PetCommSex:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">性別</a></th>
+                                                    <th data-sortable=""><a href="?p=<?= $page ?>&order=PetCommCertificateid:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">證書編號</a></th>
+                                                    <th data-sortable=""><a href="?p=<?= $page ?>&order=PetCommCertificateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">取證日期</a></th>
+                                                    <th data-sortable=""><a href="?p=<?= $page ?>&order=PetCommStatus:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刊登狀態</a></th>
 
                                                     <th></th>
                                                     <th></th>
