@@ -9,6 +9,7 @@ if (!isset($_POST["productPicName"])) {
 
 $productPicName = $_POST["productPicName"];
 
+
 if ($_FILES["pic"]["error"] == 0) {
     $filename = $_FILES["pic"]["name"];
     $fileInfo = pathinfo($filename);
@@ -16,11 +17,13 @@ if ($_FILES["pic"]["error"] == 0) {
     
     $newFilename = time() . ".$extension";
 
+
     
     if (move_uploaded_file($_FILES["pic"]["tmp_name"], "./ProductPicUpLoad/" . $newFilename)) {
         $now = date('Y-m-d H:i:s');
 
         
+        exit;
         $sql = "INSERT INTO product (product_name, product_img, product_create_date) VALUES (:product_name, :product_img, :created_at)";
         $stmt = $dbHost->prepare($sql);
         

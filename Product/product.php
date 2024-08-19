@@ -86,7 +86,7 @@ try {
                                                                 <th>商品圖片</th>
                                                                 <td>
                                                                     <div class="ratio ratio-1x1">
-                                                                        <img class="object-fit-cover" src="./moreson/<?= $row["product_img"] ?>" alt="<?= $row["product_name"] ?>">
+                                                                        <img class="object-fit-cover" src="./ProductPicUpLoad/<?= $row["product_img"] ?>" alt="<?= $row["product_name"] ?>">
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -98,14 +98,14 @@ try {
                                                                 <th>品牌</th>
                                                                 <td><?= $row["product_brand"] ?></td>
                                                             </tr>
-                                                            <!-- <tr>
+                                                            <tr>
                                                                 <th>分類</th>
                                                                 <td></td>
                                                             </tr>
                                                             <tr>
                                                                 <th>類別</th>
                                                                 <td></td>
-                                                            </tr> -->
+                                                            </tr>
                                                             <tr>
                                                                 <th>原價</th>
                                                                 <td><?= $row["product_origin_price"] ?></td>
