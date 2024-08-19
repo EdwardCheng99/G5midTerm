@@ -175,7 +175,7 @@ $total_page = ceil($CommCounts / $per_page);
                                                                 <a href="petcommunicator.php?id=<?= $user["PetCommID"] ?>"><i class="fa-solid fa-circle-info"></i></a>
                                                             </td>
                                                             <td>
-                                                                <a id="delBtn" href="WarningAlert.php?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&del=<?= $user["PetCommID"] ?>"><i class="fa-solid fa-trash-can"></i></a>
+                                                                <a id="delBtn" href="WarningAlert.php?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&del=<?= $user["PetCommID"] ?>&order=<?= $order ?>&perPage=<?=$per_page?>"><i class="fa-solid fa-trash-can"></i></a>
                                                             </td>
 
                                                         </tr>
