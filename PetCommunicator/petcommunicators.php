@@ -6,10 +6,10 @@ $stmtAll = $dbHost->prepare($sqlAll);
 
 $page = 1;
 $start_item = 0;
-$per_page = 5;
+$per_page = $_GET["perPage"] ? $_GET["perPage"] : 5;
 $orderID = 'PetCommID';
 $orderValue = 'ASC';
-
+$order=$_GET['order'];
 
 if (isset($_GET['order'])) {
     $orderArray = explode(':', $_GET['order']);
@@ -96,22 +96,28 @@ $total_page = ceil($CommCounts / $per_page);
                                     <a href="petcommunicators.php" class="btn btn-primary mb-2">返回</a>
                                 <?php endif ?>
                                 <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                                
                                     <div class="dataTable-top">
+                                    
                                         <?php if (!isset($_GET["search"])) : ?>
                                             <label>每頁</label>
                                             <div class="dataTable-dropdown">
-                                                <select class="dataTable-selector form-select">
-                                                    <option value="5">5</option>
-                                                    <option value="10">10</option>
-                                                    <option value="15">15</option>
-                                                    <option value="20">20</option>
-                                                    <option value="25">25</option>
+                                                <form action="">
+                                                <select class="dataTable-selector form-select" name="perPage" onchange="this.form.submit()">
+                                                    <option value="5" <?= $_GET["perPage"] == 5 ? "selected" : ""?>>5</option>
+                                                    <option value="10"<?= $_GET["perPage"] == 10 ? "selected" : ""?>>10</option>
+                                                    <option value="15"<?= $_GET["perPage"] == 15 ? "selected" : ""?>>15</option>
+                                                    <option value="20"<?= $_GET["perPage"] == 20 ? "selected" : ""?>>20</option>
+                                                    <option value="25"<?= $_GET["perPage"] == 25 ? "selected" : ""?>>25</option>
                                                 </select>
+                                                <input type="hidden" name="p" value="1">
+                                                <input type="hidden" name="order" value="<?=$order?>">
+                                                </form>
                                             </div>
                                             <label>筆</label>
                                         <?php endif ?>
                                         <div class="dataTable-search">
-                                            <form action="">
+                                        <form action="">
                                                 <div class="input-group ">
                                                     <input type="search" class="form-control" name="search" placeholder="請搜尋溝通師名稱...">
                                                     <button type="submit" class="btn btn-primary">搜尋</button>
@@ -124,12 +130,12 @@ $total_page = ceil($CommCounts / $per_page);
                                             <table class="table table-striped dataTable-table" id="table1">
                                                 <thead>
                                                     <tr>
-                                                        <th data-sortable="" class="desc" aria-sort="descending"><a href="?p=<?= $page ?>&order=PetCommID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">編號</a></th>
-                                                        <th data-sortable=""><a href="?p=<?= $page ?>&order=PetCommName:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">名稱</a></th>
-                                                        <th data-sortable=""><a href="?p=<?= $page ?>&order=PetCommSex:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">性別</a></th>
-                                                        <th data-sortable=""><a href="?p=<?= $page ?>&order=PetCommCertificateid:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">證書編號</a></th>
-                                                        <th data-sortable=""><a href="?p=<?= $page ?>&order=PetCommCertificateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">取證日期</a></th>
-                                                        <th data-sortable=""><a href="?p=<?= $page ?>&order=PetCommStatus:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刊登狀態</a></th>
+                                                        <th data-sortable="" class="desc" aria-sort="descending"><a href="?perPage=<?=$per_page?>&p=<?= $page ?>&order=PetCommID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">編號</a></th>
+                                                        <th data-sortable=""><a href="?perPage=<?=$per_page?>&p=<?= $page ?>&order=PetCommName:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">名稱</a></th>
+                                                        <th data-sortable=""><a href="?perPage=<?=$per_page?>&p=<?= $page ?>&order=PetCommSex:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">性別</a></th>
+                                                        <th data-sortable=""><a href="?perPage=<?=$per_page?>&p=<?= $page ?>&order=PetCommCertificateid:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">證書編號</a></th>
+                                                        <th data-sortable=""><a href="?perPage=<?=$per_page?>&p=<?= $page ?>&order=PetCommCertificateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">取證日期</a></th>
+                                                        <th data-sortable=""><a href="?perPage=<?=$per_page?>&p=<?= $page ?>&order=PetCommStatus:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刊登狀態</a></th>
 
                                                         <th></th>
                                                         <th></th>
@@ -169,7 +175,7 @@ $total_page = ceil($CommCounts / $per_page);
                                             <nav aria-label="Page navigation">
                                                 <ul class=" pagination pagination-primary">
                                                     <?php for ($i = 1; $i <= $total_page; $i++) : ?>
-                                                        <li class="page-item <?php if ($page == $i) echo "active" ?>"><a href="petcommunicators.php?p=<?= $i ?>" class="page-link"><?= $i ?></a></li>
+                                                        <li class="page-item <?php if ($page == $i) echo "active" ?>"><a href="petcommunicators.php?p=<?= $i ?>&perPage=<?= $per_page ?>" class="page-link"><?= $i ?></a></li>
                                                     <?php endfor; ?>
                                                 </ul>
                                             </nav>
