@@ -12,7 +12,7 @@ $orderArray = explode(':', $_POST['order']);
 $orderID = $orderArray[0];
 $orderValue = $orderArray[1];
 
-$sql="UPDATE petcommunicator SET valid = 0 WHERE PetCommID= :PetCommID";
+$sql="UPDATE petcommunicator SET valid = 0, PetCommStatus = '未刊登' WHERE PetCommID= :PetCommID";
 
 try {
     $stmt = $dbHost->prepare($sql);
