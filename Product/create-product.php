@@ -49,15 +49,15 @@
                                     </div>
 
                                     <div class="dataTable-container">
-                                        <table class="table table-striped dataTable-table" id="table1">
-                                            <form action="doCreateProduct.php" method="POST" enctype="multipart/form-data">
+                                        <form action="doCreateProduct.php" method="POST" enctype="multipart/form-data">
+                                            <table class="table table-striped dataTable-table" id="table1">
                                                 <div class="mb-2">
                                                     <label for="productName" class="form-label">商品名稱</label>
                                                     <input type="text" class="form-control" name="product_name" required>
                                                 </div>
                                                 <div class="mb-2">
                                                     <label for="brand" class="form-label">品牌</label>
-                                                    <select class="ms-2" name="product_brand" required>
+                                                    <select class="form-select" name="product_brand" required>
                                                         <option value="">請選擇品牌</option>
                                                         <option value="木入森">木入森</option>
                                                         <option value="陪心">陪心</option>
@@ -75,7 +75,6 @@
                                                     <label for="stock" class="form-label">庫存</label>
                                                     <input type="text" class="form-control" name="product_stock" required>
                                                 </div>
-                                                <form action="doProductUpLoad.php" method="POST" enctype="multipart/form-data">
                                                 <div class="mb-2">
                                                     <label for="productPicName">商品圖片名稱</label>
                                                     <input type="text" class="form-control" name="product_img" required>
@@ -85,12 +84,8 @@
                                                     <input type="file" name="pic" class="form-control" required>
                                                 </div>
                                                 <button class="btn btn-primary" type="submit">送出</button>
-                                            </form>
-                                                
-                                            </form>
-                                           
-
-                                        </table>
+                                            </table>
+                                        </form>
                                     </div>
                                     <div class="dataTable-bottom">
                                         <div class="dataTable-info"></div>
