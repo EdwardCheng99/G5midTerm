@@ -1,6 +1,6 @@
 <?php
 require_once("../pdoConnect.php");
-$sqlAll = "SELECT * FROM Petcommunicator WHERE valid=1";
+$sqlAll = "SELECT * FROM Petcommunicator WHERE valid=0";
 $stmtAll = $dbHost->prepare($sqlAll);
 
 
@@ -20,16 +20,16 @@ if (isset($_GET["p"]) && isset($_GET["order"])) {
     if (isset($_GET["p"])) {
         $page = $_GET["p"];
         $start_item = ($page - 1) * $per_page;
-        $sql = "SELECT * FROM Petcommunicator WHERE valid=1 ORDER BY $orderID $orderValue LIMIT $start_item, $per_page ";
+        $sql = "SELECT * FROM Petcommunicator WHERE valid=0 ORDER BY $orderID $orderValue LIMIT $start_item, $per_page ";
         $stmt = $dbHost->prepare($sql);
     }
 } elseif (isset($_GET["search"])) {
     $search = $_GET["search"];
-    $sql = "SELECT * FROM Petcommunicator WHERE PetCommName LIKE :search AND valid=1";
+    $sql = "SELECT * FROM Petcommunicator WHERE PetCommName LIKE :search AND valid=0";
     $stmt = $dbHost->prepare($sql);
     $stmt->bindValue(':search', "%$search%", PDO::PARAM_STR);
 } else {
-    header("location: petcommunicators.php?perPage=10&p=1&order=PetCommID%3AASC");
+    header("location: SoftDelList.php?perPage=10&p=1&order=PetCommID%3AASC");
 }
 
 try {
@@ -130,13 +130,13 @@ $total_page = ceil($CommCounts / $per_page);
 
                                     <ul class="nav nav-tabs">
                                         <li class="nav-item">
-                                            <a class="nav-link active" aria-current="page" href="">全部名單</a>
+                                            <a class="nav-link" aria-current="page" href="petcommunicators.php">全部名單</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="StatusList.php">待審核名單</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="SoftDelList.php">刪除名單</a>
+                                            <a class="nav-link active" href="SoftDelList.php">刪除名單</a>
                                         </li>
                                     </ul>
 
@@ -175,7 +175,7 @@ $total_page = ceil($CommCounts / $per_page);
                                                                 <a href="petcommunicator.php?id=<?= $user["PetCommID"] ?>"><i class="fa-solid fa-circle-info"></i></a>
                                                             </td>
                                                             <td>
-                                                                <a id="delBtn" href="WarningAlert.php?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&del=<?= $user["PetCommID"] ?>&order=<?= $order ?>&perPage=<?=$per_page?>"><i class="fa-solid fa-trash-can"></i></a>
+                                                                <a id="delBtn" href="WarningAlert.php?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&del=<?= $user["PetCommID"] ?>"><i class="fa-solid fa-trash-can"></i></a>
                                                             </td>
 
                                                         </tr>
@@ -192,7 +192,7 @@ $total_page = ceil($CommCounts / $per_page);
                                             <nav aria-label="Page navigation">
                                                 <ul class=" pagination pagination-primary">
                                                     <?php for ($i = 1; $i <= $total_page; $i++) : ?>
-                                                        <li class="page-item <?php if ($page == $i) echo "active" ?>"><a href="petcommunicators.php?p=<?= $i ?>&perPage=<?= $per_page ?>&order=<?= $order ?>" class="page-link"><?= $i ?></a></li>
+                                                        <li class="page-item <?php if ($page == $i) echo "active" ?>"><a href="SoftDelList.php?p=<?= $i ?>&perPage=<?= $per_page ?>&order=<?= $order ?>" class="page-link"><?= $i ?></a></li>
                                                     <?php endfor; ?>
                                                 </ul>
                                             </nav>

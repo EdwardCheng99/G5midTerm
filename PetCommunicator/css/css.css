@@ -1,13 +1,24 @@
   .warningalert {
-      background: rgba(58, 58, 58, 0.438);
-      height: 100%;
-      width: 100%;
-      position: fixed;
-      z-index: 20
+    background: rgba(58, 58, 58, 0.438);
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 20
   }
-  .warningcard{
+
+  .warningcard {
     background: #fff;
     width: 30em;
     height: 10em;
     position: relative;
+  }
+
+  .table th:nth-child(1),
+  .table td:nth-child(1) {
+    width: 80px;
+  }
+
+  .table th:nth-child(2),
+  .table td:nth-child(2) {
+    width: 200px;
   }
