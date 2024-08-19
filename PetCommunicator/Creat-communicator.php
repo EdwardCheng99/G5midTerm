@@ -67,13 +67,14 @@
                                                 </div>
                                             </div>
                                             <div class="col">
-                                                <div class="form-group">
+                                                
+                                                
                                                     <label for="">取證日期</label>
-                                                    <input type="text" id="" class="form-control" placeholder="" name="PetCommCertificateDate">
-                                                </div>
+                                                    <input type="date" class="form-control flatpickr-always-open flatpickr-input " placeholder="Select date.." readonly="readonly" name="PetCommCertificateDate">
+                                                
                                             </div>
                                             <div class="col">
-                                                <div class="form-group">
+                                                <div class="form-group mt-2">
                                                     <label for="">服務項目</label>
                                                     <input type="text" id="" class="form-control" placeholder="" name="PetCommService">
                                                 </div>
@@ -146,8 +147,10 @@
 
     <script src="../assets/compiled/js/app.js"></script>
     
-<?php include("./js/js.php")?>
-    
+      
+
+<?php include("../js.php")?>
+<?php include("./js/js.php")?>  
 
 </body>
 

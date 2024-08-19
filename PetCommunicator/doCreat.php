@@ -31,7 +31,7 @@ $sql = "INSERT INTO petcommunicator (
     :PetCommSex, 
     :PetCommImg, 
     :PetCommCertificateid, 
-    :PetCommCertificateid, 
+    :PetCommCertificateDate, 
     :PetCommService, 
     :PetCommApproach, 
     :PetCommFee, 
@@ -59,9 +59,9 @@ try {
 
 
     $stmt->execute();
-    echo "新增成功";
+    $last_id = $dbHost->lastInsertId();
 
-    header("location: petcommunicators.php?");
+    header("location: Edit-communicator.php?id=$last_id");
 } catch (PDOException $e) {
     echo "預處理陳述式執行失敗！ <br/>";
     echo "Error: " . $e->getMessage() . "<br/>";

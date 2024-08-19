@@ -133,7 +133,7 @@ $total_page = ceil($CommCounts / $per_page);
                                             <a class="nav-link" aria-current="page" href="petcommunicators.php">全部名單</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="StatusList.php">未刊登待審核名單</a>
+                                            <a class="nav-link" href="StatusList.php">待審核名單</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link active" href="SoftDelList.php">刪除名單</a>
@@ -192,7 +192,7 @@ $total_page = ceil($CommCounts / $per_page);
                                             <nav aria-label="Page navigation">
                                                 <ul class=" pagination pagination-primary">
                                                     <?php for ($i = 1; $i <= $total_page; $i++) : ?>
-                                                        <li class="page-item <?php if ($page == $i) echo "active" ?>"><a href="petcommunicators.php?p=<?= $i ?>&perPage=<?= $per_page ?>" class="page-link"><?= $i ?></a></li>
+                                                        <li class="page-item <?php if ($page == $i) echo "active" ?>"><a href="SoftDelList.php?p=<?= $i ?>&perPage=<?= $per_page ?>&order=<?= $order ?>" class="page-link"><?= $i ?></a></li>
                                                     <?php endfor; ?>
                                                 </ul>
                                             </nav>

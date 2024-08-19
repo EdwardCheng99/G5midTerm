@@ -6,7 +6,7 @@ $stmtAll = $dbHost->prepare($sqlAll);
 
 $page = 1;
 $start_item = 0;
-$per_page = 5;
+$per_page = $_GET["perPage"] ? $_GET["perPage"] : 5;
 $orderID = 'PetCommID';
 $orderValue = 'ASC';
 
@@ -97,7 +97,7 @@ $c=":"
             </table>
             <div class="text-end">
                 <button type="sbumit" class="btn btn-danger">確定</button>
-                <a href="petcommunicators.php?p=<?= $page ?>&order=<?=$orderID?>:<?= $orderValue?>" class="btn btn-secondary">取消</a>
+                <a href="petcommunicators.php?p=<?= $page ?>&order=<?=$orderID?>:<?= $orderValue?>&perPage=<?=$per_page?>" class="btn btn-secondary">取消</a>
             </div>
         </div>
         </form>
@@ -142,11 +142,11 @@ $c=":"
                                             <label>每頁</label>
                                             <div class="dataTable-dropdown">
                                                 <select class="dataTable-selector form-select">
-                                                    <option value="5">5</option>
-                                                    <option value="10">10</option>
-                                                    <option value="15">15</option>
-                                                    <option value="20">20</option>
-                                                    <option value="25">25</option>
+                                                <option value="5" <?= $_GET["perPage"] == 5 ? "selected" : "" ?>>5</option>
+                                                        <option value="10" <?= $_GET["perPage"] == 10 ? "selected" : "" ?>>10</option>
+                                                        <option value="15" <?= $_GET["perPage"] == 15 ? "selected" : "" ?>>15</option>
+                                                        <option value="20" <?= $_GET["perPage"] == 20 ? "selected" : "" ?>>20</option>
+                                                        <option value="25" <?= $_GET["perPage"] == 25 ? "selected" : "" ?>>25</option>
                                                 </select>
                                             </div>
                                             <label>筆</label>
@@ -160,6 +160,17 @@ $c=":"
                                             </form>
                                         </div>
                                     </div>
+                                    <ul class="nav nav-tabs">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" aria-current="page" href="petcommunicators.php">全部名單</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="StatusList.php">未刊登待審核名單</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="SoftDelList.php">刪除名單</a>
+                                        </li>
+                                    </ul>
                                     <div class="dataTable-container">
                                         <?php if ($CommCount > 0) : ?>
                                             <table class="table table-striped dataTable-table" id="table1">
@@ -193,7 +204,7 @@ $c=":"
                                                                 <a href="petcommunicator.php?id=<?= $user["PetCommID"] ?>"><i class="fa-solid fa-circle-info"></i></a>
                                                             </td>
                                                             <td>
-                                                                <a id="delBtn" href="?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&del=<?= $user["PetCommID"] ?>"><i class="fa-solid fa-trash-can"></i></a>
+                                                                <a id="delBtn" href="?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&del=<?= $user["PetCommID"] ?>&perPage=<?=$per_page?>"><i class="fa-solid fa-trash-can"></i></a>
                                                             </td>
 
                                                         </tr>
