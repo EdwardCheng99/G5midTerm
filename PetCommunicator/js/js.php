@@ -14,7 +14,15 @@
             document.getElementById('imagePreview').style.display = 'none';
         }
     });
-// --
-
+// -- 創建表單驗證
+function setPrefix() {
+    var input = document.getElementById('certIdInput');
+    var prefix = '動溝證字第';
+    if (input.value.startsWith(prefix)) {
+        input.value = input.value;
+    } else {
+        input.value = prefix + input.value;
+    }
+}
 
 </script>

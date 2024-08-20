@@ -67,8 +67,6 @@
                                                 </div>
                                             </div>
                                             <div class="col">
-                                                
-                                                
                                                     <label for="">取證日期</label>
                                                     <input type="date" class="form-control flatpickr-always-open flatpickr-input " placeholder="Select date.." readonly="readonly" name="PetCommCertificateDate">
                                                 
@@ -94,7 +92,7 @@
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label for="">Eamil</label>
-                                                    <input type="text" id="" class="form-control" placeholder="" name="PetCommEmail">
+                                                    <input type="email" id="" class="form-control" placeholder="" name="PetCommEmail">
                                                 </div>
                                             </div>
                                             <div class="col">

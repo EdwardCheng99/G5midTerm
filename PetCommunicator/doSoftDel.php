@@ -11,8 +11,9 @@ $valid = $_POST["valid"];
 $orderArray = explode(':', $_POST['order']);
 $orderID = $orderArray[0];
 $orderValue = $orderArray[1];
+$delreason = $_POST["delreason"];
 
-$sql="UPDATE petcommunicator SET valid = 0, PetCommStatus = '未刊登' WHERE PetCommID= :PetCommID";
+$sql="UPDATE petcommunicator SET valid = 0, PetCommStatus = '未刊登',delreason =  '$delreason' WHERE PetCommID= :PetCommID";
 
 try {
     $stmt = $dbHost->prepare($sql);

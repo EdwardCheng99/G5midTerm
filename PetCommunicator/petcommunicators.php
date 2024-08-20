@@ -164,7 +164,7 @@ $total_page = ceil($CommCounts / $per_page);
                                                         <tr>
                                                             <td><?= $user["PetCommID"] ?></td>
                                                             <td><?= $user["PetCommName"] ?></td>
-                                                            <td><?= $user["PetCommSex"] === "Female" ? "女" : "男" ?></td>
+                                                            <td><?= $user["PetCommSex"]=="female" ? "女" :"男" ?></td>
                                                             <td><?= $user["PetCommCertificateid"] ?></td>
                                                             <td><?= $user["PetCommCertificateDate"] ?></td>
                                                             <td><?= $user["PetCommStatus"] ?></td>
