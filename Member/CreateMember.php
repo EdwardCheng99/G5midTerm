@@ -1,50 +1,3 @@
-<?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-if (!isset($_GET["MemberID"])) {
-    echo "請正確帶入正確id變數";
-    // exit的功能為輸出一個訊息後退出當前的腳本，強制結束後面的程式
-    exit;
-}
-$id = $_GET["MemberID"];
-require_once("../pdoConnect.php");
-$sql = "SELECT * FROM Member WHERE MemberID = :MemberID AND MemberValid = '1'";
-
-// 將slq的資料回傳回變數裡面
-$stmt = $dbHost->prepare($sql);
-try {
-    $stmt->execute([
-        ":MemberID" => $id
-    ]);
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    $usersCount = $stmt->rowCount();
-} catch (PDOException $e) {
-    echo "預處理陳述式執行失敗！ <br/>";
-    echo "Error: " . $e->getMessage() . "<br/>";
-    $dbHost = NULL;
-    exit;
-}
-
-
-// 最愛的商品功能 (待修改)
-// if($usersCount>0){
-//     $title = $row["name"];
-
-//     $sqlFavorite = "SELECT user_like.*, product.name AS product_name, product.id AS product_id
-//     FROM user_like
-//     JOIN product ON user_like.product_id = product.id
-//     WHERE user_like.user_id = $id
-//     ";
-//     $resultFavorite = $conn->query($sqlFavorite);
-//     $rowProducts = $resultFavorite->fetch_all(MYSQLI_ASSOC);
-
-// }else{
-//     $title="使用者不存在";
-// };
-
-?>
-
 <!doctype html>
 <html lang="en">
 
@@ -87,7 +40,7 @@ try {
                     <section class="section">
                         <!-- 會員資訊 -->
                         <div class="card-body">
-                            <form class="form form-vertical" action="doUpdateMember.php" method="post">
+                            <form class="form form-vertical" action="doCreateMember.php" method="post">
                                 <div class="form-body">
                                     <div class="row">
                                         <div class="col-12">
@@ -99,107 +52,103 @@ try {
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="first-name-vertical">Name</label>
-                                                <input type="text" class="form-control" name="name" value="<?= $row["MemberName"] ?>">
+                                                <input type="text" class="form-control" name="name" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="first-name-vertical">Account</label>
+                                                <input type="text" class="form-control" name="account" value="">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="email-id-vertical">PCID</label>
-                                                <input type="text" id="email-id-vertical" class="form-control" name="pcid" placeholder="" value="<?= $row["MemberPCID"] ?>">
+                                                <input type="text" id="email-id-vertical" class="form-control" name="pcid" placeholder="" value="">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="contact-info-vertical">Admin</label>
-                                                <input type="text" id="contact-info-vertical" class="form-control" name="admin" placeholder="Mobile" value="<?= $row["MemberAdmin"] ?>">
+                                                <input type="text" id="contact-info-vertical" class="form-control" name="admin" placeholder="Mobile" value="">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="password-vertical">Password</label>
-                                                <input type="text" id="password-vertical" class="form-control" name="password" placeholder="Password" value="<?= $row["MemberPassword"] ?>">
+                                                <input type="text" id="password-vertical" class="form-control" name="password" placeholder="Password" value="">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="first-name-vertical">NickName</label>
-                                                <input type="text" id="first-name-vertical" class="form-control" name="nickname" placeholder="" value="<?= $row["MemberNickName"] ?>">
+                                                <input type="text" id="first-name-vertical" class="form-control" name="nickname" placeholder="" value="">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="email-id-vertical">Level</label>
-                                                <input type="text" id="email-id-vertical" class="form-control" name="level" placeholder="" value="<?= $row["MemberLevel"] ?>">
+                                                <input type="text" id="email-id-vertical" class="form-control" name="level" placeholder="" value="">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="contact-info-vertical">Email</label>
-                                                <input type="email" id="contact-info-vertical" class="form-control" name="email" placeholder="" value="<?= $row["MembereMail"] ?>">
+                                                <input type="email" id="contact-info-vertical" class="form-control" name="email" placeholder="" value="">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="password-vertical">Phone</label>
-                                                <input type="text" id="password-vertical" class="form-control" name="phone" placeholder="" value="<?= $row["MemberPhone"] ?>">
+                                                <input type="text" id="password-vertical" class="form-control" name="phone" placeholder="" value="">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="first-name-vertical">Tel</label>
-                                                <input type="tel" id="first-name-vertical" class="form-control" name="tel" placeholder="" value="<?= $row["MemberTel"] ?>">
+                                                <input type="tel" id="first-name-vertical" class="form-control" name="tel" placeholder="" value="">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="email-id-vertical">Address</label>
-                                                <input type="text" id="email-id-vertical" class="form-control" name="address" placeholder="" value="<?= $row["MemberAddress"] ?>">
+                                                <input type="text" id="email-id-vertical" class="form-control" name="address" placeholder="" value="">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="contact-info-vertical">Birth</label>
-                                                <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input active" placeholder="Select date.." name="birth" readonly="readonly" value="<?= $row["MemberBirth"] ?>">
+                                                <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input active" placeholder="Select date.." name="birth" readonly="readonly" value="">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="password-vertical">Gender</label>
-                                                <input type="text" id="password-vertical" class="form-control" name="gender" placeholder="" value="<?= $row["MemberGender"] ?>">
+                                                <input type="text" id="password-vertical" class="form-control" name="gender" placeholder="" value="">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="first-name-vertical">Valid</label>
-                                                <input type="text" id="first-name-vertical" class="form-control" name="valid" placeholder="" value="<?= $row["MemberValid"] ?>">
+                                                <input type="text" id="first-name-vertical" class="form-control" name="valid" placeholder="" value="">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="email-id-vertical">BlackList</label>
-                                                <input type="text" id="email-id-vertical" class="form-control" name="blacklist" placeholder="" value="<?= $row["MemberIsBlacklisted"] ?>">
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="contact-info-vertical">Created_at:<?= $row["MemberCreateDate"] ?></label>
+                                                <input type="text" id="email-id-vertical" class="form-control" name="blacklist" placeholder="" value="">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="password-vertical">Created_UserID</label>
-                                                <input type="text" id="password-vertical" class="form-control" name="createuserid" placeholder="" value="<?= $row["MemberCreateUserID"] ?>">
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="contact-info-vertical">Uptate_at:<?= $row["MemberUpdateDate"] ?></label>
+                                                <input type="text" id="password-vertical" class="form-control" name="createuserid" placeholder="" value="">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="password-vertical">Uptate_UserID</label>
-                                                <input type="text" id="password-vertical" class="form-control" name="updateuserid" placeholder="" value="<?= $row["MemberUpdateUserID"] ?>">
+                                                <input type="text" id="password-vertical" class="form-control" name="updateuserid" placeholder="" value="">
                                             </div>
                                         </div>
                                         <div class="col-12 d-flex justify-content-end">
