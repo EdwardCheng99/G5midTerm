@@ -1,0 +1,8 @@
+/* 商品圖片放大顯示 */
+.table th:nth-child(2),
+.table td:nth-child(2) {
+    width: 120px;
+}
+#imagePreview {
+    display: none;
+}
