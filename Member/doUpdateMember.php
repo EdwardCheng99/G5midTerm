@@ -12,7 +12,11 @@ $admin = $_POST["admin"];
 $PCid = $_POST["pcid"];
 $password = $_POST["password"];
 $nickname = $_POST["nickname"];
-$level = $_POST["level"];
+switch($_POST["level"]){
+    case "銅":$level = 1;break; 
+    case "銀":$level = 2;break;
+    case "金":$level = 3;break;
+};
 $tel = $_POST["tel"];
 $address = $_POST["address"];
 $birth = $_POST["birth"];

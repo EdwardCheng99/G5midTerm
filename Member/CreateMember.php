@@ -81,6 +81,12 @@
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
+                                                <label for="password-vertical">rePassword</label>
+                                                <input type="text" id="password-vertical" class="form-control" name="repassword" placeholder="Password" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
                                                 <label for="first-name-vertical">NickName</label>
                                                 <input type="text" id="first-name-vertical" class="form-control" name="nickname" placeholder="" value="">
                                             </div>
@@ -88,7 +94,11 @@
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="email-id-vertical">Level</label>
-                                                <input type="text" id="email-id-vertical" class="form-control" name="level" placeholder="" value="">
+                                                <select class="form-select" id="basicSelect" name="level">
+                                                    <option>銅</option>
+                                                    <option>銀</option>
+                                                    <option>金</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-12">

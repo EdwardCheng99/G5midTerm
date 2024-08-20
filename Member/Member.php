@@ -68,7 +68,8 @@ try {
             <div id="main-content">
                 <div class="page-heading">
                     <div class="page-title">
-                        <div class="row">
+                    <a href="MemberList.php" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i></a>
+                        <div class="row my-3">
                             <div class="col-12 col-md-6 order-md-1 order-last">
                                 <h3>修改資料</h3>
                                 <p class="text-subtitle text-muted"></p>
@@ -129,8 +130,11 @@ try {
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="email-id-vertical">Level</label>
-                                                <input type="text" id="email-id-vertical" class="form-control" name="level" placeholder="" value="<?= $row["MemberLevel"] ?>">
-                                            </div>
+                                                <select class="form-select" id="basicSelect" name="level">
+                                                    <option>銅</option>
+                                                    <option>銀</option>
+                                                    <option>金</option>
+                                                </select>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">

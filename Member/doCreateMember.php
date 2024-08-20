@@ -4,15 +4,61 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once("../pdoConnect.php");
 
-// 從 POST 請求中獲取表單資料
-$name = $_POST["name"];
+// 檢查
+// 檢查是否是透過繳交表單進入此頁
+if(!isset($_POST["name"])){
+    echo "請循正常管道進入此頁";
+    exit;
+}
+
+// 建立物件儲存表單傳入的資料
 $account = $_POST["account"];
+
+if(empty($account)){
+    echo "帳號不能為空";
+    exit;
+}
+
+$sqlCheck = "SELECT * FROM `Member` WHERE MemberAccount = '$account'";
+$stmt = $dbHost->prepare($sqlCheck);
+try{
+    $stmt->execute();
+}catch(PDOException $e){
+    echo "預處理陳述式執行失敗！ <br/>";
+    echo "Error: " . $e->getMessage() . "<br/>";
+    $db_host = NULL;
+    exit;
+}
+$userAccount = $result->num_rows;
+if($userAccount>0){
+    echo "該帳號已存在";
+    exit;
+}
+
+$password = $_POST["password"];
+
+if(empty($password)){
+    echo "密碼不能為空";
+    exit;
+}
+
+$rePassword = $_POST["repassword"];
+
+if($rePassword != $password){
+    echo "兩次輸入的密碼不相同";
+    exit;
+}
+
+// 從 POST 請求中獲取表單資料
 $pcid = $_POST["pcid"];
 $admin = $_POST["admin"];
-$password = $_POST["password"];
 $password = md5($password); // 如果密碼要加密
 $nickname = $_POST["nickname"];
-$level = $_POST["level"];
+switch($_POST["level"]){
+            case "銅":$level = 1;break; 
+            case "銀":$level = 2;break;
+            case "金":$level = 3;break;
+        };
 $email = $_POST["email"];
 $phone = $_POST["phone"];
 $tel = $_POST["tel"];
@@ -63,7 +109,11 @@ try {
         ":updateuserid" => $updateuserid,
     ]);
 
-    echo "會員資料已成功新增。";
+    echo "<script>
+            alert('會員資料已成功新增。');
+            window.location.href = 'MemberList.php';
+          </script>";
+    exit;
 
 } catch (PDOException $e) {
     echo "預處理陳述式執行失敗！<br/>";

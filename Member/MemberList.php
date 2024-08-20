@@ -45,6 +45,11 @@ if (isset($_GET["sorter"])) {
 
 $searchName = isset($_GET["searchName"]) ? $_GET["searchName"] : '';
 $searchLevel = isset($_GET["searchLevel"]) ? $_GET["searchLevel"] : '';
+switch($searchLevel){
+    case "銅":$searchLevel = 1;break; 
+    case "銀":$searchLevel = 2;break;
+    case "金":$searchLevel = 3;break;
+}
 
 $sql = "SELECT * FROM Member WHERE MemberValid = 1";
 $conditions = [];
@@ -138,7 +143,7 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                             <div class="col-12 col-md-6 order-md-2 order-first">
                                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                                     <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="index.html"><i class="fa-solid fa-house"></i></a></li>
+                                        <li class="breadcrumb-item"><a href="../index.php"><i class="fa-solid fa-house"></i></a></li>
                                         <li class="breadcrumb-item active" aria-current="page">會員管理</li>
                                     </ol>
                                 </nav>
@@ -149,24 +154,34 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                         <!-- 搜尋Bar -->
                         <div class="card">
                             <div class="card-body">
+                                
                                 <form action="">
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 col-12">
                                             <div class="form-group">
                                                 <!-- $memberLevel -->
-                                                <label for="">會員類別</label>
-                                                <input type="search" id="" class="form-control" placeholder="" 
+                                                <label for="">會員等級</label>
+                                                <select class="form-select" id="basicSelect" name="searchLevel">
+                                                    <option>銅</option>
+                                                    <option>銀</option>
+                                                    <option>金</option>
+                                                </select>
+                                                <!-- <input type="search" id="" class="form-control" placeholder="" 
                                                 value="<?php if(isset($_GET["searchLevel"]))
                                                         echo  $searchLevel;
                                                         else
-                                                        echo '';?>" name="searchLevel">
+                                                        echo '';?>" name="searchLevel"> -->
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-4 col-12">
                                             <div class="form-group">
                                                 <!-- $memberName -->
                                                 <label for="">會員名稱</label>
-                                                <input type="search" id="" class="form-control" placeholder="" name="searchName">
+                                                <input type="search" id="" class="form-control" placeholder="" 
+                                                value="<?php if(isset($_GET["searchName"]))
+                                                        echo  $searchName;
+                                                        else
+                                                        echo '';?>"name="searchName">
                                             </div>
                                         </div>
                                         <div class="col-12 d-flex justify-content-end">
@@ -220,7 +235,12 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                                             <tr>
                                                                 <td><?= $user["MemberID"]; ?></td>
                                                                 <td><?= $user["MemberName"]; ?></td>
-                                                                <td><?= $user["MemberLevel"]; ?></td>
+                                                                <td><?php 
+                                                                switch($user["MemberLevel"]){
+                                                                    case 1:echo "銅";break;
+                                                                    case 2:echo "銀";break;
+                                                                    case 3:echo "金";break;
+                                                                } ?></td>
                                                                 <td><?= $user["MembereMail"]; ?></td>
                                                                 <td><?= $user["MemberPhone"]; ?></td>
                                                                 <td><?= $user["MemberCreateDate"]; ?></td>
