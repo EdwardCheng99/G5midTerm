@@ -74,22 +74,29 @@ try {
                                             <a class="btn btn-primary" href="ProductList.php" title="回商品管理"><i class="fa-solid fa-left-long"></i></a>
                                         </div>
                                         <div class="row ">
-                                            <div class="col-lg-4">
-                                                <?php if ($productCount > 0) : ?>
-                                                    <table class="table table-bordered">
-                                                        <?php foreach ($rows as $row) : ?>
+                                            <?php if ($productCount > 0) : ?>
+                                                <?php foreach ($rows as $row) : ?>
+                                                    <div class="col-lg">
+                                                        <div class="ratio ratio-1x1">
+                                                            <img class="object-fit-cover" src="./ProductPicUpLoad/<?= $row["product_img"] ?>" alt="<?= $row["product_name"] ?>">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg">
+
+                                                        <table class="table table-bordered">
+
                                                             <tr>
                                                                 <th>商品編號</th>
                                                                 <td><?= $row["product_id"] ?></td>
                                                             </tr>
-                                                            <tr>
+                                                            <!-- <tr>
                                                                 <th>商品圖片</th>
                                                                 <td>
                                                                     <div class="ratio ratio-1x1">
                                                                         <img class="object-fit-cover" src="./ProductPicUpLoad/<?= $row["product_img"] ?>" alt="<?= $row["product_name"] ?>">
                                                                     </div>
                                                                 </td>
-                                                            </tr>
+                                                            </tr> -->
                                                             <tr>
                                                                 <th>商品名稱</th>
                                                                 <td><?= $row["product_name"] ?></td>
@@ -99,12 +106,12 @@ try {
                                                                 <td><?= $row["product_brand"] ?></td>
                                                             </tr>
                                                             <tr>
-                                                                <th>分類</th>
-                                                                <td></td>
+                                                                <th>類別</th>
+                                                                <td><?= $row["product_category_name"] ?></td>
                                                             </tr>
                                                             <tr>
-                                                                <th>類別</th>
-                                                                <td></td>
+                                                                <th>分類</th>
+                                                                <td><?= $row["product_sub_category"] ?></td>
                                                             </tr>
                                                             <tr>
                                                                 <th>原價</th>
@@ -127,9 +134,22 @@ try {
                                                                 <td><?= $row["product_update_date"] ?></td>
                                                             </tr>
                                                         <?php endforeach; ?>
-                                                    </table>
+                                                        </table>
+
+                                                    </div>
+                                                    <div class="col-lg">
+                                                        <?php foreach ($rows as $row) : ?>
+                                                            <table>
+                                                                <tr>
+                                                                    <th>商品介紹</th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><?= $row["product_info"] ?></td>
+                                                                </tr>
+                                                            </table>
+                                                        <?php endforeach; ?>
+                                                    </div>
                                                 <?php endif; ?>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -39,7 +39,7 @@
                             <div class="card-body">
                             <a href="petcommunicators.php?p=1" class="btn btn-primary mb-2">返回</a>
                             
-                                <form action="doCreat.php" method="post">
+                                <form action="doCreat.php" method="post" enctype="multipart/form-data">
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="col">
@@ -110,7 +110,7 @@
                                         <div class="col-6">
                                             <div class="mb-3">
                                                 <label for="formFile" class="form-label">相片</label>
-                                                <input class="form-control" type="file" id="formFile" accept="image/*" name="PetCommImg">
+                                                <input class="form-control" type="file" id="formFile" name="PetCommImg">
                                             </div>
                                             <div class="ratio ratio-4x3 border">
                                             <img id="imagePreview" class="img-preview" src="" alt="Image Preview" style="display: none;">

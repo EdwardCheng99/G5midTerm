@@ -39,7 +39,7 @@ $sql .= " ORDER BY $orderID $orderValue LIMIT :limit OFFSET :offset";
 
 $stmt = $dbHost->prepare($sql);
 
-// 綁定參數
+// 綁定參數做篩選搜尋
 if ($search) {
     $stmt->bindValue(':search', '%' . $search . '%');
 }
@@ -56,7 +56,7 @@ if ($sub) {
 $stmt->bindValue(':limit', $per_page, PDO::PARAM_INT);
 $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 
-// 總商品數
+// 總商品數顯示分頁
 $countPage = "SELECT COUNT(*) FROM product WHERE product_valid=1";
 if ($search) {
     $countPage .= " AND product_name LIKE :search";
@@ -108,17 +108,12 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>商品管理</title>
-
+    <link rel="stylesheet" href="./css.css">
     <?php include("../headlink.php") ?>
 </head>
-<style>
-    /* 商品圖片放大顯示 */
-    .table th:nth-child(2),
-    .table td:nth-child(2) {
-        width: 120px;
-    }
-</style>
+
 
 <body>
     <script src="../assets/static/js/initTheme.js"></script>
