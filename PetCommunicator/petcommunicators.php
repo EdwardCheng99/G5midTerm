@@ -10,19 +10,19 @@ $per_page = $_GET["perPage"] ? $_GET["perPage"] : 5;
 $orderID = 'PetCommID';
 $orderValue = 'ASC';
 $order = $_GET['order'];
-if (isset($_GET["p"]) && isset($_GET["order"])) {
-    if (isset($_GET['order'])) {
+if (isset($_GET["p"]) && isset($_GET["order"])&& isset($_GET["perPage"])) {
+    
         $orderArray = explode(':', $_GET['order']);
         $orderID = $orderArray[0];
         $orderValue = $orderArray[1] == 'DESC' ? 'DESC' : 'ASC';
-    }
+    
 
-    if (isset($_GET["p"])) {
+    
         $page = $_GET["p"];
         $start_item = ($page - 1) * $per_page;
         $sql = "SELECT * FROM Petcommunicator WHERE valid=1 ORDER BY $orderID $orderValue LIMIT $start_item, $per_page ";
         $stmt = $dbHost->prepare($sql);
-    }
+    
 } elseif (isset($_GET["search"])) {
     $search = $_GET["search"];
     $sql = "SELECT * FROM Petcommunicator WHERE PetCommName LIKE :search AND valid=1";
@@ -164,7 +164,7 @@ $total_page = ceil($CommCounts / $per_page);
                                                         <tr>
                                                             <td><?= $user["PetCommID"] ?></td>
                                                             <td><?= $user["PetCommName"] ?></td>
-                                                            <td><?= $user["PetCommSex"]=="female" ? "女" :"男" ?></td>
+                                                            <td><?= $user["PetCommSex"] == "female" ? "女" : "男" ?></td>
                                                             <td><?= $user["PetCommCertificateid"] ?></td>
                                                             <td><?= $user["PetCommCertificateDate"] ?></td>
                                                             <td><?= $user["PetCommStatus"] ?></td>

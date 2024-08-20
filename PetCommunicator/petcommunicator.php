@@ -51,6 +51,12 @@ try {
                                 </nav>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col d-flex justify-content-between">
+                                <p>前次更新：<?= $row["PetCommUpdateUserID"]?>/<?= $row["PetCommUpdateDate"]?></p>
+                                <p>創建時間：<?= $row["PetCommCreateUserID"]?>/<?= $row["PetCommCreateDate"]?></p>
+                            </div>
+                        </div>
                     </div>
                     <section class="section">
 

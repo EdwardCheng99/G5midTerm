@@ -11,18 +11,13 @@ $orderID = 'PetCommID';
 $orderValue = 'ASC';
 $order = $_GET['order'];
 if (isset($_GET["p"]) && isset($_GET["order"])) {
-    if (isset($_GET['order'])) {
-        $orderArray = explode(':', $_GET['order']);
-        $orderID = $orderArray[0];
-        $orderValue = $orderArray[1] == 'DESC' ? 'DESC' : 'ASC';
-    }
-
-    if (isset($_GET["p"])) {
-        $page = $_GET["p"];
-        $start_item = ($page - 1) * $per_page;
-        $sql = "SELECT * FROM Petcommunicator WHERE valid=0 ORDER BY $orderID $orderValue LIMIT $start_item, $per_page ";
-        $stmt = $dbHost->prepare($sql);
-    }
+    $orderArray = explode(':', $_GET['order']);
+    $orderID = $orderArray[0];
+    $orderValue = $orderArray[1] == 'DESC' ? 'DESC' : 'ASC';
+    $page = $_GET["p"];
+    $start_item = ($page - 1) * $per_page;
+    $sql = "SELECT * FROM Petcommunicator WHERE valid=0 ORDER BY $orderID $orderValue LIMIT $start_item, $per_page ";
+    $stmt = $dbHost->prepare($sql);
 } elseif (isset($_GET["search"])) {
     $search = $_GET["search"];
     $sql = "SELECT * FROM Petcommunicator WHERE PetCommName LIKE :search AND valid=0";
@@ -62,6 +57,19 @@ $total_page = ceil($CommCounts / $per_page);
 
 <body>
     <script src="../assets/static/js/initTheme.js"></script>
+    <div id="delAlert" class="warningalert justify-content-center align-items-center d-none">
+        <form action="StatusList.php" method="post">
+            <input type="hidden" name="PetCommID" id="" value="<?= $id ?>">
+            <div class="warningcard card p-4">
+                <h1>確認復原?</h1>
+                <p>復原後將跳轉至待審核名單頁面進行重新刊登作業</p>
+                <div class="text-end">
+                    <button type="sbumit" class="btn btn-success">確定</button>
+                    <a class="btn btn-primary" href="SoftDelList.php" id="delAlertCancel">取消</a>
+                </div>
+            </div>
+        </form>
+    </div>
     <div id="app">
         <?php include("../sidebar.php") ?>
         <div id="main" class='layout-navbar navbar-fixed'>
@@ -150,11 +158,11 @@ $total_page = ceil($CommCounts / $per_page);
                                                         <th data-sortable="" class="desc" aria-sort="descending"><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">編號</a></th>
                                                         <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommName:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">名稱</a></th>
                                                         <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommSex:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">性別</a></th>
-                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateid:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">證書編號</a></th>
-                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">取證日期</a></th>
-                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommStatus:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刊登狀態</a></th>
+                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateid:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刪除者</a></th>
+                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刪除時間</a></th>
+                                                        <th data-sortable=""><a href="" class="dataTable-sorter">原因</a></th>
 
-                                                        <th></th>
+
                                                         <th></th>
                                                         <th></th>
                                                     </tr>
@@ -165,17 +173,15 @@ $total_page = ceil($CommCounts / $per_page);
                                                             <td><?= $user["PetCommID"] ?></td>
                                                             <td><?= $user["PetCommName"] ?></td>
                                                             <td><?= $user["PetCommSex"] === "Female" ? "女" : "男" ?></td>
-                                                            <td><?= $user["PetCommCertificateid"] ?></td>
-                                                            <td><?= $user["PetCommCertificateDate"] ?></td>
-                                                            <td><?= $user["PetCommStatus"] ?></td>
-                                                            <td>
-                                                                <a href="Edit-communicator.php?id=<?= $user["PetCommID"] ?>"> <i class="fa-solid fa-pen-to-square fa-lg"></i></a>
-                                                            </td>
+                                                            <td><?= $user["PetCommUpdateUserID"] ?></td>
+                                                            <td><?= $user["PetCommUpdateDate"] ?></td>
+                                                            <td><?= $user["delreason"] ?></td>
+
                                                             <td>
                                                                 <a href="petcommunicator.php?id=<?= $user["PetCommID"] ?>"><i class="fa-solid fa-circle-info"></i></a>
                                                             </td>
                                                             <td>
-                                                                <a id="delBtn" href="WarningAlert.php?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&del=<?= $user["PetCommID"] ?>"><i class="fa-solid fa-trash-can"></i></a>
+                                                                <button id="checkBtn" class="btn text-primary"><i class="fa-solid fa-user-check"></i></button>
                                                             </td>
 
                                                         </tr>
@@ -216,17 +222,19 @@ $total_page = ceil($CommCounts / $per_page);
         </div>
     </div>
     <script>
-        const delBtn = document.querySelector("#delBtn");
-        const warningAlert = document.querySelector("#warningAlert");
-        delBtn.addEventListener("click", function() {
-            warningAlert.classList.add('flex');
+        const checkBtn = document.querySelector("#checkBtn");
+        checkBtn.addEventListener("click", function() {
+            delAlert.classList.remove("d-none");
+            delAlert.classList.add("d-flex");
+        })
+        checkBtn.addEventListener("click", function() {
+            delAlert.classList.remove("d-none");
         })
     </script>
-
     <script src="../assets/static/js/components/dark.js"></script>
     <script src="../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="../assets/compiled/js/app.js"></script>
-
+    <?php include("../js.php") ?>
 
 </body>
 

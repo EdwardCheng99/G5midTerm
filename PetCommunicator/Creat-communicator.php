@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>溝通師新增</title>
-
+    <link rel="stylesheet" href="../assets/style.css">
     <?php include("../headlink.php") ?>
 </head>
 
@@ -37,23 +37,23 @@
                     <section class="section">
                         <div class="card">
                             <div class="card-body">
-                            <a href="petcommunicators.php?p=1" class="btn btn-primary mb-2">返回</a>
-                            
+                                <a href="petcommunicators.php?p=1" class="btn btn-primary mb-2">返回</a>
+
                                 <form action="doCreat.php" method="post" enctype="multipart/form-data">
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="col">
-                                            <input type="hidden" id="" class="form-control" placeholder="" name="PetCommStatus" value="未刊登">
-                                            <input type="hidden" id="" class="form-control" placeholder="" name="valid" value="1">
-                                            
+                                                <input type="hidden" id="" class="form-control" placeholder="" name="PetCommStatus" value="未刊登">
+                                                <input type="hidden" id="" class="form-control" placeholder="" name="valid" value="1">
+
                                                 <div class="form-group">
-                                                    <label for="">名稱</label>
+                                                    <label for="" class="required">名稱</label>
                                                     <input type="text" id="" class="form-control" placeholder="" name="PetCommName">
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
-                                                    <label for="">性別</label>
+                                                    <label for="" class="required">性別</label>
                                                     <select class="dataTable-selector form-select" name="PetCommSex">
                                                         <option value="male">男</option>
                                                         <option value="female">女</option>
@@ -62,14 +62,14 @@
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
-                                                    <label for="">證照編號</label>
+                                                    <label for="" class="required">證照編號</label>
                                                     <input type="text" id="" class="form-control" placeholder="" name="PetCommCertificateid" value="動溝證字第">
                                                 </div>
                                             </div>
                                             <div class="col">
-                                                    <label for="">取證日期</label>
-                                                    <input type="date" class="form-control flatpickr-always-open flatpickr-input " placeholder="Select date.." readonly="readonly" name="PetCommCertificateDate">
-                                                
+                                                <label for="" class="required">取證日期</label>
+                                                <input type="date" class="form-control flatpickr-always-open flatpickr-input " placeholder="Select date.." readonly="readonly" name="PetCommCertificateDate">
+
                                             </div>
                                             <div class="col">
                                                 <div class="form-group mt-2">
@@ -91,7 +91,7 @@
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
-                                                    <label for="">Eamil</label>
+                                                    <label for="" class="required">Eamil</label>
                                                     <input type="email" id="" class="form-control" placeholder="" name="PetCommEmail">
                                                 </div>
                                             </div>
@@ -100,7 +100,7 @@
                                                     <label for="">介紹</label>
                                                     <textarea class="form-control" placeholder="" name="PetCommIntroduction"></textarea>
                                                 </div>
-                                                
+
                                             </div>
 
 
@@ -111,7 +111,7 @@
                                                 <input class="form-control" type="file" id="formFile" name="PetCommImg">
                                             </div>
                                             <div class="ratio ratio-4x3 border">
-                                            <img id="imagePreview" class="img-preview" src="" alt="Image Preview" style="display: none;">
+                                                <img id="imagePreview" class="img-preview" src="" alt="Image Preview" style="display: none;">
                                             </div>
                                         </div>
 
@@ -140,15 +140,43 @@
             </footer>
         </div>
     </div>
+    <script>
+        // 表單驗證
+        function setPrefix() {
+            var input = document.getElementById('certIdInput');
+            var prefix = '動溝證字第';
+            if (input.value.startsWith(prefix)) {
+                input.value = input.value;
+            } else {
+                input.value = prefix + input.value;
+            }
+        }
+        // 圖檔匯入
+        const formFile = document.querySelector("#formFile")
+        formFile.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById('imagePreview');
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            } else {
+                document.getElementById('imagePreview').style.display = 'none';
+            }
+        });
+    </script>
+    </sc>
     <script src="../assets/static/js/components/dark.js"></script>
     <script src="../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 
     <script src="../assets/compiled/js/app.js"></script>
-    
-      
 
-<?php include("../js.php")?>
-<?php include("./js/js.php")?>  
+
+
+    <?php include("../js.php") ?>
 
 </body>
 
