@@ -1,49 +1,37 @@
-<!-- 控制每頁筆數 page 但好像有bug 修不好 先不用-->
+<!-- 上傳圖片預覽 -->
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const pageSize = document.querySelector("#pageselect");
-        const dataTbody = document.querySelector("#table1 tbody");
-
-        const data = <?= json_encode($rows) ?>; // 將 PHP 的資料轉換為 JS 陣列
-
-        function page(pageSize) {
-            dataTbody.innerHTML = ''; // 清空表格
-            const rowsToDisplay = data.slice(0, pageSize);
-            const rowsHTML = rowsToDisplay.map(function(row) {
-                return `
-                    <tr>
-                        <td>${row.product_id}</td>
-                        <td>
-                            <div class="ratio ratio-1x1">
-                                <img class="object-fit-cover" src="./moreson/${row.product_img}" alt="${row.product_name}">
-                            </div>
-                        </td>
-                        <td>${row.product_name}</td>
-                        <td>${row.product_brand}</td>
-                        <td></td>
-                        <td></td>
-                        <td>${new Intl.NumberFormat().format(row.product_origin_price)}</td>
-                        <td>${new Intl.NumberFormat().format(row.product_sale_price)}</td>
-                        <td>${row.product_stock}</td>
-                        <td>${row.product_create_date}</td>
-                        <td></td>
-                        <td>
-                            <a title="檢視商品" class="btn btn-primary" href="product.php?product_id=${row.product_id}">
-                                <i class="fa-solid fa-screwdriver-wrench"></i>
-                            </a>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-            dataTbody.innerHTML = rowsHTML; // 更新表格內容
+    const formFile = document.querySelector("#formFile")
+    formFile.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.getElementById('imagePreview');
+                img.src = e.target.result;
+                img.style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+        } else {
+            document.getElementById('imagePreview').style.display = 'none';
         }
-
-        pageSize.addEventListener('change', function(event) {
-            const selectedPageSize = parseInt(event.target.value, 10);
-            page(selectedPageSize);
-        });
-
-        // 初始筆數
-        page(parseInt(pageSize.value, 10));
     });
 </script>
+<!-- 刪除視窗 -->
+<script>
+    const delBtn = document.querySelector("#delBtn");
+    const delAlert = document.querySelector("#delAlert");
+    const delAlertCancel = document.querySelector("#delAlertCancel");
+
+    delBtn.addEventListener("click", function(event) {
+        event.preventDefault(); // 防止表單提交
+        delAlert.classList.remove("d-none");
+        delAlert.classList.add("d-flex");
+    });
+
+    delAlertCancel.addEventListener("click", function(event) {
+        event.preventDefault(); // 防止鏈接的默認行為
+        delAlert.classList.remove("d-flex");
+        delAlert.classList.add("d-none");
+    });
+</script>
+

@@ -7,7 +7,6 @@ if (!isset($_GET["product_id"])) {
     exit;
 }
 
-// 取得資料庫商品做mapping
 $product_id = $_GET["product_id"];
 $sql = "SELECT * FROM product
 WHERE product_id = '$product_id' AND product_valid=1
@@ -34,7 +33,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>商品操作</title>
+    <title>商品內容</title>
 
     <?php include("../headlink.php") ?>
 </head>
@@ -51,14 +50,14 @@ try {
                     <div class="page-title">
                         <div class="row">
                             <div class="col-12 col-md-6 order-md-1 order-last">
-                                <h3>商品操作</h3>
+                                <h3>商品內容</h3>
                                 <p class="text-subtitle text-muted"></p>
                             </div>
                             <div class="col-12 col-md-6 order-md-2 order-first">
                                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="index.html"><i class="fa-solid fa-house"></i></a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">商品操作</li>
+                                        <li class="breadcrumb-item active" aria-current="page">商品內容</li>
                                     </ol>
                                 </nav>
                             </div>
@@ -72,7 +71,9 @@ try {
                                     <div class="container">
                                         <div class="py-2">
                                             <a class="btn btn-primary" href="ProductList.php" title="回商品管理"><i class="fa-solid fa-left-long"></i></a>
+                                            <a class="btn btn-primary" href="EditProductList.php?product_id=<?= $product_id ?>" title="編輯商品"><i class="fa-solid fa-pen-to-square"></i></a>
                                         </div>
+                                        
                                         <div class="row ">
                                             <?php if ($productCount > 0) : ?>
                                                 <?php foreach ($rows as $row) : ?>
@@ -89,14 +90,10 @@ try {
                                                                 <th>商品編號</th>
                                                                 <td><?= $row["product_id"] ?></td>
                                                             </tr>
-                                                            <!-- <tr>
-                                                                <th>商品圖片</th>
-                                                                <td>
-                                                                    <div class="ratio ratio-1x1">
-                                                                        <img class="object-fit-cover" src="./ProductPicUpLoad/<?= $row["product_img"] ?>" alt="<?= $row["product_name"] ?>">
-                                                                    </div>
-                                                                </td>
-                                                            </tr> -->
+                                                            <tr>
+                                                                <th>商品狀態</th>
+                                                                <td><?= $row["product_status"] ?></td>
+                                                            </tr>
                                                             <tr>
                                                                 <th>商品名稱</th>
                                                                 <td><?= $row["product_name"] ?></td>
