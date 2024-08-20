@@ -246,7 +246,7 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                                                 <td><?= $user["MemberCreateDate"]; ?></td>
                                                                 <td>
                                                                     <a class="btn btn-primary" href="Member.php?MemberID=<?= $user["MemberID"] ?>"><i class="fa-solid fa-pen-to-square"></i></a>
-                                                                    <a class="btn btn-primary" href="doDeleteMember.php?MemberID=<?= $user["MemberID"] ?>"><i class="fa-solid fa-trash"></i></a>
+                                                                    <a class="btn btn-primary" href="doDeleteMember.php?MemberID=<?= $user["MemberID"] ?>"><i class="fa-solid fa-trash-can"></i></a>
                                                                 </td>
                                                             </tr>
                                                         <?php endforeach; ?>

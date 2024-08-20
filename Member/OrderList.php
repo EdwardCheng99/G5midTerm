@@ -229,8 +229,7 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                                                 <td><?= $order["OrderDeliveryStatus"] ?></td>
                                                                 <td><?= $order["OrderDate"]; ?></td>
                                                                 <td>
-                                                                    <a class="btn btn-primary" href="Order.php?MemberID=<?= $order["OrderID"] ?>"><i class="fa-solid fa-eye"></i></a>
-                                                                    <a class="btn btn-primary" href="doDeleteOrder.php?OrderID=<?= $order["OrderID"] ?>"><i class="fa-solid fa-trash"></i></a>
+                                                                    <a class="btn btn-primary" href="Order.php?OrderID=<?= $order["OrderID"] ?>"><i class="fa-solid fa-eye"></i></a>
                                                                 </td>
                                                             </tr>
                                                         <?php endforeach; ?>
