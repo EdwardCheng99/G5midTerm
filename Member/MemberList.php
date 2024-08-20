@@ -186,7 +186,9 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                         </div>
                                         <div class="col-12 d-flex justify-content-end">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">查詢</button>
-                                            <a class="btn btn-light-secondary me-1 mb-1" href="MemberList.php?p=1&sorter=1">清除</a>
+                                            <?php if(isset($_GET["searchLevel"]) || isset($_GET["serachName"])): ?>
+                                            <a class="btn btn-light-secondary me-1 mb-1" href="MemberList.php?p=1&sorter=1">清除查詢結果</a>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                 </form>

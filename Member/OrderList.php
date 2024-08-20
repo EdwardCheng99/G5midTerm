@@ -34,12 +34,8 @@ if (isset($_GET["sorter"])) {
     switch($sorter) {
         case 1: $orderClause = "ORDER BY OrderID ASC"; break;
         case -1: $orderClause = "ORDER BY OrderID DESC"; break;
-        case 2: $orderClause = "ORDER BY MemberName ASC"; break;
-        case -2: $orderClause = "ORDER BY MemberName DESC"; break;
-        case 3: $orderClause = "ORDER BY MemberLevel ASC"; break;
-        case -3: $orderClause = "ORDER BY MemberLevel DESC"; break;
-        case 4: $orderClause = "ORDER BY MemberCreateDate ASC"; break;
-        case -4: $orderClause = "ORDER BY MemberCreateDate DESC"; break;
+        case 4: $orderClause = "ORDER BY OrderDate ASC"; break;
+        case -4: $orderClause = "ORDER BY OrderDate DESC"; break;
     }
 }
 
@@ -176,7 +172,9 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                         </div>
                                         <div class="col-12 d-flex justify-content-end">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">查詢</button>
-                                            <a class="btn btn-light-secondary me-1 mb-1" href="OrderList.php?p=1&sorter=1">清除</a>
+                                            <?php if(isset($_GET["dateRange"]) || isset($_GET["serachName"])): ?>
+                                            <a class="btn btn-light-secondary me-1 mb-1" href="OrderList.php?p=1&sorter=1">清除查詢結果</a>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                 </form>
@@ -210,8 +208,7 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                                     <thead>
                                                         <tr>
                                                             <th><a href="#" class="sort-link" data-sorter="1">ID</th>
-                                                            <th><a href="#" class="sort-link" data-sorter="2">訂購人</a></th>
-                                                            <th><a href="#" class="sort-link" data-sorter="3">訂購商品</a></th>
+                                                            <th>訂購人</th>
                                                             <th>收貨人</th>
                                                             <th>收貨人電話</th>
                                                             <th>配送地址</th>
@@ -225,8 +222,6 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                                                 <td><?= $order["OrderID"]; ?></td>
                                                                 <!-- 透過join去抓member裡面的使用者名稱 -->
                                                                 <td><?= $order["Order_Name"]; ?></td>
-                                                                <!-- 透過join去抓訂單細節的訂單商品 -->
-                                                                <td></td>
                                                                 <td><?= $order["OrderReceiver"]; ?></td>
                                                                 <td><?= $order["OrderReceiverPhone"]; ?></td>
                                                                 <td><?= $order["OrderDeliveryAddress"]; ?></td>
