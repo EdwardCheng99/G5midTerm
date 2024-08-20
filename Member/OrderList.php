@@ -212,6 +212,7 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                                             <th>收貨人</th>
                                                             <th>收貨人電話</th>
                                                             <th>配送地址</th>
+                                                            <th>訂單狀態</th>
                                                             <th><a href="#" class="sort-link" data-sorter="4">訂單日期</a></th>
                                                             <th>編輯訂單</th>
                                                         </tr>
@@ -225,6 +226,7 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                                                 <td><?= $order["OrderReceiver"]; ?></td>
                                                                 <td><?= $order["OrderReceiverPhone"]; ?></td>
                                                                 <td><?= $order["OrderDeliveryAddress"]; ?></td>
+                                                                <td><?= $order["OrderDeliveryStatus"] ?></td>
                                                                 <td><?= $order["OrderDate"]; ?></td>
                                                                 <td>
                                                                     <a class="btn btn-primary" href="Order.php?MemberID=<?= $order["OrderID"] ?>"><i class="fa-solid fa-eye"></i></a>
