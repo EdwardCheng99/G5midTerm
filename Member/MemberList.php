@@ -92,7 +92,7 @@ try {
     $dbHost = NULL;
     exit;
 }
-
+// test
 // 計算查詢的行數
 $countSql = "SELECT COUNT(*) FROM Member WHERE MemberValid = 1";
 if (!empty($conditions)) {
