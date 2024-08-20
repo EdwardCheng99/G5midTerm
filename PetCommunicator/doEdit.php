@@ -32,7 +32,7 @@ $sql = "UPDATE petcommunicator SET
     PetCommEmail = :PetCommEmail,
     PetCommStatus = :PetCommStatus,
     PetCommIntroduction = :PetCommIntroduction,
-    valid = :valid
+    valid = :valid,
     PetCommUpdateDate = :PetCommUpdateDate
     WHERE PetCommID = :PetCommID";
 
