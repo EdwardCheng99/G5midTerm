@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>新增商品</title>
-
+    <link rel="stylesheet" href="./css.css">
     <?php include("../headlink.php") ?>
 </head>
 
@@ -13,6 +13,7 @@
     <script src="../assets/static/js/initTheme.js"></script>
     <div id="app">
         <?php include("../sidebar.php") ?>
+
         <div id="main" class='layout-navbar navbar-fixed'>
             <header>
             </header>
@@ -48,10 +49,15 @@
                                         </div>
                                     </div>
 
-                                    <div class="dataTable-container">
-                                        <form action="doCreateProduct.php" method="POST" enctype="multipart/form-data">
-                                            <table class="table table-striped dataTable-table" id="table1">
+
+
+                                    <form action="doCreateProduct.php" method="POST" enctype="multipart/form-data">
+
+                                        <div class="row">
+                                            <div class="col-6">
+
                                                 <div class="mb-2">
+
                                                     <label for="productName" class="form-label">商品名稱</label>
                                                     <input type="text" class="form-control" name="product_name" required>
                                                 </div>
@@ -60,12 +66,38 @@
                                                     <select class="form-select" name="product_brand" required>
                                                         <option value="">請選擇品牌</option>
                                                         <option value="木入森">木入森</option>
+                                                        <option value="水魔素">水魔素</option>
                                                         <option value="陪心">陪心</option>
+                                                        <option value="美喵">美喵</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="category" class="form-label">類別</label>
+                                                    <select class="form-select" name="product_category_name" required>
+                                                        <option value="">請選擇類別</option>
+                                                        <option value="犬貓通用">犬貓通用</option>
+                                                        <option value="犬寶保健">犬寶保健</option>
+                                                        <option value="貓皇保健">貓皇保健</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="sub" class="form-label">分類</label>
+                                                    <select class="form-select" name="product_sub_category" required>
+                                                        <option value="">請選擇分類</option>
+                                                        <option value="魚油粉">魚油粉</option>
+                                                        <option value="鈣保健">鈣保健</option>
+                                                        <option value="腸胃保健">腸胃保健</option>
+                                                        <option value="關節保健">關節保健</option>
+                                                        <option value="口腔保健">口腔保健</option>
+                                                        <option value="心臟保健">心臟保健</option>
+                                                        <option value="皮膚保健">皮膚保健</option>
+                                                        <option value="胰臟保健">胰臟保健</option>
+                                                        <option value="眼睛保健">眼睛保健</option>
                                                     </select>
                                                 </div>
                                                 <div class="mb-2">
                                                     <label for="originPrice" class="form-label">原價</label>
-                                                    <input type="text" class="form-control" name="product_origin_price">
+                                                    <input type="text" class="form-control" name="product_origin_price" required>
                                                 </div>
                                                 <div class="mb-2">
                                                     <label for="salePrice" class="form-label">售價</label>
@@ -75,46 +107,50 @@
                                                     <label for="stock" class="form-label">庫存</label>
                                                     <input type="text" class="form-control" name="product_stock" required>
                                                 </div>
+                                            </div>
+                                            <div class="col">
                                                 <div class="mb-2">
-                                                    <label for="productPicName">商品圖片名稱</label>
-                                                    <input type="text" class="form-control" name="product_img" required>
+                                                    <!-- <label for="productPicName" class="form-label" >商品圖片上傳</label>
+                                                    <input type="text" class="form-control" name="product_img" required> -->
                                                 </div>
                                                 <div class="mb-2">
-                                                    <label for="">選取檔案</label>
-                                                    <input type="file" name="pic" class="form-control" required>
+                                                    <label for="formFile" class="form-label">選取商品圖片</label>
+                                                    <input type="file" id="formFile" name="pic" class="form-control" required>
                                                 </div>
-                                                <button class="btn btn-primary" type="submit">送出</button>
-                                            </table>
-                                        </form>
-                                    </div>
-                                    <div class="dataTable-bottom">
-                                        <div class="dataTable-info"></div>
-                                        <nav class="dataTable-pagination">
-                                            <ul class="dataTable-pagination-list pagination pagination-primary">
-
-
-                                            </ul>
-                                        </nav>
-                                    </div>
+                                                <div class="col-lg-5">
+                                                    <div class="ratio ratio-4x3 border mb-2">
+                                                        <img id="imagePreview" class="img-preview" src="" alt="Image Preview">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg">
+                                                    <div class="form-group">
+                                                        <label for="" class="form-label">商品介紹</label>
+                                                        <textarea class="form-control" rows="8" maxlength="400" placeholder="請輸入商品介紹" name="product_info" required></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex justify-content-end">
+                                                    <button class="btn btn-primary" type="submit">送出</button>
+                                                    <button type="reset" class="btn btn-light-secondary ms-2">清除</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
+
                         </div>
-                    </section>
                 </div>
             </div>
-            <footer>
-                <div class="footer clearfix mb-0 text-muted">
-                    <div class="float-start">
-                    </div>
-                    <div class="float-end">
-                    </div>
-                </div>
-            </footer>
+            </section>
         </div>
     </div>
+    </div>
+
+
     <script src="../assets/static/js/components/dark.js"></script>
     <script src="../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-
+    <?php include("../js.php") ?>
+    <?php include("./js.php") ?>
     <script src="../assets/compiled/js/app.js"></script>
 
 

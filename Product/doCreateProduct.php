@@ -28,14 +28,37 @@ if ($productCount > 0) {
 }
 
 // 加入到資料庫
-$sql = "INSERT INTO product (product_name, product_brand, product_origin_price, product_sale_price, product_stock, product_img, product_create_date)
-        VALUES (:product_name, :product_brand, :product_origin_price, :product_sale_price, :product_stock, :product_img, :product_create_date)";
+$sql = "INSERT INTO product 
+(product_name, 
+product_brand, 
+product_category_name,
+product_sub_category,
+product_origin_price, 
+product_sale_price, 
+product_stock, 
+product_img, 
+product_info,
+product_create_date)
+        VALUES 
+(:product_name, 
+:product_brand, 
+:product_category_name,
+:product_sub_category,
+:product_origin_price, 
+:product_sale_price, 
+:product_stock, 
+:product_img, 
+:product_info,
+:product_create_date)";
 
 $product_brand = $_POST["product_brand"];
+$product_category_name = $_POST["product_category_name"];
+$product_sub_category = $_POST["product_sub_category"];
 $product_origin_price = $_POST["product_origin_price"];
 $product_sale_price = $_POST["product_sale_price"];
 $product_stock = $_POST["product_stock"];
 $product_img = ""; // 預設為空，待上傳後給值
+$product_info = $_POST["product_info"];
 $now = date('Y-m-d H:i:s');
 
 // 圖片上傳
@@ -60,10 +83,13 @@ if (isset($_FILES["pic"]) && $_FILES["pic"]["error"] == 0) {
 $stmt = $dbHost->prepare($sql);
 $stmt->bindParam(':product_name', $productName);
 $stmt->bindParam(':product_brand', $product_brand);
+$stmt->bindParam(':product_category_name', $product_category_name);
+$stmt->bindParam(':product_sub_category', $product_sub_category);
 $stmt->bindParam(':product_origin_price', $product_origin_price);
 $stmt->bindParam(':product_sale_price', $product_sale_price);
 $stmt->bindParam(':product_stock', $product_stock);
 $stmt->bindParam(':product_img', $product_img);
+$stmt->bindParam(':product_info', $product_info);
 $stmt->bindParam(':product_create_date', $now);
 
 if ($stmt->execute()) {

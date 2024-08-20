@@ -108,7 +108,7 @@
                                         <div class="col-6">
                                             <div class="mb-3">
                                                 <label for="formFile" class="form-label">相片</label>
-                                                <input class="form-control" type="file" id="formFile" accept="image/*" name="PetCommImg">
+                                                <input class="form-control" type="file" id="formFile" name="PetCommImg">
                                             </div>
                                             <div class="ratio ratio-4x3 border">
                                             <img id="imagePreview" class="img-preview" src="" alt="Image Preview" style="display: none;">
