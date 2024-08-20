@@ -79,7 +79,7 @@ try {
                                                 <th>相片</th>
                                                 <td>
                                                     <div class="ratio ratio-4x3 object-fit-cover">
-                                                        <img class="object-fit-contain" src="./images/<?= $row["PetCommImg"] ?>.webp" alt="">
+                                                        <img class="object-fit-contain" src="./images/<?= $row["PetCommImg"] ?>" alt="">
                                                     </div>
                                                 </td>
                                                 </tr>

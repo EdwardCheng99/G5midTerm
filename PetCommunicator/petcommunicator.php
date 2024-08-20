@@ -66,7 +66,7 @@ try {
                                         <table class="table table-striped dataTable-table" id="table1">
                                             <th>相片</th>
                                             <td><div class="ratio ratio-4x3 object-fit-cover">
-                                                <img class="object-fit-contain" src="./images/<?= $row["PetCommImg"] ?>.webp" alt="">
+                                                <img class="object-fit-contain" src="./images/<?= $row["PetCommImg"] ?>" alt="">
                                                 </div></td>
                                             </tr>
                                             <tr>

@@ -39,7 +39,7 @@
                             <div class="card-body">
                             <a href="petcommunicators.php?p=1" class="btn btn-primary mb-2">返回</a>
                             
-                                <form action="doCreat.php" method="post">
+                                <form action="doCreat.php" method="post" enctype="multipart/form-data">
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="col">
