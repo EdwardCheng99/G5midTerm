@@ -4,7 +4,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once("../pdoConnect.php");
 
-// 檢查
+
 // 檢查是否是透過繳交表單進入此頁
 if(!isset($_POST["name"])){
     echo "請循正常管道進入此頁";

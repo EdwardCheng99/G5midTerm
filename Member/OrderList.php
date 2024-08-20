@@ -300,10 +300,10 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
 
                 // 保留搜索條件
                 const searchName = document.querySelector('input[name="searchName"]').value;
-                const searchLevel = document.querySelector('input[name="searchLevel"]').value;
+                const dateRange = document.querySelector('input[name="dateRange"]').value;
                 
                 if(searchName) urlParams.set('searchName', searchName);
-                if(searchLevel) urlParams.set('searchLevel', searchLevel);
+                if(dateRange) urlParams.set('dateRange', dateRange);
                 window.location.search = urlParams.toString();
             });
         });
@@ -325,10 +325,10 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
 
         // 保留serachName 跟 searchLevel
         const searchName = document.querySelector('input[name="searchName"]').value;
-        const searchLevel = document.querySelector('input[name="searchLevel"]').value;
+        const dateRange = document.querySelector('input[name="dateRange"]').value;
 
         if(searchName) urlParams.set('searchName', searchName);
-        if(searchLevel) urlParams.set('searchLevel', searchLevel);
+        if(dateRange) urlParams.set('dateRange', dateRange);
         window.location.search = urlParams.toString();
     }
     </script>
