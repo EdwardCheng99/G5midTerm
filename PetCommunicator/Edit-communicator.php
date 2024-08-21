@@ -25,21 +25,56 @@ try {
     <title>寵物溝通師-<?= $row["PetCommName"] ?></title>
     <link rel="stylesheet" href="./css/css.css">
     <?php include("../headlink.php") ?>
+    <style>
+        #mainTable th:nth-child(1),
+        #mainTable td:nth-child(1) {
+            width: 20px;
+        }
+
+        #mainTable th:nth-child(2),
+        #mainTable td:nth-child(2) {
+            width: 200px;
+        }
+    </style>
 </head>
 
 <body>
     <script src="../assets/static/js/initTheme.js"></script>
-    <div id="delAlert" class="warningalert justify-content-center align-items-center d-none">
-        <form action="doSoftDel.php" method="post">
-            <input type="hidden" name="PetCommID" id="" value="<?= $id ?>">
-            <div class="warningcard card p-4">
-                <h1>確定要刪除?</h1>
-                <div class="text-end">
-                    <button type="sbumit" class="btn btn-danger">確定</button>
-                    <a href="Edit-communicator.php?id=<?= $id ?>" class="btn btn-secondary" id="delAlertCancel">取消</a>
+    
+        <div id="delAlert" class="warningalert justify-content-center align-items-center d-none">
+            <form action="doSoftDel.php" method="post">
+                <input type="hidden" name="PetCommID" id="" value="<?= $delrow["PetCommID"] ?>">
+                <div class="warningcard card p-4">
+                    <h1>確定要刪除?</h1>
+                    <table class="table warningtable">
+                        <thead>
+                            <tr>
+                                <th>編號</th>
+                                <th>名稱</th>
+                                <th>性別</th>
+                                <th>狀態</th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td><?= $row["PetCommID"] ?></td>
+                            <td><?= $row["PetCommName"] ?></td>
+                            <td><?= $row["PetCommSex"] === "Female" ? "女" : "男" ?></td>
+                            <td><?= $row["PetCommStatus"] ?></td>
+                        </tr>
+
+                    </table>
+                    <div class="form-group">
+                        <label for="" class="">說明</label>
+                        <textarea class="form-control mb-2" name="delreason" id="" rows="8"></textarea>
+                        <input type="hidden" name="PetCommID" value="<?= $row["PetCommID"] ?>">
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-danger">確定</button>
+                        <button id="delAlertCancel" type="button" class="btn btn-secondary">取消</button>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
     <div id="app">
         <?php include("../sidebar.php") ?>
@@ -79,56 +114,58 @@ try {
                                     <button type="text" class="btn btn-danger mb-2" id="delBtn">刪除</button>
                                 </div>
                                 <form action="doEdit.php" method="post">
-                                    <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                                    <div id="mainTable" class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
                                         <div class="dataTable-container">
-                                            <table class="table table-striped dataTable-table" id="table1">
-                                                <th>相片</th>
-                                                <td>
-                                                    <div class="ratio ratio-4x3 object-fit-cover">
-                                                        <img class="object-fit-contain" src="./images/<?= $row["PetCommImg"] ?>" alt="">
-                                                    </div>
-                                                </td>
-                                                </tr>
+                                            <table class="table table table-striped dataTable-table">
+
+
                                                 <tr>
+                                                    <th rowspan="10">相片</th>
+                                                    <td rowspan="10">
+                                                        <div class="ratio ratio-1x1 object-fit-cover">
+                                                            <img class="object-fit-contain" src="./images/<?= $row["PetCommImg"] ?>" alt="">
+                                                        </div>
+
+                                                    </td>
                                                     <th>編號</th>
                                                     <td><?= $row["PetCommID"] ?></td>
                                                     <input class="form-control" type="hidden" value="<?= $row["PetCommID"] ?>" name="PetCommID"></td>
+
                                                 </tr>
                                                 <tr>
                                                     <th>名稱</th>
                                                     <td><input class="form-control" type="text" value="<?= $row["PetCommName"] ?>" name="PetCommName"></td>
+
                                                 </tr>
                                                 <tr>
                                                     <th>性別</th>
-                                                    <td>
-                                                    <select name="PetCommSex" id="" class="form-control">
+                                                    <td><select name="PetCommSex" id="" class="form-control">
                                                             <option value="male" <?= $row["PetCommSex"] === "male" ? 'selected' : '' ?>>男</option>
-                                                            <option value="未刊登" <?= $row["PetCommSex"] === 'Female' ? 'selected' : '' ?>>女</option>
-                                                        </select>
-                                                        
-                                                    
-                                                    <input class="form-control" type="text" value="<?= $row["PetCommSex"] == "Female" ? "女" : "男" ?>" name="PetCommSex">
-                                                
-                                                
-                                                </td>
+                                                            <option value="Female" <?= $row["PetCommSex"] === 'Female' ? 'selected' : '' ?>>女</option>
+                                                        </select></td>
+
                                                 </tr>
                                                 <tr>
                                                     <th>證照</th>
                                                     <td><input class="form-control" type="text" value="<?= $row["PetCommCertificateid"] ?>" name="PetCommCertificateid">
                                                     </td>
+
                                                 </tr>
                                                 <tr>
                                                     <th>取證日期</th>
                                                     <td><input class="form-control" type="text" value="<?= $row["PetCommCertificateDate"] ?>" name="PetCommCertificateDate">
                                                     </td>
                                                 </tr>
-                                                <th>服務項目</th>
-                                                <td><input class="form-control" type="text" value="<?= $row["PetCommService"] ?>" name="PetCommService">
-                                                </td>
+                                                <tr>
+                                                    <th>服務項目</th>
+                                                    <td><input class="form-control" type="text" value="<?= $row["PetCommService"] ?>" name="PetCommService">
+                                                    </td>
+                                                </tr>
                                                 <tr>
                                                     <th>進行方式</th>
                                                     <td><input class="form-control" type="text" value="<?= $row["PetCommApproach"] ?>" name="PetCommApproach">
                                                     </td>
+
                                                 </tr>
                                                 <tr>
                                                     <th>預約費用</th>
@@ -152,8 +189,9 @@ try {
                                                 </tr>
                                                 <tr>
                                                     <th>介紹</th>
-                                                    <td><input class="form-control" type="text" value="<?= $row["PetCommIntroduction"] ?>" name="PetCommIntroduction">
-                                                    </td>
+                                                    <td colspan="3"><textarea rows="10" class="form-control" type="text" value="<?= $row["PetCommIntroduction"] ?>" name="PetCommIntroduction"><?= $row["PetCommIntroduction"] ?>
+                                                        
+                                                    </textarea></td>
 
                                                     <input class="form-control" type="hidden" value="<?= $row["valid"] ?>" name="valid">
                                                 </tr>
@@ -161,26 +199,29 @@ try {
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-end">
-                                        <button type="submit" class="btn btn-success mb-2">完成</button>
-                                    </div>
-                                </form>
+                                <button type="submit" class="btn btn-success mb-2">完成</button>
                             </div>
+                            </div>
+                            
+                            </form>
 
                         </div>
 
-                    </section>
                 </div>
 
+                </section>
             </div>
-            <footer>
-                <div class="footer clearfix mb-0 text-muted">
-                    <div class="float-start">
-                    </div>
-                    <div class="float-end">
-                    </div>
-                </div>
-            </footer>
+
         </div>
+        <footer>
+            <div class="footer clearfix mb-0 text-muted">
+                <div class="float-start">
+                </div>
+                <div class="float-end">
+                </div>
+            </div>
+        </footer>
+    </div>
     </div>
     <script>
         // Edit介面刪除按鈕
@@ -193,8 +234,10 @@ try {
             delAlert.classList.add("d-flex");
         })
         delAlertCancel.addEventListener("click", function() {
-            delAlert.classList.remove("d-none");
+            delAlert.classList.remove("d-flex");
+            delAlert.classList.add("d-none");
         });
+        // 刪除彈跳視窗按鈕
     </script>
     <script src="../assets/static/js/components/dark.js"></script>
     <script src="../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>

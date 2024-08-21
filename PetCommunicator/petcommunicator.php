@@ -16,6 +16,7 @@ try {
 ?>
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,6 +26,16 @@ try {
     <title>寵物溝通師-<?= $row["PetCommName"] ?></title>
 
     <?php include("../headlink.php") ?>
+    <style>
+        #mainTable th:nth-child(1),
+  #mainTable td:nth-child(1) {
+    width: 20px; 
+  }
+        #mainTable th:nth-child(2),
+  #mainTable td:nth-child(2) {
+    width: 200px; 
+  }
+    </style>
 </head>
 
 <body>
@@ -53,8 +64,8 @@ try {
                         </div>
                         <div class="row">
                             <div class="col d-flex justify-content-between">
-                                <p>前次更新：<?= $row["PetCommUpdateUserID"]?>/<?= $row["PetCommUpdateDate"]?></p>
-                                <p>創建時間：<?= $row["PetCommCreateUserID"]?>/<?= $row["PetCommCreateDate"]?></p>
+                                <p>前次更新：<?= $row["PetCommUpdateUserID"] ?>/<?= $row["PetCommUpdateDate"] ?></p>
+                                <p>創建時間：<?= $row["PetCommCreateUserID"] ?>/<?= $row["PetCommCreateDate"] ?></p>
                             </div>
                         </div>
                     </div>
@@ -62,60 +73,77 @@ try {
 
                         <div class="card">
                             <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                            <a href="petcommunicators.php?p=1" class="btn btn-primary mb-2">返回</a>
-                            <a href="Edit-communicator.php?id=<?= $row["PetCommID"] ?>" class="btn btn-primary mb-2">編輯</a>
-                            </div>
-                                <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-
+                                <div class="d-flex justify-content-between">
+                                    <a href="petcommunicators.php?p=1" class="btn btn-primary mb-2">返回</a>
+                                    <a href="Edit-communicator.php?id=<?= $row["PetCommID"] ?>" class="btn btn-primary mb-2">編輯</a>
+                                </div>
+                                <div id="mainTable" class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
                                     <div class="dataTable-container">
-                                        <table class="table table-striped dataTable-table" id="table1">
-                                            <th>相片</th>
-                                            <td><div class="ratio ratio-4x3 object-fit-cover">
-                                                <img class="object-fit-contain" src="./images/<?= $row["PetCommImg"] ?>" alt="">
-                                                </div></td>
-                                            </tr>
+                                        <table class="table table table-striped dataTable-table">
+
+
                                             <tr>
+                                                <th rowspan="10">相片</th>
+                                                <td rowspan="10">
+                                                    <div class="ratio ratio-1x1 object-fit-cover">
+                                                        <img class="object-fit-contain" src="./images/<?= $row["PetCommImg"] ?>" alt="">
+                                                    </div>
+
+                                                </td>
                                                 <th>編號</th>
                                                 <td><?= $row["PetCommID"] ?></td>
+
                                             </tr>
                                             <tr>
                                                 <th>名稱</th>
                                                 <td><?= $row["PetCommName"] ?></td>
+
                                             </tr>
                                             <tr>
                                                 <th>性別</th>
-                                                <td><?= $row["PetCommSex"] === "Female" ? "女" : "男" ?></td>
+                                                <td><?= $row["PetCommSex"] ?></td>
+
                                             </tr>
                                             <tr>
                                                 <th>證照</th>
                                                 <td><?= $row["PetCommCertificateid"] ?></td>
+
                                             </tr>
                                             <tr>
                                                 <th>取證日期</th>
                                                 <td><?= $row["PetCommCertificateDate"] ?></td>
+
                                             </tr>
-                                            <th>服務項目</th>
-                                            <td><?= $row["PetCommService"] ?></td>
+                                            <tr>
+                                                <th>服務項目</th>
+                                                <td><?= $row["PetCommService"] ?></td>
+
+                                            </tr>
                                             <tr>
                                                 <th>進行方式</th>
-                                                <td><?= nl2br($row["PetCommApproach"]) ?></td>
+                                                <td><?= $row["PetCommApproach"] ?></td>
+
                                             </tr>
                                             <tr>
                                                 <th>預約費用</th>
-                                                <td><?= nl2br($row["PetCommFee"]) ?></td>
+                                                <td><?= $row["PetCommFee"] ?></td>
+
                                             </tr>
                                             <tr>
                                                 <th>Eamil</th>
                                                 <td><?= $row["PetCommEmail"] ?></td>
+
                                             </tr>
                                             <tr>
                                                 <th>狀態</th>
                                                 <td><?= $row["PetCommStatus"] ?></td>
+
                                             </tr>
                                             <tr>
                                                 <th>介紹</th>
-                                                <td><?= nl2br($row["PetCommIntroduction"]) ?></td>
+
+                                                <td colspan="3"><?= $row["PetCommIntroduction"] ?></td>
+
                                             </tr>
                                         </table>
                                     </div>
