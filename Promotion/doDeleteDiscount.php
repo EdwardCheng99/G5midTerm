@@ -14,9 +14,8 @@ $stmt = $dbHost->prepare($sql);
 
 try {
     $stmt->execute([':id' => $id]);
-    header('Location: DiscountList.php');
     echo "刪除成功！ <br/>";
-    exit();  // 确保脚本在转址后停止执行
+    exit();
 } catch (PDOException $e) {
     echo "預處理陳述式執行失敗！ <br/>";
     echo "Error: " . $e->getMessage() . "<br/>";

@@ -114,7 +114,7 @@ try {
         ':UpdateDate' => ($now !== "" && isset($now)) ? $now : null,
         ':UpdateUserID' => isset($UpdateUserID) ? $UpdateUserID : 1
     ]);
-    echo json_encode(['status' => 1, 'message' => '新增成功', 'redirect' => 'DiscountList.php']);
+    echo json_encode(['status' => 1, 'message' => '新增成功']);
 } catch (PDOException $e) {
     echo json_encode(['status' => 0, 'message' => 'Database error: ' . $e->getMessage()]);
 }

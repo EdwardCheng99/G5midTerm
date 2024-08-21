@@ -89,7 +89,7 @@ try {
         ':CouponIsValid' => ($CouponIsValid !== "" && isset($CouponIsValid)) ? $CouponIsValid : null,
         ':UpdateDate' => ($now !== "" && isset($now)) ? $now : null,
     ]);
-    echo json_encode(['status' => 1, 'message' => '修改成功', 'redirect' => 'DiscountList.php']);
+    echo json_encode(['status' => 1, 'message' => '修改成功']);
 } catch (PDOException $e) {
     echo json_encode(['status' => 0, 'message' => 'Database error: ' . $e->getMessage()]);
 }
