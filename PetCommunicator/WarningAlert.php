@@ -1,7 +1,5 @@
 <?php
 require_once("../pdoConnect.php");
-$sqlAll = "SELECT * FROM Petcommunicator WHERE valid=1";
-$stmtAll = $dbHost->prepare($sqlAll);
 
 
 $page = 1;
@@ -20,28 +18,45 @@ if (isset($_GET['order'])) {
 if (isset($_GET["p"])) {
     $page = $_GET["p"];
     $start_item = ($page - 1) * $per_page;
-    $sql = "SELECT * FROM Petcommunicator WHERE valid=1 ORDER BY $orderID $orderValue LIMIT $start_item, $per_page ";
-    $stmt = $dbHost->prepare($sql);
-
-    $del = $_GET["del"];
-    $delsql = "SELECT * FROM Petcommunicator WHERE PetCommID=$del AND valid=1";
-    $delstmt = $dbHost->prepare($delsql);
+    if (isset($_GET["del"])) {
+        $sqlAll = "SELECT * FROM Petcommunicator WHERE valid=1";
+        $stmtAll = $dbHost->prepare($sqlAll);
+        $sql = "SELECT * FROM Petcommunicator WHERE valid=1 ORDER BY $orderID $orderValue LIMIT $start_item, $per_page ";
+        $stmt = $dbHost->prepare($sql);
+        $del = $_GET["del"];
+        $delsql = "SELECT * FROM Petcommunicator WHERE PetCommID=$del AND valid=1";
+        $delstmt = $dbHost->prepare($delsql);
+    }
+    if (isset($_GET["repost"])) {
+        $sqlAll = "SELECT * FROM Petcommunicator WHERE valid=0";
+        $stmtAll = $dbHost->prepare($sqlAll);
+        $sql = "SELECT * FROM Petcommunicator WHERE valid=0 ORDER BY $orderID $orderValue LIMIT $start_item, $per_page ";
+        $stmt = $dbHost->prepare($sql);
+        $repost = $_GET["repost"];
+        $repostsql = "SELECT * FROM Petcommunicator WHERE PetCommID=$repost AND valid=0";
+        $repoststmt = $dbHost->prepare($repostsql);
+    }
 } elseif (isset($_GET["search"])) {
     $search = $_GET["search"];
     $sql = "SELECT * FROM Petcommunicator WHERE PetCommName LIKE :search AND valid=1";
     $stmt = $dbHost->prepare($sql);
     $stmt->bindValue(':search', "%$search%", PDO::PARAM_STR);
+} elseif (isset($_GET["repost"])) {
+    echo $_GET["repost"];
 } else {
-    header("location: petcommunicators.php?p=1");
+    header("location: petcommunicators.php");
 }
 
 try {
     $stmtAll->execute();
     $CommCounts = $stmtAll->rowCount();
-
-    $delstmt->execute();
-    $delrow = $delstmt->fetch(PDO::FETCH_ASSOC);
-
+    if (isset($_GET["del"])) {
+        $delstmt->execute();
+        $delrow = $delstmt->fetch(PDO::FETCH_ASSOC);
+    } elseif (isset($_GET["repost"])) {
+        $repoststmt->execute();
+        $repostrow = $repoststmt->fetch(PDO::FETCH_ASSOC);
+    }
     $stmt->execute();
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $CommCount = $stmt->rowCount();
@@ -65,50 +80,94 @@ $c = ":"
     <?php include("../headlink.php") ?>
     <style>
         textarea {
-            resize: none; /* 禁用調整大小功能 */
+            resize: none;
+            /* 禁用調整大小功能 */
+        }
+
+        .table.warningtable th:nth-child(1),
+        td:nth-child(1) {
+            width: 10em;
         }
     </style>
 </head>
 
 <body>
     <script src="../assets/static/js/initTheme.js"></script>
-
-    <div class="warningalert justify-content-center align-items-center d-flex">
-        <form action="doSoftDel.php" method="post">
-            <input type="hidden" name="PetCommID" id="" value="<?= $delrow["PetCommID"] ?>">
-            <input type="hidden" name="valid" id="" value="0">
-            <input type="hidden" name="page" id="" value=<?= $page ?>>
-            <input type="hidden" name="order" id="" value="<?= $orderID . ':' . $orderValue ?>">
-            <div class="warningcard card p-4">
-                <h1>確定要刪除?</h1>
-                <table class="table">
-                    <thead>
+    <!-- 刪除彈跳視窗 -->
+    <?php if (isset($_GET["del"])) : ?>
+        <div class="warningalert justify-content-center align-items-center d-flex">
+            <form action="doSoftDel.php" method="post">
+                <input type="hidden" name="PetCommID" id="" value="<?= $delrow["PetCommID"] ?>">
+                <input type="hidden" name="valid" id="" value="0">
+                <input type="hidden" name="page" id="" value=<?= $page ?>>
+                <input type="hidden" name="order" id="" value="<?= $orderID . ':' . $orderValue ?>">
+                <div class="warningcard card p-4">
+                    <h1>確定要刪除?</h1>
+                    <table class="table warningtable">
+                        <thead>
+                            <tr>
+                                <th>編號</th>
+                                <th>名稱</th>
+                                <th>性別</th>
+                                <th>狀態</th>
+                            </tr>
+                        </thead>
                         <tr>
-                            <th>編號</th>
-                            <th>名稱</th>
-                            <th>性別</th>
-                            <th>狀態</th>
+                            <td><?= $delrow["PetCommID"] ?></td>
+                            <td><?= $delrow["PetCommName"] ?></td>
+                            <td><?= $delrow["PetCommSex"] === "Female" ? "女" : "男" ?></td>
+                            <td><?= $delrow["PetCommStatus"] ?></td>
                         </tr>
-                    </thead>
-                    <tr>
-                        <td><?= $delrow["PetCommID"] ?></td>
-                        <td><?= $delrow["PetCommName"] ?></td>
-                        <td><?= $delrow["PetCommSex"] === "Female" ? "女" : "男" ?></td>
-                        <td><?= $delrow["PetCommStatus"] ?></td>
-                    </tr>
 
-                </table>
-                <div class="form-group">
-                <label for="" class="">說明</label>
-                <textarea class="form-control mb-2" name="delreason" id="" rows="8"></textarea>
+                    </table>
+                    <div class="form-group">
+                        <label for="" class="">說明</label>
+                        <textarea class="form-control mb-2" name="delreason" id="" rows="8"></textarea>
+                    </div>
+                    <div class="text-end">
+                        <button type="sbumit" class="btn btn-danger">確定</button>
+                        <a href="petcommunicators.php?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&perPage=<?= $per_page ?>" class="btn btn-secondary">取消</a>
+                    </div>
                 </div>
-                <div class="text-end">
-                    <button type="sbumit" class="btn btn-danger">確定</button>
-                    <a href="petcommunicators.php?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&perPage=<?= $per_page ?>" class="btn btn-secondary">取消</a>
+            </form>
+        </div>
+    <?php endif ?>
+    <!-- 復原彈跳視窗 -->
+    <?php if (isset($_GET["repost"])) : ?>
+        <div class="warningalert justify-content-center align-items-center d-flex">
+            <form action="doRepost.php" method="post">
+                <input type="hidden" name="PetCommID" id="" value="<?= $repostrow["PetCommID"] ?>">
+                <input type="hidden" name="valid" id="" value="1">
+                <input type="hidden" name="page" id="" value=<?= $page ?>>
+                <input type="hidden" name="order" id="" value="<?= $orderID . ':' . $orderValue ?>">
+                <div class="warningcard card p-4">
+                    <h1>確定要復原?</h1>
+                    <table class="table warningtable">
+                        <thead>
+                            <tr>
+                                <th>編號</th>
+                                <th>名稱</th>
+                                <th>性別</th>
+                                <th>刪除原因</th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td><?= $repostrow["PetCommID"] ?></td>
+                            <td><?= $repostrow["PetCommName"] ?></td>
+                            <td><?= $repostrow["PetCommSex"] === "Female" ? "女" : "男" ?></td>
+                            <td><?= $repostrow["delreason"] ?></td>
+                        </tr>
+
+                    </table>
+                    <div class="text-end">
+                        <button type="sbumit" class="btn btn-success">確定</button>
+                        <a href="SoftDelList.php?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&perPage=<?= $per_page ?>" class="btn btn-secondary">取消</a>
+                    </div>
                 </div>
-            </div>
-        </form>
-    </div>
+            </form>
+        </div>
+    <?php endif ?>
+
     <div id="app">
         <?php include("../sidebar.php") ?>
         <div id="main" class='layout-navbar navbar-fixed'>
@@ -169,18 +228,19 @@ $c = ":"
                                     </div>
                                     <ul class="nav nav-tabs">
                                         <li class="nav-item">
-                                            <a class="nav-link active" aria-current="page" href="petcommunicators.php">全部名單</a>
+                                            <a class="nav-link <?= isset($_GET["del"]) ? "active" : "" ?>" aria-current="page" href="petcommunicators.php">全部名單</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="StatusList.php">未刊登待審核名單</a>
+                                            <a class="nav-link" href="StatusList.php">待審核名單</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="SoftDelList.php">刪除名單</a>
+                                            <a class="nav-link <?= isset($_GET["repost"]) ? "active" : "" ?>" href="SoftDelList.php">刪除名單</a>
                                         </li>
                                     </ul>
                                     <div class="dataTable-container">
-                                        <?php if ($CommCount > 0) : ?>
+                                        <?php if ($CommCount > 0 && isset($_GET["del"])) : ?>
                                             <table class="table table-striped dataTable-table" id="table1">
+
                                                 <thead>
                                                     <tr>
                                                         <th data-sortable="" class="desc" aria-sort="descending"><a href="?p=<?= $page ?>&order=PetCommID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">編號</a></th>
@@ -218,6 +278,46 @@ $c = ":"
                                                     <?php endforeach ?>
                                                 </tbody>
                                             </table>
+                                        <?php elseif ($CommCount > 0 && isset($_GET["repost"])) :  ?>
+                                            <table class="table table-striped dataTable-table" id="table1">
+                                                <thead>
+                                                    <tr>
+                                                        <th data-sortable="" class="desc" aria-sort="descending"><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">編號</a></th>
+                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommName:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">名稱</a></th>
+                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommSex:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">性別</a></th>
+                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateid:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刪除者</a></th>
+                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刪除時間</a></th>
+                                                        <th data-sortable=""><a href="" class="dataTable-sorter">原因</a></th>
+
+
+                                                        <th></th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php foreach ($rows as $user): ?>
+                                                        <tr>
+                                                            <td><?= $user["PetCommID"] ?></td>
+                                                            <td><?= $user["PetCommName"] ?></td>
+                                                            <td><?= $user["PetCommSex"] === "Female" ? "女" : "男" ?></td>
+                                                            <td><?= $user["PetCommUpdateUserID"] ?></td>
+                                                            <td><?= $user["PetCommUpdateDate"] ?></td>
+                                                            <td><?= $user["delreason"] ?></td>
+
+                                                            <td>
+                                                                <a href="petcommunicator.php?id=<?= $user["PetCommID"] ?>"><i class="fa-solid fa-circle-info"></i></a>
+                                                            </td>
+                                                            <td>
+
+
+                                                                <a href="WarningAlert.php?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&repost=<?= $user["PetCommID"] ?>&order=<?= $order ?>&perPage=<?= $per_page ?>"><i class="fa-solid fa-user-check"></i></a>
+                                                            </td>
+
+                                                        </tr>
+                                                    <?php endforeach ?>
+                                                </tbody>
+                                            </table>
+
                                         <?php else : ?>
                                             查無溝通師
                                         <?php endif; ?>
