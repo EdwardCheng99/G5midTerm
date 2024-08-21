@@ -2,32 +2,24 @@
 require_once("../pdoConnect.php");
 
 
-// 採用GET取得查詢條件的變數
-$searchName = isset($_GET["searchName"]) ? $_GET["searchName"] : '';
-$searchPromotionType = isset($_GET["searchPromotionType"]) ? $_GET["searchPromotionType"] : '';
-$searchStartTime = isset($_GET["searchStartTime"]) ? $_GET["searchStartTime"] : '';
-$searchEndTime = isset($_GET["searchEndTime"]) ? $_GET["searchEndTime"] : '';
-
-// 給予查詢條件的陣列與參數 陣列
+// 複合查詢條件
 $conditions = [];
 $params = [];
-
 // 檢查每項條件的值與對應的SQL並加到condition內
-if (isset($searchName) && $searchName !== "") {
+if (isset($_GET['searchName']) && $_GET['searchName'] !== "") {
     $conditions[] = "d.Name LIKE :searchName";
-    $params[':searchName'] = "%" . $searchName . "%";
-} else {
+    $params[':searchName'] = "%" . $_GET['searchName'] . "%";
 }
 
-if (isset($searchPromotionType)  && $searchPromotionType !== "") {
+if (isset($_GET['searchPromotionType'])  && $_GET['searchPromotionType'] !== "") {
     $conditions[] = "d.PromotionType = :searchPromotionType";
-    $params[':searchPromotionType'] = $searchPromotionType;
+    $params[':searchPromotionType'] = $_GET['searchPromotionType'];
 }
 
-if ((isset($searchStartTime) && $searchStartTime !== "") && (isset($searchEndTime) && $searchEndTime !== "")) {
+if ((isset($_GET['searchStartTime']) && $_GET['searchStartTime'] !== "") && (isset($_GET['searchEndTime']) && $_GET['searchEndTime'] !== "")) {
     $conditions[] = "(d.StartTime <= :searchStartTime AND d.EndTime >= :searchEndTime)";
-    $params[':searchStartTime'] = $searchStartTime;
-    $params[':searchEndTime'] = $searchEndTime;
+    $params[':searchStartTime'] = $_GET['searchStartTime'];
+    $params[':searchEndTime'] = $_GET['searchEndTime'];
 }
 
 $sqlAll = "SELECT 
@@ -53,8 +45,8 @@ if (!empty($conditions)) {
     $sqlAll .= " WHERE " . implode(" AND ", $conditions);
 }
 
-// echo $sqlAll;
-// print_r($params);
+echo $sqlAll;
+print_r($params);
 
 $stmt = $dbHost->prepare($sqlAll);
 
@@ -69,6 +61,12 @@ try {
     $db_host = NULL;
     exit;
 }
+
+$page = 1;
+$start_item = 0;
+$per_page = 4;
+$total_page = ceil($discountAllcount / $per_page);
+
 
 ?>
 
@@ -123,34 +121,33 @@ try {
                                         <div class="input-group mb-3">
                                             <span class="input-group-text" id="basic-addon1">促銷名稱</span>
                                             <input type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1" name="searchName"
-                                                value="<?= $searchName ?>">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-12">
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">促銷時間</span>
-                                            </div>
-                                            <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="Select date.." readonly="readonly" name="searchStartTime" value="<?= $searchStartTime ?>">
-                                            <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="Select date.." readonly="readonly" name="searchEndTime" value="<?= $searchEndTime ?>">
+                                                value="<?= isset($_GET['searchName']) ? htmlspecialchars($_GET['searchName'], ENT_QUOTES) : '' ?>">
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-md-4 col-12">
                                         <div class="input-group mb-3">
                                             <label class="input-group-text" for="inputGroupSelect01">促銷方式</label>
                                             <select class="form-select" id="inputGroupSelect01" name="searchPromotionType">
-                                                <option value="" <?= ($searchPromotionType == "") ? 'selected' : '' ?>></option>
-                                                <option value="1" <?= ($searchPromotionType == 1) ? 'selected' : '' ?>>自動套用</option>
-                                                <option value="2" <?= ($searchPromotionType == 2) ? 'selected' : '' ?>>優惠券</option>
+                                                <option value="" <?= !isset($_GET['searchPromotionType']) ? 'selected' : '' ?>></option>
+                                                <option value="1" <?= isset($_GET['searchPromotionType']) && $_GET['searchPromotionType'] == '1' ? 'selected' : '' ?>>自動套用</option>
+                                                <option value="2" <?= isset($_GET['searchPromotionType']) && $_GET['searchPromotionType'] == '2' ? 'selected' : '' ?>>優惠券</option>
                                             </select>
                                         </div>
                                     </div>
 
-
+                                    <div class="col-lg-6 col-md-6 col-12">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">促銷時間</span>
+                                            </div>
+                                            <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="Select date.." readonly="readonly" name="searchStartTime" value="<?= isset($_GET['searchStartTime']) ? htmlspecialchars($_GET['searchStartTime'], ENT_QUOTES) : '' ?>">
+                                            <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="Select date.." readonly="readonly" name="searchEndTime" value="<?= isset($_GET['searchEndTime']) ? htmlspecialchars($_GET['searchEndTime'], ENT_QUOTES) : '' ?>">
+                                        </div>
+                                    </div>
 
                                     <div class="col-auto">
                                         <button type="submit" class="btn btn-primary me-1 mb-1"><i class="fa-solid fa-magnifying-glass"></i></button>
-                                        <a class="btn btn-light-secondary me-1 mb-1" href="DiscountList.php" id="resetBtn"><i class="fa-solid fa-delete-left"></i></a>
+                                        <button type="reset" class="btn btn-light-secondary me-1 mb-1" id="resetBtn"><i class="fa-solid fa-delete-left"></i></button>
                                     </div>
                                 </div>
                             </form>
@@ -161,15 +158,13 @@ try {
                         <div class="card-body">
                             <div class="dataTable-top">
                                 <label>每頁</label>
-                                <div class="dataTable-dropdown">
-                                    <select class="dataTable-selector form-select" id="itemsPerPage" onchange="changeItemsPerPage()">
-                                        <option value="5" <?= ($per_page == 5) ? 'selected' : '' ?>>5</option>
-                                        <option value="10" <?= ($per_page == 10) ? 'selected' : '' ?>>10</option>
-                                        <option value="15" <?= ($per_page == 15) ? 'selected' : '' ?>>15</option>
-                                        <option value="20" <?= ($per_page == 20) ? 'selected' : '' ?>>20</option>
-                                        <option value="25" <?= ($per_page == 25) ? 'selected' : '' ?>>25</option>
-                                    </select><label>筆</label>
-                                </div>
+                                <div class="dataTable-dropdown"><select class="dataTable-selector form-select">
+                                        <option value="5">5</option>
+                                        <option value="10" selected="">10</option>
+                                        <option value="15">15</option>
+                                        <option value="20">20</option>
+                                        <option value="25">25</option>
+                                    </select><label>筆</label></div>
                                 <div class="col-auto">
                                     <a class="btn btn-primary me-1 mb-1" href="DiscountCreate.php"><i class="fa-solid fa-circle-plus"></i></a>
                                 </div>
@@ -244,7 +239,6 @@ try {
     <?php include("../js.php") ?>
 
     <script>
-        // 點擊刪除按鈕後，將資料傳至modal
         document.addEventListener('DOMContentLoaded', function() {
             const deleteButtons = document.querySelectorAll('.delete-btn');
             const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
@@ -257,7 +251,7 @@ try {
                     event.preventDefault();
                     currentDeleteId = this.getAttribute('data-id');
 
-                    // 輸入內容
+                    // 填充模态框内容
                     document.getElementById('modalDiscountID').textContent = this.getAttribute('data-id');
                     document.getElementById('modalDiscountName').textContent = this.getAttribute('data-name');
                     // document.getElementById('modalDiscountTime').textContent = `${this.getAttribute('data-starttime')} ~ ${this.getAttribute('data-endtime')}`;
@@ -265,6 +259,7 @@ try {
                     document.getElementById('modalDiscountEndTime').textContent = this.getAttribute('data-endtime');
 
 
+                    // 显示模态框
                     deleteModal.show();
                 });
             });
@@ -276,6 +271,21 @@ try {
             });
         });
     </script>
+
+    <script>
+        document.getElementById('resetBtn').addEventListener('click', function(event) {
+            event.preventDefault(); // 阻止表單提交的預設行為
+
+            // 清除URL中的GET參數
+            history.replaceState(null, null, window.location.pathname);
+            console.log("URL GET參數已清除");
+
+            // 重置表單到預設值
+            document.querySelector('form').reset();
+            console.log("表單已重置到預設值");
+        });
+    </script>
+
 </body>
 
 </html>
