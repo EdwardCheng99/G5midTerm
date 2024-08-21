@@ -3,9 +3,9 @@ require_once("../pdoConnect.php");
 
 $PetCommName = $_POST["PetCommName"];
 $PetCommSex = $_POST["PetCommSex"];
-$PetCommImg = $_POST["PetCommImg"];
 $PetCommCertificateid = $_POST["PetCommCertificateid"];
 $PetCommCertificateDate = $_POST["PetCommCertificateDate"];
+$PetCommEmail = $_POST["PetCommEmail"];
 $PetCommService = $_POST["PetCommService"];
 $PetCommApproach = $_POST["PetCommApproach"];
 $PetCommFee = $_POST["PetCommFee"];
@@ -22,12 +22,14 @@ if ($_FILES["PetCommImg"]["error"] == 0) {
     echo $newFilename;
 
     if (move_uploaded_file($_FILES["PetCommImg"]["tmp_name"], "./images/". $newFilename)) {
+        
         $sql = "INSERT INTO petcommunicator (
         PetCommName, 
         PetCommSex, 
         PetCommImg, 
         PetCommCertificateid, 
         PetCommCertificateDate, 
+        PetCommEmail,
         PetCommService, 
         PetCommApproach, 
         PetCommFee, 
@@ -41,6 +43,7 @@ if ($_FILES["PetCommImg"]["error"] == 0) {
         :PetCommImg, 
         :PetCommCertificateid, 
         :PetCommCertificateDate, 
+        :PetCommEmail,
         :PetCommService, 
         :PetCommApproach, 
         :PetCommFee, 
@@ -49,39 +52,41 @@ if ($_FILES["PetCommImg"]["error"] == 0) {
         :valid, 
         :PetCommCreateDate
         )";
-        try {
-            $stmt = $dbHost->prepare($sql);
-
-            $stmt->bindParam(':PetCommName', $PetCommName);
-            $stmt->bindParam(':PetCommSex', $PetCommSex);
-            $stmt->bindParam(':PetCommImg', $newFilename);
-            $stmt->bindParam(':PetCommCertificateid', $PetCommCertificateid);
-            $stmt->bindParam(':PetCommCertificateDate', $PetCommCertificateDate);
-            $stmt->bindParam(':PetCommService', $PetCommService);
-            $stmt->bindParam(':PetCommApproach', $PetCommApproach);
-            $stmt->bindParam(':PetCommFee', $PetCommFee);
-            $stmt->bindParam(':PetCommIntroduction', $PetCommIntroduction);
-            $stmt->bindParam(':PetCommStatus', $PetCommStatus);
-            $stmt->bindParam(':valid', $valid);
-            $stmt->bindParam(':PetCommCreateDate', $now);
-
-
-            $stmt->execute();
-            $last_id = $dbHost->lastInsertId();
-
-            header("location: Edit-communicator.php?id=$last_id");
-        } catch (PDOException $e) {
-            echo "預處理陳述式執行失敗！ <br/>";
-            echo "Error: " . $e->getMessage() . "<br/>";
-            $dbHost = NULL;
-            exit;
-        }
+        
     } else {
         echo "上傳圖檔失敗";
     }
 } else {
     echo "上傳錯誤代碼：" . $_FILES["PetCommImg"]["error"];
     echo "upload fail!";
+}
+try {
+    $stmt = $dbHost->prepare($sql);
+
+    $stmt->bindParam(':PetCommName', $PetCommName);
+    $stmt->bindParam(':PetCommSex', $PetCommSex);
+    $stmt->bindParam(':PetCommImg', $newFilename);
+    $stmt->bindParam(':PetCommCertificateid', $PetCommCertificateid);
+    $stmt->bindParam(':PetCommCertificateDate', $PetCommCertificateDate);
+    $stmt->bindParam(':PetCommEmail', $PetCommEmail);
+    $stmt->bindParam(':PetCommService', $PetCommService);
+    $stmt->bindParam(':PetCommApproach', $PetCommApproach);
+    $stmt->bindParam(':PetCommFee', $PetCommFee);
+    $stmt->bindParam(':PetCommIntroduction', $PetCommIntroduction);
+    $stmt->bindParam(':PetCommStatus', $PetCommStatus);
+    $stmt->bindParam(':valid', $valid);
+    $stmt->bindParam(':PetCommCreateDate', $now);
+
+
+    $stmt->execute();
+    $last_id = $dbHost->lastInsertId();
+
+    header("location: Edit-communicator.php?id=$last_id");
+} catch (PDOException $e) {
+    echo "預處理陳述式執行失敗！ <br/>";
+    echo "Error: " . $e->getMessage() . "<br/>";
+    $dbHost = NULL;
+    exit;
 }
 
 

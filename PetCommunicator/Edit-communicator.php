@@ -40,41 +40,41 @@ try {
 
 <body>
     <script src="../assets/static/js/initTheme.js"></script>
-    
-        <div id="delAlert" class="warningalert justify-content-center align-items-center d-none">
-            <form action="doSoftDel.php" method="post">
-                <input type="hidden" name="PetCommID" id="" value="<?= $delrow["PetCommID"] ?>">
-                <div class="warningcard card p-4">
-                    <h1>確定要刪除?</h1>
-                    <table class="table warningtable">
-                        <thead>
-                            <tr>
-                                <th>編號</th>
-                                <th>名稱</th>
-                                <th>性別</th>
-                                <th>狀態</th>
-                            </tr>
-                        </thead>
-                        <tr>
-                            <td><?= $row["PetCommID"] ?></td>
-                            <td><?= $row["PetCommName"] ?></td>
-                            <td><?= $row["PetCommSex"] === "Female" ? "女" : "男" ?></td>
-                            <td><?= $row["PetCommStatus"] ?></td>
-                        </tr>
 
-                    </table>
-                    <div class="form-group">
-                        <label for="" class="">說明</label>
-                        <textarea class="form-control mb-2" name="delreason" id="" rows="8"></textarea>
-                        <input type="hidden" name="PetCommID" value="<?= $row["PetCommID"] ?>">
-                    </div>
-                    <div class="text-end">
-                        <button type="submit" class="btn btn-danger">確定</button>
-                        <button id="delAlertCancel" type="button" class="btn btn-secondary">取消</button>
-                    </div>
+    <div id="delAlert" class="warningalert justify-content-center align-items-center d-none">
+        <form action="doSoftDel.php" method="post">
+            <input type="hidden" name="PetCommID" id="" value="<?= $delrow["PetCommID"] ?>">
+            <div class="warningcard card p-4">
+                <h1>確定要刪除?</h1>
+                <table class="table warningtable">
+                    <thead>
+                        <tr>
+                            <th>編號</th>
+                            <th>名稱</th>
+                            <th>性別</th>
+                            <th>狀態</th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td><?= $row["PetCommID"] ?></td>
+                        <td><?= $row["PetCommName"] ?></td>
+                        <td><?= $row["PetCommSex"] === "Female" ? "女" : "男" ?></td>
+                        <td><?= $row["PetCommStatus"] ?></td>
+                    </tr>
+
+                </table>
+                <div class="form-group">
+                    <label for="" class="">說明</label>
+                    <textarea class="form-control mb-2" name="delreason" id="" rows="8"></textarea>
+                    <input type="hidden" name="PetCommID" value="<?= $row["PetCommID"] ?>">
                 </div>
-            </form>
-        </div>
+                <div class="text-end">
+                    <button type="submit" class="btn btn-danger">確定</button>
+                    <button id="delAlertCancel" type="button" class="btn btn-secondary">取消</button>
+                </div>
+            </div>
+        </form>
+    </div>
     </div>
     <div id="app">
         <?php include("../sidebar.php") ?>
@@ -110,10 +110,10 @@ try {
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
-                                    <a href="petcommunicators.php?p=1" class="btn btn-primary mb-2">返回</a>
+                                    <a href="petcommunicator.php?id=<?= $row["PetCommID"] ?>" class="btn btn-primary mb-2">返回</a>
                                     <button type="text" class="btn btn-danger mb-2" id="delBtn">刪除</button>
                                 </div>
-                                <form action="doEdit.php" method="post">
+                                <form action="doEdit.php" method="post" enctype="multipart/form-data">
                                     <div id="mainTable" class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
                                         <div class="dataTable-container">
                                             <table class="table table table-striped dataTable-table">
@@ -122,10 +122,15 @@ try {
                                                 <tr>
                                                     <th rowspan="10">相片</th>
                                                     <td rowspan="10">
-                                                        <div class="ratio ratio-1x1 object-fit-cover">
-                                                            <img class="object-fit-contain" src="./images/<?= $row["PetCommImg"] ?>" alt="">
+                                                        <div class="form-group">
+                                                            <div class="mb-3">
+                                                                <input class="form-control" type="file" id="formFile" name="PetCommImg"
+                                                                value="<?= $row["PetCommImg"] ?>">
+                                                            </div>
+                                                            <div class="ratio ratio-1x1 ">
+                                                                <img id="imagePreview" class="img-preview object-fit-contain rounded-5" src="./images/<?= $row["PetCommImg"] ?>" alt="Image Preview">
+                                                            </div>
                                                         </div>
-
                                                     </td>
                                                     <th>編號</th>
                                                     <td><?= $row["PetCommID"] ?></td>
@@ -199,10 +204,10 @@ try {
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-end">
-                                <button type="submit" class="btn btn-success mb-2">完成</button>
+                                        <button type="submit" class="btn btn-success mb-2">完成</button>
+                                    </div>
                             </div>
-                            </div>
-                            
+
                             </form>
 
                         </div>
@@ -237,7 +242,22 @@ try {
             delAlert.classList.remove("d-flex");
             delAlert.classList.add("d-none");
         });
-        // 刪除彈跳視窗按鈕
+        // 圖檔匯入
+        const formFile = document.querySelector("#formFile")
+        formFile.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById('imagePreview');
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            } else {
+                document.getElementById('imagePreview').style.display = 'none';
+            }
+        });
     </script>
     <script src="../assets/static/js/components/dark.js"></script>
     <script src="../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>

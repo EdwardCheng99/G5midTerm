@@ -86,7 +86,7 @@ try {
                                                 <th rowspan="10">相片</th>
                                                 <td rowspan="10">
                                                     <div class="ratio ratio-1x1 object-fit-cover">
-                                                        <img class="object-fit-contain" src="./images/<?= $row["PetCommImg"] ?>" alt="">
+                                                        <img class="object-fit-contain rounded-5" src="./images/<?= $row["PetCommImg"] ?>" alt="">
                                                     </div>
 
                                                 </td>
@@ -101,7 +101,7 @@ try {
                                             </tr>
                                             <tr>
                                                 <th>性別</th>
-                                                <td><?= $row["PetCommSex"] ?></td>
+                                                <td><?= $row["PetCommSex"] == "Female" ? "女":"男"?></td>
 
                                             </tr>
                                             <tr>

@@ -7,6 +7,15 @@
     <title>溝通師新增</title>
     <link rel="stylesheet" href="../assets/style.css">
     <?php include("../headlink.php") ?>
+    <style>
+        .flatpickr-time {
+            display: none;
+        }
+        textarea {
+            resize: none;
+            /* 禁用調整大小功能 */
+        }
+    </style>
 </head>
 
 <body>
@@ -48,29 +57,19 @@
 
                                                 <div class="form-group">
                                                     <label for="" class="required">名稱</label>
-                                                    <input type="text" id="" class="form-control" placeholder="" name="PetCommName">
+                                                    <input type="text" id="" class="form-control" placeholder="" name="PetCommName" required>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label for="" class="required">性別</label>
-                                                    <select class="dataTable-selector form-select" name="PetCommSex">
+                                                    <select class="dataTable-selector form-select" name="PetCommSex" required>
                                                         <option value="male">男</option>
                                                         <option value="female">女</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <label for="" class="required">證照編號</label>
-                                                    <input type="text" id="" class="form-control" placeholder="" name="PetCommCertificateid" value="動溝證字第">
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <label for="" class="required">取證日期</label>
-                                                <input type="date" class="form-control flatpickr-always-open flatpickr-input " placeholder="Select date.." readonly="readonly" name="PetCommCertificateDate">
 
-                                            </div>
                                             <div class="col">
                                                 <div class="form-group mt-2">
                                                     <label for="">服務項目</label>
@@ -92,13 +91,13 @@
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label for="" class="required">Eamil</label>
-                                                    <input type="email" id="" class="form-control" placeholder="" name="PetCommEmail">
+                                                    <input type="email" id="" class="form-control" placeholder="" name="PetCommEmail" required>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label for="">介紹</label>
-                                                    <textarea class="form-control" placeholder="" name="PetCommIntroduction"></textarea>
+                                                    <textarea rows="16" class="form-control" placeholder="" name="PetCommIntroduction"></textarea>
                                                 </div>
 
                                             </div>
@@ -106,18 +105,29 @@
 
                                         </div>
                                         <div class="col-6">
-                                            <div class="mb-3">
-                                                <label for="formFile" class="form-label">相片</label>
-                                                <input class="form-control" type="file" id="formFile" name="PetCommImg">
+                                            <div class="form-group">
+                                                <label for="" class="required">證照編號</label>
+                                                <input type="text" id="" class="form-control" name="PetCommCertificateid" value="動溝證字第">
                                             </div>
-                                            <div class="ratio ratio-4x3 border">
-                                                <img id="imagePreview" class="img-preview" src="" alt="Image Preview" style="display: none;">
+                                            <div class="form-group"> 
+                                                <label for="" class="form-label required">取證日期</label>
+                                                <input type="text" class=" form-control  flatpickr-no-config active " placeholder="Select date..." readonly="readonly" name="PetCommCertificateDate">
+                                                
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="mb-3 mt-2">
+                                                    <label for="formFile" class="">相片</label>
+                                                    <input class="form-control" type="file" id="formFile" name="PetCommImg">
+                                                </div>
+                                                <div class="ratio ratio-4x3 border">
+                                                    <img id="imagePreview" class="img-preview object-fit-contain rounded-5" src="" alt="Image Preview" style="display: none;">
+                                                </div>
                                             </div>
                                         </div>
 
                                     </div>
                                     <div class="row">
-                                        <div class="col-12 d-flex justify-content-end">
+                                        <div class="col-12 d-flex justify-content-end m-2">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">送出</button>
                                             <button type="reset" class="btn btn-light-secondary me-1 mb-1">清除</button>
                                         </div>
@@ -140,7 +150,16 @@
             </footer>
         </div>
     </div>
+    <?php include("../js.php") ?>
+    <script src="../assets/static/js/components/dark.js"></script>
+    <script src="../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="../assets/compiled/js/app.js"></script>
     <script>
+        // 彈跳日期選擇窗
+        flatpickr('.flatpickr-no-config', {
+            enableTime: true,
+            dateFormat: "Y-m-d",
+        })
         // 表單驗證
         function setPrefix() {
             var input = document.getElementById('certIdInput');
@@ -168,15 +187,10 @@
             }
         });
     </script>
-    </sc>
-    <script src="../assets/static/js/components/dark.js"></script>
-    <script src="../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-
-    <script src="../assets/compiled/js/app.js"></script>
 
 
 
-    <?php include("../js.php") ?>
+    
 
 </body>
 
