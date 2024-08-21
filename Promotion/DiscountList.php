@@ -1,6 +1,10 @@
 <?php
 require_once("../pdoConnect.php");
 
+$per_page = isset($_GET["per_page"]) ? (int)$_GET["per_page"] : 10; // 每頁顯示的筆數，預設10筆
+$page = isset($_GET["page"]) ? (int)$_GET["page"] : 1; // 當前頁數，預設第1頁
+
+$offset = ($page - 1) * $per_page; // 計算查詢的起始點
 
 // 採用GET取得查詢條件的變數
 $searchName = isset($_GET["searchName"]) ? $_GET["searchName"] : '';
@@ -56,19 +60,44 @@ if (!empty($conditions)) {
 // echo $sqlAll;
 // print_r($params);
 
-$stmt = $dbHost->prepare($sqlAll);
-
+// 先執行查詢來獲取符合條件的總數
+$stmtAll = $dbHost->prepare($sqlAll);
 
 try {
-    $stmt->execute($params);
-    $discountAll = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    $discountAllcount = $stmt->rowCount();
+    $stmtAll->execute($params);
+    $discountAll = $stmtAll->fetchAll(PDO::FETCH_ASSOC);
+    $discountAllcount = $stmtAll->rowCount();
 } catch (PDOException $e) {
     echo "預處理陳述式執行失敗！ <br/>";
     echo "Error: " . $e->getMessage() . "<br/>";
     $db_host = NULL;
     exit;
 }
+
+// 在前面的 SQL 查詢基礎上增加 LIMIT 子句
+$sql = $sqlAll . " LIMIT :offset, :per_page";
+
+// 為分頁查詢做準備
+$stmtsql = $dbHost->prepare($sql);
+
+try {
+    // 先綁定參數，再執行語句
+    foreach ($params as $key => &$val) {
+        $stmtsql->bindParam($key, $val);
+    }
+    $stmtsql->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmtsql->bindValue(':per_page', $per_page, PDO::PARAM_INT);
+    $stmtsql->execute();
+    $discountcount = $stmtsql->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "預處理陳述式執行失敗！ <br/>";
+    echo "Error: " . $e->getMessage() . "<br/>";
+    $db_host = NULL;
+    exit;
+}
+
+
+
 
 ?>
 
@@ -115,9 +144,10 @@ try {
                     </div>
                 </div>
                 <section class="section">
-                    <div class="card">
-                        <div class="card-body">
-                            <form action="/G5midTerm/Promotion/DiscountList.php" method="GET">
+                    <form action="/G5midTerm/Promotion/DiscountList.php" method="GET">
+                        <div class="card">
+                            <div class="card-body">
+
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 col-12">
                                         <div class="input-group mb-3">
@@ -153,88 +183,87 @@ try {
                                         <a class="btn btn-light-secondary me-1 mb-1" href="DiscountList.php" id="resetBtn"><i class="fa-solid fa-delete-left"></i></a>
                                     </div>
                                 </div>
-                            </form>
-                        </div>
 
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="dataTable-top">
-                                <label>每頁</label>
-                                <div class="dataTable-dropdown">
-                                    <select class="dataTable-selector form-select" id="itemsPerPage" onchange="changeItemsPerPage()">
-                                        <option value="5" <?= ($per_page == 5) ? 'selected' : '' ?>>5</option>
-                                        <option value="10" <?= ($per_page == 10) ? 'selected' : '' ?>>10</option>
-                                        <option value="15" <?= ($per_page == 15) ? 'selected' : '' ?>>15</option>
-                                        <option value="20" <?= ($per_page == 20) ? 'selected' : '' ?>>20</option>
-                                        <option value="25" <?= ($per_page == 25) ? 'selected' : '' ?>>25</option>
-                                    </select><label>筆</label>
-                                </div>
-                                <div class="col-auto">
-                                    <a class="btn btn-primary me-1 mb-1" href="DiscountCreate.php"><i class="fa-solid fa-circle-plus"></i></a>
-                                </div>
                             </div>
-                            <div class="row">
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-hover mb-0">
-                                        <thead>
-                                            <tr class="text-nowrap">
-                                                <th>ID</th>
-                                                <th>促銷名稱</th>
-                                                <th>促銷時間</th>
-                                                <th>滿足條件</th>
-                                                <th>折扣數</th>
-                                                <th>會員等級</th>
-                                                <th>促銷方式</th>
-                                                <th></th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php foreach ($discountAll as $discount): ?>
-                                                <tr>
-                                                    <td><?= $discount["ID"] ?></td>
-                                                    <td><?= $discount["Name"] ?></td>
-                                                    <td><?= $discount["StartTime"] ?> ~<br> <?= $discount["EndTime"] ?></td>
-                                                    <td><?php echo $discount["PromotionCondition"];
-                                                        if ($discount["ConditionMinValue"] != 0) {
-                                                            echo number_format($discount["ConditionMinValue"]);
-                                                        } ?></td>
-                                                    <td><?php echo number_format($discount["Value"]) . $discount["CalculateType"] ?></td>
-                                                    <td><?= $discount["MemberLevel"] ?></td>
-                                                    <td><?= $discount["PromotionType"] ?></td>
-                                                    <td>
-                                                        <a class="btn btn-primary" href="DiscountEdit.php?id=<?= $discount["ID"] ?>"> <i class="fa-solid fa-pen-to-square"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="#" class="btn btn-primary delete-btn"
-                                                            data-id="<?= $discount["ID"] ?>"
-                                                            data-name="<?= $discount["Name"] ?>"
-                                                            data-starttime="<?= $discount["StartTime"] ?>"
-                                                            data-endtime="<?= $discount["EndTime"] ?>"><i class="fa-solid fa-trash-can"></i></a>
-                                                    </td>
+
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="dataTable-top">
+                                    <label>每頁</label>
+                                    <div class="dataTable-dropdown">
+                                        <select class="dataTable-selector form-select" id="itemsPerPage" name="per_page" onchange="this.form.submit()">
+                                            <option value="5" <?= ($per_page == 5) ? 'selected' : '' ?>>5</option>
+                                            <option value="10" <?= ($per_page == 10) ? 'selected' : '' ?>>10</option>
+                                            <option value="15" <?= ($per_page == 15) ? 'selected' : '' ?>>15</option>
+                                            <option value="20" <?= ($per_page == 20) ? 'selected' : '' ?>>20</option>
+                                            <option value="25" <?= ($per_page == 25) ? 'selected' : '' ?>>25</option>
+                                        </select><label>筆</label>
+                                    </div>
+                                    <div class="col-auto">
+                                        <a class="btn btn-primary me-1 mb-1" href="DiscountCreate.php"><i class="fa-solid fa-circle-plus"></i></a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-hover mb-0">
+                                            <thead>
+                                                <tr class="text-nowrap">
+                                                    <th>ID</th>
+                                                    <th>促銷名稱</th>
+                                                    <th>促銷時間</th>
+                                                    <th>滿足條件</th>
+                                                    <th>折扣數</th>
+                                                    <th>會員等級</th>
+                                                    <th>促銷方式</th>
+                                                    <th></th>
+                                                    <th></th>
                                                 </tr>
-                                            <?php endforeach; ?>
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($discountcount as $discount): ?>
+                                                    <tr>
+                                                        <td><?= $discount["ID"] ?></td>
+                                                        <td><?= $discount["Name"] ?></td>
+                                                        <td><?= $discount["StartTime"] ?> ~<br> <?= $discount["EndTime"] ?></td>
+                                                        <td><?php echo $discount["PromotionCondition"];
+                                                            if ($discount["ConditionMinValue"] != 0) {
+                                                                echo number_format($discount["ConditionMinValue"]);
+                                                            } ?></td>
+                                                        <td><?php echo number_format($discount["Value"]) . $discount["CalculateType"] ?></td>
+                                                        <td><?= $discount["MemberLevel"] ?></td>
+                                                        <td><?= $discount["PromotionType"] ?></td>
+                                                        <td>
+                                                            <a class="btn btn-primary" href="DiscountEdit.php?id=<?= $discount["ID"] ?>"> <i class="fa-solid fa-pen-to-square"></i></a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="#" class="btn btn-primary delete-btn"
+                                                                data-id="<?= $discount["ID"] ?>"
+                                                                data-name="<?= $discount["Name"] ?>"
+                                                                data-starttime="<?= $discount["StartTime"] ?>"
+                                                                data-endtime="<?= $discount["EndTime"] ?>"><i class="fa-solid fa-trash-can"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="dataTable-bottom">
+                                    <div class="dataTable-info">Showing 1 to 10 of 26 entries</div>
+                                    <nav class="dataTable-pagination">
+                                        <ul class="dataTable-pagination-list pagination pagination-primary">
+                                            <li class="active page-item"><a href="#" data-page="1" class="page-link">1</a></li>
+                                            <li class="page-item"><a href="#" data-page="2" class="page-link">2</a></li>
+                                            <li class="page-item"><a href="#" data-page="3" class="page-link">3</a></li>
+                                            <li class="pager page-item"><a href="#" data-page="2" class="page-link">›</a></li>
+                                        </ul>
+                                    </nav>
                                 </div>
                             </div>
-                            <div class="row">
-                                <ul class="pagination pagination-primary justify-content-center mt-3">
-                                    <li class="page-item"><a class="page-link" href="#">
-                                            <span aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
-                                        </a></li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">
-                                            <span aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
-                                        </a></li>
-                                </ul>
-                            </div>
-                        </div>
 
-                    </div>
+                        </div>
+                    </form>
             </div>
             </section>
         </div>
