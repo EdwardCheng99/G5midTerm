@@ -179,7 +179,7 @@ if(isset($_GET["searchName"]) || isset($_GET["dateRange"]) || isset($_GET["searc
                                             <div class="form-group">
                                                 <!-- $memberName -->
                                                 <label for="">訂購人名稱</label>
-                                                <input type="search" id="" class="form-control" placeholder="" name="searchName">
+                                                <input type="search" id="" class="form-control" placeholder="" value="<?= $searchName ?>" name="searchName">
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-4 col-12">
@@ -236,7 +236,6 @@ if(isset($_GET["searchName"]) || isset($_GET["dateRange"]) || isset($_GET["searc
                                     </div>
                                     <!-- 會員列表 -->
                                     <div class="dataTable-container">
-                                        <h1>Order List</h1>
                                         <?php if ($userCount > 0): 
                                             $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             ?>
@@ -316,43 +315,41 @@ if(isset($_GET["searchName"]) || isset($_GET["dateRange"]) || isset($_GET["searc
     
     <!-- JavaScript -->
     <script>
-    document.addEventListener("DOMContentLoaded", function(){
-        const sortLinks = document.querySelectorAll(".sort-link");
+    const sortLinks = document.querySelectorAll(".sort-link");
 
-        sortLinks.forEach(link => {
-            link.addEventListener("click", function(event){
-                event.preventDefault(); // 避免跳轉
+    sortLinks.forEach(link => {
+        link.addEventListener("click", function(event){
+            event.preventDefault(); // 避免跳轉
 
-                // 將data-sorter的值抓出來
-                const sorter = parseInt(this.getAttribute("data-sorter"));
-                const urlParams = new URLSearchParams(window.location.search);
+            // 將data-sorter的值抓出來
+            const sorter = parseInt(this.getAttribute("data-sorter"));
+            const urlParams = new URLSearchParams(window.location.search);
 
-                // 判斷當前排序是否為正向，如果是正向的話則改為逆向，反之亦然
-                const currentSorter = parseInt(urlParams.get('sorter'));
-                const newSorter = (currentSorter === sorter) ? -sorter : sorter;
+            // 判斷當前排序是否為正向，如果是正向的話則改為逆向，反之亦然
+            const currentSorter = parseInt(urlParams.get('sorter'));
+            const newSorter = (currentSorter === sorter) ? -sorter : sorter;
 
-                urlParams.set('sorter', newSorter);
+            urlParams.set('sorter', newSorter);
 
-                // 保留搜索條件
-                const searchName = document.querySelector('input[name="searchName"]').value;
-                const dateRange = document.querySelector('input[name="dateRange"]').value;
-                const searchStatus = document.querySelector('select[name="searchStatus"]').value;
-                const paymentMethod = document.querySelector('select[name="paymentMethod"]').value;
-                
-                if(searchName) urlParams.set('searchName', searchName);
-                if(dateRange) urlParams.set('dateRange', dateRange);
-                if(searchStatus) urlParams.set('searchStatus', searchStatus);
-                if(paymentMethod) urlParams.set('paymentMethod', paymentMethod);
-                window.location.search = urlParams.toString();
-            });
+            // 保留搜索條件
+            const searchName = document.querySelector('input[name="searchName"]').value;
+            const dateRange = document.querySelector('input[name="dateRange"]').value;
+            const searchStatus = document.querySelector('select[name="searchStatus"]').value;
+            const paymentMethod = document.querySelector('select[name="paymentMethod"]').value;
+            
+            if(searchName) urlParams.set('searchName', searchName);
+            if(dateRange) urlParams.set('dateRange', dateRange);
+            if(searchStatus) urlParams.set('searchStatus', searchStatus);
+            if(paymentMethod) urlParams.set('paymentMethod', paymentMethod);
+            window.location.search = urlParams.toString();
         });
+    });
 
-        // 選擇頁面功能
-        const selectElement = document.querySelector("#perPageSelect");
-        selectElement.addEventListener("change", function(){
-            const perPage = this.value;
-            changePage(1, perPage);
-        });
+    // 選擇頁面功能
+    const selectElement = document.querySelector("#perPageSelect");
+    selectElement.addEventListener("change", function(){
+        const perPage = this.value;
+        changePage(1, perPage);
     });
 
     function changePage(page, perPage = null){

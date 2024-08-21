@@ -61,12 +61,17 @@ if (!empty($searchName)) {
     $params[':searchName'] = "%$searchName%";
 }
 if (!empty($searchLevel)) {
-    $conditions[] = "MemberLevel LIKE :searchLevel";
-    $params[':searchLevel'] = "%$searchLevel%";
+    switch($searchLevel) {
+        case "銅": $searchLevel = 1; break;
+        case "銀": $searchLevel = 2; break;
+        case "金": $searchLevel = 3; break;
+    }
+    $conditions[] = "MemberLevel = :searchLevel";
+    $params[':searchLevel'] = $searchLevel;
 }
 
 // 如果有查詢條件，將它們添加到查詢語句中
-if (!empty($conditions)) {
+if (!empty($conditions)) { 
     $sql .= " AND " . implode(" AND ", $conditions);
 }
 
@@ -161,9 +166,10 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                                 <!-- $memberLevel -->
                                                 <label for="">會員等級</label>
                                                 <select class="form-select" id="basicSelect" name="searchLevel">
-                                                    <option>銅</option>
-                                                    <option>銀</option>
-                                                    <option>金</option>
+                                                    <option value="">全部等級</option> <!-- 新增的選項 -->
+                                                    <option value="銅" <?= $searchLevel == 1 ? 'selected' : '' ?>>銅</option>
+                                                    <option value="銀" <?= $searchLevel == 2 ? 'selected' : '' ?>>銀</option>
+                                                    <option value="金" <?= $searchLevel == 3 ? 'selected' : '' ?>>金</option>
                                                 </select>
                                                 <!-- <input type="search" id="" class="form-control" placeholder="" 
                                                 value="<?php if(isset($_GET["searchLevel"]))

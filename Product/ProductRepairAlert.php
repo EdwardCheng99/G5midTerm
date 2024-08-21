@@ -290,6 +290,7 @@ try {
                                                         <td><?= $row["product_update_date"] ?></td>
                                                         <td>
                                                         <a class="ms-4" title="復原商品" href="ProductRepairAlert?product_id=<?= $row['product_id'] ?>&per_page=<?= $per_page ?>&brand=<?= $brand ?>&category=<?= $category ?>&sub=<?= $sub ?>&order=<?= $orderID ?>:<?= $orderValue ?>&page=<?= $startPage ?>"><i class="fa-solid fa-turn-up"></i></a>
+                                                        <a title="刪除商品" href="ProductWarringAlert.php?product_id=<?= $row['product_id'] ?>&per_page=<?= $per_page ?>&brand=<?= $brand ?>&category=<?= $category ?>&sub=<?= $sub ?>&order=<?= $orderID ?>:<?= $orderValue ?>&page=<?= $startPage ?>"><i class="fa-solid fa-trash-can m-1"></i></a>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; ?>

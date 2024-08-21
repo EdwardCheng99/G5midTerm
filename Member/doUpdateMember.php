@@ -12,11 +12,7 @@ $admin = $_POST["admin"];
 $PCid = $_POST["pcid"];
 $password = $_POST["password"];
 $nickname = $_POST["nickname"];
-switch($_POST["level"]){
-    case "銅":$level = 1;break; 
-    case "銀":$level = 2;break;
-    case "金":$level = 3;break;
-};
+$level = $_POST["level"];
 $tel = $_POST["tel"];
 $address = $_POST["address"];
 $birth = $_POST["birth"];
@@ -72,7 +68,7 @@ try{
         ':id' => $id
     ]);
     echo "<script>
-        alert('會員資料刪除成功。');
+        alert('會員資料修改成功。');
         window.location.href = 'MemberList.php';
         </script>";
     exit;

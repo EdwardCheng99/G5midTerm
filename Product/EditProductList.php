@@ -31,10 +31,16 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css.css">
+    <link rel="stylesheet" href="./alert.css">
+
     <title>商品內容</title>
 
     <?php include("../headlink.php") ?>
+    <style>
+        .product-th-width {
+            width: 113px;
+        }
+    </style>
 </head>
 
 <body>
@@ -42,14 +48,14 @@ try {
     <!-- 刪除 -->
     <div id="delAlert" class="warningalert justify-content-center align-items-center d-none">
         <form action="doSoftProductList.php" method="post">
-            <input type="hidden" name="product_id" id="" value="<?=$product_id?>">
-        <div class="warningcard card p-4">
-            <h1>確定要刪除?</h1>
-            <div class="text-end">
-                <button type="submit" class="btn btn-danger">確定</button>
-                <a href="EditProductList.php?product_id=<?=$product_id?>" class="btn btn-secondary" id="delAlertCancel">取消</a>
+            <input type="hidden" name="product_id" id="" value="<?= $product_id ?>">
+            <div class="warningcard card p-4">
+                <h1>確定要刪除?</h1>
+                <div class="text-end">
+                    <button type="submit" class="btn btn-danger">確定</button>
+                    <a href="EditProductList.php?product_id=<?= $product_id ?>" class="btn btn-secondary" id="delAlertCancel">取消</a>
+                </div>
             </div>
-        </div>
         </form>
     </div>
     <!--  -->
@@ -102,12 +108,12 @@ try {
                                                             <table class="table table-bordered">
 
                                                                 <tr>
-                                                                    <th>商品編號</th>
+                                                                    <th class="product-th-width">商品編號</th>
                                                                     <td><?= $row["product_id"] ?></td>
                                                                     <input type="hidden" name="product_id" value="<?= $row["product_id"] ?>">
                                                                 </tr>
                                                                 <tr>
-                                                                    <th>商品狀態</th>
+                                                                    <th class="product-th-width">商品狀態</th>
                                                                     <td>
                                                                         <select class="form-control" name="product_status" id="">
                                                                             <option value="已上架" <?= $row["product_status"] === '已上架' ? 'selected' : '' ?>>已上架</option>
@@ -116,11 +122,11 @@ try {
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <th>商品名稱</th>
+                                                                    <th class="product-th-width">商品名稱</th>
                                                                     <td><input class="form-control" type="text" value="<?= $row["product_name"] ?>" name="product_name"></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <th>品牌</th>
+                                                                    <th class="product-th-width">品牌</th>
                                                                     <td>
                                                                         <select class="form-control" name="product_brand" id="">
                                                                             <option value="木入森" <?= $row["product_brand"] === '木入森' ? 'selected' : '' ?>>木入森</option>
@@ -131,7 +137,7 @@ try {
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <th>類別</th>
+                                                                    <th class="product-th-width">類別</th>
                                                                     <td>
                                                                         <select class="form-control" name="product_category_name" id="">
                                                                             <option value="犬貓通用" <?= $row["product_category_name"] === '犬貓通用' ? 'selected' : '' ?>>犬貓通用</option>
@@ -141,7 +147,7 @@ try {
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <th>分類</th>
+                                                                    <th class="product-th-width">分類</th>
                                                                     <td>
                                                                         <select class="form-control" name="product_sub_category" id="">
                                                                             <option value="魚油粉" <?= $row["product_sub_category"] === '魚油粉' ? 'selected' : '' ?>>魚油粉</option>
@@ -157,23 +163,23 @@ try {
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <th>原價</th>
+                                                                    <th class="product-th-width">原價</th>
                                                                     <td><input class="form-control" type="text" value="<?= $row["product_origin_price"] ?>" name="product_origin_price"></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <th>售價</th>
+                                                                    <th class="product-th-width">售價</th>
                                                                     <td><input class="form-control" type="text" value="<?= $row["product_sale_price"] ?>" name="product_sale_price"></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <th>庫存</th>
+                                                                    <th class="product-th-width">庫存</th>
                                                                     <td><input class="form-control" type="text" value="<?= $row["product_stock"] ?>" name="product_stock"></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <th>建立時間</th>
+                                                                    <th class="product-th-width">建立時間</th>
                                                                     <td><?= $row["product_create_date"] ?></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <th>上次更新時間</th>
+                                                                    <th class="product-th-width">上次更新時間</th>
                                                                     <td><?= $row["product_update_date"] ?></td>
                                                                 </tr>
                                                             <?php endforeach; ?>

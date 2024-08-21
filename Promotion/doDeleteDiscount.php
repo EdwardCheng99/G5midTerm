@@ -9,17 +9,17 @@ if (!isset($_GET["id"])) {
 
 $id = $_GET["id"];
 
-$sql = "UPDATE  SET valid =0  WHERE id=$id";
+$sql = "DELETE FROM Discount WHERE ID = :id";
+$stmt = $dbHost->prepare($sql);
 
-if ($conn->query($sql) === true) {
-    echo "刪除成功";
-} else {
-    echo "刪除資料錯誤:" . $conn->error;
+try {
+    $stmt->execute([':id' => $id]);
+    header('Location: DiscountList.php');
+    echo "刪除成功！ <br/>";
+    exit();  // 确保脚本在转址后停止执行
+} catch (PDOException $e) {
+    echo "預處理陳述式執行失敗！ <br/>";
+    echo "Error: " . $e->getMessage() . "<br/>";
+    $db_host = NULL;
+    exit;
 }
-
-$conn->close();
-
-header("location:users.php");
-
-//UPDATE 通常涉及用戶交互、數據驗證，因此表單是一個常見的介面來處理這類操作。
-//DELETE 操作相對簡單，不需要用戶輸入額外數據，通常可以直接通過連結或按鈕觸發，並且在一些情況下可以通過AJAX或簡單的GET請求來執行。

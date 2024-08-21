@@ -1,4 +1,4 @@
-<?php  
+<?php
 require_once("../pdoConnect.php");
 
 // 每頁筆數
@@ -7,6 +7,7 @@ $startPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($startPage - 1) * $per_page;
 $orderID = 'product_id ';
 $orderValue = 'ASC';
+$product_id = $_GET["product_id"];
 
 //排序
 if (isset($_GET['order'])) {
@@ -20,7 +21,7 @@ $search = isset($_GET["search"]) ? $_GET["search"] : '';
 $brand = isset($_GET["brand"]) ? $_GET["brand"] : ''; // 新增品牌變數
 $category = isset($_GET["category"]) ? $_GET["category"] : ''; // 新增類別變數
 $sub = isset($_GET["sub"]) ? $_GET["sub"] : ''; // 新增分類變數
-$product_status = isset($_GET["product_status"]) ? $_GET["product_status"] : ''; // 新增狀態變數
+
 
 $sql = "SELECT * FROM product
 WHERE product_valid=0 AND product_status='已下架'";
@@ -35,9 +36,6 @@ if ($category) {
 }
 if ($sub) {
     $sql .= " AND product_sub_category = :sub"; // 根據分類過濾
-}
-if ($product_status) {
-    $sql .= " AND product_status = :product_status"; // 根據狀態過濾
 }
 $sql .= " ORDER BY $orderID $orderValue LIMIT :limit OFFSET :offset";
 
@@ -55,9 +53,6 @@ if ($category) {
 }
 if ($sub) {
     $stmt->bindValue(':sub', $sub);
-}
-if ($product_status) {
-    $stmt->bindValue(':product_status', $product_status);
 }
 
 $stmt->bindValue(':limit', $per_page, PDO::PARAM_INT);
@@ -77,9 +72,6 @@ if ($category) {
 if ($sub) {
     $countPage .= " AND product_sub_category = :sub"; // 根據分類過濾
 }
-if ($product_status) {
-    $countPage .= " AND product_status = :product_status"; // 根據狀態過濾
-}
 
 
 $countStmt = $dbHost->prepare($countPage);
@@ -95,9 +87,6 @@ if ($category) {
 if ($sub) {
     $countStmt->bindValue(':sub', $sub);
 }
-if ($product_status) {
-    $countStmt->bindValue(':product_status', $product_status);
-}
 
 $countStmt->execute();
 $productCount = $countStmt->fetchColumn();
@@ -108,14 +97,11 @@ $totalPages = ceil($productCount / $per_page);
 try {
     $stmt->execute();
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    $productCount = count($rows); // 可以撈到商品資訊
 } catch (PDOException $e) {
     echo "預處理陳述式執行失敗！ <br/>";
     echo "Error: " . $e->getMessage() . "<br/>";
-    $db_host = NULL;
     exit;
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -128,12 +114,28 @@ try {
     <title>商品復原</title>
     <link rel="stylesheet" href="./css.css">
     <?php include("../headlink.php") ?>
+    
 </head>
 
 
 <body>
     <script src="../assets/static/js/initTheme.js"></script>
-
+     <!-- 刪除 -->
+    <div id="delAlert" class="warningalert d-flex justify-content-center align-items-center">
+        <form action="doRepairDel.php" method="post">
+            <input type="hidden" name="product_id" id="" value="<?=$product_id?>">
+        <div class="warningcard card p-4">
+            <h1>確定要刪除?</h1>
+            <h1>這次刪除將無法復原!</h1>
+            <div class="text-end">
+                <button type="submit" class="btn btn-danger">確定</button>
+                <a href="RepairProduct.php?product_id=<?= $product_id ?>&per_page=<?= $per_page ?>&brand=<?= $brand ?>&category=<?= $category ?>&sub=<?= $sub ?>&order=<?= $orderID ?>:<?= $orderValue ?>&page=<?= $startPage ?>" class="btn btn-secondary" >取消</a>
+            </div>
+        </div>
+        </form>
+    </div>
+    <!--  -->
+    
     <div id="app">
         <?php include("../sidebar.php") ?>
         <div id="main" class='layout-navbar navbar-fixed'>
@@ -209,9 +211,6 @@ try {
                                                         <option value="眼睛保健" <?= ($sub == "眼睛保健") ? 'selected' : '' ?>>眼睛保健</option>
                                                     </select>
                                                 </div>
-
-                                                
-
                                                 <div class="dataTable-search mt-2">
                                                     <form action="">
                                                         <div class="input-group">
@@ -241,25 +240,22 @@ try {
 
                                     </div>
                                     <!-- 控制每頁筆數 -->
-                                    <div class="d-flex justify-content-between">
-                                        <form action="" method="get">
-                                            <label class="ms-2">每頁</label>
-                                            <div class="dataTable-dropdown">
-                                                <select name="per_page" class="dataTable-selector form-select" onchange="this.form.submit()">
-                                                    <option value="5" <?= ($per_page == 5) ? 'selected' : '' ?>>5</option>
-                                                    <option value="10" <?= ($per_page == 10) ? 'selected' : '' ?>>10</option>
-                                                    <option value="15" <?= ($per_page == 15) ? 'selected' : '' ?>>15</option>
-                                                    <option value="20" <?= ($per_page == 20) ? 'selected' : '' ?>>20</option>
-                                                    <option value="25" <?= ($per_page == 25) ? 'selected' : '' ?>>25</option>
-                                                    <input type="hidden" name="brand" value="<?= $brand ?>">
-                                                </select>
-                                            </div>
-                                            <label>筆</label>
-                                            <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
-                                            <input type="hidden" name="page" value="<?= $startPage ?>"> <!-- 保留當前頁碼 -->
-                                        </form>
-
-                                    </div>
+                                    <form action="" method="get">
+                                        <label class="ms-2">每頁</label>
+                                        <div class="dataTable-dropdown">
+                                            <select name="per_page" class="dataTable-selector form-select" onchange="this.form.submit()">
+                                                <option value="5" <?= ($per_page == 5) ? 'selected' : '' ?>>5</option>
+                                                <option value="10" <?= ($per_page == 10) ? 'selected' : '' ?>>10</option>
+                                                <option value="15" <?= ($per_page == 15) ? 'selected' : '' ?>>15</option>
+                                                <option value="20" <?= ($per_page == 20) ? 'selected' : '' ?>>20</option>
+                                                <option value="25" <?= ($per_page == 25) ? 'selected' : '' ?>>25</option>
+                                                <input type="hidden" name="brand" value="<?= $brand ?>">
+                                            </select>
+                                        </div>
+                                        <label>筆</label>
+                                        <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
+                                        <input type="hidden" name="page" value="<?= $startPage ?>"> <!-- 保留當前頁碼 -->
+                                    </form>
 
                                     <div class="dataTable-container">
 
@@ -274,7 +270,7 @@ try {
                                                     <th data-sortable=""><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_sale_price:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">售價</a></th>
                                                     <th data-sortable=""><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_stock:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">庫存</a></th>
                                                     <th data-sortable=""><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_update_date:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">上次更新時間</a></th>
-                                                    <th data-sortable=""><a href="#" class="dataTable-sorter ms-2">商品復原</a></th>
+                                                    <th data-sortable=""><a href="#" class="dataTable-sorter ms-2">商品操作</a></th>
                                                 </tr>
                                             </thead>
 
@@ -282,7 +278,7 @@ try {
                                                 <?php foreach ($rows as $row) : ?>
                                                     <tr>
                                                         <td><?= $row["product_id"] ?></td>
-                                                        <input type="hidden" name="product_id" value="<?= $row['product_id'] ?>">
+                                                        <input type="hidden" name="product_id" value="<?=$row['product_id']?>">
                                                         <td>
                                                             <div class="ratio ratio-1x1">
                                                                 <img class="object-fit-cover" src="./ProductPicUpLoad/<?= $row["product_img"] ?>" alt="<?= $row["product_name"] ?>">
@@ -294,10 +290,8 @@ try {
                                                         <td><?= $row["product_stock"] ?></td>
                                                         <td><?= $row["product_update_date"] ?></td>
                                                         <td>
-                                                            
-                                                            <!-- /ProductList.php?per_page=15&brand=木入森&search=&page=1 -->
-                                                            <a class="ms-4" title="復原商品" href="ProductRepairAlert.php?product_id=<?= $row['product_id'] ?>&per_page=<?= $per_page ?>&brand=<?= $brand ?>&category=<?= $category ?>&sub=<?= $sub ?>&order=<?= $orderID ?>:<?= $orderValue ?>&page=<?= $startPage ?>"><i class="fa-solid fa-turn-up"></i></a>
-                                                            <a title="刪除商品" href="RepairDel.php?product_id=<?= $row['product_id'] ?>&per_page=<?= $per_page ?>&brand=<?= $brand ?>&category=<?= $category ?>&sub=<?= $sub ?>&order=<?= $orderID ?>:<?= $orderValue ?>&page=<?= $startPage ?>"><i class="fa-solid fa-trash-can m-1"></i></a>
+                                                        <a class="ms-4" title="復原商品" href="ProductRepairAlert.php?product_id=<?= $row['product_id'] ?>&per_page=<?= $per_page ?>&brand=<?= $brand ?>&category=<?= $category ?>&sub=<?= $sub ?>&order=<?= $orderID ?>:<?= $orderValue ?>&page=<?= $startPage ?>"><i class="fa-solid fa-turn-up"></i></a>
+                                                        <a title="刪除商品" href="ProductRepairAlert?product_id=<?= $row['product_id'] ?>&per_page=<?= $per_page ?>&brand=<?= $brand ?>&category=<?= $category ?>&sub=<?= $sub ?>&order=<?= $orderID ?>:<?= $orderValue ?>&page=<?= $startPage ?>"><i class="fa-solid fa-trash-can m-1"></i></a>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; ?>
@@ -355,28 +349,9 @@ try {
                                                         </div>
                                                     </form>
                                                 </div>
-                                                <div class="d-flex justify-content-between">
-                                        <form action="" method="get">
-                                            <label class="ms-2">每頁</label>
-                                            <div class="dataTable-dropdown">
-                                                <select name="per_page" class="dataTable-selector form-select" onchange="this.form.submit()">
-                                                    <option value="5" <?= ($per_page == 5) ? 'selected' : '' ?>>5</option>
-                                                    <option value="10" <?= ($per_page == 10) ? 'selected' : '' ?>>10</option>
-                                                    <option value="15" <?= ($per_page == 15) ? 'selected' : '' ?>>15</option>
-                                                    <option value="20" <?= ($per_page == 20) ? 'selected' : '' ?>>20</option>
-                                                    <option value="25" <?= ($per_page == 25) ? 'selected' : '' ?>>25</option>
-                                                    <input type="hidden" name="brand" value="<?= $brand ?>">
-                                                </select>
-                                            </div>
-                                            <label class="mb-3">筆</label>
-                                            <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
-                                            <input type="hidden" name="page" value="<?= $startPage ?>"> <!-- 保留當前頁碼 -->
-                                        </form>
-
-                                    </div>
                                             </form>
                                             <tr>
-                                                <td>查無商品</td>
+                                                <td colspan="10" class="text-center">查無商品</td>
                                             </tr>
                                         <?php endif; ?>
                                         </table>

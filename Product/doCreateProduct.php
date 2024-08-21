@@ -22,9 +22,9 @@ $stmt->execute();
 $productCount = $stmt->rowCount();
 
 if ($productCount > 0) {
-    $msg = "此商品名稱已存在，請更改商品名稱，或是確認是否重複新增";
+    $msg = "此商品名稱已存在或是曾被刪除，請更改商品名稱，或是確認是否重複新增";
     echo "<script>alert('$msg'); window.history.back();</script>";
-    exit;
+    return;
 }
 
 // 加入到資料庫
@@ -38,7 +38,8 @@ product_sale_price,
 product_stock, 
 product_img, 
 product_info,
-product_create_date)
+product_create_date,
+product_update_date)
         VALUES 
 (:product_name, 
 :product_brand, 
@@ -49,7 +50,8 @@ product_create_date)
 :product_stock, 
 :product_img, 
 :product_info,
-:product_create_date)";
+:product_create_date,
+:product_update_date)";
 
 $product_brand = $_POST["product_brand"];
 $product_category_name = $_POST["product_category_name"];
@@ -91,6 +93,7 @@ $stmt->bindParam(':product_stock', $product_stock);
 $stmt->bindParam(':product_img', $product_img);
 $stmt->bindParam(':product_info', $product_info);
 $stmt->bindParam(':product_create_date', $now);
+$stmt->bindParam(':product_update_date', $now);
 
 if ($stmt->execute()) {
     $last_id = $dbHost->lastInsertId();

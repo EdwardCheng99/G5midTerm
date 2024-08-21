@@ -260,11 +260,15 @@ try {
                                                     <option value="20" <?= ($per_page == 20) ? 'selected' : '' ?>>20</option>
                                                     <option value="25" <?= ($per_page == 25) ? 'selected' : '' ?>>25</option>
                                                     <input type="hidden" name="brand" value="<?= $brand ?>">
+                                                    <input type="hidden" name="category" value="<?= $category ?>">
+                                                    <input type="hidden" name="sub" value="<?= $sub ?>">
+                                                    <input type="hidden" name="product_status" value="<?= $product_status ?>">
                                                 </select>
                                             </div>
                                             <label>筆</label>
                                             <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
                                             <input type="hidden" name="page" value="<?= $startPage ?>"> <!-- 保留當前頁碼 -->
+                                            
                                         </form>
 
                                     </div>
@@ -337,7 +341,9 @@ try {
                                                         <option value="貓皇保健" <?= ($category == "貓皇保健") ? 'selected' : '' ?>>貓皇保健</option>
                                                     </select>
                                                 </div>
-
+                                                <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
+                                                <input type="hidden" name="page" value="<?= $startPage ?>"> <!-- 保留當前頁碼 -->
+                                                <input type="hidden" name="per_page" value="<?= $per_page ?>">
                                                 <label class="ms-2">分類</label>
                                                 <div class="dataTable-dropdown">
                                                     <select name="sub" class="dataTable-selector form-select" onchange="this.form.submit()">
@@ -353,6 +359,9 @@ try {
                                                         <option value="眼睛保健" <?= ($sub == "眼睛保健") ? 'selected' : '' ?>>眼睛保健</option>
                                                     </select>
                                                 </div>
+                                                <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
+                                                <input type="hidden" name="page" value="<?= $startPage ?>"> <!-- 保留當前頁碼 -->
+                                                <input type="hidden" name="per_page" value="<?= $per_page ?>">
                                                 <label class="ms-2">狀態</label>
                                                 <div class="dataTable-dropdown">
                                                     <select name="product_status" class="dataTable-selector form-select" onchange="this.form.submit()">
@@ -361,6 +370,7 @@ try {
                                                         <option value="已下架" <?= ($product_status == "已下架") ? 'selected' : '' ?>>已下架</option>
                                                     </select>
                                                 </div>
+                                                
                                                 <div class="dataTable-search mt-2">
                                                     <form action="">
                                                         <div class="input-group">
