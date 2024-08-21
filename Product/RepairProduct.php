@@ -1,4 +1,4 @@
-<?php
+<?php  
 require_once("../pdoConnect.php");
 
 // 每頁筆數
@@ -22,8 +22,8 @@ $category = isset($_GET["category"]) ? $_GET["category"] : ''; // 新增類別�
 $sub = isset($_GET["sub"]) ? $_GET["sub"] : ''; // 新增分類變數
 $product_status = isset($_GET["product_status"]) ? $_GET["product_status"] : ''; // 新增狀態變數
 
-
-$sql = "SELECT * FROM product WHERE product_valid=1";
+$sql = "SELECT * FROM product
+WHERE product_valid=0 AND product_status='已下架'";
 if ($search) {
     $sql .= " AND product_name LIKE :search";
 }
@@ -64,7 +64,7 @@ $stmt->bindValue(':limit', $per_page, PDO::PARAM_INT);
 $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 
 // 總商品數顯示分頁
-$countPage = "SELECT COUNT(*) FROM product WHERE product_valid=1";
+$countPage = "SELECT COUNT(*) FROM product WHERE product_valid=0 AND product_status='已下架'";
 if ($search) {
     $countPage .= " AND product_name LIKE :search";
 }
@@ -105,17 +105,16 @@ $productCount = $countStmt->fetchColumn();
 // 計算總頁數
 $totalPages = ceil($productCount / $per_page);
 
-
 try {
     $stmt->execute();
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $productCount = count($rows); // 可以撈到商品資訊
 } catch (PDOException $e) {
     echo "預處理陳述式執行失敗！ <br/>";
     echo "Error: " . $e->getMessage() . "<br/>";
+    $db_host = NULL;
     exit;
 }
-
-
 
 ?>
 
@@ -126,7 +125,7 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>商品管理</title>
+    <title>商品復原</title>
     <link rel="stylesheet" href="./css.css">
     <?php include("../headlink.php") ?>
 </head>
@@ -145,14 +144,14 @@ try {
                     <div class="page-title">
                         <div class="row">
                             <div class="col-12 col-md-6 order-md-1 order-last">
-                                <h3>商品管理</h3>
+                                <h3>商品復原</h3>
                                 <p class="text-subtitle text-muted"></p>
                             </div>
                             <div class="col-12 col-md-6 order-md-2 order-first">
                                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="index.html"><i class="fa-solid fa-house"></i></a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">商品管理</li>
+                                        <li class="breadcrumb-item active" aria-current="page">商品復原</li>
                                     </ol>
                                 </nav>
                             </div>
@@ -164,8 +163,8 @@ try {
                                 <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
                                     <div class="dataTable-top">
 
-                                        共計 <?= $productCount ?> 樣商品 <a class="btn btn-primary ms-2" href="create-product.php">新增商品</a>
-                                        <a class="btn btn-primary ms-2" href="RepairProduct.php">復原已刪除的商品</a>
+                                        共計 <?= $productCount ?> 樣商品 
+                                        <a class="btn btn-primary ms-2" href="ProductList.php"><i class="fa-solid fa-arrow-left"></i>返回</a>
 
                                     </div>
                                     <div>
@@ -211,14 +210,7 @@ try {
                                                     </select>
                                                 </div>
 
-                                                <label class="ms-2">狀態</label>
-                                                <div class="dataTable-dropdown">
-                                                    <select name="product_status" class="dataTable-selector form-select" onchange="this.form.submit()">
-                                                        <option value="">選擇類別</option>
-                                                        <option value="已上架" <?= ($product_status == "已上架") ? 'selected' : '' ?>>已上架</option>
-                                                        <option value="已下架" <?= ($product_status == "已下架") ? 'selected' : '' ?>>已下架</option>
-                                                    </select>
-                                                </div>
+                                                
 
                                                 <div class="dataTable-search mt-2">
                                                     <form action="">
@@ -278,12 +270,11 @@ try {
                                                     <th data-sortable="" class="desc" aria-sort="descending"><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_id:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">ID</a></th>
                                                     <th data-sortable=""><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_img:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">圖片</a></th>
                                                     <th data-sortable=""><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_name:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">名稱</a></th>
-                                                    <th data-sortable=""><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_status:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">狀態</a></th>
                                                     <th data-sortable=""><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_origin_price:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">原價</a></th>
                                                     <th data-sortable=""><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_sale_price:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">售價</a></th>
                                                     <th data-sortable=""><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_stock:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">庫存</a></th>
                                                     <th data-sortable=""><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_update_date:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">上次更新時間</a></th>
-                                                    <th data-sortable=""><a href="#" class="dataTable-sorter ms-2">商品操作</a></th>
+                                                    <th data-sortable=""><a href="#" class="dataTable-sorter ms-2">商品復原</a></th>
                                                 </tr>
                                             </thead>
 
@@ -298,16 +289,14 @@ try {
                                                             </div>
                                                         </td>
                                                         <td><?= $row["product_name"] ?></td>
-                                                        <td><?= $row["product_status"] ?></td>
                                                         <td><?= number_format($row["product_origin_price"]) ?></td>
                                                         <td><?= number_format($row["product_sale_price"]) ?></td>
                                                         <td><?= $row["product_stock"] ?></td>
                                                         <td><?= $row["product_update_date"] ?></td>
                                                         <td>
-                                                            <a title="編輯商品" href="EditProductList.php?product_id=<?= $row['product_id'] ?>"><i class="fa-solid fa-pen-to-square fa-lg m-1"></i></a>
-                                                            <a title="檢視商品" href="product.php?product_id=<?= $row['product_id'] ?>"><i class="fa-solid fa-circle-info m-1"></i></a>
+                                                            
                                                             <!-- /ProductList.php?per_page=15&brand=木入森&search=&page=1 -->
-                                                            <a title="刪除商品" href="ProductWarringAlert.php?product_id=<?= $row['product_id'] ?>&per_page=<?= $per_page ?>&brand=<?= $brand ?>&category=<?= $category ?>&sub=<?= $sub ?>&order=<?= $orderID ?>:<?= $orderValue ?>&page=<?= $startPage ?>"><i class="fa-solid fa-trash-can m-1"></i></a>
+                                                            <a class="ms-4" title="復原商品" href="ProductRepairAlert.php?product_id=<?= $row['product_id'] ?>&per_page=<?= $per_page ?>&brand=<?= $brand ?>&category=<?= $category ?>&sub=<?= $sub ?>&order=<?= $orderID ?>:<?= $orderValue ?>&page=<?= $startPage ?>"><i class="fa-solid fa-turn-up"></i></a>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; ?>
@@ -351,14 +340,6 @@ try {
                                                         <option value="皮膚保健" <?= ($sub == "皮膚保健") ? 'selected' : '' ?>>皮膚保健</option>
                                                         <option value="胰臟保健" <?= ($sub == "胰臟保健") ? 'selected' : '' ?>>胰臟保健</option>
                                                         <option value="眼睛保健" <?= ($sub == "眼睛保健") ? 'selected' : '' ?>>眼睛保健</option>
-                                                    </select>
-                                                </div>
-                                                <label class="ms-2">狀態</label>
-                                                <div class="dataTable-dropdown">
-                                                    <select name="product_status" class="dataTable-selector form-select" onchange="this.form.submit()">
-                                                        <option value="">選擇類別</option>
-                                                        <option value="已上架" <?= ($product_status == "已上架") ? 'selected' : '' ?>>已上架</option>
-                                                        <option value="已下架" <?= ($product_status == "已下架") ? 'selected' : '' ?>>已下架</option>
                                                     </select>
                                                 </div>
                                                 <div class="dataTable-search mt-2">
