@@ -13,7 +13,7 @@ $orderArray = explode(':', $_POST['order']);
 $orderID = $orderArray[0];
 $orderValue = $orderArray[1];
 
-$sql="UPDATE product SET product_valid = 0, product_status = '已下架', product_update_date=:product_update_date WHERE product_id= :product_id";
+$sql="UPDATE product SET product_valid = 1, product_status = '已上架', product_update_date=:product_update_date WHERE product_id= :product_id";
 
 try {
     $stmt = $dbHost->prepare($sql);
@@ -31,9 +31,9 @@ try {
 
 
 if(isset($_POST['order'])){
-    header("location: ProductList.php?p=$page&order=$orderID:$orderValue");
+    header("location: RepairProduct.php?p=$page&order=$orderID:$orderValue");
     exit;
 }else{
-    header("location: ProductList.php");
+    header("location: RepairProduct.php");
 }
 ?>
