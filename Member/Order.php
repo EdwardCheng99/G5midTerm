@@ -73,7 +73,7 @@ try {
                     <a href="OrderList.php" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i></a>
                         <div class="row my-3">
                             <div class="col-12 col-md-6 order-md-1 order-last">
-                                <h3>修改資料</h3>
+                                <h3>訂單明細</h3>
                                 <p class="text-subtitle text-muted"></p>
                             </div>
                             <div class="col-12 col-md-6 order-md-2 order-first">
@@ -90,7 +90,7 @@ try {
                     <section class="section">
                         <!-- 訂單資訊 -->
                         <div class="card-body">
-                            <form class="form form-vertical" action="doUpdateMember.php" method="post">
+                            <form class="form form-vertical" action="doUpdateOrder.php" method="post">
                                 <div class="form-body">
                                     <div class="row">
                                         <div class="col-12">
@@ -102,64 +102,77 @@ try {
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="first-name-vertical">Name:<?= $row["Order_Name"] ?></label>
+                                                <input type="text" id="first-name-vertical" class="form-control" readonly name="" placeholder="" value="<?= $row["Order_Name"] ?>">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="email-id-vertical">訂單金額:<?= $row["OrderTotalPrice"] ?></label>
+                                                <input type="text" id="first-name-vertical" class="form-control" readonly name="" placeholder="" value="<?= $row["OrderTotalPrice"] ?>">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label for="contact-info-vertical">優惠卷:<?= $row["MemberAdmin"] ?></label>
+                                                <label for="contact-info-vertical">優惠卷:<?= $row["OrderCouponID"] ?></label>
+                                                <input type="text" id="first-name-vertical" class="form-control" readonly name="" placeholder="" value="<?= $row["OrderCouponID"] ?>">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="password-vertical">付款方式:<?= $row["OrderPaymentMethod"] ?></label>
+                                                <input type="text" id="first-name-vertical" class="form-control" readonly name="" placeholder="" value="<?= $row["OrderPaymentMethod"] ?>">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="first-name-vertical">付款狀態:<?= $row["OrderPaymentStatus"] ?></label>
+                                                <input type="text" id="first-name-vertical" class="form-control" readonly name="" placeholder="" value="<?= $row["OrderPaymentStatus"] ?>">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="email-id-vertical">收貨人:<?= $row["OrderReceiver"] ?></label>
+                                                <input type="text" id="first-name-vertical" class="form-control" readonly name="" placeholder="" value="<?= $row["OrderReceiver"] ?>">
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="contact-info-vertical">收貨人電話:<?= $row["OrderReceiverPhone"] ?></label>
+                                                <input type="text" id="first-name-vertical" class="form-control" readonly name="" placeholder="" value="<?= $row["OrderReceiverPhone"] ?>">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="password-vertical">收貨地址:<?= $row["OrderDeliveryAddress"] ?></label>
+                                                <input type="text" id="first-name-vertical" class="form-control" readonly name="" placeholder="" value="<?= $row["OrderDeliveryAddress"] ?>">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="first-name-vertical">訂單狀態:<?= $row["OrderDeliveryStatus"] ?></label>
-                                                <select class="form-select" id="basicSelect" name="orderStatus">
+                                                <select class="form-select bg-light" id="basicSelect" name="orderStatus">
                                                     <option>未出貨</option>
-                                                    <option>配送中</option>
+                                                    <option>處理中</option>
                                                     <option>已送達</option>
-                                                </select>                                            </div>
+                                                    <option>已取消</option>
+                                                </select>                                            
+                                            </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="email-id-vertical">收據類型:<?= $row["OrderReceiptType"] ?></label>
+                                                <input type="text" id="first-name-vertical" class="form-control" readonly name="" placeholder="" value="<?= $row["OrderReceiptType"] ?>">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="password-vertical">發票載具:<?= $row["OrderReceiptCarrier"] ?></label>
+                                                <input type="text" id="first-name-vertical" class="form-control" readonly name="" placeholder="" value="<?= $row["OrderReceiptCarrier"] ?>">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="first-name-vertical">訂單備註:<?= $row["OrderNote"] ?></label>
+                                                <input type="text" id="first-name-vertical" class="form-control" readonly name="" placeholder="" value="<?= $row["OrderNote"] ?>">
                                             </div>
                                         </div>
                                         <div class="col-12 d-flex justify-content-end">

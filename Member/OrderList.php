@@ -41,6 +41,8 @@ if (isset($_GET["sorter"])) {
 
 $searchName = isset($_GET["searchName"]) ? $_GET["searchName"] : '';
 $dateRange = isset($_GET["dateRange"]) ? $_GET["dateRange"] : '';
+$searchStatus = isset($_GET["searchStatus"]) ? $_GET["searchStatus"] : '';
+$paymentMethod = isset($_GET["paymentMethod"]) ? $_GET["paymentMethod"] : '';
 
 $sql = "SELECT `Order`.*, Member.MemberName AS Order_Name FROM `Order`
 JOIN Member ON Order.MemberID = Member.MemberID";
@@ -64,6 +66,16 @@ if (!empty($dateRange)) {
     $conditions[] = "OrderDate BETWEEN :startDate AND :endDate";
     $params[':startDate'] = $startDate;
     $params[':endDate'] = $endDate;
+}
+// 檢查是否有添加"訂單狀態"的篩選
+if(!empty($searchStatus)){
+    $conditions[] = "OrderDeliveryStatus = :searchStatus";
+    $params[':searchStatus'] = "$searchStatus";
+}
+// 檢查是否有添加"付款方式"的篩選
+if(!empty($paymentMethod)){
+    $conditions[] = "OrderPaymentMethod = :paymentMethod";
+    $params[':paymentMethod'] = "$paymentMethod";
 }
 
 // 如果有查詢條件，將它們添加到查詢語句中
@@ -107,7 +119,7 @@ $countStmt->execute();
 $totalRecords = $countStmt->fetchColumn();
 
 // 查詢時不會有分頁是因為被$perPage給限制住了，所以$userCount = $stmt->rowCount();的結果永遠不會超過perPage
-if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
+if(isset($_GET["searchName"]) || isset($_GET["dateRange"]) || isset($_GET["searchStatus"]) || isset($_GET["paymentMethod"])){
     $totalPage = ceil($totalRecords / $perPage);
 }else{
     $totalPage = ceil($userCountAll / $perPage);
@@ -154,7 +166,7 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                         <!-- 搜尋Bar -->
                         <div class="card">
                             <div class="card-body">
-                                <form action="">
+                                <form action="" method="get">
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 col-12">
                                             <div class="form-group">
@@ -168,6 +180,31 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                                 <!-- $memberName -->
                                                 <label for="">訂購人名稱</label>
                                                 <input type="search" id="" class="form-control" placeholder="" name="searchName">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-4 col-12">
+                                            <div class="form-group">
+                                                <!-- $memberName -->
+                                                <label for="">訂單狀態</label>
+                                                <select class="form-select" name="searchStatus" onchange="this.form.submit()">
+                                                    <option value="" <?= ($searchStatus == "") ? 'selected' : '' ?>>全部狀態</option>
+                                                    <option value="未出貨" <?= ($searchStatus == "未出貨") ? 'selected' : '' ?>>未出貨</option>
+                                                    <option value="處理中" <?= ($searchStatus == "處理中") ? 'selected' : '' ?>>處理中</option>
+                                                    <option value="已出貨" <?= ($searchStatus == "已出貨") ? 'selected' : '' ?>>已送達</option>
+                                                    <option value="已取消" <?= ($searchStatus == "已取消") ? 'selected' : '' ?>>已取消</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-4 col-12">
+                                            <div class="form-group">
+                                                <!-- $memberName -->
+                                                <label for="">付款方式</label>
+                                                <select class="form-select" name="paymentMethod" onchange="this.form.submit()">
+                                                    <option value="" <?= ($paymentMethod == "") ? 'selected' : '' ?>>付款狀態</option>
+                                                    <option value="信用卡" <?= ($paymentMethod == "信用卡") ? 'selected' : '' ?>>信用卡</option>
+                                                    <option value="轉帳" <?= ($paymentMethod == "轉帳") ? 'selected' : '' ?>>轉帳</option>
+                                                    <option value="貨到付款" <?= ($paymentMethod == "貨到付款") ? 'selected' : '' ?>>貨到付款</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-12 d-flex justify-content-end">
@@ -211,6 +248,7 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                                             <th>訂購人</th>
                                                             <th>收貨人</th>
                                                             <th>收貨人電話</th>
+                                                            <th>付款方式</th>
                                                             <th>配送地址</th>
                                                             <th>訂單狀態</th>
                                                             <th><a href="#" class="sort-link" data-sorter="4">訂單日期</a></th>
@@ -225,6 +263,7 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                                                 <td><?= $order["Order_Name"]; ?></td>
                                                                 <td><?= $order["OrderReceiver"]; ?></td>
                                                                 <td><?= $order["OrderReceiverPhone"]; ?></td>
+                                                                <td><?= $order["OrderPaymentMethod"] ?></td>
                                                                 <td><?= $order["OrderDeliveryAddress"]; ?></td>
                                                                 <td><?= $order["OrderDeliveryStatus"] ?></td>
                                                                 <td><?= $order["OrderDate"]; ?></td>
@@ -297,9 +336,13 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                 // 保留搜索條件
                 const searchName = document.querySelector('input[name="searchName"]').value;
                 const dateRange = document.querySelector('input[name="dateRange"]').value;
+                const searchStatus = document.querySelector('select[name="searchStatus"]').value;
+                const paymentMethod = document.querySelector('select[name="paymentMethod"]').value;
                 
                 if(searchName) urlParams.set('searchName', searchName);
                 if(dateRange) urlParams.set('dateRange', dateRange);
+                if(searchStatus) urlParams.set('searchStatus', searchStatus);
+                if(paymentMethod) urlParams.set('paymentMethod', paymentMethod);
                 window.location.search = urlParams.toString();
             });
         });
@@ -322,9 +365,13 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
         // 保留serachName 跟 searchLevel
         const searchName = document.querySelector('input[name="searchName"]').value;
         const dateRange = document.querySelector('input[name="dateRange"]').value;
+        const searchStatus = document.querySelector('select[name="searchStatus"]').value;
+        const paymentMethod = document.querySelector('select[name="paymentMethod"]').value;
 
         if(searchName) urlParams.set('searchName', searchName);
         if(dateRange) urlParams.set('dateRange', dateRange);
+        if(searchStatus) urlParams.set('searchStatus', searchStatus);
+        if(paymentMethod) urlParams.set('paymentMethod', paymentMethod);
         window.location.search = urlParams.toString();
     }
     </script>
