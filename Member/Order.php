@@ -31,19 +31,21 @@ try {
 }
 // 訂單明細
 
-$orderSql = "SELECT * FROM orderDetail WHERE OrderID = $id";
+$orderSql = "SELECT orderDetail.*, product.product_img AS productImg 
+             FROM orderDetail 
+             JOIN product ON orderDetail.ProductID = product.product_id
+             WHERE orderDetail.OrderID = :OrderID";
 $orderStmt = $dbHost->prepare($orderSql);
 
-try{
-    $orderStmt->execute();
-    $rows = $stmt -> fetchAll(PDO::FETCH_ASSOC);
-}catch(PDOException $e){
+try {
+    $orderStmt->execute([":OrderID" => $id]);
+    $orderRows = $orderStmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
     echo "預處理陳述式執行失敗！ <br/>";
     echo "Error: " . $e->getMessage() . "<br/>";
     $dbHost = NULL;
     exit;
 }
-
 ?>
 
 <!doctype html>
@@ -186,23 +188,39 @@ try{
                                 <thead>
                                     <tr>
                                         <th>ID</th>
+                                        <th></th>
                                         <th>商品名稱</th>
                                         <th>數量</th>
                                         <th>金額</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <?php foreach($rows as $row): ?> 
-                                            <td><?= $row["OrderID"] ?></td>
-                                            <td><?= $row["ProductName"] ?></td>
-                                            <td><?= $row["ProductAmount"] ?><</td>
-                                            <td><?= $row["ProductOriginPrice"] ?><</td>
-                                        <?php endforeach; ?>
-                                    </tr>
+                                    <?php 
+                                    $firstRow = true; // 初始化一個變數來跟踪是否是第一行
+                                    $totalPrice = 0;
+                                    foreach($orderRows as $orderRow): 
+                                        $price = $orderRow["ProductOriginPrice"] * $orderRow["ProductAmount"];
+                                        $totalPrice += $price;
+                                    ?>
+                                        <tr>
+                                            <?php if ($firstRow): ?>
+                                                <td><?= $orderRow["OrderID"] ?></td>
+                                            <?php $firstRow = false; ?>
+                                            <?php else: ?>
+                                                <td></td> 
+                                            <?php endif; ?>
+                                            <td><img style="width: 50px;" src="../Product/ProductPicUpLoad/<?= $orderRow["productImg"] ?>" alt=""></td>
+                                            <td><?= $orderRow["ProductName"] ?></td>
+                                            <td><?= $orderRow["ProductAmount"] ?></td>
+                                            <td><?= $price ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
-                        </div>
+                            <div class="d-flex justify-content-end my-3">
+                                <p>總金額 : <?= number_format($totalPrice); ?></p>
+                            </div>
+                            </div>
                         </div>
             </div>
                 </div>
