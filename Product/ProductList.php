@@ -268,7 +268,7 @@ try {
                                             <label>筆</label>
                                             <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
                                             <input type="hidden" name="page" value="<?= $startPage ?>"> <!-- 保留當前頁碼 -->
-                                            
+
                                         </form>
 
                                     </div>
@@ -370,7 +370,7 @@ try {
                                                         <option value="已下架" <?= ($product_status == "已下架") ? 'selected' : '' ?>>已下架</option>
                                                     </select>
                                                 </div>
-                                                
+
                                                 <div class="dataTable-search mt-2">
                                                     <form action="">
                                                         <div class="input-group">
@@ -384,24 +384,24 @@ try {
                                                     </form>
                                                 </div>
                                                 <div class="d-flex justify-content-between">
-                                        <form action="" method="get">
-                                            <label class="ms-2">每頁</label>
-                                            <div class="dataTable-dropdown">
-                                                <select name="per_page" class="dataTable-selector form-select" onchange="this.form.submit()">
-                                                    <option value="5" <?= ($per_page == 5) ? 'selected' : '' ?>>5</option>
-                                                    <option value="10" <?= ($per_page == 10) ? 'selected' : '' ?>>10</option>
-                                                    <option value="15" <?= ($per_page == 15) ? 'selected' : '' ?>>15</option>
-                                                    <option value="20" <?= ($per_page == 20) ? 'selected' : '' ?>>20</option>
-                                                    <option value="25" <?= ($per_page == 25) ? 'selected' : '' ?>>25</option>
-                                                    <input type="hidden" name="brand" value="<?= $brand ?>">
-                                                </select>
-                                            </div>
-                                            <label class="mb-3">筆</label>
-                                            <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
-                                            <input type="hidden" name="page" value="<?= $startPage ?>"> <!-- 保留當前頁碼 -->
-                                        </form>
+                                                    <form action="" method="get">
+                                                        <label class="ms-2">每頁</label>
+                                                        <div class="dataTable-dropdown">
+                                                            <select name="per_page" class="dataTable-selector form-select" onchange="this.form.submit()">
+                                                                <option value="5" <?= ($per_page == 5) ? 'selected' : '' ?>>5</option>
+                                                                <option value="10" <?= ($per_page == 10) ? 'selected' : '' ?>>10</option>
+                                                                <option value="15" <?= ($per_page == 15) ? 'selected' : '' ?>>15</option>
+                                                                <option value="20" <?= ($per_page == 20) ? 'selected' : '' ?>>20</option>
+                                                                <option value="25" <?= ($per_page == 25) ? 'selected' : '' ?>>25</option>
+                                                                <input type="hidden" name="brand" value="<?= $brand ?>">
+                                                            </select>
+                                                        </div>
+                                                        <label class="mb-3">筆</label>
+                                                        <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
+                                                        <input type="hidden" name="page" value="<?= $startPage ?>"> <!-- 保留當前頁碼 -->
+                                                    </form>
 
-                                    </div>
+                                                </div>
                                             </form>
                                             <tr>
                                                 <td>查無商品</td>
