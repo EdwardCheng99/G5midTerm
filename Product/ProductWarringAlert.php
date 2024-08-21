@@ -179,7 +179,9 @@ try {
                                 <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
                                     <div class="dataTable-top">
 
-                                        共計 <?= $productCount ?> 樣商品 <a class="btn btn-primary ms-2" href="create-product.php">新增商品</a>
+                                        共計 <?= $productCount ?> 樣商品 
+                                        <a class="btn btn-primary ms-2" href="create-product.php">新增商品</a>
+                                        <a class="btn btn-primary ms-2" href="RepairProduct.php">復原已刪除的商品</a>
 
                                     </div>
                                     <div>
