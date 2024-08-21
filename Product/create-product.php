@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>新增商品</title>
     <link rel="stylesheet" href="./css.css">
+    <link rel="stylesheet" href="../assets/style.css">
     <?php include("../headlink.php") ?>
 </head>
 
@@ -13,6 +14,7 @@
     <script src="../assets/static/js/initTheme.js"></script>
     <div id="app">
         <?php include("../sidebar.php") ?>
+        <?php include("../css.php") ?>
 
         <div id="main" class='layout-navbar navbar-fixed'>
             <header>
@@ -55,14 +57,14 @@
 
                                         <div class="row">
                                             <div class="col-6">
-
+                                            
                                                 <div class="mb-2">
 
-                                                    <label for="productName" class="form-label">商品名稱</label>
+                                                    <label for="productName" class="form-label required">商品名稱</label>
                                                     <input type="text" class="form-control" name="product_name" required>
                                                 </div>
                                                 <div class="mb-2">
-                                                    <label for="brand" class="form-label">品牌</label>
+                                                    <label for="brand" class="form-label required">品牌</label>
                                                     <select class="form-select" name="product_brand" required>
                                                         <option value="">請選擇品牌</option>
                                                         <option value="木入森">木入森</option>
@@ -72,7 +74,7 @@
                                                     </select>
                                                 </div>
                                                 <div class="mb-2">
-                                                    <label for="category" class="form-label">類別</label>
+                                                    <label for="category" class="form-label required">類別</label>
                                                     <select class="form-select" name="product_category_name" required>
                                                         <option value="">請選擇類別</option>
                                                         <option value="犬貓通用">犬貓通用</option>
@@ -81,7 +83,7 @@
                                                     </select>
                                                 </div>
                                                 <div class="mb-2">
-                                                    <label for="sub" class="form-label">分類</label>
+                                                    <label for="sub" class="form-label required">分類</label>
                                                     <select class="form-select" name="product_sub_category" required>
                                                         <option value="">請選擇分類</option>
                                                         <option value="魚油粉">魚油粉</option>
@@ -96,15 +98,15 @@
                                                     </select>
                                                 </div>
                                                 <div class="mb-2">
-                                                    <label for="originPrice" class="form-label">原價</label>
+                                                    <label for="originPrice" class="form-label required">原價</label>
                                                     <input type="text" class="form-control" name="product_origin_price" required>
                                                 </div>
                                                 <div class="mb-2">
-                                                    <label for="salePrice" class="form-label">售價</label>
+                                                    <label for="salePrice" class="form-label required">售價</label>
                                                     <input type="tel" class="form-control" name="product_sale_price" required>
                                                 </div>
                                                 <div class="mb-2">
-                                                    <label for="stock" class="form-label">庫存</label>
+                                                    <label for="stock" class="form-label required">庫存</label>
                                                     <input type="text" class="form-control" name="product_stock" required>
                                                 </div>
                                             </div>
@@ -114,7 +116,7 @@
                                                     <input type="text" class="form-control" name="product_img" required> -->
                                                 </div>
                                                 <div class="mb-2">
-                                                    <label for="formFile" class="form-label">選取商品圖片</label>
+                                                    <label for="formFile" class="form-label required">選取商品圖片</label>
                                                     <input type="file" id="formFile" name="pic" class="form-control" required>
                                                 </div>
                                                 <div class="col-lg-5">
@@ -124,7 +126,7 @@
                                                 </div>
                                                 <div class="col-lg">
                                                     <div class="form-group">
-                                                        <label for="" class="form-label">商品介紹</label>
+                                                        <label for="" class="form-label required">商品介紹</label>
                                                         <textarea class="form-control" rows="8" maxlength="400" placeholder="請輸入商品介紹" name="product_info" required></textarea>
                                                     </div>
                                                 </div>
