@@ -71,6 +71,11 @@ try{
         ':updateuserid' => $updateuserid,
         ':id' => $id
     ]);
+    echo "<script>
+        alert('會員資料刪除成功。');
+        window.location.href = 'MemberList.php';
+        </script>";
+    exit;
 }catch(PDOException $e){
     echo "預處理陳述式執行失敗！ <br/>";
     echo "Error: " . $e->getMessage() . "<br/>";

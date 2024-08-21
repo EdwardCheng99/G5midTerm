@@ -92,7 +92,7 @@ try {
     $dbHost = NULL;
     exit;
 }
-// testr
+
 // 計算查詢的行數
 $countSql = "SELECT COUNT(*) FROM Member WHERE MemberValid = 1";
 if (!empty($conditions)) {
@@ -154,7 +154,6 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                         <!-- 搜尋Bar -->
                         <div class="card">
                             <div class="card-body">
-                                
                                 <form action="">
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 col-12">
@@ -186,7 +185,9 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                         </div>
                                         <div class="col-12 d-flex justify-content-end">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">查詢</button>
-                                            <a class="btn btn-light-secondary me-1 mb-1" href="MemberList.php?p=1&sorter=1">清除</a>
+                                            <?php if(isset($_GET["searchLevel"]) || isset($_GET["serachName"])): ?>
+                                            <a class="btn btn-light-secondary me-1 mb-1" href="MemberList.php?p=1&sorter=1">清除查詢結果</a>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                 </form>
@@ -199,7 +200,7 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                     <div class="dataTable-top">
                                         <label>每頁</label>
                                         <div class="dataTable-dropdown"><select class="dataTable-selector form-select" id="perPageSelect">
-                                                <option value="5" <?= $perPage == 5 ? 'selected' : '' ?>><a href=""></a>5</option>
+                                                <option value="5" <?= $perPage == 5 ? 'selected' : '' ?>>5</option>
                                                 <option value="10" <?= $perPage == 10 ? 'selected' : '' ?>>10</option>
                                                 <option value="15" <?= $perPage == 15 ? 'selected' : '' ?>>15</option>
                                                 <option value="20" <?= $perPage == 20 ? 'selected' : '' ?>>20</option>
@@ -213,7 +214,6 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                     </div>
                                     <!-- 會員列表 -->
                                     <div class="dataTable-container">
-                                        <h1>Member List</h1>
                                         <?php if ($userCount > 0): 
                                             $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             ?>
@@ -245,8 +245,8 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                                                 <td><?= $user["MemberPhone"]; ?></td>
                                                                 <td><?= $user["MemberCreateDate"]; ?></td>
                                                                 <td>
-                                                                    <a class="btn btn-primary" href="Member.php?MemberID=<?= $user["MemberID"] ?>"><i class="fa-solid fa-eye"></i></a>
-                                                                    <a class="btn btn-primary" href="doDeleteMember.php?MemberID=<?= $user["MemberID"] ?>"><i class="fa-solid fa-trash"></i></a>
+                                                                    <a class="btn btn-primary" href="Member.php?MemberID=<?= $user["MemberID"] ?>"><i class="fa-solid fa-pen-to-square"></i></a>
+                                                                    <a class="btn btn-primary" href="doDeleteMember.php?MemberID=<?= $user["MemberID"] ?>"><i class="fa-solid fa-trash-can"></i></a>
                                                                 </td>
                                                             </tr>
                                                         <?php endforeach; ?>
@@ -313,7 +313,7 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
 
                     // 保留搜索條件
                     const searchName = document.querySelector('input[name="searchName"]').value;
-                    const searchLevel = document.querySelector('input[name="searchLevel"]').value;
+                    const searchLevel = document.querySelector('select[name="searchLevel"]').value;
                     
                     if(searchName) urlParams.set('searchName', searchName);
                     if(searchLevel) urlParams.set('searchLevel', searchLevel);
@@ -338,7 +338,7 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
 
             // 保留serachName 跟 searchLevel
             const searchName = document.querySelector('input[name="searchName"]').value;
-            const searchLevel = document.querySelector('input[name="searchLevel"]').value;
+            const searchLevel = document.querySelector('select[name="searchLevel"]').value;
 
             if(searchName) urlParams.set('searchName', searchName);
             if(searchLevel) urlParams.set('searchLevel', searchLevel);
