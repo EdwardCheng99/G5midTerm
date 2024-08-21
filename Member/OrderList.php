@@ -179,7 +179,7 @@ if(isset($_GET["searchName"]) || isset($_GET["dateRange"]) || isset($_GET["searc
                                             <div class="form-group">
                                                 <!-- $memberName -->
                                                 <label for="">訂購人名稱</label>
-                                                <input type="search" id="" class="form-control" placeholder="" name="searchName">
+                                                <input type="search" id="" class="form-control" placeholder="" value="<?= $searchName ?>" name="searchName">
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-4 col-12">
