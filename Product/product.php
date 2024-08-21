@@ -26,6 +26,7 @@ try {
     exit;
 }
 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -127,15 +128,15 @@ try {
                                                                 <td><?= $row["product_create_date"] ?></td>
                                                             </tr>
                                                             <tr>
-                                                                <th>更新時間</th>
+                                                                <th>上次更新時間</th>
                                                                 <td><?= $row["product_update_date"] ?></td>
                                                             </tr>
-                                                        <?php endforeach; ?>
+                                                        
                                                         </table>
 
                                                     </div>
                                                     <div class="col-lg">
-                                                        <?php foreach ($rows as $row) : ?>
+                                                        
                                                             <table>
                                                                 <tr>
                                                                     <th>商品介紹</th>
