@@ -57,19 +57,9 @@ $total_page = ceil($CommCounts / $per_page);
 
 <body>
     <script src="../assets/static/js/initTheme.js"></script>
-    <div id="delAlert" class="warningalert justify-content-center align-items-center d-none">
-        <form action="StatusList.php" method="post">
-            <input type="hidden" name="PetCommID" id="" value="<?= $id ?>">
-            <div class="warningcard card p-4">
-                <h1>確認復原?</h1>
-                <p>復原後將跳轉至待審核名單頁面進行重新刊登作業</p>
-                <div class="text-end">
-                    <button type="sbumit" class="btn btn-success">確定</button>
-                    <a class="btn btn-primary" href="SoftDelList.php" id="delAlertCancel">取消</a>
-                </div>
-            </div>
-        </form>
-    </div>
+    
+    
+    
     <div id="app">
         <?php include("../sidebar.php") ?>
         <div id="main" class='layout-navbar navbar-fixed'>
@@ -147,9 +137,6 @@ $total_page = ceil($CommCounts / $per_page);
                                             <a class="nav-link active" href="SoftDelList.php">刪除名單</a>
                                         </li>
                                     </ul>
-
-
-
                                     <div class="dataTable-container">
                                         <?php if ($CommCount > 0) : ?>
                                             <table class="table table-striped dataTable-table" id="table1">
@@ -158,9 +145,9 @@ $total_page = ceil($CommCounts / $per_page);
                                                         <th data-sortable="" class="desc" aria-sort="descending"><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">編號</a></th>
                                                         <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommName:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">名稱</a></th>
                                                         <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommSex:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">性別</a></th>
-                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateid:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刪除者</a></th>
-                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刪除時間</a></th>
-                                                        <th data-sortable=""><a href="" class="dataTable-sorter">原因</a></th>
+                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommUpdateUserID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刪除者</a></th>
+                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommUpdateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刪除時間</a></th>
+                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=delreason:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">原因</a></th>
 
 
                                                         <th></th>
@@ -181,7 +168,9 @@ $total_page = ceil($CommCounts / $per_page);
                                                                 <a href="petcommunicator.php?id=<?= $user["PetCommID"] ?>"><i class="fa-solid fa-circle-info"></i></a>
                                                             </td>
                                                             <td>
-                                                                <button id="checkBtn" class="btn text-primary"><i class="fa-solid fa-user-check"></i></button>
+                                                                
+
+                                                                <a href="WarningAlert.php?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&repost=<?= $user["PetCommID"] ?>&order=<?= $order ?>&perPage=<?=$per_page?>"><i class="fa-solid fa-user-check"></i></a>
                                                             </td>
 
                                                         </tr>

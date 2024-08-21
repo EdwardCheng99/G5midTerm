@@ -22,13 +22,7 @@ $sql = "UPDATE petcommunicator SET
     PetCommUpdateUserID = :PetCommUpdateUserID,
     PetCommUpdateDate = :PetCommUpdateDate
     WHERE PetCommID = :PetCommID";
-// $sql="UPDATE petcommunicator SET 
-// valid = 0, 
-// PetCommStatus = '未刊登',
-// delreason =  '$delreason',
-// PetCommUpdateUserID='$PetCommUpdateUserID'
-// PetCommUpdateDate='$PetCommUpdateDate'
-// WHERE PetCommID= :PetCommID";
+
 
 try {
 

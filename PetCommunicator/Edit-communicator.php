@@ -100,7 +100,17 @@ try {
                                                 </tr>
                                                 <tr>
                                                     <th>性別</th>
-                                                    <td><input class="form-control" type="text" value="<?= $row["PetCommSex"] ?>" name="PetCommSex"></td>
+                                                    <td>
+                                                    <select name="PetCommSex" id="" class="form-control">
+                                                            <option value="male" <?= $row["PetCommSex"] === "male" ? 'selected' : '' ?>>男</option>
+                                                            <option value="未刊登" <?= $row["PetCommSex"] === 'Female' ? 'selected' : '' ?>>女</option>
+                                                        </select>
+                                                        
+                                                    
+                                                    <input class="form-control" type="text" value="<?= $row["PetCommSex"] == "Female" ? "女" : "男" ?>" name="PetCommSex">
+                                                
+                                                
+                                                </td>
                                                 </tr>
                                                 <tr>
                                                     <th>證照</th>

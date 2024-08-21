@@ -164,7 +164,7 @@ $total_page = ceil($CommCounts / $per_page);
                                                         <tr>
                                                             <td><?= $user["PetCommID"] ?></td>
                                                             <td><?= $user["PetCommName"] ?></td>
-                                                            <td><?= $user["PetCommSex"] == "female" ? "女" : "男" ?></td>
+                                                            <td><?= $user["PetCommSex"] == "Female" ? "女" : "男" ?></td>
                                                             <td><?= $user["PetCommCertificateid"] ?></td>
                                                             <td><?= $user["PetCommCertificateDate"] ?></td>
                                                             <td><?= $user["PetCommStatus"] ?></td>
@@ -175,7 +175,7 @@ $total_page = ceil($CommCounts / $per_page);
                                                                 <a href="petcommunicator.php?id=<?= $user["PetCommID"] ?>"><i class="fa-solid fa-circle-info"></i></a>
                                                             </td>
                                                             <td>
-                                                                <a id="delBtn" href="WarningAlert.php?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&del=<?= $user["PetCommID"] ?>&order=<?= $order ?>&perPage=<?=$per_page?>"><i class="fa-solid fa-trash-can"></i></a>
+                                                                <a href="WarningAlert.php?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&del=<?= $user["PetCommID"] ?>&order=<?= $order ?>&perPage=<?=$per_page?>"><i class="fa-solid fa-trash-can"></i></a>
                                                             </td>
 
                                                         </tr>
