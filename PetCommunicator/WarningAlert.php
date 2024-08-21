@@ -83,11 +83,7 @@ $c = ":"
             resize: none;
             /* 禁用調整大小功能 */
         }
-
-        .table.warningtable th:nth-child(1),
-        td:nth-child(1) {
-            width: 10em;
-        }
+        
     </style>
 </head>
 
@@ -148,17 +144,21 @@ $c = ":"
                                 <th>編號</th>
                                 <th>名稱</th>
                                 <th>性別</th>
-                                <th>刪除原因</th>
+                                
                             </tr>
                         </thead>
                         <tr>
                             <td><?= $repostrow["PetCommID"] ?></td>
                             <td><?= $repostrow["PetCommName"] ?></td>
                             <td><?= $repostrow["PetCommSex"] === "Female" ? "女" : "男" ?></td>
-                            <td><?= $repostrow["delreason"] ?></td>
+                            
                         </tr>
 
                     </table>
+                    <div class="form-group">
+                        <label class="form-label" for="">被刪除原因</label>
+                        <textarea class="form-control" name="" id="" readonly><?= $repostrow["delreason"] ?></textarea>
+                    </div>
                     <div class="text-end">
                         <button type="sbumit" class="btn btn-success">確定</button>
                         <a href="SoftDelList.php?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&perPage=<?= $per_page ?>" class="btn btn-secondary">取消</a>

@@ -145,9 +145,9 @@ $total_page = ceil($CommCounts / $per_page);
                                                         <th data-sortable="" class="desc" aria-sort="descending"><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">編號</a></th>
                                                         <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommName:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">名稱</a></th>
                                                         <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommSex:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">性別</a></th>
-                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateid:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刪除者</a></th>
-                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刪除時間</a></th>
-                                                        <th data-sortable=""><a href="" class="dataTable-sorter">原因</a></th>
+                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommUpdateUserID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刪除者</a></th>
+                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommUpdateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刪除時間</a></th>
+                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=delreason:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">原因</a></th>
 
 
                                                         <th></th>
