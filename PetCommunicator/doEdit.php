@@ -17,6 +17,9 @@ $PetCommEmail = $_POST["PetCommEmail"];
 $PetCommStatus = $_POST["PetCommStatus"];
 $PetCommIntroduction = $_POST["PetCommIntroduction"];
 $valid = $_POST["valid"];
+$PetCommUpdateUserID="admin";
+$PetCommUpdateDate=date('Y-m-d H:i:s');
+
 
 $sql = "UPDATE petcommunicator SET 
     PetCommName = :PetCommName,
@@ -29,7 +32,8 @@ $sql = "UPDATE petcommunicator SET
     PetCommEmail = :PetCommEmail,
     PetCommStatus = :PetCommStatus,
     PetCommIntroduction = :PetCommIntroduction,
-    valid = :valid
+    valid = :valid,
+    PetCommUpdateDate = :PetCommUpdateDate
     WHERE PetCommID = :PetCommID";
 
 try {
@@ -46,6 +50,7 @@ try {
     $stmt->bindParam(':PetCommStatus', $PetCommStatus);
     $stmt->bindParam(':PetCommIntroduction', $PetCommIntroduction);
     $stmt->bindParam(':valid', $valid);
+    $stmt->bindParam(':PetCommUpdateDate', $PetCommUpdateDate);
     $stmt->bindParam(':PetCommID', $PetCommID, PDO::PARAM_INT);
 
     $stmt->execute();

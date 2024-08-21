@@ -31,14 +31,14 @@ try {
     <script src="../assets/static/js/initTheme.js"></script>
     <div id="delAlert" class="warningalert justify-content-center align-items-center d-none">
         <form action="doSoftDel.php" method="post">
-            <input type="hidden" name="PetCommID" id="" value="<?=$id?>">
-        <div class="warningcard card p-4">
-            <h1>確定要刪除?</h1>
-            <div class="text-end">
-                <button type="sbumit" class="btn btn-danger">確定</button>
-                <a href="Edit-communicator.php?id=<?=$id?>" class="btn btn-secondary" id="delAlertCancel">取消</a>
+            <input type="hidden" name="PetCommID" id="" value="<?= $id ?>">
+            <div class="warningcard card p-4">
+                <h1>確定要刪除?</h1>
+                <div class="text-end">
+                    <button type="sbumit" class="btn btn-danger">確定</button>
+                    <a href="Edit-communicator.php?id=<?= $id ?>" class="btn btn-secondary" id="delAlertCancel">取消</a>
+                </div>
             </div>
-        </div>
         </form>
     </div>
     <div id="app">
@@ -58,9 +58,15 @@ try {
                                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="index.html"><i class="fa-solid fa-house"></i></a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">促銷管理</li>
+                                        <li class="breadcrumb-item active" aria-current="page">寵物溝通師管理</li>
                                     </ol>
                                 </nav>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col d-flex justify-content-between">
+                                <p>前次更新：<?= $row["PetCommUpdateUserID"] ?>/<?= $row["PetCommUpdateDate"] ?></p>
+                                <p>創建時間：<?= $row["PetCommCreateUserID"] ?>/<?= $row["PetCommCreateDate"] ?></p>
                             </div>
                         </div>
                     </div>
@@ -79,7 +85,7 @@ try {
                                                 <th>相片</th>
                                                 <td>
                                                     <div class="ratio ratio-4x3 object-fit-cover">
-                                                        <img class="object-fit-contain" src="./images/<?= $row["PetCommImg"] ?>.webp" alt="">
+                                                        <img class="object-fit-contain" src="./images/<?= $row["PetCommImg"] ?>" alt="">
                                                     </div>
                                                 </td>
                                                 </tr>
@@ -127,11 +133,11 @@ try {
                                                 <tr>
                                                     <th>狀態</th>
                                                     <td>
-                                                        <select name="PetCommStatus" id="" class="form-control" >
+                                                        <select name="PetCommStatus" id="" class="form-control">
                                                             <option value="已刊登" <?= $row["PetCommStatus"] === '已刊登' ? 'selected' : '' ?>>已刊登</option>
                                                             <option value="未刊登" <?= $row["PetCommStatus"] === '未刊登' ? 'selected' : '' ?>>未刊登</option>
                                                         </select>
-                                                        
+
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -166,26 +172,25 @@ try {
             </footer>
         </div>
     </div>
-<script>
-    const delBtn=document.querySelector("#delBtn");
-    const delAlert=document.querySelector("#delAlert");
-    const delAlertCancel=document.querySelector("#delAlertCancel");
+    <script>
+        // Edit介面刪除按鈕
+        const delBtn = document.querySelector("#delBtn");
+        const delAlert = document.querySelector("#delAlert");
+        const delAlertCancel = document.querySelector("#delAlertCancel");
 
-    delBtn.addEventListener("click",function(){
-        delAlert.classList.remove("d-none")
-        delAlert.classList.add("d-flex")
-    })
-    delAlertCancel.addEventListener("click",function(){
-        delAlert.classList.remove("d-none")
-    })
-</script>
-
+        delBtn.addEventListener("click", function() {
+            delAlert.classList.remove("d-none");
+            delAlert.classList.add("d-flex");
+        })
+        delAlertCancel.addEventListener("click", function() {
+            delAlert.classList.remove("d-none");
+        });
+    </script>
     <script src="../assets/static/js/components/dark.js"></script>
     <script src="../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 
     <script src="../assets/compiled/js/app.js"></script>
-
-
+    <?php include("../js.php") ?>
 </body>
 
 </html>

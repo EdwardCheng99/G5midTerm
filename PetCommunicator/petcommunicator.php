@@ -51,6 +51,12 @@ try {
                                 </nav>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col d-flex justify-content-between">
+                                <p>前次更新：<?= $row["PetCommUpdateUserID"]?>/<?= $row["PetCommUpdateDate"]?></p>
+                                <p>創建時間：<?= $row["PetCommCreateUserID"]?>/<?= $row["PetCommCreateDate"]?></p>
+                            </div>
+                        </div>
                     </div>
                     <section class="section">
 
@@ -66,7 +72,7 @@ try {
                                         <table class="table table-striped dataTable-table" id="table1">
                                             <th>相片</th>
                                             <td><div class="ratio ratio-4x3 object-fit-cover">
-                                                <img class="object-fit-contain" src="./images/<?= $row["PetCommImg"] ?>.webp" alt="">
+                                                <img class="object-fit-contain" src="./images/<?= $row["PetCommImg"] ?>" alt="">
                                                 </div></td>
                                             </tr>
                                             <tr>
