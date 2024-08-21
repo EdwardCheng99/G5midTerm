@@ -131,9 +131,9 @@ try {
                                             <div class="form-group">
                                                 <label for="email-id-vertical">Level</label>
                                                 <select class="form-select" id="basicSelect" name="level">
-                                                    <option>銅</option>
-                                                    <option>銀</option>
-                                                    <option>金</option>
+                                                    <option value="1" <?= ($row["MemberLevel"] == 1) ? "selected" : '' ?>>銅</option>
+                                                    <option value="2" <?= ($row["MemberLevel"] == 2) ? "selected" : '' ?>>銀</option>
+                                                    <option value="3" <?= ($row["MemberLevel"] == 3) ? "selected" : '' ?>>金</option>
                                                 </select>
                                         </div>
                                         <div class="col-12">
@@ -169,19 +169,29 @@ try {
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="password-vertical">Gender</label>
-                                                <input type="text" id="password-vertical" class="form-control" name="gender" placeholder="" value="<?= $row["MemberGender"] ?>">
+                                                <select class="form-select" id="basicSelect" name="gender">
+                                                    <option value="0" <?= ($row["MemberGender"] == 0) ? "selected" : '' ?>>男</option>
+                                                    <option value="1" <?= ($row["MemberGender"] == 1) ? "selected" : '' ?>>女</option>
+                                                    <option value="2" <?= ($row["MemberGender"] == 2) ? "selected" : '' ?>>其他</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="first-name-vertical">Valid</label>
-                                                <input type="text" id="first-name-vertical" class="form-control" name="valid" placeholder="" value="<?= $row["MemberValid"] ?>">
+                                                <select class="form-select" id="basicSelect" name="valid">
+                                                    <option value="1" <?= ($row["MemberGender"] == 1) ? "selected" : '' ?>>有效</option>
+                                                    <option value="0" <?= ($row["MemberGender"] == 0) ? "selected" : '' ?>>無效</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="email-id-vertical">BlackList</label>
-                                                <input type="text" id="email-id-vertical" class="form-control" name="blacklist" placeholder="" value="<?= $row["MemberIsBlacklisted"] ?>">
+                                                <select class="form-select" id="basicSelect" name="blacklist">
+                                                    <option value="0" <?= ($row["MemberIsBlacklisted"] == 0) ? "selected" : '' ?>>關閉</option>
+                                                    <option value="1" <?= ($row["MemberIsBlacklisted"] == 1) ? "selected" : '' ?>>開啟</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-12">

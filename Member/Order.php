@@ -2,6 +2,8 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
+// 送貨明細
 if (!isset($_GET["OrderID"])) {
     echo "請正確帶入正確id變數";
     // exit的功能為輸出一個訊息後退出當前的腳本，強制結束後面的程式
@@ -27,23 +29,20 @@ try {
     $dbHost = NULL;
     exit;
 }
+// 訂單明細
 
+$orderSql = "SELECT * FROM orderDetail WHERE OrderID = $id";
+$orderStmt = $dbHost->prepare($orderSql);
 
-// 最愛的商品功能 (待修改)
-// if($usersCount>0){
-//     $title = $row["name"];
-
-//     $sqlFavorite = "SELECT user_like.*, product.name AS product_name, product.id AS product_id
-//     FROM user_like
-//     JOIN product ON user_like.product_id = product.id
-//     WHERE user_like.user_id = $id
-//     ";
-//     $resultFavorite = $conn->query($sqlFavorite);
-//     $rowProducts = $resultFavorite->fetch_all(MYSQLI_ASSOC);
-
-// }else{
-//     $title="使用者不存在";
-// };
+try{
+    $orderStmt->execute();
+    $rows = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+}catch(PDOException $e){
+    echo "預處理陳述式執行失敗！ <br/>";
+    echo "Error: " . $e->getMessage() . "<br/>";
+    $dbHost = NULL;
+    exit;
+}
 
 ?>
 
@@ -51,7 +50,7 @@ try {
 <html lang="en">
 
 <head>
-    <title>user</title>
+    <title>Order</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta
@@ -182,6 +181,28 @@ try {
                                     </div>
                                 </div>
                             </form>
+                            <div class="table-responsive">
+                            <table class="table table-striped mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>商品名稱</th>
+                                        <th>數量</th>
+                                        <th>金額</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <?php foreach($rows as $row): ?> 
+                                            <td><?= $row["OrderID"] ?></td>
+                                            <td><?= $row["ProductName"] ?></td>
+                                            <td><?= $row["ProductAmount"] ?><</td>
+                                            <td><?= $row["ProductOriginPrice"] ?><</td>
+                                        <?php endforeach; ?>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         </div>
             </div>
                 </div>
