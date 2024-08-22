@@ -16,7 +16,7 @@ try {
     if (isset($_GET["search"])) {
         $search = $_GET["search"];
         $search = htmlspecialchars($search); // 處理特殊字符，防止 XSS
-        $sql .= " AND (EventTitle LIKE '%$search%' OR EventStartTime LIKE '%$search%')";
+        $sql .= " AND EventTitle LIKE '%$search%'";
     }
     if (isset($_GET["start_time"]) && !empty($_GET["start_time"])) {
         $start_time = $_GET["start_time"];
@@ -178,6 +178,8 @@ try {
                                     <div class="col-lg-6 col-md-4 col-12">
                                         <div class="form-group">
                                             <label class="" for="">活動查詢</label>
+                                            <input type="hidden" name="p" value="<?= $page ?>">
+                                            <input type="hidden" name="order" value="<?= $order ?>">
                                             <input type="search" id="" class="form-control" placeholder="請輸入活動標題關鍵字" name="search" value="<?php echo isset($_GET["search"]) ? $_GET["search"] : "" ?>">
                                         </div>
                                     </div>
@@ -196,7 +198,7 @@ try {
                                     <div class="col-lg-2 col-md-4 col-12">
                                         <div class="col d-flex align-items-center pt-3">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">查詢</button>
-                                            <button type="reset" class="btn btn-light-secondary me-1 mb-1"><a href="./OfficialEventsList.php">清除</a> </button>
+                                            <button type="reset" class="btn btn-light-secondary me-1 mb-1"><a href="./OfficialEventsList.php?p=1&order=0">清除</a> </button>
                                         </div>
                                     </div>
                                 </div>
@@ -209,6 +211,8 @@ try {
                             <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
                                 <div class="dataTable-top">
                                     <form action="" method="get">
+                                        <input type="hidden" name="p" value="<?= $page ?>">
+                                        <input type="hidden" name="order" value="<?= $order ?>">
                                         <label>每頁</label>
                                         <div class="dataTable-dropdown">
                                             <select name="per_page" class="dataTable-selector form-select" onchange="if(this.form)this.form.submit();">
@@ -216,9 +220,6 @@ try {
                                                 <option value="10" <?= ($per_page == 10) ? 'selected' : '' ?>>10</option>
                                                 <option value="15" <?= ($per_page == 15) ? 'selected' : '' ?>>15</option>
                                                 <option value="20" <?= ($per_page == 20) ? 'selected' : '' ?>>20</option>
-                                                <input type="hidden" name="p" value="<?= $page ?>">
-                                                <input type="hidden" name="order" value="<?= $order ?>">
-
                                             </select>
                                         </div>
                                         <label>筆</label>
@@ -236,24 +237,24 @@ try {
                                                 <tr>
 
                                                     <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&order=<?php if ($order == 1) echo "2";
-                                                                                                                                else echo "1"; ?>&per_page=<?= $per_page?>
+                                                                                                                                else echo "1"; ?>&per_page=<?= $per_page ?>
 " class="dataTable-sorter">活動標題</a></th>
-                                                    <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&per_page=<?= $per_page?>&order=<?php if ($order == 3) echo "4";
-                                                                                                                                else echo "3"; ?>" class="dataTable-sorter">活動狀態</a></th>
+                                                    <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&per_page=<?= $per_page ?>&order=<?php if ($order == 3) echo "4";
+                                                                                                                                                        else echo "3"; ?>" class="dataTable-sorter">活動狀態</a></th>
 
-                                                    <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&per_page=<?= $per_page?>&order=<?php if ($order == 5) echo "6";
-                                                                                                                                else echo "5"; ?>" class="dataTable-sorter">活動日期</a></th>
+                                                    <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&per_page=<?= $per_page ?>&order=<?php if ($order == 5) echo "6";
+                                                                                                                                                        else echo "5"; ?>" class="dataTable-sorter">活動日期</a></th>
                                                     <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&order=<?php if ($order == 7) echo "8";
                                                                                                                                 else echo "7"; ?>" class="dataTable-sorter">地區</a></th>
 
-                                                    <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&per_page=<?= $per_page?>&order=<?php if ($order == 9) echo "10";
-                                                                                                                                else echo "9"; ?>" class="dataTable-sorter">人數上限 </a></th>
+                                                    <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&per_page=<?= $per_page ?>&order=<?php if ($order == 9) echo "10";
+                                                                                                                                                        else echo "9"; ?>" class="dataTable-sorter">人數上限 </a></th>
                                                     <th data-sortable=""><a href="#" class="dataTable-sorter">已報名</a></th>
-                                                    <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&per_page=<?= $per_page?>&order=<?php if ($order == 13) echo "14";
-                                                                                                                                else echo "13"; ?>" class="dataTable-sorter">金額</a></th>
+                                                    <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&per_page=<?= $per_page ?>&order=<?php if ($order == 13) echo "14";
+                                                                                                                                                        else echo "13"; ?>" class="dataTable-sorter">金額</a></th>
                                                     <!-- <th data-sortable=""><a href="#" class="dataTable-sorter">折扣金額</a></th> -->
-                                                    <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&per_page=<?= $per_page?>&order=<?php if ($order == 15) echo "16";
-                                                                                                                                else echo "15"; ?>" class="dataTable-sorter">上架狀態</a></th>
+                                                    <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&per_page=<?= $per_page ?>&order=<?php if ($order == 15) echo "16";
+                                                                                                                                                        else echo "15"; ?>" class="dataTable-sorter">上架狀態</a></th>
                                                     <th></th>
                                                     <th></th>
                                                 </tr>
@@ -308,14 +309,16 @@ try {
                                                         <td>
                                                             <div class="form-check form-switch">
                                                                 <?php
-                                                                $newEventStatus = $event["EventStatus"]; ?>
-                                                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"
+                                                                $newEventStatus = $event["EventStatus"];
+                                                                ?>
+                                                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault_<?= $event["EventID"] ?>"
                                                                     <?= $newEventStatus == 'published' ? 'checked' : '' ?>>
+
                                                                 <label class="form-check-label" for="flexSwitchCheckDefault"></label>
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <a href="./UpdateEvent.php"> <i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+                                                            <a href="./EventEdit.php?id=<?= $event["EventID"] ?>"> <i class="fa-solid fa-pen-to-square fa-lg"></i></a>
                                                         </td>
                                                         <td>
                                                             <a href="pdoDeleteEvent.php?id=<?= $event["EventID"] ?>"><i class="fa-solid fa-trash-can fa-lg"></i></a>
@@ -335,17 +338,17 @@ try {
                                     <nav class="dataTable-pagination justify-content-center">
                                         <ul class="dataTable-pagination-list pagination pagination-primary">
                                             <li class="pager page-item">
-                                                <a href="OfficialEventsList.php?p=<?= max(1, $page - 1) ?>&order=<?= $order ?>&per_page=<?= $per_page ?>" data-page="1" class="page-link">‹</a>
+                                                <a href="OfficialEventsList.php?p=<?= max(1, $page - 1) ?>&order=<?= $order ?>&per_page=<?= $per_page ?>&search=<?= $_GET["search"] ?? "" ?>" data-page="1" class="page-link">‹</a>
                                             </li>
                                             <?php for ($i = 1; $i <= $total_Page; $i++): ?>
                                                 <li class="page-item">
-                                                    <a href="OfficialEventsList.php?p=<?= $i ?>&order=<?= $order ?>&per_page=<?= $per_page ?>" data-page="<?= $i ?>" class="page-link <?php if ($page == $i) echo "active" ?>">
+                                                    <a href="OfficialEventsList.php?p=<?= $i ?>&order=<?= $order ?>&per_page=<?= $per_page ?>&search=<?= $_GET["search"] ?? "" ?>" data-page="<?= $i ?>" class="page-link <?php if ($page == $i) echo "active" ?>">
                                                         <?= $i ?>
                                                     </a>
                                                 </li>
                                             <?php endfor; ?>
                                             <li class="pager page-item">
-                                                <a href="OfficialEventsList.php?p=<?= min($total_Page, $page + 1) ?>&order=<?= $order ?>&per_page=<?= $per_page ?>" data-page="<?= ($i + 1) ?>" class="page-link">›</a>
+                                                <a href="OfficialEventsList.php?p=<?= min($total_Page, $page + 1) ?>&order=<?= $order ?>&per_page=<?= $per_page ?>&search=<?= $_GET["search"] ?? "" ?>" data-page="<?= ($i + 1) ?>" class="page-link">›</a>
                                             </li>
                                         </ul>
                                     </nav>
@@ -365,6 +368,29 @@ try {
             enableTime: true,
             dateFormat: "Y-m-d",
         })
+
+        // 控制更改狀態
+        document.querySelectorAll('.form-check-input').forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                // 获取开关的状态
+                const isChecked = this.checked;
+                // 根据状态设置新的事件状态
+                const newStatus = isChecked ? 'published' : 'draft';
+                // 获取事件 ID
+                const id = this.id.split('_')[1];
+
+                // 使用 AJAX 发送请求到 PHP 脚本
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', 'pdoStatusUpdate.php', true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                        console.log('Status updated successfully');
+                    }
+                };
+                xhr.send('event_id=' + id + '&status=' + newStatus);
+            });
+        });
     </script>
 
 
