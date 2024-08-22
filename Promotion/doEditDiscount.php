@@ -20,20 +20,39 @@ $CouponIsValid = $_POST["CouponIsValid"];
 $now = date('Y-m-d H:i:s');
 
 //檢查不可為空
-$required_fields = [
-    'Name' => '促銷名稱不能為空',
-    'StartTime' => '開始時間不能為空',
-    'EndTime' => '結束時間不能為空',
-    'Value' => '折扣數不能為空'
-];
-
 $errors = [];
+if (empty($Name)) {
+    $errors[] = '促銷名稱不能為空';
+}
+if (empty($StartTime)) {
+    $errors[] = '開始時間不能為空';
+}
+if (empty($EndTime)) {
+    $errors[] = '結束時間不能為空';
+}
+if (empty($Value)) {
+    $errors[] = '折扣數不能為空';
+}
 
-foreach ($required_fields as $field => $message) {
-    if (empty($$field)) {  // 動態檢查欄位是否為空
-        $errors[] = $message;  // 將錯誤信息添加到錯誤數組中
+if ($EndTime < $StartTime) {
+    $errors[] = '結束時間不可小於開始時間';
+}
+
+if ($PromotionType == 2) {
+    if (empty($CouponSerial)) {
+        $errors[] = '促銷方式為優惠券，優惠券序號不能為空';
+    }
+    if (empty($CouponInfo)) {
+        $errors[] = '促銷方式為優惠券，優惠券說明不能為空';
+    }
+    if (empty($CouponReceiveEndTime)) {
+        $errors[] = '促銷方式為優惠券，截止領取時間不能為空';
+    }
+    if (empty($CouponUseMax)) {
+        $errors[] = '促銷方式為優惠券，使用次數限制不能為空';
     }
 }
+
 
 if (!empty($errors)) {
     $error_message = implode('、', $errors);
@@ -42,7 +61,10 @@ if (!empty($errors)) {
 }
 
 if ($PromotionType == 1) {
-    $CouponIsValid = NULL;
+    $CouponSerial = NULL;
+    $CouponInfo = NULL;
+    $CouponReceiveEndTime = NULL;
+    $CouponUseMax = NULL;
 }
 
 
@@ -89,7 +111,7 @@ try {
         ':CouponIsValid' => ($CouponIsValid !== "" && isset($CouponIsValid)) ? $CouponIsValid : null,
         ':UpdateDate' => ($now !== "" && isset($now)) ? $now : null,
     ]);
-    echo json_encode(['status' => 1, 'message' => '修改成功', 'redirect' => 'DiscountList.php']);
+    echo json_encode(['status' => 1, 'message' => '修改成功']);
 } catch (PDOException $e) {
     echo json_encode(['status' => 0, 'message' => 'Database error: ' . $e->getMessage()]);
 }

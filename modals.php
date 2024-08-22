@@ -44,11 +44,7 @@
                    </button>
                </div>
                <div class="modal-body">
-                   <p><strong>ID:</strong> <span id="modalDiscountID"></span></p>
-                   <p><strong>促銷名稱:</strong> <span id="modalDiscountName"></span></p>
-                   <!-- <p><strong>時間:</strong> <span id="modalDiscountTime"></span></p> -->
-                   <p><strong>開始時間:</strong> <span id="modalDiscountStartTime"></span></p>
-                   <p><strong>結束時間:</strong> <span id="modalDiscountEndTime"></span></p>
+                   <div id="delete-info"></div>
                    <p class="text-danger text-end">確認要刪除此筆資料？</p>
                </div>
                <div class="modal-footer">
