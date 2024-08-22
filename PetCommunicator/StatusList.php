@@ -16,7 +16,6 @@ if (isset($_GET["p"]) && isset($_GET["order"])) {
         $orderArray = explode(':', $_GET['order']);
         $orderID = $orderArray[0];
         $orderValue = $orderArray[1] == 'DESC' ? 'DESC' : 'ASC';
-        
     }
 
     if (isset($_GET["p"])) {
@@ -60,7 +59,7 @@ $total_page = ceil($CommCounts / $per_page);
     <title>寵物溝通師管理</title>
     <?php include("../headlink.php") ?>
     <style>
-        
+
     </style>
 </head>
 
@@ -90,13 +89,20 @@ $total_page = ceil($CommCounts / $per_page);
                         </div>
                     </div>
                     <section class="section">
-
                         <div class="card">
                             <div class="card-body">
-
-                                <?php if (!isset($_GET["search"])) : ?>
-                                    <a href="Creat-communicator.php" class="btn btn-primary mb-2">新增師資</a>
-                                <?php endif ?>
+                                <div class="dataTable-search">
+                                    <form action="">
+                                        <div class="input-group ">
+                                            <input type="search" class="form-control" name="search" placeholder="請搜尋溝通師名稱...">
+                                            <button type="submit" class="btn btn-primary">搜尋</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
                                 <?php if (isset($_GET["search"])) : ?>
                                     <a href="petcommunicators.php" class="btn btn-primary mb-2">返回</a>
                                 <?php endif ?>
@@ -120,15 +126,13 @@ $total_page = ceil($CommCounts / $per_page);
                                                 </form>
                                             </div>
                                             <label>筆</label>
-                                        <?php endif ?>
-                                        <div class="dataTable-search">
-                                            <form action="">
-                                                <div class="input-group ">
-                                                    <input type="search" class="form-control" name="search" placeholder="請搜尋溝通師名稱...">
-                                                    <button type="submit" class="btn btn-primary">搜尋</button>
+                                            <?php if (!isset($_GET["search"])) : ?>
+                                                <div>
+                                                <a href="Creat-communicator.php" class="btn btn-primary mb-2">新增師資</a>
                                                 </div>
-                                            </form>
-                                        </div>
+                                            <?php endif ?>
+                                        <?php endif ?>
+
                                     </div>
 
 
@@ -160,7 +164,7 @@ $total_page = ceil($CommCounts / $per_page);
 
                                                         <th></th>
                                                         <th></th>
-                                                        
+
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -178,7 +182,7 @@ $total_page = ceil($CommCounts / $per_page);
                                                             <td>
                                                                 <a href="petcommunicator.php?id=<?= $user["PetCommID"] ?>"><i class="fa-solid fa-circle-info"></i></a>
                                                             </td>
-                                                        
+
 
                                                         </tr>
                                                     <?php endforeach ?>

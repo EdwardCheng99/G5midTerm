@@ -84,13 +84,22 @@ $total_page = ceil($CommCounts / $per_page);
                         </div>
                     </div>
                     <section class="section">
-
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="dataTable-search">
+                                    <form action="">
+                                        <div class="input-group ">
+                                            <input type="search" class="form-control" name="search" placeholder="請搜尋溝通師名稱...">
+                                            <button type="submit" class="btn btn-primary">搜尋</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                         <div class="card">
                             <div class="card-body">
 
-                                <?php if (!isset($_GET["search"])) : ?>
-                                    <a href="Creat-communicator.php" class="btn btn-primary mb-2">新增師資</a>
-                                <?php endif ?>
+
                                 <?php if (isset($_GET["search"])) : ?>
                                     <a href="petcommunicators.php" class="btn btn-primary mb-2">返回</a>
                                 <?php endif ?>
@@ -115,14 +124,12 @@ $total_page = ceil($CommCounts / $per_page);
                                             </div>
                                             <label>筆</label>
                                         <?php endif ?>
-                                        <div class="dataTable-search">
-                                            <form action="">
-                                                <div class="input-group ">
-                                                    <input type="search" class="form-control" name="search" placeholder="請搜尋溝通師名稱...">
-                                                    <button type="submit" class="btn btn-primary">搜尋</button>
-                                                </div>
-                                            </form>
-                                        </div>
+                                        <?php if (!isset($_GET["search"])) : ?>
+                                            <div>
+                                            <a href="Creat-communicator.php" class="btn btn-primary mb-2">新增師資</a>
+                                            </div>
+                                        <?php endif ?>
+
                                     </div>
 
 
@@ -145,12 +152,12 @@ $total_page = ceil($CommCounts / $per_page);
                                             <table class="table table-striped dataTable-table" id="table1">
                                                 <thead>
                                                     <tr>
-                                                        <th data-sortable="" class="desc" aria-sort="descending"><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">編號</a></th>
-                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommName:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">名稱</a></th>
-                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommSex:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">性別</a></th>
-                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateid:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">證書編號</a></th>
-                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">取證日期</a></th>
-                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommStatus:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刊登狀態</a></th>
+                                                        <th data-sortable="" class="<?= $orderID=='PetCommID' ?($orderValue === 'ASC' ? 'asc' : 'desc') : ''?>" aria-sort="descending"><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">編號</a></th>
+                                                        <th class="<?= $orderID=='PetCommName' ?($orderValue === 'ASC' ? 'asc' : 'desc') : ''?>"  data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommName:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">名稱</a></th>
+                                                        <th class="<?= $orderID=='PetCommSex' ?($orderValue === 'ASC' ? 'asc' : 'desc') : ''?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommSex:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">性別</a></th>
+                                                        <th class="<?= $orderID=='PetCommCertificateid' ?($orderValue === 'ASC' ? 'asc' : 'desc') : ''?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateid:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">證書編號</a></th>
+                                                        <th class="<?= $orderID=='PetCommCertificateDate' ?($orderValue === 'ASC' ? 'asc' : 'desc') : ''?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">取證日期</a></th>
+                                                        <th class="<?= $orderID=='PetCommStatus' ?($orderValue === 'ASC' ? 'asc' : 'desc') : ''?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommStatus:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刊登狀態</a></th>
 
                                                         <th></th>
                                                         <th></th>
@@ -158,7 +165,7 @@ $total_page = ceil($CommCounts / $per_page);
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <?php $false=false; ?>
+
                                                     <?php foreach ($rows as $user): ?>
                                                         <tr>
                                                             <td><?= $user["PetCommID"] ?></td>
@@ -178,35 +185,33 @@ $total_page = ceil($CommCounts / $per_page);
                                                             </td>
 
                                                         </tr>
-                                                        
-                                                        <?php if(!$false){ ?>
-                                                        <tr class="">
-                                                            <td colspan="9">
-                                                                <div class="comment">
-                                                                    <div class="comment-header">
-                                                                        <div class="pr-50">
-                                                                            <div class="avatar avatar-2xl">
-                                                                                <img src="./assets/compiled/jpg/2.jpg" alt="Avatar">
+                                                        <!-- <tr class="">
+                                                                <td colspan="9">
+                                                                    <div class="comment">
+                                                                        <div class="comment-header">
+                                                                            <div class="pr-50">
+                                                                                <div class="avatar avatar-2xl">
+                                                                                    <img src="./assets/compiled/jpg/2.jpg" alt="Avatar">
+                                                                                </div>
                                                                             </div>
-                                                                        </div>
-                                                                        <div class="comment-body">
-                                                                            <div class="comment-profileName">Muhammad Alfian </div>
-                                                                            <div class="comment-time">8 seconds ago</div>
-                                                                            <div class="comment-message">
-                                                                                <p class="list-group-item-text truncate mb-20">Your <a href="https://github.com/alfianchii/confess" target="_blank">confession</a> will be processed. Stay tuned!</p>
-                                                                            </div>
-                                                                            <div class="comment-actions">
-                                                                                <button class="btn icon icon-left btn-primary me-2 text-nowrap"><i class="bi bi-eye-fill"></i> Show</button>
-                                                                                <button class="btn icon icon-left btn-warning me-2 text-nowrap"><i class="bi bi-pencil-square"></i> Edit</button>
-                                                                                <button class="btn icon icon-left btn-danger me-2 text-nowrap"><i class="bi bi-x-circle"></i> Remove</button>
+                                                                            <div class="comment-body">
+                                                                                <div class="comment-profileName">Muhammad Alfian </div>
+                                                                                <div class="comment-time">8 seconds ago</div>
+                                                                                <div class="comment-message">
+                                                                                    <p class="list-group-item-text truncate mb-20">Your <a href="https://github.com/alfianchii/confess" target="_blank">confession</a> will be processed. Stay tuned!</p>
+                                                                                </div>
+                                                                                <div class="comment-actions">
+                                                                                    <button class="btn icon icon-left btn-primary me-2 text-nowrap"><i class="bi bi-eye-fill"></i> Show</button>
+                                                                                    <button class="btn icon icon-left btn-warning me-2 text-nowrap"><i class="bi bi-pencil-square"></i> Edit</button>
+                                                                                    <button class="btn icon icon-left btn-danger me-2 text-nowrap"><i class="bi bi-x-circle"></i> Remove</button>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <?php $false=true; }?>
-                                                        
+                                                                </td>
+                                                            </tr> -->
+
+
                                                     <?php endforeach ?>
                                                 </tbody>
                                             </table>
@@ -217,15 +222,39 @@ $total_page = ceil($CommCounts / $per_page);
                                     <?php if (!isset($_GET["search"])) : ?>
                                         <div class="dataTable-bottom">
                                             <div class="dataTable-info">顯示 <?= $start_item + 1 ?> 到 <?= $start_item + $per_page ?> 共 <?= $CommCounts ?> 筆</div>
-                                            <nav aria-label="Page navigation">
-                                                <ul class=" pagination pagination-primary">
-                                                    <?php for ($i = 1; $i <= $total_page; $i++) : ?>
-                                                        <li class="page-item <?php if ($page == $i) echo "active" ?>"><a href="petcommunicators.php?p=<?= $i ?>&perPage=<?= $per_page ?>&order=<?= $order ?>" class="page-link"><?= $i ?></a></li>
+
+
+                                            <nav aria-label="Page navigation example">
+                                                <ul class="pagination pagination-primary">
+                                                    <?php
+                                                    $display_pages = 3;
+                                                    $start = max(1, $page - floor($display_pages / 2));
+                                                    $end = min($total_page, $start + $display_pages - 1);
+                                                    if ($end - $start + 1 < $display_pages) {
+                                                        $start = max(1, $end - $display_pages + 1);
+                                                    }
+                                                    $start = max(1, $start);
+                                                    ?>
+
+                                                    <li class="page-item <?= $page == 1 ? "d-none" : "" ?>"><a class="page-link" href="petcommunicators.php?p=<?= $page - 1 ?>&perPage=<?= $per_page ?>&order=<?= $order ?>">
+                                                            <span aria-hidden="true"><i class="bi bi-chevron-left "></i></span>
+                                                        </a></li>
+
+
+                                                    <?php for ($i = $start; $i <= $end; $i++) : ?>
+                                                        <li class="page-item <?= $page == $i ? "active" : "" ?>"><a class="page-link" href="petcommunicators.php?p=<?= $i ?>&perPage=<?= $per_page ?>&order=<?= $order ?>"><?= $i ?></a></li>
                                                     <?php endfor; ?>
+
+
+
+                                                    <li class="page-item <?= $page == $total_page ? "d-none" : "" ?>"><a class="page-link" href="petcommunicators.php?p=<?= $page + 1 ?>&perPage=<?= $per_page ?>&order=<?= $order ?>">
+                                                            <span aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
+                                                        </a></li>
                                                 </ul>
                                             </nav>
                                         </div>
                                     <?php endif ?>
+
                                 </div>
                             </div>
                         </div>
