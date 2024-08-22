@@ -57,7 +57,7 @@ try {
                                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="index.html"><i class="fa-solid fa-house"></i></a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">促銷管理</li>
+                                        <li class="breadcrumb-item active" aria-current="page">寵物溝通師管理</li>
                                     </ol>
                                 </nav>
                             </div>

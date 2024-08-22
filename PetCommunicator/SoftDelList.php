@@ -6,11 +6,12 @@ $stmtAll = $dbHost->prepare($sqlAll);
 
 $page = 1;
 $start_item = 0;
-$per_page = $_GET["perPage"] ? $_GET["perPage"] : 5;
+$per_page = isset($_GET["perPage"]) ? $_GET["perPage"] : 5;
 $orderID = 'PetCommID';
 $orderValue = 'ASC';
-$order = $_GET['order'];
+
 if (isset($_GET["p"]) && isset($_GET["order"])) {
+    $order = $_GET['order'];
     $orderArray = explode(':', $_GET['order']);
     $orderID = $orderArray[0];
     $orderValue = $orderArray[1] == 'DESC' ? 'DESC' : 'ASC';
@@ -51,7 +52,6 @@ $total_page = ceil($CommCounts / $per_page);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>寵物溝通師管理</title>
-    <link rel="stylesheet" href="./css/css.css">
     <?php include("../headlink.php") ?>
 </head>
 
