@@ -124,7 +124,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                 <li class="sidebar-item <?php if ($currentPage == 'OfficialEventsList.php') {
                                             echo 'active';
                                         } ?>">
-                    <a href="/G5midTerm/Events/OfficialEventsList.php" class='sidebar-link'>
+                    <a href="/G5midTerm/Events/OfficialEventsList.php?p=1&order=0" class='sidebar-link'>
                         <i class="fa-solid fa-people-roof fa-fw"></i>
                         <span>官方活動管理</span>
                     </a>
