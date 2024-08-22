@@ -2,11 +2,19 @@
 require_once("../pdoConnect.php");
 
 // 每頁筆數
-$per_page = isset($_GET['per_page']) ? (int)$_GET['per_page'] : 10; // 預設為 10
-$startPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$per_page = isset($_GET['per_page']) ? $_GET['per_page'] : 10; // 預設為 10
+$startPage = isset($_GET['page']) ? $_GET['page'] : 1;
 $offset = ($startPage - 1) * $per_page;
 $orderID = 'product_id ';
 $orderValue = 'ASC';
+
+// 選擇分頁的時候都到選擇筆數的第一頁
+if (isset($_GET['per_page'])) {
+    $per_page = $_GET['per_page'];
+    $startPage = 1;
+} else {
+    $startPage = isset($_GET['page']) ? $_GET['page'] : 1;
+}
 
 //排序
 if (isset($_GET['order'])) {
@@ -394,6 +402,9 @@ try {
                                                                 <option value="20" <?= ($per_page == 20) ? 'selected' : '' ?>>20</option>
                                                                 <option value="25" <?= ($per_page == 25) ? 'selected' : '' ?>>25</option>
                                                                 <input type="hidden" name="brand" value="<?= $brand ?>">
+                                                                <input type="hidden" name="category" value="<?= $category ?>">
+                                                                <input type="hidden" name="sub" value="<?= $sub ?>">
+                                                                <input type="hidden" name="product_status" value="<?= $product_status ?>">
                                                             </select>
                                                         </div>
                                                         <label class="mb-3">筆</label>
@@ -429,6 +440,7 @@ try {
                                                         <a class="page-link" href="<?= $url ?>"><?= $i ?></a>
                                                     </li>
                                                 <?php endfor; ?>
+
                                             </ul>
                                         </nav>
                                     </div>
