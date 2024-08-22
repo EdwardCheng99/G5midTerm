@@ -8,13 +8,8 @@ $offset = ($startPage - 1) * $per_page;
 $orderID = 'product_id ';
 $orderValue = 'ASC';
 
-// 選擇分頁的時候都到選擇筆數的第一頁
-if (isset($_GET['per_page'])) {
-    $per_page = $_GET['per_page'];
-    $startPage = 1;
-} else {
-    $startPage = isset($_GET['page']) ? $_GET['page'] : 1;
-}
+
+
 
 //排序
 if (isset($_GET['order'])) {
@@ -114,6 +109,16 @@ $productCount = $countStmt->fetchColumn();
 $totalPages = ceil($productCount / $per_page);
 
 
+// 檢查當前頁碼是否有效
+if ($startPage > $totalPages && $totalPages > 0) {
+    $startPage = $totalPages; // 將頁碼設置為最後一頁
+}
+
+// 確保頁碼不小於1
+$startPage = max(1, $startPage);
+
+
+
 try {
     $stmt->execute();
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -122,9 +127,6 @@ try {
     echo "Error: " . $e->getMessage() . "<br/>";
     exit;
 }
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -173,7 +175,7 @@ try {
                                     <div class="dataTable-top">
 
                                         共計 <?= $productCount ?> 樣商品 <a class="btn btn-primary ms-2" href="create-product.php">新增商品</a>
-                                        <a class="btn btn-primary ms-2" href="RepairProduct.php">復原已刪除的商品</a>
+                                        <a class="btn btn-primary ms-2" href="RepairProduct.php">已下架商品</a>
 
                                     </div>
                                     <div>
@@ -240,20 +242,11 @@ try {
                                                         </div>
                                                     </form>
                                                 </div>
-
-
-
                                             </form>
 
 
 
-                                            <tbody>
-                                                <!-- <?php foreach ($rows as $row) : ?>
-                                                    <tr>
-                                                        <td><?= $row["product_brand"] ?></td>
-                                                    </tr>
-                                                <?php endforeach; ?> -->
-                                            </tbody>
+                                            
 
                                     </div>
                                     <!-- 控制每頁筆數 -->
@@ -275,7 +268,7 @@ try {
                                             </div>
                                             <label>筆</label>
                                             <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
-                                            <input type="hidden" name="page" value="<?= $startPage ?>"> <!-- 保留當前頁碼 -->
+                                            <!-- <input type="hidden" name="page" value="<?= $startPage ?>"> 保留當前頁碼 -->
 
                                         </form>
 
@@ -409,7 +402,7 @@ try {
                                                         </div>
                                                         <label class="mb-3">筆</label>
                                                         <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
-                                                        <input type="hidden" name="page" value="<?= $startPage ?>"> <!-- 保留當前頁碼 -->
+                                                        <!-- <input type="hidden" name="page" value="<?= $startPage ?>"> 保留當前頁碼 -->
                                                     </form>
 
                                                 </div>
@@ -435,11 +428,24 @@ try {
                                                     if ($search) {
                                                         $url .= "&search=" . urlencode($search);
                                                     }
+                                                    if ($brand) {
+                                                        $url .= "&brand=" . urlencode($brand);
+                                                    }
+                                                    if ($category) {
+                                                        $url .= "&category=" . urlencode($category);
+                                                    }
+                                                    if ($sub) {
+                                                        $url .= "&sub=" . urlencode($sub);
+                                                    }
+                                                    if ($product_status) {
+                                                        $url .= "&product_status=" . urlencode($product_status);
+                                                    }
                                                     ?>
                                                     <li class="page-item <?= ($i == $startPage) ? 'active' : '' ?>">
                                                         <a class="page-link" href="<?= $url ?>"><?= $i ?></a>
                                                     </li>
                                                 <?php endfor; ?>
+
 
                                             </ul>
                                         </nav>

@@ -130,6 +130,8 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
 </head>
 
 <body>
+
+    <?php include("../Member/modals.php"); ?>
     <?= $userCount ?>
     <script src="../assets/static/js/initTheme.js"></script>
     <div id="app">
@@ -252,7 +254,8 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                                                 <td><?= $user["MemberCreateDate"]; ?></td>
                                                                 <td>
                                                                     <a class="btn btn-primary" href="Member.php?MemberID=<?= $user["MemberID"] ?>"><i class="fa-solid fa-pen-to-square"></i></a>
-                                                                    <a class="btn btn-primary" href="doDeleteMember.php?MemberID=<?= $user["MemberID"] ?>"><i class="fa-solid fa-trash-can"></i></a>
+                                                                    <a href="#" class="btn btn-danger delete-button" data-member-id="<?= $user['MemberID'] ?>"><i class="fa-solid fa-trash-can"></i></a>
+                                                                    <!-- <a class="btn btn-primary" href="doDeleteMember.php?MemberID=<?= $user["MemberID"] ?>"><i class="fa-solid fa-trash-can"></i></a> -->
                                                                 </td>
                                                             </tr>
                                                         <?php endforeach; ?>
@@ -299,40 +302,38 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
     </div>
     
     <!-- JavaScript -->
-     <script>
-        document.addEventListener("DOMContentLoaded", function(){
-            const sortLinks = document.querySelectorAll(".sort-link");
+    <script>
+        const sortLinks = document.querySelectorAll(".sort-link");
 
-            sortLinks.forEach(link => {
-                link.addEventListener("click", function(event){
-                    event.preventDefault(); // 避免跳轉
+        sortLinks.forEach(link => {
+            link.addEventListener("click", function(event){
+                event.preventDefault(); // 避免跳轉
 
-                    // 將data-sorter的值抓出來
-                    const sorter = parseInt(this.getAttribute("data-sorter"));
-                    const urlParams = new URLSearchParams(window.location.search);
+                // 將data-sorter的值抓出來
+                const sorter = parseInt(this.getAttribute("data-sorter"));
+                const urlParams = new URLSearchParams(window.location.search);
 
-                    // 判斷當前排序是否為正向，如果是正向的話則改為逆向，反之亦然
-                    const currentSorter = parseInt(urlParams.get('sorter'));
-                    const newSorter = (currentSorter === sorter) ? -sorter : sorter;
+                // 判斷當前排序是否為正向，如果是正向的話則改為逆向，反之亦然
+                const currentSorter = parseInt(urlParams.get('sorter'));
+                const newSorter = (currentSorter === sorter) ? -sorter : sorter;
 
-                    urlParams.set('sorter', newSorter);
+                urlParams.set('sorter', newSorter);
 
-                    // 保留搜索條件
-                    const searchName = document.querySelector('input[name="searchName"]').value;
-                    const searchLevel = document.querySelector('select[name="searchLevel"]').value;
-                    
-                    if(searchName) urlParams.set('searchName', searchName);
-                    if(searchLevel) urlParams.set('searchLevel', searchLevel);
-                    window.location.search = urlParams.toString();
-                });
+                // 保留搜索條件
+                const searchName = document.querySelector('input[name="searchName"]').value;
+                const searchLevel = document.querySelector('select[name="searchLevel"]').value;
+                
+                if(searchName) urlParams.set('searchName', searchName);
+                if(searchLevel) urlParams.set('searchLevel', searchLevel);
+                window.location.search = urlParams.toString();
             });
+        });
 
-            // 選擇頁面功能
-            const selectElement = document.querySelector("#perPageSelect");
-            selectElement.addEventListener("change", function(){
-                const perPage = this.value;
-                changePage(1, perPage);
-            });
+        // 選擇頁面功能
+        const selectElement = document.querySelector("#perPageSelect");
+        selectElement.addEventListener("change", function(){
+            const perPage = this.value;
+            changePage(1, perPage);
         });
 
         function changePage(page, perPage = null){
@@ -350,7 +351,28 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
             if(searchLevel) urlParams.set('searchLevel', searchLevel);
             window.location.search = urlParams.toString();
         }
-     </script>
+
+        // 刪除會員警示modal
+        const deleteButtons = document.querySelectorAll('.delete-button'); // 選擇所有的刪除按鈕
+        const confirmDeleteButton = document.getElementById('confirmDeleteButton');
+        let memberIDToDelete = null;
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                memberIDToDelete = this.getAttribute('data-member-id'); // 獲取要刪除的會員的ID
+                const confirmModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+                confirmModal.show();
+            });
+        });
+
+        // 確認是否刪除
+        confirmDeleteButton.addEventListener('click', function() {
+            if (memberIDToDelete) {
+                window.location.href = 'doDeleteMember.php?MemberID=' + memberIDToDelete;
+            }
+        });
+    </script>
     <script src="../assets/static/js/components/dark.js"></script>
     <script src="../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="../assets/compiled/js/app.js"></script>

@@ -8,8 +8,6 @@ $id = $_POST["id"];
 $name = $_POST["name"];
 $email = $_POST["email"];
 $phone = $_POST["phone"];
-$admin = $_POST["admin"];
-$PCid = $_POST["pcid"];
 $password = $_POST["password"];
 $nickname = $_POST["nickname"];
 $level = $_POST["level"];
@@ -19,8 +17,6 @@ $birth = $_POST["birth"];
 $gender = $_POST["gender"];
 $valid = $_POST["valid"];
 $blacklist = $_POST["blacklist"];
-$createuserid = $_POST["createuserid"];
-$updateuserid = $_POST["updateuserid"];
 
 $date = date('Y-m-d H:i:s');
 
@@ -28,8 +24,6 @@ $sql = "UPDATE Member
         SET MemberName = :name, 
             MemberPhone = :phone, 
             MembereMail = :email, 
-            MemberAdmin = :admin, 
-            MemberPCID = :pcid, 
             MemberPassword = :password, 
             MemberNickName = :nickname, 
             MemberLevel = :level, 
@@ -39,20 +33,16 @@ $sql = "UPDATE Member
             MemberGender = :gender, 
             MemberValid = :valid, 
             MemberIsBlacklisted = :blacklist, 
-            MemberCreateUserID = :createuserid, 
-            MemberUpdateDate = :updatedate, 
-            MemberUpdateUserID = :updateuserid
+            MemberUpdateDate = :updatedate
         WHERE MemberID = :id";
 
 $stmt = $dbHost->prepare($sql);
 
-try{
+try {
     $stmt->execute([
         ':name' => $name,
         ':phone' => $phone,
         ':email' => $email,
-        ':admin' => $admin,
-        ':pcid' => $PCid,
         ':password' => $password,
         ':nickname' => $nickname,
         ':level' => $level,
@@ -62,20 +52,23 @@ try{
         ':gender' => $gender,
         ':valid' => $valid,
         ':blacklist' => $blacklist,
-        ':createuserid' => $createuserid,
         ':updatedate' => $date,
-        ':updateuserid' => $updateuserid,
         ':id' => $id
     ]);
+
+    // 使用 jQuery 显示模态框
     echo "<script>
-        alert('會員資料修改成功。');
+        $(document).ready(function(){
+            $('#alertModal').modal('show');
+        });
         window.location.href = 'MemberList.php';
-        </script>";
+    </script>";
     exit;
-}catch(PDOException $e){
+
+} catch (PDOException $e) {
     echo "預處理陳述式執行失敗！ <br/>";
     echo "Error: " . $e->getMessage() . "<br/>";
-    $db_host = NULL;
+    $dbHost = NULL;
     exit;
 }
 
