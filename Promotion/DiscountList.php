@@ -1,14 +1,30 @@
 <?php
 require_once("../pdoConnect.php");
 
+session_start();
+//刪除成功有存SESSION訊息時，讀頁面把SESSION訊息顯示出來並在刪除
+if (isset($_SESSION['SESmessage'])) {
+    $message = $_SESSION['SESmessage'];
+    echo "
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('info').innerText = '$message';
+            var myModal = new bootstrap.Modal(document.getElementById('infoModal'));
+            myModal.show();
+        });
+    </script>";
+    unset($_SESSION['SESmessage']); // 顯示後清除訊息
+}
 
 // 用GET取得查詢條件的變數
 $searchName = isset($_GET["searchName"]) ? $_GET["searchName"] : '';
 $searchPromotionType = isset($_GET["searchPromotionType"]) ? $_GET["searchPromotionType"] : '';
 $searchStartTime = isset($_GET["searchStartTime"]) ? $_GET["searchStartTime"] : '';
 $searchEndTime = isset($_GET["searchEndTime"]) ? $_GET["searchEndTime"] : '';
+$searchEnableStatus = isset($_GET["searchEnableStatus"]) ? $_GET["searchEnableStatus"] : '';
 
-// 給予查詢條件的陣列與參數 陣列
+
+// 定義陣列要存查詢條件SQL語法與對應參數
 $conditions = [];
 $params = [];
 
@@ -30,6 +46,12 @@ if ((isset($searchStartTime) && $searchStartTime !== "") && (isset($searchEndTim
     $params[':searchEndTime'] = $searchEndTime;
 }
 
+if (isset($searchEnableStatus)  && $searchEnableStatus !== "") {
+    $conditions[] = "d.EnableStatus = :searchEnableStatus";
+    $params[':searchEnableStatus'] = $searchEnableStatus;
+}
+
+
 //分頁 , 頁碼
 $per_page = isset($_GET["per_page"]) ? (int)$_GET["per_page"] : 10; // 每頁顯示的筆數，預設10筆
 $page = isset($_GET["page"]) ? (int)$_GET["page"] : 1; // 當前頁數，預設第1頁
@@ -45,19 +67,24 @@ d.EndTime,
 d.Value,
 d.ConditionMinValue,
 d.PromotionType,
-sc1.Description AS PromotionCondition,
-sc2.Description AS CalculateType,
-sc3.Description AS MemberLevel, 
-sc4.Description AS PromotionType 
+d.EnableStatus,
+d.IsValid,
+sc1.Description AS PromotionConditionDP,
+sc2.Description AS CalculateTypeDP,
+sc3.Description AS MemberLevelDP, 
+sc4.Description AS PromotionTypeDP,
+sc5.Description AS EnableStatusDP 
 FROM Discount d 
 JOIN SystemCode sc1 ON d.PromotionCondition = sc1.Value AND sc1.Type='PromotionCondition'
 JOIN SystemCode sc2 ON d.CalculateType = sc2.Value AND sc2.Type='CalculateType'
 JOIN SystemCode sc3 ON d.MemberLevel = sc3.Value AND sc3.Type='MemberLevel'
-JOIN SystemCode sc4 ON d.PromotionType = sc4.Value AND sc4.Type='PromotionType'";
+JOIN SystemCode sc4 ON d.PromotionType = sc4.Value AND sc4.Type='PromotionType'
+JOIN SystemCode sc5 ON d.EnableStatus = sc5.Value AND sc5.Type='EnableStatus'
+WHERE IsValid = 1";
 
-// 如果查詢條件condition非空，則在sql最後加上所有的條件
+// 如果存條件的condition非空，則在sql最後加上所有的條件
 if (!empty($conditions)) {
-    $sqlAll .= " WHERE " . implode(" AND ", $conditions);
+    $sqlAll .= " AND " . implode(" AND ", $conditions);
 }
 
 // echo $sqlAll;
@@ -172,9 +199,19 @@ try {
                                         <div class="input-group mb-3">
                                             <label class="input-group-text" for="inputGroupSelect01">促銷方式</label>
                                             <select class="form-select" id="inputGroupSelect01" name="searchPromotionType">
-                                                <option value="" <?= ($searchPromotionType == "") ? 'selected' : '' ?>></option>
+                                                <option value="" <?= ($searchPromotionType == "") ? 'selected' : '' ?>>全部</option>
                                                 <option value="1" <?= ($searchPromotionType == 1) ? 'selected' : '' ?>>自動套用</option>
                                                 <option value="2" <?= ($searchPromotionType == 2) ? 'selected' : '' ?>>優惠券</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-12">
+                                        <div class="input-group mb-3">
+                                            <label class="input-group-text" for="inputGroupSelect01">啟用狀態</label>
+                                            <select class="form-select" id="inputGroupSelect01" name="searchEnableStatus">
+                                                <option value="" <?= ($searchEnableStatus == "") ? 'selected' : '' ?>>全部</option>
+                                                <option value="1" <?= ($searchEnableStatus == 1) ? 'selected' : '' ?>>啟用</option>
+                                                <option value="0" <?= ($searchEnableStatus == 0) ? 'selected' : '' ?>>停用</option>
                                             </select>
                                         </div>
                                     </div>
@@ -182,7 +219,7 @@ try {
 
 
                                     <div class="col-auto">
-                                        <button type="submit" class="btn btn-primary me-1 mb-1"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                        <button type="submit" class="btn btn-primary me-1 mb-1"><i class="fa-solid fa-magnifying-glass" id="searchbtn"></i></button>
                                         <a class="btn btn-light-secondary me-1 mb-1" href="DiscountList.php" id="resetBtn"><i class="fa-solid fa-delete-left"></i></a>
                                     </div>
                                 </div>
@@ -226,6 +263,7 @@ try {
                                                     <th>計算方式</th>
                                                     <th>會員等級</th>
                                                     <th>促銷方式</th>
+                                                    <th>啟用狀態</th>
                                                     <th></th>
                                                     <th></th>
                                                 </tr>
@@ -236,14 +274,15 @@ try {
                                                         <td><?= $discount["ID"] ?></td>
                                                         <td><?= $discount["Name"] ?></td>
                                                         <td><?= $discount["StartTime"] ?> ~<br> <?= $discount["EndTime"] ?></td>
-                                                        <td><?= $discount["PromotionCondition"] ?></td>
+                                                        <td><?= $discount["PromotionConditionDP"] ?></td>
                                                         <td><?php if ($discount["ConditionMinValue"] != 0) {
                                                                 echo number_format($discount["ConditionMinValue"]);
                                                             } ?></td>
                                                         <td><?= number_format($discount["Value"]) ?></td>
-                                                        <td><?= $discount["CalculateType"] ?></td>
-                                                        <td><?= $discount["MemberLevel"] ?></td>
-                                                        <td><?= $discount["PromotionType"] ?></td>
+                                                        <td><?= $discount["CalculateTypeDP"] ?></td>
+                                                        <td><?= $discount["MemberLevelDP"] ?></td>
+                                                        <td><?= $discount["PromotionTypeDP"] ?></td>
+                                                        <td><?= $discount["EnableStatusDP"] ?></td>
                                                         <td>
                                                             <a class="btn btn-primary" href="DiscountEdit.php?id=<?= $discount["ID"] ?>"> <i class="fa-solid fa-pen-to-square"></i></a>
                                                         </td>
@@ -319,9 +358,11 @@ try {
     <?php include("../js.php") ?>
 
     <script>
-        // 點擊刪除按鈕後，將資料傳至modal
+        // 點擊刪除按鈕後，將資料傳至modal，顯示modal
         const deleteButtons = document.querySelectorAll('.delete-btn');
-        const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        const deleteModal = new bootstrap.Modal('#deleteModal', {
+            keyboard: true
+        })
         const confirmDeleteButton = document.getElementById('confirmDelete');
 
         let currentDeleteId = null;
@@ -329,19 +370,16 @@ try {
         deleteButtons.forEach(button => {
             button.addEventListener('click', function(event) {
                 event.preventDefault();
+                //取出被點擊按鈕的data-id
                 currentDeleteId = this.getAttribute('data-id');
 
-                // 輸入內容
+                // 輸入錯誤訊息內容
                 document.getElementById('delete-info').innerHTML = `
     <p><strong>ID:</strong> <span>${this.getAttribute('data-id')}</span></p>
     <p><strong>促銷名稱:</strong> <span>${this.getAttribute('data-name')}</span></p>
     <p><strong>開始時間:</strong> <span>${this.getAttribute('data-starttime')}</span></p>
     <p><strong>結束時間:</strong> <span>${this.getAttribute('data-endtime')}</span></p>
 `;
-                // document.getElementById('modalDiscountID').textContent = this.getAttribute('data-id');
-                // document.getElementById('modalDiscountName').textContent = this.getAttribute('data-name');
-                // document.getElementById('modalDiscountStartTime').textContent = this.getAttribute('data-starttime');
-                // document.getElementById('modalDiscountEndTime').textContent = this.getAttribute('data-endtime');
 
                 deleteModal.show();
             });
@@ -349,14 +387,15 @@ try {
 
         const infoModal = new bootstrap.Modal('#infoModal', {
             keyboard: true
-        }) // 用bootstrap的 modal來裝訊息
+        })
         const info = document.querySelector("#info")
 
+        //點擊確認刪除，真正執行刪除
         confirmDeleteButton.addEventListener('click', function() {
             if (currentDeleteId) {
                 $.ajax({
                         method: "POST",
-                        url: "/G5midTerm/Promotion/doDeleteDiscount.php",
+                        url: "doDeleteDiscount.php",
                         dataType: "json",
                         data: {
                             id: currentDeleteId,
@@ -365,10 +404,7 @@ try {
                     .done(function(response) {
                         let status = response.status;
                         if (status == 0 || status == 1) {
-                            // 将 response.message 存储在 sessionStorage 中
-                            sessionStorage.setItem('message', response.message);
-
-                            // 重新加載頁面
+                            // 保留現在的查詢條件並重新加載頁面，讓被刪除資料消失
                             window.location.href = window.location.pathname + window.location.search;
                         }
                     })
@@ -377,30 +413,17 @@ try {
                     });
             }
         });
-
-        window.addEventListener('load', function() {
-            const storedMessage = sessionStorage.getItem('message');
-            if (storedMessage) {
-                // 顯示存儲的訊息
-                info.textContent = storedMessage;
-                infoModal.show();
-
-                // 清除 sessionStorage 中的訊息，避免重複顯示
-                sessionStorage.removeItem('message');
-            }
-        });
     </script>
 
     <script>
         //  點擊頁碼時，用JS保留URL參數，並用page參數更新page
         const pageLinks = document.querySelectorAll('.page-link-js');
-        const urlParams = new URLSearchParams(window.location.search); //將當前URL中的查詢參數（即 ?key=value 這些部分）解析為 URLSearchParams 物件，方便我們操作。
+        const urlParams = new URLSearchParams(window.location.search); //將當前URL中的查詢參數（即 ?key=value 這些部分）解析為 URLSearchParams 物件，方便操作。
 
         pageLinks.forEach(function(link) {
             link.addEventListener('click', function(e) {
-                e.preventDefault(); //阻止導航到 href 指定的地址。這要通過JavaScript來控制頁面的跳轉。
+                e.preventDefault(); //阻止導航到 href 指定的地址。因為後面要通過JavaScript來控制頁面的跳轉。
                 const page = this.getAttribute('data-page'); //從被點擊的頁碼連結中獲取 data-page 屬性
-
 
                 urlParams.set('page', page); //這行代碼將 page 參數設置為當前點擊的頁碼值。URLSearchParams 的 set 方法可以更新已存在的參數或添加新的參數。
 
@@ -453,6 +476,8 @@ try {
             });
         }
     </script>
+
+
 </body>
 
 </html>

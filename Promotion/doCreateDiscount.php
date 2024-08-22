@@ -15,7 +15,7 @@ $CouponSerial = $_POST["CouponSerial"];
 $CouponInfo = $_POST["CouponInfo"];
 $CouponReceiveEndTime = $_POST["CouponReceiveEndTime"];
 $CouponUseMax = $_POST["CouponUseMax"];
-$CouponIsValid = $_POST["CouponIsValid"];
+$EnableStatus = $_POST["EnableStatus"];
 $now = date('Y-m-d H:i:s');
 
 //檢查不可為空
@@ -83,7 +83,8 @@ $sql = "INSERT INTO Discount (
     CouponInfo,
     CouponReceiveEndTime,
     CouponUseMax,
-    CouponIsValid,
+    EnableStatus,
+    IsValid,
     CreateDate,
     CreateUserID,
     UpdateDate,
@@ -103,7 +104,8 @@ $sql = "INSERT INTO Discount (
     :CouponInfo,
     :CouponReceiveEndTime,
     :CouponUseMax,
-    :CouponIsValid,
+    :EnableStatus,
+    :IsValid,
     :CreateDate,
     :CreateUserID,
     :UpdateDate,
@@ -129,11 +131,12 @@ try {
         ':CouponInfo' => ($CouponInfo !== "" && isset($CouponInfo)) ? $CouponInfo : null,
         ':CouponReceiveEndTime' => ($CouponReceiveEndTime !== "" && isset($CouponReceiveEndTime)) ? $CouponReceiveEndTime : null,
         ':CouponUseMax' => ($CouponUseMax !== "" && isset($CouponUseMax)) ? $CouponUseMax : null,
-        ':CouponIsValid' => ($CouponIsValid !== "" && isset($CouponIsValid)) ? $CouponIsValid : null,
+        ':EnableStatus' => ($EnableStatus !== "" && isset($EnableStatus)) ? $EnableStatus : null,
+        ':IsValid' =>  1,
         ':CreateDate' => ($now !== "" && isset($now)) ? $now : null,
-        ':CreateUserID' => isset($CreateUserID) ? $CreateUserID : 1,
+        ':CreateUserID' =>  1,
         ':UpdateDate' => ($now !== "" && isset($now)) ? $now : null,
-        ':UpdateUserID' => isset($UpdateUserID) ? $UpdateUserID : 1
+        ':UpdateUserID' => 1
     ]);
     echo json_encode(['status' => 1, 'message' => '新增成功']);
 } catch (PDOException $e) {
