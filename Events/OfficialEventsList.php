@@ -211,11 +211,11 @@ try {
                                     <form action="" method="get">
                                         <label>每頁</label>
                                         <div class="dataTable-dropdown">
-                                            <select name="per_page" class="dataTable-selector form-select" onchange="this.form.submit()">
-                                                <option value="5" <?php if ($per_page == 5) echo 'selected'; ?>>5</option>
-                                                <option value="10" <?php if ($per_page == 10) echo 'selected'; ?>>10</option>
-                                                <option value="15" <?php if ($per_page == 15) echo 'selected'; ?>>15</option>
-                                                <option value="20" <?php if ($per_page == 20) echo 'selected'; ?>>20</option>
+                                            <select name="per_page" class="dataTable-selector form-select" onchange="if(this.form)this.form.submit();">
+                                                <option value="5" <?= ($per_page == 5) ? 'selected' : '' ?>>5</option>
+                                                <option value="10" <?= ($per_page == 10) ? 'selected' : '' ?>>10</option>
+                                                <option value="15" <?= ($per_page == 15) ? 'selected' : '' ?>>15</option>
+                                                <option value="20" <?= ($per_page == 20) ? 'selected' : '' ?>>20</option>
                                             </select>
                                         </div>
                                         <label>筆</label>
