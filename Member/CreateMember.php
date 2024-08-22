@@ -23,7 +23,7 @@
                     <div class="page-title">
                         <div class="row">
                             <div class="col-12 col-md-6 order-md-1 order-last">
-                                <h3>修改資料</h3>
+                                <h3>新增會員</h3>
                                 <p class="text-subtitle text-muted"></p>
                             </div>
                             <div class="col-12 col-md-6 order-md-2 order-first">
@@ -31,7 +31,7 @@
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="index.html"><i class="fa-solid fa-house"></i></a></li>
                                         <li class="breadcrumb-item active" aria-current="page"><a href="MemberList.php?p=1&sorter=1">會員管理</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page"><?= $row["MemberName"] ?></a></li>
+                                        <li class="breadcrumb-item active" aria-current="page"></a></li>
                                     </ol>
                                 </nav>
                             </div>
@@ -45,8 +45,8 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label for="first-name-vertical">ID : <?= $row["MemberID"] ?></label>
-                                                <input type="hidden" name="id" value="<?= $row["MemberID"] ?>">
+                                                <!-- <label for="first-name-vertical">ID : <?= $row["MemberID"] ?></label>
+                                                <input type="hidden" name="id" value="<?= $row["MemberID"] ?>"> -->
                                             </div>
                                         </div>
                                         <div class="col-12">
