@@ -10,19 +10,18 @@ $per_page = isset($_GET["perPage"]) ? $_GET["perPage"] : 5;
 $orderID = 'PetCommID';
 $orderValue = 'ASC';
 
-if (isset($_GET["p"]) && isset($_GET["order"])&& isset($_GET["perPage"])) {
+if (isset($_GET["p"]) && isset($_GET["order"]) && isset($_GET["perPage"])) {
     $order = $_GET['order'];
-        $orderArray = explode(':', $_GET['order']);
-        $orderID = $orderArray[0];
-        $orderValue = $orderArray[1] == 'DESC' ? 'DESC' : 'ASC';
-    
+    $orderArray = explode(':', $_GET['order']);
+    $orderID = $orderArray[0];
+    $orderValue = $orderArray[1] == 'DESC' ? 'DESC' : 'ASC';
 
-    
-        $page = $_GET["p"];
-        $start_item = ($page - 1) * $per_page;
-        $sql = "SELECT * FROM Petcommunicator WHERE valid=1 ORDER BY $orderID $orderValue LIMIT $start_item, $per_page ";
-        $stmt = $dbHost->prepare($sql);
-    
+
+
+    $page = $_GET["p"];
+    $start_item = ($page - 1) * $per_page;
+    $sql = "SELECT * FROM Petcommunicator WHERE valid=1 ORDER BY $orderID $orderValue LIMIT $start_item, $per_page ";
+    $stmt = $dbHost->prepare($sql);
 } elseif (isset($_GET["search"])) {
     $search = $_GET["search"];
     $sql = "SELECT * FROM Petcommunicator WHERE PetCommName LIKE :search AND valid=1";
@@ -56,7 +55,6 @@ $total_page = ceil($CommCounts / $per_page);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>寵物溝通師管理</title>
-    <link rel="stylesheet" href="./css/css.css">
     <?php include("../headlink.php") ?>
 </head>
 
@@ -160,6 +158,7 @@ $total_page = ceil($CommCounts / $per_page);
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    <?php $false=false; ?>
                                                     <?php foreach ($rows as $user): ?>
                                                         <tr>
                                                             <td><?= $user["PetCommID"] ?></td>
@@ -175,10 +174,39 @@ $total_page = ceil($CommCounts / $per_page);
                                                                 <a href="petcommunicator.php?id=<?= $user["PetCommID"] ?>"><i class="fa-solid fa-circle-info"></i></a>
                                                             </td>
                                                             <td>
-                                                                <a href="WarningAlert.php?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&del=<?= $user["PetCommID"] ?>&order=<?= $order ?>&perPage=<?=$per_page?>"><i class="fa-solid fa-trash-can"></i></a>
+                                                                <a href="WarningAlert.php?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&del=<?= $user["PetCommID"] ?>&order=<?= $order ?>&perPage=<?= $per_page ?>"><i class="fa-solid fa-trash-can"></i></a>
                                                             </td>
 
                                                         </tr>
+                                                        
+                                                        <?php if(!$false){ ?>
+                                                        <!-- <tr class="d-none">
+                                                            <td colspan="9">
+                                                                <div class="comment">
+                                                                    <div class="comment-header">
+                                                                        <div class="pr-50">
+                                                                            <div class="avatar avatar-2xl">
+                                                                                <img src="./assets/compiled/jpg/2.jpg" alt="Avatar">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="comment-body">
+                                                                            <div class="comment-profileName">Muhammad Alfian </div>
+                                                                            <div class="comment-time">8 seconds ago</div>
+                                                                            <div class="comment-message">
+                                                                                <p class="list-group-item-text truncate mb-20">Your <a href="https://github.com/alfianchii/confess" target="_blank">confession</a> will be processed. Stay tuned!</p>
+                                                                            </div>
+                                                                            <div class="comment-actions">
+                                                                                <button class="btn icon icon-left btn-primary me-2 text-nowrap"><i class="bi bi-eye-fill"></i> Show</button>
+                                                                                <button class="btn icon icon-left btn-warning me-2 text-nowrap"><i class="bi bi-pencil-square"></i> Edit</button>
+                                                                                <button class="btn icon icon-left btn-danger me-2 text-nowrap"><i class="bi bi-x-circle"></i> Remove</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr> -->
+                                                        <?php $false=true; }?>
+                                                        
                                                     <?php endforeach ?>
                                                 </tbody>
                                             </table>

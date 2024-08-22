@@ -76,15 +76,29 @@ $c = ":"
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>寵物溝通師管理</title>
-    <link rel="stylesheet" href="./css/css.css">
-    <?php include("../headlink.php") ?>
     <style>
         textarea {
             resize: none;
             /* 禁用調整大小功能 */
         }
-        
+
+        .warningalert {
+            background: rgba(58, 58, 58, 0.438);
+            height: 100%;
+            width: 100%;
+            position: fixed;
+            z-index: 20;
+        }
+
+        .warningcard {
+            background: #fff;
+            width: 30em;
+            height: 10em;
+            position: relative;
+        }
     </style>
+    <?php include("../headlink.php") ?>
+    
 </head>
 
 <body>
@@ -144,14 +158,14 @@ $c = ":"
                                 <th>編號</th>
                                 <th>名稱</th>
                                 <th>性別</th>
-                                
+
                             </tr>
                         </thead>
                         <tr>
                             <td><?= $repostrow["PetCommID"] ?></td>
                             <td><?= $repostrow["PetCommName"] ?></td>
                             <td><?= $repostrow["PetCommSex"] === "Female" ? "女" : "男" ?></td>
-                            
+
                         </tr>
 
                     </table>

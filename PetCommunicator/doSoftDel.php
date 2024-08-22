@@ -4,13 +4,13 @@ if (!isset($_POST["PetCommID"])) {
     echo "錯誤";
     exit;
 }
-
-$page = $_POST["page"];
+if (isset($_POST["page"])) {
+    $page = $_POST["page"];
+    $orderArray = explode(':', $_POST['order']);
+    $orderID = $orderArray[0];
+    $orderValue = $orderArray[1];
+}
 $PetCommID = $_POST["PetCommID"];
-$valid = $_POST["valid"];
-$orderArray = explode(':', $_POST['order']);
-$orderID = $orderArray[0];
-$orderValue = $orderArray[1];
 $delreason = $_POST["delreason"];
 $PetCommUpdateUserID = "admin";
 $PetCommUpdateDate = date('Y-m-d H:i:s');
@@ -39,6 +39,5 @@ try {
     $dbHost = NULL;
     exit;
 }
-    header("location: SoftDelList.php");
-$dbHost= NULL;
-?>
+header("location: SoftDelList.php");
+$dbHost = NULL;
