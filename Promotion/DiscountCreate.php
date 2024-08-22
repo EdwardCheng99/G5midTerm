@@ -194,30 +194,30 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="divider">
+                                        <div class="divider couponarea">
                                             <div class="divider-text">優惠券</div>
                                         </div>
-                                        <div class="col-md-6 col-12">
+                                        <div class="col-md-6 col-12 couponarea">
                                             <div class="form-group">
-                                                <label for="" class="">優惠券序號</label>
+                                                <label for="" class="required">優惠券序號</label>
                                                 <input type="text" name="" class="form-control" id="CouponSerial" placeholder="">
                                             </div>
                                         </div>
-                                        <div class="col-md-6 col-12">
+                                        <div class="col-md-6 col-12 couponarea">
                                             <div class="form-group">
-                                                <label for="" class="">優惠券說明</label>
+                                                <label for="" class="required">優惠券說明</label>
                                                 <input type="text" name="" class="form-control" id="CouponInfo" placeholder="">
                                             </div>
                                         </div>
-                                        <div class="col-md-6 col-12">
+                                        <div class="col-md-6 col-12 couponarea">
                                             <div class="form-group">
-                                                <label for="">截止領取時間</label>
+                                                <label for="" class="required">截止領取時間</label>
                                                 <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="Select date.." id="CouponReceiveEndTime">
                                             </div>
                                         </div>
-                                        <div class="col-md-6 col-12">
+                                        <div class="col-md-6 col-12 couponarea">
                                             <div class="form-group">
-                                                <label for="">使用次數限制</label>
+                                                <label for="" class="required">使用次數限制</label>
                                                 <input type="number" name="" class="form-control" id="CouponUseMax" placeholder="">
                                             </div>
                                         </div>
@@ -275,6 +275,31 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             keyboard: true
         }) // 用bootstrap的 modal來裝訊息
         const info = document.querySelector("#info")
+        const couponarea = document.querySelectorAll(".couponarea")
+
+
+        //判斷促銷方式＝優惠券，優惠券區塊顯示
+        document.addEventListener("DOMContentLoaded", function() {
+            // 定義顯示或隱藏 couponarea 區塊的函式
+            function toggleCouponArea() {
+                if (PromotionType.value == 2) {
+                    couponarea.forEach(element => {
+                        element.classList.remove('d-none'); // 移除隱藏的 class，顯示優惠券區塊
+                    });
+                } else {
+                    couponarea.forEach(element => {
+                        element.classList.add('d-none'); // 添加隱藏的 class，隱藏優惠券區塊
+                    });
+                }
+            }
+
+            // 初次加載時執行一次
+            toggleCouponArea();
+
+            // 當 PromotionType 改變時再執行
+            PromotionType.addEventListener("change", toggleCouponArea);
+        });
+
 
         send.addEventListener("click", function() {
             let NameVal = (Name.value !== "") ? Name.value : null;
@@ -316,7 +341,6 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     } //如果需要
                 })
                 .done(function(response) {
-                    // console.log(response);
                     let status = response.status;
                     if (status == 0) {
                         info.textContent = response.message;
@@ -324,7 +348,6 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                         return;
                     }
                     if (status == 1) {
-                        // window.location.href = response.redirect;
                         info.textContent = response.message
                         infoModal.show();
                         return;
