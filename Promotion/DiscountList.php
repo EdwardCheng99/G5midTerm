@@ -347,9 +347,46 @@ try {
             });
         });
 
+        const infoModal = new bootstrap.Modal('#infoModal', {
+            keyboard: true
+        }) // 用bootstrap的 modal來裝訊息
+        const info = document.querySelector("#info")
+
         confirmDeleteButton.addEventListener('click', function() {
             if (currentDeleteId) {
-                window.location.href = `doDeleteDiscount.php?id=${currentDeleteId}`;
+                $.ajax({
+                        method: "POST",
+                        url: "/G5midTerm/Promotion/doDeleteDiscount.php",
+                        dataType: "json",
+                        data: {
+                            id: currentDeleteId,
+                        }
+                    })
+                    .done(function(response) {
+                        let status = response.status;
+                        if (status == 0 || status == 1) {
+                            // 将 response.message 存储在 sessionStorage 中
+                            sessionStorage.setItem('message', response.message);
+
+                            // 重新加載頁面
+                            window.location.href = window.location.pathname + window.location.search;
+                        }
+                    })
+                    .fail(function(jqXHR, textStatus) {
+                        console.log("Request failed: " + textStatus);
+                    });
+            }
+        });
+
+        window.addEventListener('load', function() {
+            const storedMessage = sessionStorage.getItem('message');
+            if (storedMessage) {
+                // 顯示存儲的訊息
+                info.textContent = storedMessage;
+                infoModal.show();
+
+                // 清除 sessionStorage 中的訊息，避免重複顯示
+                sessionStorage.removeItem('message');
             }
         });
     </script>
