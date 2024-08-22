@@ -216,6 +216,9 @@ try {
                                                 <option value="10" <?= ($per_page == 10) ? 'selected' : '' ?>>10</option>
                                                 <option value="15" <?= ($per_page == 15) ? 'selected' : '' ?>>15</option>
                                                 <option value="20" <?= ($per_page == 20) ? 'selected' : '' ?>>20</option>
+                                                <input type="hidden" name="p" value="<?= $page ?>">
+                                                <input type="hidden" name="order" value="<?= $order ?>">
+
                                             </select>
                                         </div>
                                         <label>筆</label>
@@ -233,23 +236,23 @@ try {
                                                 <tr>
 
                                                     <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&order=<?php if ($order == 1) echo "2";
-                                                                                                                                else echo "1"; ?>
+                                                                                                                                else echo "1"; ?>&per_page=<?= $per_page?>
 " class="dataTable-sorter">活動標題</a></th>
-                                                    <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&order=<?php if ($order == 3) echo "4";
+                                                    <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&per_page=<?= $per_page?>&order=<?php if ($order == 3) echo "4";
                                                                                                                                 else echo "3"; ?>" class="dataTable-sorter">活動狀態</a></th>
 
-                                                    <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&order=<?php if ($order == 5) echo "6";
+                                                    <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&per_page=<?= $per_page?>&order=<?php if ($order == 5) echo "6";
                                                                                                                                 else echo "5"; ?>" class="dataTable-sorter">活動日期</a></th>
                                                     <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&order=<?php if ($order == 7) echo "8";
                                                                                                                                 else echo "7"; ?>" class="dataTable-sorter">地區</a></th>
 
-                                                    <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&order=<?php if ($order == 9) echo "10";
+                                                    <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&per_page=<?= $per_page?>&order=<?php if ($order == 9) echo "10";
                                                                                                                                 else echo "9"; ?>" class="dataTable-sorter">人數上限 </a></th>
                                                     <th data-sortable=""><a href="#" class="dataTable-sorter">已報名</a></th>
-                                                    <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&order=<?php if ($order == 13) echo "14";
+                                                    <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&per_page=<?= $per_page?>&order=<?php if ($order == 13) echo "14";
                                                                                                                                 else echo "13"; ?>" class="dataTable-sorter">金額</a></th>
                                                     <!-- <th data-sortable=""><a href="#" class="dataTable-sorter">折扣金額</a></th> -->
-                                                    <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&order=<?php if ($order == 15) echo "16";
+                                                    <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&per_page=<?= $per_page?>&order=<?php if ($order == 15) echo "16";
                                                                                                                                 else echo "15"; ?>" class="dataTable-sorter">上架狀態</a></th>
                                                     <th></th>
                                                     <th></th>
