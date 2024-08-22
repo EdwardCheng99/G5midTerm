@@ -20,7 +20,8 @@
             </header>
             <div id="main-content">
                 <div class="page-heading">
-                    <div class="page-title">
+                <a href="MemberList.php" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i></a>
+                    <div class="page-title my-3">
                         <div class="row">
                             <div class="col-12 col-md-6 order-md-1 order-last">
                                 <h3>新增會員</h3>
