@@ -105,8 +105,8 @@ try {
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label for="email-id-vertical">PCID</label>
-                                                <input type="text" id="email-id-vertical" class="form-control" name="pcid" placeholder="" value="<?= $row["MemberPCID"] ?>">
+                                                <label hidden for="email-id-vertical">PCID</label>
+                                                <input hidden type="text" id="email-id-vertical" class="form-control" name="pcid" placeholder="" value="<?= $row["MemberPCID"] ?>">
                                             </div>
                                         </div>
                                         <div class="col-12">

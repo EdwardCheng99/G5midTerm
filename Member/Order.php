@@ -31,7 +31,7 @@ try {
 }
 // 訂單明細
 
-$orderSql = "SELECT orderDetail.*, product.product_img AS productImg 
+$orderSql = "SELECT orderDetail.*, product.product_img AS productImg
              FROM orderDetail 
              JOIN product ON orderDetail.ProductID = product.product_id
              WHERE orderDetail.OrderID = :OrderID";
@@ -41,6 +41,23 @@ try {
     $orderStmt->execute([":OrderID" => $id]);
     $orderRows = $orderStmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
+    echo "預處理陳述式執行失敗！ <br/>";
+    echo "Error: " . $e->getMessage() . "<br/>";
+    $dbHost = NULL;
+    exit;
+}
+// , Discount.CalculateType AS `valueType`, Discount.Value AS `value`,
+// Discount.CouponInfo AS info, Discount.Name AS couponName
+$couponSql = "SELECT Discount.*, Order.OrderID, Order.OrderCouponID 
+            FROM Discount
+            JOIN `Order` ON Discount.ID = Order.OrderCouponID
+            WHERE Order.OrderID = :OrderID";
+$couponStmt = $dbHost -> prepare($couponSql);
+
+try{
+    $couponStmt->execute([":OrderID" => $id]);
+    $couponRow = $couponStmt->fetch(PDO::FETCH_ASSOC);
+}catch(PDOException $e){
     echo "預處理陳述式執行失敗！ <br/>";
     echo "Error: " . $e->getMessage() . "<br/>";
     $dbHost = NULL;
@@ -102,54 +119,54 @@ try {
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label for="first-name-vertical">Name:<?= $row["Order_Name"] ?></label>
+                                                <label for="first-name-vertical">Name:</label>
                                                 <input type="text" id="first-name-vertical" class="form-control" readonly name="" placeholder="" value="<?= $row["Order_Name"] ?>">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label for="email-id-vertical">訂單金額:<?= $row["OrderTotalPrice"] ?></label>
+                                                <label for="email-id-vertical">訂單金額:</label>
                                                 <input type="text" id="first-name-vertical" class="form-control" readonly name="" placeholder="" value="<?= $row["OrderTotalPrice"] ?>">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label for="contact-info-vertical">優惠卷:<?= $row["OrderCouponID"] ?></label>
+                                                <label for="contact-info-vertical">優惠卷:</label>
                                                 <input type="text" id="first-name-vertical" class="form-control" readonly name="" placeholder="" value="<?= $row["OrderCouponID"] ?>">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label for="password-vertical">付款方式:<?= $row["OrderPaymentMethod"] ?></label>
+                                                <label for="password-vertical">付款方式:</label>
                                                 <input type="text" id="first-name-vertical" class="form-control" readonly name="" placeholder="" value="<?= $row["OrderPaymentMethod"] ?>">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label for="first-name-vertical">付款狀態:<?= $row["OrderPaymentStatus"] ?></label>
+                                                <label for="first-name-vertical">付款狀態:</label>
                                                 <input type="text" id="first-name-vertical" class="form-control" readonly name="" placeholder="" value="<?= $row["OrderPaymentStatus"] ?>">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label for="email-id-vertical">收貨人:<?= $row["OrderReceiver"] ?></label>
+                                                <label for="email-id-vertical">收貨人:</label>
                                                 <input type="text" id="first-name-vertical" class="form-control" readonly name="" placeholder="" value="<?= $row["OrderReceiver"] ?>">
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label for="contact-info-vertical">收貨人電話:<?= $row["OrderReceiverPhone"] ?></label>
+                                                <label for="contact-info-vertical">收貨人電話:</label>
                                                 <input type="text" id="first-name-vertical" class="form-control" readonly name="" placeholder="" value="<?= $row["OrderReceiverPhone"] ?>">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label for="password-vertical">收貨地址:<?= $row["OrderDeliveryAddress"] ?></label>
+                                                <label for="password-vertical">收貨地址:</label>
                                                 <input type="text" id="first-name-vertical" class="form-control" readonly name="" placeholder="" value="<?= $row["OrderDeliveryAddress"] ?>">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label for="first-name-vertical">訂單狀態:<?= $row["OrderDeliveryStatus"] ?></label>
+                                                <label for="first-name-vertical">訂單狀態:</label>
                                                 <select class="form-select bg-light" id="basicSelect" name="orderStatus">
                                                     <option>未出貨</option>
                                                     <option>處理中</option>
@@ -160,19 +177,19 @@ try {
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label for="email-id-vertical">收據類型:<?= $row["OrderReceiptType"] ?></label>
+                                                <label for="email-id-vertical">收據類型:</label>
                                                 <input type="text" id="first-name-vertical" class="form-control" readonly name="" placeholder="" value="<?= $row["OrderReceiptType"] ?>">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label for="password-vertical">發票載具:<?= $row["OrderReceiptCarrier"] ?></label>
+                                                <label for="password-vertical">發票載具:</label>
                                                 <input type="text" id="first-name-vertical" class="form-control" readonly name="" placeholder="" value="<?= $row["OrderReceiptCarrier"] ?>">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label for="first-name-vertical">訂單備註:<?= $row["OrderNote"] ?></label>
+                                                <label for="first-name-vertical">訂單備註:</label>
                                                 <input type="text" id="first-name-vertical" class="form-control" readonly name="" placeholder="" value="<?= $row["OrderNote"] ?>">
                                             </div>
                                         </div>
@@ -215,8 +232,25 @@ try {
                                             <td><?= $price ?></td>
                                         </tr>
                                     <?php endforeach; ?>
+                                        <tr>
+                                            <td>折扣</td>
+                                            <td><?= (!empty($couponRow["Name"])) ? $couponRow["Name"] : "無" ?></td>
+                                            <td>
+                                            <?php 
+                                            if ($couponRow["CalculateType"] == 1) {
+                                                echo ((int)$couponRow["Value"]) / 10 . "折";
+                                            } else {
+                                                echo "折" . (int)$couponRow["Value"] . "元";
+                                            }
+                                            ?>
+                                            </td>
+                                            <td>4</td>
+                                            <td>5</td>
+                                        </tr>
                                 </tbody>
+                                
                             </table>
+
                             <div class="d-flex justify-content-end my-3">
                                 <p>總金額 : <?= number_format($totalPrice); ?></p>
                             </div>
