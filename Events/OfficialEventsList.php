@@ -34,7 +34,7 @@ try {
         $start_item = ($page - 1) * $per_page;
         switch ($order) {
             case 0:
-                $sql .= " ORDER BY EventID ASC";
+                $sql .= " ORDER BY EventID DESC";
                 break;
             case 1:
                 $sql .= " ORDER BY EventTitle ASC";
