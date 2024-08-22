@@ -2,23 +2,19 @@
 require_once("../pdoConnect.php");
 
 
-if (!isset($_GET["id"])) {
+if (!isset($_POST["id"])) {
     echo "請循正常管道進入此頁";
     exit;
 }
 
-$id = $_GET["id"];
+$id = $_POST["id"];
 
 $sql = "DELETE FROM Discount WHERE ID = :id";
 $stmt = $dbHost->prepare($sql);
 
 try {
     $stmt->execute([':id' => $id]);
-    echo "刪除成功！ <br/>";
-    exit();
+    echo json_encode(['status' => 1, 'message' => '刪除成功']);
 } catch (PDOException $e) {
-    echo "預處理陳述式執行失敗！ <br/>";
-    echo "Error: " . $e->getMessage() . "<br/>";
-    $db_host = NULL;
-    exit;
+    echo json_encode(['status' => 0, 'message' => 'Database error: ' . $e->getMessage()]);
 }
