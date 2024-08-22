@@ -180,7 +180,7 @@ $total_page = ceil($CommCounts / $per_page);
                                                         </tr>
                                                         
                                                         <?php if(!$false){ ?>
-                                                        <!-- <tr class="d-none">
+                                                        <tr class="">
                                                             <td colspan="9">
                                                                 <div class="comment">
                                                                     <div class="comment-header">
@@ -204,7 +204,7 @@ $total_page = ceil($CommCounts / $per_page);
                                                                     </div>
                                                                 </div>
                                                             </td>
-                                                        </tr> -->
+                                                        </tr>
                                                         <?php $false=true; }?>
                                                         
                                                     <?php endforeach ?>
