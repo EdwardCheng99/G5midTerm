@@ -22,7 +22,7 @@ $stmt->execute();
 $productCount = $stmt->rowCount();
 
 if ($productCount > 0) {
-    $msg = "此商品名稱已存在或是曾被刪除，請更改商品名稱，或是確認是否重複新增";
+    $msg = "此商品名稱已存在，請更改商品名稱以及確認是否重複新增";
     echo "<script>alert('$msg'); window.history.back();</script>";
     return;
 }

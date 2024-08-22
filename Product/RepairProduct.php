@@ -23,7 +23,7 @@ $sub = isset($_GET["sub"]) ? $_GET["sub"] : ''; // 新增分類變數
 $product_status = isset($_GET["product_status"]) ? $_GET["product_status"] : ''; // 新增狀態變數
 
 $sql = "SELECT * FROM product
-WHERE product_valid=0 AND product_status='已下架'";
+WHERE product_valid=1 AND product_status='已下架'";
 if ($search) {
     $sql .= " AND product_name LIKE :search";
 }
@@ -64,7 +64,7 @@ $stmt->bindValue(':limit', $per_page, PDO::PARAM_INT);
 $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 
 // 總商品數顯示分頁
-$countPage = "SELECT COUNT(*) FROM product WHERE product_valid=0 AND product_status='已下架'";
+$countPage = "SELECT COUNT(*) FROM product WHERE product_valid=1 AND product_status='已下架'";
 if ($search) {
     $countPage .= " AND product_name LIKE :search";
 }
@@ -125,7 +125,7 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>商品復原</title>
+    <title>已下架商品</title>
     <link rel="stylesheet" href="./css.css">
     <?php include("../headlink.php") ?>
 </head>
@@ -144,14 +144,14 @@ try {
                     <div class="page-title">
                         <div class="row">
                             <div class="col-12 col-md-6 order-md-1 order-last">
-                                <h3>商品復原</h3>
+                                <h3>已下架商品</h3>
                                 <p class="text-subtitle text-muted"></p>
                             </div>
                             <div class="col-12 col-md-6 order-md-2 order-first">
                                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="index.html"><i class="fa-solid fa-house"></i></a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">商品復原</li>
+                                        <li class="breadcrumb-item active" aria-current="page">已下架商品</li>
                                     </ol>
                                 </nav>
                             </div>
@@ -270,11 +270,12 @@ try {
                                                     <th data-sortable="" class="desc" aria-sort="descending"><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_id:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">ID</a></th>
                                                     <th data-sortable=""><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_img:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">圖片</a></th>
                                                     <th data-sortable=""><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_name:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">名稱</a></th>
+                                                    <th data-sortable=""><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_status:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">狀態</a></th>
                                                     <th data-sortable=""><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_origin_price:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">原價</a></th>
                                                     <th data-sortable=""><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_sale_price:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">售價</a></th>
                                                     <th data-sortable=""><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_stock:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">庫存</a></th>
                                                     <th data-sortable=""><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_update_date:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">上次更新時間</a></th>
-                                                    <th data-sortable=""><a href="#" class="dataTable-sorter ms-2">商品復原</a></th>
+                                                    <th data-sortable=""><a href="#" class="dataTable-sorter ms-2">商品上架</a></th>
                                                 </tr>
                                             </thead>
 
@@ -289,6 +290,7 @@ try {
                                                             </div>
                                                         </td>
                                                         <td><?= $row["product_name"] ?></td>
+                                                        <td><?= $row["product_status"] ?></td>
                                                         <td><?= number_format($row["product_origin_price"]) ?></td>
                                                         <td><?= number_format($row["product_sale_price"]) ?></td>
                                                         <td><?= $row["product_stock"] ?></td>
@@ -296,8 +298,7 @@ try {
                                                         <td>
                                                             
                                                             <!-- /ProductList.php?per_page=15&brand=木入森&search=&page=1 -->
-                                                            <a class="ms-4" title="復原商品" href="ProductRepairAlert.php?product_id=<?= $row['product_id'] ?>&per_page=<?= $per_page ?>&brand=<?= $brand ?>&category=<?= $category ?>&sub=<?= $sub ?>&order=<?= $orderID ?>:<?= $orderValue ?>&page=<?= $startPage ?>"><i class="fa-solid fa-turn-up"></i></a>
-                                                            <a title="刪除商品" href="RepairDel.php?product_id=<?= $row['product_id'] ?>&per_page=<?= $per_page ?>&brand=<?= $brand ?>&category=<?= $category ?>&sub=<?= $sub ?>&order=<?= $orderID ?>:<?= $orderValue ?>&page=<?= $startPage ?>"><i class="fa-solid fa-trash-can m-1"></i></a>
+                                                            <a class="ms-4" title="上架商品" href="ProductRepairAlert.php?product_id=<?= $row['product_id'] ?>&per_page=<?= $per_page ?>&brand=<?= $brand ?>&category=<?= $category ?>&sub=<?= $sub ?>&order=<?= $orderID ?>:<?= $orderValue ?>&page=<?= $startPage ?>"><i class="fa-solid fa-turn-up"></i></a>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; ?>
