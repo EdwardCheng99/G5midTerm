@@ -32,15 +32,12 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./alert.css">
+    <link rel="stylesheet" href="./Edit.css">
 
     <title>商品內容</title>
 
     <?php include("../headlink.php") ?>
-    <style>
-        .product-th-width {
-            width: 113px;
-        }
-    </style>
+    
 </head>
 
 <body>
@@ -88,10 +85,11 @@ try {
                                 <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
 
                                     <div class="container">
-                                        <form action="doEditProductList.php" method="post">
+                                        <form action="doEditProductList.php" method="post" enctype="multipart/form-data">
                                             <div class="row ">
                                                 <div class="py-2 d-flex justify-content-between">
                                                     <a class="btn btn-primary" href="ProductList.php" title="回商品管理"><i class="fa-solid fa-left-long"></i></a>
+                                                    <a class="btn btn-primary" title="檢視商品" href="product.php?product_id=<?= $product_id ?>"><i class="fa-solid fa-circle-info m-1"></i></a>
                                                     <button type="submit" class="btn btn-danger" id="delBtn">刪除</button>
                                                 </div>
 
@@ -99,10 +97,19 @@ try {
                                                 <?php if ($productCount > 0) : ?>
                                                     <?php foreach ($rows as $row) : ?>
                                                         <div class="col-lg">
-                                                            <div class="ratio ratio-1x1">
-                                                                <img class="object-fit-cover" src="./ProductPicUpLoad/<?= $row["product_img"] ?>" alt="<?= $row["product_name"] ?>">
-                                                            </div>
+
+                                                                <div class="m-2">
+                                                                    <label for="formFile" class="form-label ">更新商品圖片</label>
+                                                                    <input type="file" id="formFile" name="pic" class="form-control" value="<?= $row["product_img"] ?>">
+                                                                </div>
+                                                                <div class="col-lg">
+                                                                    <div class="ratio ratio-1x1 border mb-2">
+                                                                        <img id="imagePreview" class="img-preview" src="./ProductPicUpLoad/<?= $row["product_img"] ?>" alt="Image Preview">
+                                                                    </div>
+                                                                </div>
+
                                                         </div>
+
                                                         <div class="col-lg">
 
                                                             <table class="table table-bordered">

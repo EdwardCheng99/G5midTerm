@@ -2,11 +2,19 @@
 require_once("../pdoConnect.php");
 
 // 每頁筆數
-$per_page = isset($_GET['per_page']) ? (int)$_GET['per_page'] : 10; // 預設為 10
-$startPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$per_page = isset($_GET['per_page']) ? $_GET['per_page'] : 10; // 預設為 10
+$startPage = isset($_GET['page']) ? $_GET['page'] : 1;
 $offset = ($startPage - 1) * $per_page;
 $orderID = 'product_id ';
 $orderValue = 'ASC';
+
+// 選擇分頁的時候都到選擇筆數的第一頁
+if (isset($_GET['per_page'])) {
+    $per_page = $_GET['per_page'];
+    $startPage = 1;
+} else {
+    $startPage = isset($_GET['page']) ? $_GET['page'] : 1;
+}
 
 //排序
 if (isset($_GET['order'])) {
@@ -268,7 +276,7 @@ try {
                                             <label>筆</label>
                                             <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
                                             <input type="hidden" name="page" value="<?= $startPage ?>"> <!-- 保留當前頁碼 -->
-                                            
+
                                         </form>
 
                                     </div>
@@ -370,7 +378,7 @@ try {
                                                         <option value="已下架" <?= ($product_status == "已下架") ? 'selected' : '' ?>>已下架</option>
                                                     </select>
                                                 </div>
-                                                
+
                                                 <div class="dataTable-search mt-2">
                                                     <form action="">
                                                         <div class="input-group">
@@ -384,24 +392,27 @@ try {
                                                     </form>
                                                 </div>
                                                 <div class="d-flex justify-content-between">
-                                        <form action="" method="get">
-                                            <label class="ms-2">每頁</label>
-                                            <div class="dataTable-dropdown">
-                                                <select name="per_page" class="dataTable-selector form-select" onchange="this.form.submit()">
-                                                    <option value="5" <?= ($per_page == 5) ? 'selected' : '' ?>>5</option>
-                                                    <option value="10" <?= ($per_page == 10) ? 'selected' : '' ?>>10</option>
-                                                    <option value="15" <?= ($per_page == 15) ? 'selected' : '' ?>>15</option>
-                                                    <option value="20" <?= ($per_page == 20) ? 'selected' : '' ?>>20</option>
-                                                    <option value="25" <?= ($per_page == 25) ? 'selected' : '' ?>>25</option>
-                                                    <input type="hidden" name="brand" value="<?= $brand ?>">
-                                                </select>
-                                            </div>
-                                            <label class="mb-3">筆</label>
-                                            <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
-                                            <input type="hidden" name="page" value="<?= $startPage ?>"> <!-- 保留當前頁碼 -->
-                                        </form>
+                                                    <form action="" method="get">
+                                                        <label class="ms-2">每頁</label>
+                                                        <div class="dataTable-dropdown">
+                                                            <select name="per_page" class="dataTable-selector form-select" onchange="this.form.submit()">
+                                                                <option value="5" <?= ($per_page == 5) ? 'selected' : '' ?>>5</option>
+                                                                <option value="10" <?= ($per_page == 10) ? 'selected' : '' ?>>10</option>
+                                                                <option value="15" <?= ($per_page == 15) ? 'selected' : '' ?>>15</option>
+                                                                <option value="20" <?= ($per_page == 20) ? 'selected' : '' ?>>20</option>
+                                                                <option value="25" <?= ($per_page == 25) ? 'selected' : '' ?>>25</option>
+                                                                <input type="hidden" name="brand" value="<?= $brand ?>">
+                                                                <input type="hidden" name="category" value="<?= $category ?>">
+                                                                <input type="hidden" name="sub" value="<?= $sub ?>">
+                                                                <input type="hidden" name="product_status" value="<?= $product_status ?>">
+                                                            </select>
+                                                        </div>
+                                                        <label class="mb-3">筆</label>
+                                                        <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
+                                                        <input type="hidden" name="page" value="<?= $startPage ?>"> <!-- 保留當前頁碼 -->
+                                                    </form>
 
-                                    </div>
+                                                </div>
                                             </form>
                                             <tr>
                                                 <td>查無商品</td>
@@ -429,6 +440,7 @@ try {
                                                         <a class="page-link" href="<?= $url ?>"><?= $i ?></a>
                                                     </li>
                                                 <?php endfor; ?>
+
                                             </ul>
                                         </nav>
                                     </div>
