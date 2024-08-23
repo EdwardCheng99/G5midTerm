@@ -81,7 +81,7 @@ $vendors = $stmt->fetchAll(PDO::FETCH_ASSOC); // 獲取所有 vendor 的數據
                     <div class="page-title">
                         <div class="row">
                             <div class="col-12 col-md-6 order-md-1 order-last">
-                                <button type="button" class="btn btn-primary mb-4"> <a class="text-white" href="./OfficialEventsList.php">回列表</a></button>
+                                <button type="button" class="btn btn-primary mb-4"> <a class="text-white" href="./OfficialEventsList.php?p=1&order=0">回列表</a></button>
                             </div>
                             <div class="col-12 col-md-6 order-md-2 order-first">
                                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
@@ -129,11 +129,7 @@ $vendors = $stmt->fetchAll(PDO::FETCH_ASSOC); // 獲取所有 vendor 的數據
                                 <label for="editor-container" class="form-label">活動內容</label>
                                 <div id="full">
                                 </div>
-                                <!-- <div class="editor-container"></div> -->
                                 <input type="hidden" id="EventInfo" name="EventInfo" require>
-                                <!-- <label for="editor-container" class="form-label">活動內容</label>
-                                <div id="editor-container"></div>
-                                <input type="hidden" id="EventInfo" name="EventInfo" require> -->
                             </div>
                             <div class="mb-3">
                                 <label for="eventTag" class="form-label col-3">活動標籤</label>
