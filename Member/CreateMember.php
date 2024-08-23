@@ -200,14 +200,19 @@
     </footer>
     </div>
     </div>
-    <!-- 觸發 Modal 的按鈕 -->
-    <button type="button" class="btn btn-warning" onclick="showAlert()">顯示警示訊息</button>
-
     <script>
-    function showAlert() {
-        var alertModal = new bootstrap.Modal(document.getElementById('alertModal'));
-        alertModal.show();
-    }
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const status = urlParams.get('status');
+            const message = urlParams.get('message');
+
+            if (status === 'success') {
+                alert('會員資料已成功新增。');
+            } else if (status === 'error') {
+                alert('新增會員資料時發生錯誤：' + decodeURIComponent(message));
+            }
+        });
+    </script>
     </script>
     <script>
         src = "https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"

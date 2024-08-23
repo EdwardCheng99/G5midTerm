@@ -124,16 +124,11 @@ try {
         // ":updateuserid" => $updateuserid,
     ]);
 
-    echo "<script>
-            alert('會員資料已成功新增。');
-            window.location.href = 'MemberList.php';
-          </script>";
+    header("Location: createMember.php?status=success");
     exit;
 
 } catch (PDOException $e) {
-    echo "預處理陳述式執行失敗！<br/>";
-    echo "Error: " . $e->getMessage() . "<br/>";
-    $db_host = NULL;
+    header("Location: createMember.php?status=error&message=" . urlencode($e->getMessage()));
     exit;
 }
 

@@ -68,10 +68,10 @@ $currentFolderName = basename($currentDirectory);
                         <span>會員資料管理</span>
                     </a>
                 </li>
-                <li class="sidebar-item <?php if ($currentFolderName == 'Member') {
+                <li class="sidebar-item <?php if ($currentFolderName == 'Order') {
                                             echo 'active';
                                         } ?>">
-                    <a href="/G5midTerm/Member/OrderList.php" class='sidebar-link'>
+                    <a href="/G5midTerm/Order/OrderList.php" class='sidebar-link'>
                         <i class="fa-regular fa-clipboard fa-fw"></i>
                         <span>訂單管理</span>
                     </a>
