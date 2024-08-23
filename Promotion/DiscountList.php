@@ -186,8 +186,8 @@ try {
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">促銷時間</span>
                                             </div>
-                                            <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="Select date.." readonly="readonly" name="searchStartTime" value="<?= $searchStartTime ?>">
-                                            <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="Select date.." readonly="readonly" name="searchEndTime" value="<?= $searchEndTime ?>">
+                                            <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="開始時間" readonly="readonly" name="searchStartTime" value="<?= $searchStartTime ?>">
+                                            <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="結束時間" readonly="readonly" name="searchEndTime" value="<?= $searchEndTime ?>">
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-md-4 col-12">
@@ -210,15 +210,11 @@ try {
                                             </select>
                                         </div>
                                     </div>
-
-
-
                                     <div class="col-auto">
                                         <button type="submit" class="btn btn-primary me-1 mb-1"><i class="fa-solid fa-magnifying-glass" id="searchbtn"></i></button>
                                         <a class="btn btn-light-secondary me-1 mb-1" href="DiscountList.php" id="resetBtn"><i class="fa-solid fa-delete-left"></i></a>
                                     </div>
                                 </div>
-
                             </div>
 
                         </div>
@@ -385,8 +381,9 @@ try {
 
                         </div>
                     </form>
+
+                </section>
             </div>
-            </section>
         </div>
         <?php include("../footer.php") ?>
     </div>
