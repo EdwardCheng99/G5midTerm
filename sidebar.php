@@ -84,14 +84,14 @@ $currentFolderName = basename($currentDirectory);
                         <span>商品管理</span>
                     </a>
                 </li>
-                <!-- <li class="sidebar-item <?php if ($currentFolderName == 'ProductCategoryList.php') {
+                <li class="sidebar-item <?php if ($currentFolderName == 'ProductCategoryList.php') {
                                                     echo 'active';
                                                 } ?>">
                     <a href="/G5midTerm/Product/ProductCategoryList.php" class='sidebar-link'>
                         <i class="fa-solid fa-list fa-fw"></i>
                         <span>商品類別管理</span>
                     </a>
-                </li> -->
+                </li>
 
                 <li class="sidebar-item <?php if ($currentFolderName == 'Promotion') {
                                             echo 'active';

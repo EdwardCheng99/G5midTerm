@@ -101,6 +101,11 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                             <div class="form-group">
                                                 <label for="" class="required">滿足條件類別</label>
                                                 <select class="form-select" name="" id="PromotionCondition">
+                                                    <!-- <?php if (!empty($PromotionCondition_options)) : ?>
+                                                        <?php foreach ($PromotionCondition_options as $option): ?>
+                                                            
+                                                        <?php endforeach; ?>
+                                                    <?php endif;  ?> -->
                                                     <?php
                                                     if (!empty($PromotionCondition_options)) {
                                                         foreach ($PromotionCondition_options as $option) {
@@ -108,7 +113,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                                             echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
                                                         }
                                                     } else {
-                                                        echo "<option value=''>No options available</option>";
+                                                        echo "<option value=''>無可用選項</option>";
                                                     }
                                                     ?>
                                                 </select>
@@ -131,7 +136,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                                             echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
                                                         }
                                                     } else {
-                                                        echo "<option value=''>No options available</option>";
+                                                        echo "<option value=''>無可用選項</option>";
                                                     }
                                                     ?>
                                                 </select>
@@ -154,7 +159,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                                             echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
                                                         }
                                                     } else {
-                                                        echo "<option value=''>No options available</option>";
+                                                        echo "<option value=''>無可用選項</option>";
                                                     }
                                                     ?>
                                                 </select>
@@ -171,7 +176,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                                             echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
                                                         }
                                                     } else {
-                                                        echo "<option value=''>No options available</option>";
+                                                        echo "<option value=''>無可用選項</option>";
                                                     }
                                                     ?>
                                                 </select>
@@ -188,7 +193,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                                             echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
                                                         }
                                                     } else {
-                                                        echo "<option value=''>No options available</option>";
+                                                        echo "<option value=''>無可用選項</option>";
                                                     }
                                                     ?>
                                                 </select>
@@ -205,7 +210,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                                             echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
                                                         }
                                                     } else {
-                                                        echo "<option value=''>No options available</option>";
+                                                        echo "<option value=''>無可用選項</option>";
                                                     }
                                                     ?>
                                                 </select>
