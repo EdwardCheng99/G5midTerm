@@ -22,7 +22,7 @@ if (isset($_GET["p"]) && isset($_GET["order"]) && isset($_GET["perPage"])) {
     $start_item = ($page - 1) * $per_page;
     $sql = "SELECT * FROM Petcommunicator WHERE valid=1 ORDER BY $orderID $orderValue LIMIT $start_item, $per_page ";
     $stmt = $dbHost->prepare($sql);
-} elseif (isset($_GET["search"]) && $_GET["search"]!= "") {
+} elseif (isset($_GET["search"]) && $_GET["search"] != "") {
     $search = $_GET["search"];
     $sql = "SELECT * FROM Petcommunicator WHERE PetCommName LIKE :search AND valid=1";
     $stmt = $dbHost->prepare($sql);
@@ -58,29 +58,49 @@ $total_page = ceil($CommCounts / $per_page);
     <?php include("../headlink.php") ?>
     <style>
         #mainTable th:nth-child(1),
-  #mainTable td:nth-child(1) {
-    width: 5em; 
-  }
+        #mainTable td:nth-child(1) {
+            width: 5em;
+        }
+
         #mainTable th:nth-child(2),
-  #mainTable td:nth-child(2) {
-    width: 10em; 
-  }
-  #mainTable th:nth-child(3),
-  #mainTable td:nth-child(3) {
-    width: 5em; 
-  }
-  #mainTable th:nth-child(4),
-  #mainTable td:nth-child(4) {
-    width: 25em; 
-  }
-  #mainTable th:nth-child(5),
-  #mainTable td:nth-child(5) {
-    width: 15em; 
-  }
-  #mainTable th:nth-child(6),
-  #mainTable td:nth-child(6) {
-    width: 10em; 
-  }
+        #mainTable td:nth-child(2) {
+            width: 10em;
+        }
+
+        #mainTable th:nth-child(3),
+        #mainTable td:nth-child(3) {
+            width: 5em;
+        }
+
+        #mainTable th:nth-child(4),
+        #mainTable td:nth-child(4) {
+            width: 25em;
+        }
+
+        #mainTable th:nth-child(5),
+        #mainTable td:nth-child(5) {
+            width: 15em;
+        }
+
+        #mainTable th:nth-child(6),
+        #mainTable td:nth-child(6) {
+            width: 10em;
+        }
+
+        .updateDate {
+            right: 10px
+        }
+
+        .comment-row {
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+            max-height: 0;
+        }
+
+        .comment-row.open {
+            max-height: 500px;
+            /* Adjust as needed */
+        }
     </style>
 </head>
 
@@ -152,7 +172,7 @@ $total_page = ceil($CommCounts / $per_page);
                                         <?php endif ?>
                                         <?php if (!isset($_GET["search"])) : ?>
                                             <div>
-                                            <a href="Creat-communicator.php" class="btn btn-primary mb-2">新增師資</a>
+                                                <a href="Creat-communicator.php" class="btn btn-primary mb-2">新增師資</a>
                                             </div>
                                         <?php endif ?>
 
@@ -178,12 +198,12 @@ $total_page = ceil($CommCounts / $per_page);
                                             <table class="table table-striped dataTable-table" id="mainTable">
                                                 <thead>
                                                     <tr>
-                                                        <th data-sortable="" class="<?= $orderID=='PetCommID' ?($orderValue === 'ASC' ? 'asc' : 'desc') : ''?>" aria-sort="descending"><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">編號</a></th>
-                                                        <th class="<?= $orderID=='PetCommName' ?($orderValue === 'ASC' ? 'asc' : 'desc') : ''?>"  data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommName:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">名稱</a></th>
-                                                        <th class="<?= $orderID=='PetCommSex' ?($orderValue === 'ASC' ? 'asc' : 'desc') : ''?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommSex:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">性別</a></th>
-                                                        <th class="<?= $orderID=='PetCommCertificateid' ?($orderValue === 'ASC' ? 'asc' : 'desc') : ''?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateid:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">證書編號</a></th>
-                                                        <th class="<?= $orderID=='PetCommCertificateDate' ?($orderValue === 'ASC' ? 'asc' : 'desc') : ''?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">取證日期</a></th>
-                                                        <th class="<?= $orderID=='PetCommStatus' ?($orderValue === 'ASC' ? 'asc' : 'desc') : ''?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommStatus:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刊登狀態</a></th>
+                                                        <th data-sortable="" class="<?= $orderID == 'PetCommID' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" aria-sort="descending"><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">編號</a></th>
+                                                        <th class="<?= $orderID == 'PetCommName' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommName:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">名稱</a></th>
+                                                        <th class="<?= $orderID == 'PetCommSex' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommSex:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">性別</a></th>
+                                                        <th class="<?= $orderID == 'PetCommCertificateid' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateid:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">證書編號</a></th>
+                                                        <th class="<?= $orderID == 'PetCommCertificateDate' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">取證日期</a></th>
+                                                        <th class="<?= $orderID == 'PetCommStatus' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommStatus:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刊登狀態</a></th>
 
                                                         <th></th>
                                                         <th></th>
@@ -200,44 +220,49 @@ $total_page = ceil($CommCounts / $per_page);
                                                             <td><?= $user["PetCommCertificateid"] ?></td>
                                                             <td><?= $user["PetCommCertificateDate"] ?></td>
                                                             <td><?= $user["PetCommStatus"] ?></td>
+
                                                             <td>
                                                                 <a href="Edit-communicator.php?id=<?= $user["PetCommID"] ?>"> <i class="fa-solid fa-pen-to-square fa-lg"></i></a>
                                                             </td>
-                                                            <td>
-                                                                <a href="petcommunicator.php?id=<?= $user["PetCommID"] ?>"><i class="fa-solid fa-circle-info"></i></a>
-                                                            </td>
+
                                                             <td>
                                                                 <a href="WarningAlert.php?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&del=<?= $user["PetCommID"] ?>&order=<?= $order ?>&perPage=<?= $per_page ?>"><i class="fa-solid fa-trash-can"></i></a>
                                                             </td>
+                                                            <td>
+                                                                <button class="btn btn-primary card-control" id="cardControl-<?= $user["PetCommID"] ?>"><i class="fa-solid fa-angles-down"></i></button>
+                                                            </td>
 
                                                         </tr>
-                                                        <!-- <tr class="">
-                                                                <td colspan="9">
-                                                                    <div class="comment">
-                                                                        <div class="comment-header">
-                                                                            <div class="pr-50">
-                                                                                <div class="avatar avatar-2xl">
-                                                                                    <img src="./assets/compiled/jpg/2.jpg" alt="Avatar">
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="comment-body">
-                                                                                <div class="comment-profileName">Muhammad Alfian </div>
-                                                                                <div class="comment-time">8 seconds ago</div>
-                                                                                <div class="comment-message">
-                                                                                    <p class="list-group-item-text truncate mb-20">Your <a href="https://github.com/alfianchii/confess" target="_blank">confession</a> will be processed. Stay tuned!</p>
-                                                                                </div>
-                                                                                <div class="comment-actions">
-                                                                                    <button class="btn icon icon-left btn-primary me-2 text-nowrap"><i class="bi bi-eye-fill"></i> Show</button>
-                                                                                    <button class="btn icon icon-left btn-warning me-2 text-nowrap"><i class="bi bi-pencil-square"></i> Edit</button>
-                                                                                    <button class="btn icon icon-left btn-danger me-2 text-nowrap"><i class="bi bi-x-circle"></i> Remove</button>
-                                                                                </div>
+                                                        <tr id="cardlist-<?= $user["PetCommID"] ?>" class="card-list d-none ">
+                                                            <td colspan="9">
+                                                                <div class="comment position-relative">
+                                                                    <div class="comment-header">
+                                                                        <div class="pr-50">
+                                                                            <div class="avatar avatar-2xl">
+                                                                                <img src="./images/<?= $user["PetCommImg"] ?>" alt="Avatar">
                                                                             </div>
                                                                         </div>
+                                                                        <div class="comment-body">
+                                                                            <div class="comment-profileName"><?= $user["PetCommName"] ?></div>
+                                                                            <div class="comment-time">Email:<?= $user["PetCommEmail"] ?></div>
+                                                                            <div class="comment-message">
+                                                                                <p class="list-group-item-text truncate mb-20">
+                                                                                    [服務項目]<br><?= $user["PetCommService"] ?>
+                                                                                </p>
+                                                                                <p class="list-group-item-text truncate mb-20">
+                                                                                    [預約費用]<br><?= $user["PetCommFee"] ?>
+                                                                                </p>
+                                                                            </div>
+                                                                            <a href="petcommunicator.php?id=<?= $user["PetCommID"] ?>" class="btn icon icon-left btn-primary me-2 text-nowrap"><i class="bi bi-eye-fill"></i> ShowALL</a>
+
+                                                                        </div>
                                                                     </div>
-                                                                </td>
-                                                            </tr> -->
-
-
+                                                                    <div class="text-end position-absolute updateDate">
+                                                                        <p>上次更新:<?= $user["PetCommUpdateDate"] ?></p>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
                                                     <?php endforeach ?>
                                                 </tbody>
                                             </table>
@@ -299,11 +324,20 @@ $total_page = ceil($CommCounts / $per_page);
         </div>
     </div>
     <script>
-        const delBtn = document.querySelector("#delBtn");
-        const warningAlert = document.querySelector("#warningAlert");
-        delBtn.addEventListener("click", function() {
-            warningAlert.classList.add('flex');
-        })
+        // 名片卡
+        const cardControl = document.querySelectorAll('.card-control')
+        cardControl.forEach(
+            function(button) {
+                button.addEventListener('click', function() {
+                    const userId = button.id.split('-')[1];
+                    const cardList = document.querySelector(`#cardlist-${userId}`);
+                    if (cardList.classList.contains("d-none")) {
+                        cardList.classList.remove("d-none");
+                    }else{
+                        cardList.classList.add("d-none");
+                    }
+                })
+            })
     </script>
 
     <script src="../assets/static/js/components/dark.js"></script>
@@ -311,6 +345,9 @@ $total_page = ceil($CommCounts / $per_page);
     <script src="../assets/compiled/js/app.js"></script>
 
 
+    <script>
+        console.log("JavaScript code loaded");
+    </script>
 </body>
 
 </html>
