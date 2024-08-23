@@ -226,9 +226,9 @@ try {
                             </div>
                         </div>
                     </section>
-                </div>      
+                </div>
+                <?php include("../footer.php") ?>      
         </div>
-        <?php include("../footer.php") ?>
     </div>
     <?php include("../js.php") ?>
     <script>

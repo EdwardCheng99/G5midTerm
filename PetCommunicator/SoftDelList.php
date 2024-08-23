@@ -234,8 +234,8 @@ $total_page = ceil($CommCounts / $per_page);
                     </div>
                 </section>
             </div>
+            <?php include("../footer.php") ?>
         </div>
-        <?php include("../footer.php") ?>
     </div>
     <?php include("../js.php") ?>
 
