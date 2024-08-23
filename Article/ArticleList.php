@@ -6,7 +6,6 @@ $per_page = isset($_GET["per_page"]) ? $_GET["per_page"] : 10;
 // 分頁(預設1)
 $page = isset($_GET["p"]) ? $_GET["p"] : 1;
 $start_item = ($page - 1) * $per_page;
-
 $orderBy = "ORDER BY ArticleUpdateDate DESC"; // 預設排序
 
 try {
@@ -208,9 +207,7 @@ try {
                             <div class="col-1 d-flex justify-content-end align-items-center">
                                 <a href="../Article/CreateArticle.php"><button type="submit"
                                         class="btn btn-primary me-1 mb-1">新增</button></a>
-
                             </div>
-                            <!-- </div> -->
                         </div>
                         <table class="table table-striped dataTable-table" id="table1">
                             <thead>
@@ -246,9 +243,9 @@ try {
                             </thead>
                             <tbody>
                                 <?php if ($articleAll > 0): ?>
-                                <?php foreach ($rows as $article) : ?>
+                                <?php $i = $start_item+1; foreach ($rows as $article) : ?>
                                 <tr>
-                                    <td><?= $article["ArticleID"] ?></td>
+                                    <td><?= $i++ ?></td>
                                     <td>
                                         <?php if (!empty($article["ImageUrl"])): ?>
                                         <img src="../upload/<?= $article["ImageUrl"] ?>" alt="Image" width="100"
@@ -272,10 +269,8 @@ try {
                                     </td>
                                     <?php endforeach; ?>
                                     <?php else: ?>
-                                <tr>
-                                    <td>目前沒有匹配查詢的文章</td>
-                                </tr>
-                                <?php endif; ?>
+                                       <td colspan="8">目前沒有匹配查詢的文章</td>
+                                <?php endif;?>
                                 </tr>
                             </tbody>
                         </table>
@@ -331,5 +326,7 @@ try {
 
 </body>
 <?php include("../js.php") ?>
+
+
 
 </html>

@@ -89,11 +89,8 @@ try {
                         <div class="card">
                             <div class="card-body">
                                 <div class="row ">
-                                    <div class="col-12 ">
-                                        <label for="">文章編號</label>
-                                        <input type="text" id="articleID" name="ArticleID"
+                                        <input type="hidden" id="articleID" name="ArticleID"
                                             value="<?= $article['ArticleID'] ?>" readonly>
-                                    </div>
                                     <input type="hidden" name="update_image" value="<?= $article['ImageUrl'] ?>">
 
                                     <div class="mb-3">
