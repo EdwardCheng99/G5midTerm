@@ -7,15 +7,16 @@
     <title>新增商品</title>
     <link rel="stylesheet" href="./css.css">
     <link rel="stylesheet" href="../assets/style.css">
+    <link rel="stylesheet" href="../assets/extensions/quill/quill.snow.css">
+    <link rel="stylesheet" href="../assets/extensions/quill/quill.bubble.css">
+    <link rel="stylesheet" href="../assets/extensions/choices.js/public/assets/styles/choices.css">
     <?php include("../headlink.php") ?>
+    <?php include("../sidebar.php") ?>
+    <?php include("../css.php") ?>
 </head>
 
 <body>
-    <script src="../assets/static/js/initTheme.js"></script>
     <div id="app">
-        <?php include("../sidebar.php") ?>
-        <?php include("../css.php") ?>
-
         <div id="main" class='layout-navbar navbar-fixed'>
             <header>
             </header>
@@ -41,25 +42,27 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-                                    <div class="dataTable-top">
+                                    <div class="">
                                         <div class="py-2">
                                             <a class="btn btn-primary" href="ProductList.php" title="回商品管理"><i class="fa-solid fa-arrow-left"></i></a>
+                                            <!-- 要新增的內容包在表單中 -->
+                                            <form action="doCreateProduct.php" method="POST" enctype="multipart/form-data">
+                                                <div class="col-lg col-md col-12">
+                                                    <div class="row align-items-center mt-2">
+                                                        <label for="" class="mb-2 required">上架時間</label>
+                                                        <div class="col">
+                                                            <input type="text" class=" form-control  flatpickr-no-config active " placeholder="開始時間" readonly="readonly" name="product_start_time" required>
+                                                        </div>
+                                                        -
+                                                        <div class="col">
+                                                            <input type="text" class=" form-control  flatpickr-no-config active " placeholder="結束時間" readonly="readonly" name="product_end_time" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                         </div>
-
-                                        <div class="dataTable-search">
-
-                                        </div>
-                                    </div>
-
-
-
-                                    <form action="doCreateProduct.php" method="POST" enctype="multipart/form-data">
-
                                         <div class="row">
                                             <div class="col-6">
-                                            
                                                 <div class="mb-2">
-
                                                     <label for="productName" class="form-label required">商品名稱</label>
                                                     <input type="text" class="form-control" name="product_name" required>
                                                 </div>
@@ -110,52 +113,53 @@
                                                     <input type="text" class="form-control" name="product_stock" required>
                                                 </div>
                                             </div>
-                                            <div class="col">
+                                            <div class="col-6">
                                                 <div class="mb-2">
                                                     <!-- <label for="productPicName" class="form-label" >商品圖片上傳</label>
                                                     <input type="text" class="form-control" name="product_img" required> -->
                                                 </div>
-                                                <div class="mb-2">
-                                                    <label for="formFile" class="form-label required">選取商品圖片</label>
-                                                    <input type="file" id="formFile" name="pic" class="form-control" required>
-                                                </div>
-                                                <div class="col-lg-5">
-                                                    <div class="ratio ratio-4x3 border mb-2">
-                                                        <img id="imagePreview" class="img-preview" src="" alt="Image Preview">
+                                                <div class="">
+                                                    <div class="mb-2">
+                                                        <label for="formFile" class="form-label required">選取商品圖片</label>
+                                                        <input type="file" id="formFile" name="pic" class="form-control" required>
+                                                    </div>
+                                                    <div class="mt-5">
+                                                        <div class="ratio ratio-4x3 border">
+                                                            <img id="imagePreview" class="img-preview" src="" alt="Image Preview">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg">
-                                                    <div class="form-group">
-                                                        <label for="" class="form-label required">商品介紹</label>
-                                                        <textarea class="form-control" rows="8" maxlength="400" placeholder="請輸入商品介紹" name="product_info" required></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="d-flex justify-content-end">
-                                                    <button class="btn btn-primary" type="submit">送出</button>
-                                                    <button type="reset" class="btn btn-light-secondary ms-2">清除</button>
+                                            </div>
+                                            <div class="col-lg">
+                                                <div class="">
+                                                    <label for="" class="form-label required">商品介紹</label>
+                                                    <textarea class="form-control" rows="8" maxlength="400" placeholder="請輸入商品介紹" name="product_info" required></textarea>
                                                 </div>
                                             </div>
                                         </div>
-                                    </form>
+                                        <div class="row mt-3">
+                                            <div class="d-flex justify-content-end">
+                                                <button class="btn btn-primary" type="submit">送出</button>
+                                                <button type="reset" class="btn btn-light-secondary ms-2">清除</button>
+                                            </div>
+                                        </div>
+                                        </form>
+                                    </div>
+                                    <!-- 新增內容在上方 -->
                                 </div>
                             </div>
-
                         </div>
                 </div>
             </div>
             </section>
         </div>
     </div>
-    </div>
-
-
-    <script src="../assets/static/js/components/dark.js"></script>
-    <script src="../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <?php include("../js.php") ?>
     <?php include("./product-js.php") ?>
+    <script src="../assets/static/js/components/dark.js"></script>
+    <script src="../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="../assets/compiled/js/app.js"></script>
-
-
+    <script src="../assets/static/js/pages/form-element-select.js"></script>
+    <script src="../assets/static/js/initTheme.js"></script>
 </body>
-
 </html>

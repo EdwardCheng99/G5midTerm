@@ -37,6 +37,11 @@ try {
     <title>商品內容</title>
 
     <?php include("../headlink.php") ?>
+    <style>
+        .product-img-size {
+            height: 25.5rem;
+        }
+    </style>
 </head>
 
 <body>
@@ -68,25 +73,23 @@ try {
                         <div class="card">
                             <div class="card-body">
                                 <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-
+                                    <!-- NavBar -->
                                     <div class="container">
                                         <div class="py-2">
                                             <a class="btn btn-primary" href="ProductList.php" title="回商品管理"><i class="fa-solid fa-left-long"></i></a>
                                             <a class="btn btn-primary" href="EditProductList.php?product_id=<?= $product_id ?>" title="編輯商品"><i class="fa-solid fa-pen-to-square"></i></a>
                                         </div>
-                                        
+                                        <!-- 檢視內容 -->
                                         <div class="row ">
                                             <?php if ($productCount > 0) : ?>
                                                 <?php foreach ($rows as $row) : ?>
                                                     <div class="col-lg">
-                                                        <div class="ratio ratio-1x1">
+                                                        <div class="ratio ratio-1x1 product-img-size">
                                                             <img class="object-fit-cover" src="./ProductPicUpLoad/<?= $row["product_img"] ?>" alt="<?= $row["product_name"] ?>">
                                                         </div>
                                                     </div>
                                                     <div class="col-lg">
-
                                                         <table class="table table-bordered">
-
                                                             <tr>
                                                                 <th>商品編號</th>
                                                                 <td><?= $row["product_id"] ?></td>
@@ -115,10 +118,10 @@ try {
                                                                 <th>原價</th>
                                                                 <td><?= $row["product_origin_price"] ?></td>
                                                             </tr>
-                                                            <tr>
+                                                            <!-- <tr>
                                                                 <th>售價</th>
                                                                 <td><?= $row["product_sale_price"] ?></td>
-                                                            </tr>
+                                                            </tr> -->
                                                             <tr>
                                                                 <th>庫存</th>
                                                                 <td><?= $row["product_stock"] ?></td>
@@ -131,21 +134,18 @@ try {
                                                                 <th>上次更新時間</th>
                                                                 <td><?= $row["product_update_date"] ?></td>
                                                             </tr>
-                                                        
                                                         </table>
-
                                                     </div>
                                                     <div class="col-lg">
-                                                        
-                                                            <table>
-                                                                <tr>
-                                                                    <th>商品介紹</th>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><?= $row["product_info"] ?></td>
-                                                                </tr>
-                                                            </table>
-                                                        <?php endforeach; ?>
+                                                        <table>
+                                                            <tr>
+                                                                <th>商品介紹</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><?= $row["product_info"] ?></td>
+                                                            </tr>
+                                                        </table>
+                                                    <?php endforeach; ?>
                                                     </div>
                                                 <?php endif; ?>
                                         </div>
@@ -168,10 +168,6 @@ try {
     </div>
     <script src="../assets/static/js/components/dark.js"></script>
     <script src="../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-
     <script src="../assets/compiled/js/app.js"></script>
-
-
 </body>
-
 </html>

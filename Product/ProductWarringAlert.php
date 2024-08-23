@@ -149,7 +149,6 @@ try {
         </form>
     </div>
     <!--  -->
-    
     <div id="app">
         <?php include("../sidebar.php") ?>
         <div id="main" class='layout-navbar navbar-fixed'>
@@ -178,11 +177,8 @@ try {
                             <div class="card-body">
                                 <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
                                     <div class="dataTable-top">
-
-                                        共計 <?= $productCount ?> 樣商品 
                                         <a class="btn btn-primary ms-2" href="create-product.php">新增商品</a>
                                         <a class="btn btn-primary ms-2" href="RepairProduct.php">復原已刪除的商品</a>
-
                                     </div>
                                     <div>
                                         <?php if ($productCount > 0) : ?>
@@ -200,7 +196,6 @@ try {
                                                 <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
                                                 <input type="hidden" name="page" value="<?= $startPage ?>"> <!-- 保留當前頁碼 -->
                                                 <input type="hidden" name="per_page" value="<?= $per_page ?>">
-
                                                 <label class="ms-2">類別</label>
                                                 <div class="dataTable-dropdown">
                                                     <select name="category" class="dataTable-selector form-select" onchange="this.form.submit()">
@@ -210,7 +205,6 @@ try {
                                                         <option value="貓皇保健" <?= ($category == "貓皇保健") ? 'selected' : '' ?>>貓皇保健</option>
                                                     </select>
                                                 </div>
-
                                                 <label class="ms-2">分類</label>
                                                 <div class="dataTable-dropdown">
                                                     <select name="sub" class="dataTable-selector form-select" onchange="this.form.submit()">
@@ -238,13 +232,7 @@ try {
                                                         </div>
                                                     </form>
                                                 </div>
-
-
-
                                             </form>
-
-
-
                                             <tbody>
                                                 <!-- <?php foreach ($rows as $row) : ?>
                                                     <tr>
@@ -252,7 +240,6 @@ try {
                                                     </tr>
                                                 <?php endforeach; ?> -->
                                             </tbody>
-
                                     </div>
                                     <!-- 控制每頁筆數 -->
                                     <form action="" method="get">
@@ -271,9 +258,7 @@ try {
                                         <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
                                         <input type="hidden" name="page" value="<?= $startPage ?>"> <!-- 保留當前頁碼 -->
                                     </form>
-
                                     <div class="dataTable-container">
-
                                         <!-- 商品內容 -->
                                         <table class="table table-striped dataTable-table" id="table1">
                                             <thead>
@@ -289,7 +274,6 @@ try {
                                                     <th data-sortable=""><a href="#" class="dataTable-sorter ms-2">商品操作</a></th>
                                                 </tr>
                                             </thead>
-
                                             <tbody>
                                                 <?php foreach ($rows as $row) : ?>
                                                     <tr>
@@ -329,7 +313,6 @@ try {
                                                 <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
                                                 <input type="hidden" name="page" value="<?= $startPage ?>"> <!-- 保留當前頁碼 -->
                                                 <input type="hidden" name="per_page" value="<?= $per_page ?>">
-
                                                 <label class="ms-2">類別</label>
                                                 <div class="dataTable-dropdown">
                                                     <select name="category" class="dataTable-selector form-select" onchange="this.form.submit()">
@@ -339,7 +322,6 @@ try {
                                                         <option value="貓皇保健" <?= ($category == "貓皇保健") ? 'selected' : '' ?>>貓皇保健</option>
                                                     </select>
                                                 </div>
-
                                                 <label class="ms-2">分類</label>
                                                 <div class="dataTable-dropdown">
                                                     <select name="sub" class="dataTable-selector form-select" onchange="this.form.submit()">
@@ -381,7 +363,6 @@ try {
                                         <nav class="dataTable-pagination">
                                             <!-- 分頁 -->
                                             <ul class="dataTable-pagination-list pagination pagination-primary">
-
                                                 <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
                                                     <?php
                                                     // 當前頁是否是搜尋頁
@@ -418,8 +399,5 @@ try {
     <?php include("../js.php") ?>
     <?php include("./product-js.php") ?>
     <script src="../assets/compiled/js/app.js"></script>
-
-
 </body>
-
 </html>

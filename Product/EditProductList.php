@@ -33,11 +33,18 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./alert.css">
     <link rel="stylesheet" href="./Edit.css">
+    <link rel="stylesheet" href="../assets/extensions/quill/quill.snow.css">
+    <link rel="stylesheet" href="../assets/extensions/quill/quill.bubble.css">
 
     <title>商品內容</title>
 
     <?php include("../headlink.php") ?>
-    
+    <style>
+        .product-img-size {
+            height: 26rem;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -83,37 +90,54 @@ try {
                         <div class="card">
                             <div class="card-body">
                                 <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-
                                     <div class="container">
                                         <form action="doEditProductList.php" method="post" enctype="multipart/form-data">
                                             <div class="row ">
+                                                <!-- NavBar -->
                                                 <div class="py-2 d-flex justify-content-between">
                                                     <a class="btn btn-primary" href="ProductList.php" title="回商品管理"><i class="fa-solid fa-left-long"></i></a>
                                                     <a class="btn btn-primary" title="檢視商品" href="product.php?product_id=<?= $product_id ?>"><i class="fa-solid fa-circle-info m-1"></i></a>
                                                     <button type="submit" class="btn btn-danger" id="delBtn">刪除</button>
                                                 </div>
-
-
+                                                <!-- 編輯內容 -->
                                                 <?php if ($productCount > 0) : ?>
                                                     <?php foreach ($rows as $row) : ?>
                                                         <div class="col-lg">
-
-                                                                <div class="m-2">
-                                                                    <label for="formFile" class="form-label ">更新商品圖片</label>
-                                                                    <input type="file" id="formFile" name="pic" class="form-control" value="<?= $row["product_img"] ?>">
+                                                            <div class="m-2">
+                                                                <label for="formFile" class="form-label ">更新商品圖片</label>
+                                                                <input type="file" id="formFile" name="pic" class="form-control" value="<?= $row["product_img"] ?>">
+                                                            </div>
+                                                            <div class="col-lg">
+                                                                <div class="ratio ratio-1x1 border mb-2">
+                                                                    <img id="imagePreview" class="img-preview product-img-size" src="./ProductPicUpLoad/<?= $row["product_img"] ?>" alt="Image Preview">
                                                                 </div>
-                                                                <div class="col-lg">
-                                                                    <div class="ratio ratio-1x1 border mb-2">
-                                                                        <img id="imagePreview" class="img-preview" src="./ProductPicUpLoad/<?= $row["product_img"] ?>" alt="Image Preview">
-                                                                    </div>
-                                                                </div>
-
+                                                            </div>
                                                         </div>
-
                                                         <div class="col-lg">
-
                                                             <table class="table table-bordered">
-
+                                                                <tr>
+                                                                    <th>
+                                                                        <label for="EventPublishStartTime" class="form-label">上架時間</label>
+                                                                    <td>
+                                                                        <input
+                                                                            type="text"
+                                                                            class="form-control mb-3 flatpickr-no-config flatpickr-input active" id="EventPublishStartTime" name="product_start_time" placeholder="上架時間"  readonly="readonly">
+                                                                    </td>
+                                                                    </td>
+                                                                    </th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>
+                                                                        <label for="EventPublishEndTime" class="form-label">下架時間</label>
+                                                                    </th>
+                                                                    <td>
+                                                                        <input
+                                                                            type="text"
+                                                                            class="form-control mb-3 flatpickr-no-config flatpickr-input active"
+                                                                            id="EventPublishEndTime"
+                                                                            placeholder="下架時間" name="product_end_time"  readonly="readonly">
+                                                                    </td>
+                                                                </tr>
                                                                 <tr>
                                                                     <th class="product-th-width">商品編號</th>
                                                                     <td><?= $row["product_id"] ?></td>
@@ -174,10 +198,6 @@ try {
                                                                     <td><input class="form-control" type="text" value="<?= $row["product_origin_price"] ?>" name="product_origin_price"></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <th class="product-th-width">售價</th>
-                                                                    <td><input class="form-control" type="text" value="<?= $row["product_sale_price"] ?>" name="product_sale_price"></td>
-                                                                </tr>
-                                                                <tr>
                                                                     <th class="product-th-width">庫存</th>
                                                                     <td><input class="form-control" type="text" value="<?= $row["product_stock"] ?>" name="product_stock"></td>
                                                                 </tr>
@@ -191,7 +211,6 @@ try {
                                                                 </tr>
                                                             <?php endforeach; ?>
                                                             </table>
-
                                                         </div>
                                                         <div class="col-lg">
                                                             <?php foreach ($rows as $row) : ?>
@@ -201,16 +220,15 @@ try {
                                                                     </tr>
                                                                     <tr>
                                                                         <td>
-                                                                            <textarea rows="20" cols="50" class="form-control" type="text" name="product_info"><?= $row["product_info"] ?></textarea>
+                                                                            <textarea rows="25" cols="50" class="form-control" type="text" name="product_info"><?= $row["product_info"] ?></textarea>
                                                                         </td>
                                                                     </tr>
                                                                 </table>
                                                             <?php endforeach; ?>
                                                         </div>
                                                     <?php endif; ?>
-
                                             </div>
-                                            <div class="d-flex justify-content-end">
+                                            <div class="d-flex justify-content-end mt-2">
                                                 <button type="submit" class="btn btn-primary">儲存</button>
                                             </div>
                                         </form>
@@ -231,13 +249,10 @@ try {
             </footer>
         </div>
     </div>
-    <script src="../assets/static/js/components/dark.js"></script>
-    <script src="../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <?php include("../js.php") ?>
     <?php include("./product-js.php") ?>
+    <script src="../assets/static/js/components/dark.js"></script>
+    <script src="../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="../assets/compiled/js/app.js"></script>
-
-
 </body>
-
 </html>
