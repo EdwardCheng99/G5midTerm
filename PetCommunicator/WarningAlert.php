@@ -96,6 +96,22 @@ $c = ":"
             height: 10em;
             position: relative;
         }
+        #mainTable th:nth-child(1),
+  #mainTable td:nth-child(1) {
+    width: 5em; 
+  }
+        #mainTable th:nth-child(2),
+  #mainTable td:nth-child(2) {
+    width: 10em; 
+  }
+  #mainTable th:nth-child(3),
+  #mainTable td:nth-child(3) {
+    width: 5em; 
+  }
+  #mainTable th:nth-child(4),
+  #mainTable td:nth-child(4) {
+    width: 10em; 
+  }
     </style>
     <?php include("../headlink.php") ?>
     
@@ -206,13 +222,22 @@ $c = ":"
                         </div>
                     </div>
                     <section class="section">
-
+                    <div class="card">
+                            <div class="card-body">
+                                <div class="dataTable-search">
+                                    <form action="">
+                                        <div class="input-group ">
+                                            <input type="search" class="form-control" name="search" placeholder="請搜尋溝通師名稱...">
+                                            <button type="submit" class="btn btn-primary">搜尋</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                         <div class="card">
                             <div class="card-body">
 
-                                <?php if (!isset($_GET["search"])) : ?>
-                                    <a href="Creat-communicator.php" class="btn btn-primary mb-2">新增師資</a>
-                                <?php endif ?>
+                                
                                 <?php if (isset($_GET["search"])) : ?>
                                     <a href="petcommunicators.php" class="btn btn-primary mb-2">返回</a>
                                 <?php endif ?>
@@ -230,15 +255,13 @@ $c = ":"
                                                 </select>
                                             </div>
                                             <label>筆</label>
-                                        <?php endif ?>
-                                        <div class="dataTable-search">
-                                            <form action="">
-                                                <div class="input-group ">
-                                                    <input type="search" class="form-control" name="search" placeholder="請搜尋溝通師名稱...">
-                                                    <button type="submit" class="btn btn-primary">搜尋</button>
+                                            <?php if (!isset($_GET["search"])) : ?>
+                                                <div>
+                                                    <a href="Creat-communicator.php" class="btn btn-primary mb-2">新增師資</a>
                                                 </div>
-                                            </form>
-                                        </div>
+                                            <?php endif ?>
+                                        <?php endif ?>
+                                        
                                     </div>
                                     <ul class="nav nav-tabs">
                                         <li class="nav-item">
@@ -263,7 +286,6 @@ $c = ":"
                                                         <th data-sortable=""><a href="?p=<?= $page ?>&order=PetCommCertificateid:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">證書編號</a></th>
                                                         <th data-sortable=""><a href="?p=<?= $page ?>&order=PetCommCertificateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">取證日期</a></th>
                                                         <th data-sortable=""><a href="?p=<?= $page ?>&order=PetCommStatus:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刊登狀態</a></th>
-
                                                         <th></th>
                                                         <th></th>
                                                         <th></th>
@@ -287,13 +309,12 @@ $c = ":"
                                                             <td>
                                                                 <a id="delBtn" href="?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&del=<?= $user["PetCommID"] ?>&perPage=<?= $per_page ?>"><i class="fa-solid fa-trash-can"></i></a>
                                                             </td>
-
                                                         </tr>
                                                     <?php endforeach ?>
                                                 </tbody>
                                             </table>
                                         <?php elseif ($CommCount > 0 && isset($_GET["repost"])) :  ?>
-                                            <table class="table table-striped dataTable-table" id="table1">
+                                            <table class="table table-striped dataTable-table" id="mainTable">
                                                 <thead>
                                                     <tr>
                                                         <th data-sortable="" class="desc" aria-sort="descending"><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">編號</a></th>
@@ -302,8 +323,6 @@ $c = ":"
                                                         <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateid:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刪除者</a></th>
                                                         <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刪除時間</a></th>
                                                         <th data-sortable=""><a href="" class="dataTable-sorter">原因</a></th>
-
-
                                                         <th></th>
                                                         <th></th>
                                                     </tr>

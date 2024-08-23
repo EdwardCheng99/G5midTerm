@@ -53,13 +53,28 @@ $total_page = ceil($CommCounts / $per_page);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>寵物溝通師管理</title>
     <?php include("../headlink.php") ?>
+    <style>
+        #mainTable th:nth-child(1),
+  #mainTable td:nth-child(1) {
+    width: 5em; 
+  }
+        #mainTable th:nth-child(2),
+  #mainTable td:nth-child(2) {
+    width: 10em; 
+  }
+  #mainTable th:nth-child(3),
+  #mainTable td:nth-child(3) {
+    width: 5em; 
+  }
+  #mainTable th:nth-child(4),
+  #mainTable td:nth-child(4) {
+    width: 10em; 
+  }
+    </style>
 </head>
 
 <body>
     <script src="../assets/static/js/initTheme.js"></script>
-    
-    
-    
     <div id="app">
         <?php include("../sidebar.php") ?>
         <div id="main" class='layout-navbar navbar-fixed'>
@@ -84,20 +99,25 @@ $total_page = ceil($CommCounts / $per_page);
                         </div>
                     </div>
                     <section class="section">
-
                         <div class="card">
                             <div class="card-body">
-
-                                <?php if (!isset($_GET["search"])) : ?>
-                                    <a href="Creat-communicator.php" class="btn btn-primary mb-2">新增師資</a>
-                                <?php endif ?>
+                                <div class="dataTable-search">
+                                    <form action="">
+                                        <div class="input-group ">
+                                            <input type="search" class="form-control" name="search" placeholder="請搜尋溝通師名稱...">
+                                            <button type="submit" class="btn btn-primary">搜尋</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
                                 <?php if (isset($_GET["search"])) : ?>
                                     <a href="petcommunicators.php" class="btn btn-primary mb-2">返回</a>
                                 <?php endif ?>
                                 <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-
                                     <div class="dataTable-top">
-
                                         <?php if (!isset($_GET["search"])) : ?>
                                             <label>每頁</label>
                                             <div class="dataTable-dropdown">
@@ -114,18 +134,13 @@ $total_page = ceil($CommCounts / $per_page);
                                                 </form>
                                             </div>
                                             <label>筆</label>
-                                        <?php endif ?>
-                                        <div class="dataTable-search">
-                                            <form action="">
-                                                <div class="input-group ">
-                                                    <input type="search" class="form-control" name="search" placeholder="請搜尋溝通師名稱...">
-                                                    <button type="submit" class="btn btn-primary">搜尋</button>
+                                            <?php if (!isset($_GET["search"])) : ?>
+                                                <div>
+                                                    <a href="Creat-communicator.php" class="btn btn-primary mb-2">新增師資</a>
                                                 </div>
-                                            </form>
-                                        </div>
+                                            <?php endif ?>
+                                        <?php endif ?>
                                     </div>
-
-
                                     <ul class="nav nav-tabs">
                                         <li class="nav-item">
                                             <a class="nav-link" aria-current="page" href="petcommunicators.php">全部名單</a>
@@ -139,15 +154,16 @@ $total_page = ceil($CommCounts / $per_page);
                                     </ul>
                                     <div class="dataTable-container">
                                         <?php if ($CommCount > 0) : ?>
-                                            <table class="table table-striped dataTable-table" id="table1">
+                                            <table class="table table-striped dataTable-table" id="mainTable">
                                                 <thead>
                                                     <tr>
-                                                        <th data-sortable="" class="desc" aria-sort="descending"><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">編號</a></th>
-                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommName:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">名稱</a></th>
-                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommSex:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">性別</a></th>
-                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommUpdateUserID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刪除者</a></th>
-                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommUpdateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刪除時間</a></th>
-                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=delreason:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">原因</a></th>
+                                                    <th data-sortable="" class="<?= $orderID=='PetCommID' ?($orderValue === 'ASC' ? 'asc' : 'desc') : ''?>" aria-sort="descending"><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">編號</a></th>
+                                                        <th class="<?= $orderID=='PetCommName' ?($orderValue === 'ASC' ? 'asc' : 'desc') : ''?>"  data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommName:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">名稱</a></th>
+                                                        <th class="<?= $orderID=='PetCommSex' ?($orderValue === 'ASC' ? 'asc' : 'desc') : ''?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommSex:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">性別</a></th>
+
+                                                        <th class="<?= $orderID=='PetCommUpdateUserID' ?($orderValue === 'ASC' ? 'asc' : 'desc') : ''?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommUpdateUserID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刪除者</a></th>
+                                                        <th class="<?= $orderID=='PetCommUpdateDate' ?($orderValue === 'ASC' ? 'asc' : 'desc') : ''?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommUpdateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刪除時間</a></th>
+                                                        <th class="<?= $orderID=='delreason' ?($orderValue === 'ASC' ? 'asc' : 'desc') : ''?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=delreason:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">原因</a></th>
 
 
                                                         <th></th>
@@ -168,9 +184,9 @@ $total_page = ceil($CommCounts / $per_page);
                                                                 <a href="petcommunicator.php?id=<?= $user["PetCommID"] ?>"><i class="fa-solid fa-circle-info"></i></a>
                                                             </td>
                                                             <td>
-                                                                
 
-                                                                <a href="WarningAlert.php?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&repost=<?= $user["PetCommID"] ?>&order=<?= $order ?>&perPage=<?=$per_page?>"><i class="fa-solid fa-user-check"></i></a>
+
+                                                                <a href="WarningAlert.php?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&repost=<?= $user["PetCommID"] ?>&order=<?= $order ?>&perPage=<?= $per_page ?>"><i class="fa-solid fa-user-check"></i></a>
                                                             </td>
 
                                                         </tr>

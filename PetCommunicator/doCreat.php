@@ -36,7 +36,8 @@ if ($_FILES["PetCommImg"]["error"] == 0) {
         PetCommIntroduction, 
         PetCommStatus, 
         valid, 
-        PetCommCreateDate
+        PetCommCreateDate,
+        PetCommCreateUserID
         ) VALUES (
         :PetCommName, 
         :PetCommSex, 
@@ -50,7 +51,8 @@ if ($_FILES["PetCommImg"]["error"] == 0) {
         :PetCommIntroduction, 
         :PetCommStatus, 
         :valid, 
-        :PetCommCreateDate
+        :PetCommCreateDate,
+        :PetCommCreateUserID
         )";
         
     } else {
@@ -76,12 +78,13 @@ try {
     $stmt->bindParam(':PetCommStatus', $PetCommStatus);
     $stmt->bindParam(':valid', $valid);
     $stmt->bindParam(':PetCommCreateDate', $now);
+    $stmt->bindValue(':PetCommCreateUserID', 'Ben');
 
 
     $stmt->execute();
     $last_id = $dbHost->lastInsertId();
 
-    header("location: Edit-communicator.php?id=$last_id");
+    header("location: petcommunicator.php?id=$last_id");
 } catch (PDOException $e) {
     echo "預處理陳述式執行失敗！ <br/>";
     echo "Error: " . $e->getMessage() . "<br/>";
