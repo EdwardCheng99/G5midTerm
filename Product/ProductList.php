@@ -22,10 +22,11 @@ $category = isset($_GET["category"]) ? $_GET["category"] : '';
 $sub = isset($_GET["sub"]) ? $_GET["sub"] : '';
 $product_status = isset($_GET["product_status"]) ? $_GET["product_status"] : '';
 
+
 // 計算總商品數
 $countSql = "SELECT COUNT(*) FROM product WHERE product_valid=1";
 if ($search) {
-    $countSql .= " AND product_name LIKE :search";
+    $countSql .= " AND product_name LIKE :search OR product_origin_price LIKE :search";
 }
 if ($brand) {
     $countSql .= " AND product_brand = :brand";
@@ -39,6 +40,7 @@ if ($sub) {
 if ($product_status) {
     $countSql .= " AND product_status = :product_status";
 }
+
 
 $countStmt = $dbHost->prepare($countSql);
 if ($search) {
@@ -66,7 +68,7 @@ $startPage = max(1, min($startPage, $totalPages));
 // 查詢商品資料
 $sql = "SELECT * FROM product WHERE product_valid=1";
 if ($search) {
-    $sql .= " AND product_name LIKE :search";
+    $sql .= " AND product_name LIKE :search  OR product_origin_price LIKE :search";
 }
 if ($brand) {
     $sql .= " AND product_brand = :brand";
@@ -170,39 +172,43 @@ try {
                                 <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
                                     <div>
                                         <!-- 分類開始 -->
-                                        <?php if ($productCount > 0) : ?>
-
-                                            <label class="ms-2">品牌</label>
-                                            <div class="dataTable-dropdown">
-                                                <form class="mb-2" action="" method="get">
-                                                    <select name="brand" class="dataTable-selector form-select" onchange="this.form.submit()">
+                                        <form class="mb-2" action="" method="get">
+                                            <?php if ($productCount > 0) : ?>
+                                                
+                                                <label class="ms-2">品牌</label>
+                                                <div class="dataTable-dropdown">
+                                                <!-- onchange="this.form.submit() -->
+                                                    <select name="brand" class="dataTable-selector form-select">
                                                         <option value="">選擇品牌</option>
                                                         <option value="木入森" <?= ($brand == "木入森") ? 'selected' : '' ?>>木入森</option>
                                                         <option value="水魔素" <?= ($brand == "水魔素") ? 'selected' : '' ?>>水魔素</option>
                                                         <option value="陪心" <?= ($brand == "陪心") ? 'selected' : '' ?>>陪心</option>
                                                         <option value="美喵" <?= ($brand == "美喵") ? 'selected' : '' ?>>美喵</option>
                                                         <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
-                                                        <input type="hidden" name="page" value="<?= $startPage ?>">
-
+                                                        <!-- <input type="hidden" name="page" value="<?= $startPage > $totalPages ? "1" : $startPage ?>"> -->
                                                         <input type="hidden" name="per_page" value="<?= $per_page ?>">
+                                                        <input type="hidden" name="category" value="<?= $category ?>">
+                                                        <input type="hidden" name="sub" value="<?= $sub ?>">
+                                                        <input type="hidden" name="product_status" value="<?= $product_status ?>">
+                                                        <input type="hidden" name="order" value="<?= $orderID . ':' . $orderValue ?>">
                                                     </select>
-                                                </form>
-                                            </div>
-                                            <label class="ms-2">類別</label>
-                                            <div class="dataTable-dropdown">
-                                                <form class="mb-2" action="" method="get">
-                                                    <select name="category" class="dataTable-selector form-select" onchange="this.form.submit()">
+
+                                                </div>
+                                                <label class="ms-2">類別</label>
+                                                <div class="dataTable-dropdown">
+
+                                                    <select name="category" class="dataTable-selector form-select">
                                                         <option value="">選擇類別</option>
                                                         <option value="犬貓通用" <?= ($category == "犬貓通用") ? 'selected' : '' ?>>犬貓通用</option>
                                                         <option value="犬寶保健" <?= ($category == "犬寶保健") ? 'selected' : '' ?>>犬寶保健</option>
                                                         <option value="貓皇保健" <?= ($category == "貓皇保健") ? 'selected' : '' ?>>貓皇保健</option>
                                                     </select>
-                                                </form>
-                                            </div>
-                                            <label class="ms-2">分類</label>
-                                            <div class="dataTable-dropdown">
-                                                <form class="mb-2" action="" method="get">
-                                                    <select name="sub" class="dataTable-selector form-select" onchange="this.form.submit()">
+
+                                                </div>
+                                                <label class="ms-2">分類</label>
+                                                <div class="dataTable-dropdown">
+
+                                                    <select name="sub" class="dataTable-selector form-select">
                                                         <option value="">選擇分類</option>
                                                         <option value="魚油粉" <?= ($sub == "魚油粉") ? 'selected' : '' ?>>魚油粉</option>
                                                         <option value="鈣保健" <?= ($sub == "鈣保健") ? 'selected' : '' ?>>鈣保健</option>
@@ -214,34 +220,31 @@ try {
                                                         <option value="胰臟保健" <?= ($sub == "胰臟保健") ? 'selected' : '' ?>>胰臟保健</option>
                                                         <option value="眼睛保健" <?= ($sub == "眼睛保健") ? 'selected' : '' ?>>眼睛保健</option>
                                                     </select>
-                                                </form>
-                                            </div>
-                                            <label class="ms-2">狀態</label>
-                                            <div class="dataTable-dropdown">
-                                                <form class="mb-2" action="" method="get">
-                                                    <select name="product_status" class="dataTable-selector form-select" onchange="this.form.submit()">
+
+                                                </div>
+                                                <label class="ms-2">狀態</label>
+                                                <div class="dataTable-dropdown">
+                                                    <select name="product_status" class="dataTable-selector form-select">
                                                         <option value="">選擇類別</option>
                                                         <option value="已上架" <?= ($product_status == "已上架") ? 'selected' : '' ?>>已上架</option>
                                                         <option value="已下架" <?= ($product_status == "已下架") ? 'selected' : '' ?>>已下架</option>
                                                     </select>
-                                                </form>
-                                            </div>
-                                            <!-- <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
+                                                </div>
+                                                <a class="btn btn-primary ms-2" href="ProductList.php">清除條件</a>
+
+                                                <div class="input-group mt-2">
+                                                    
+                                                    <input type="hidden" name="per_page" value="<?= $per_page ?>">
+                                                    <!-- ↑　在選擇筆數的時候搜尋會依照所選的筆數顯示 -->
+                                                    <input type="search" class="form-control" value="<?php echo isset($_GET["search"]) ? $_GET["search"] : "" ?>" name="search" placeholder="搜尋商品">
+                                                    <button class="btn btn-primary" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                                </div>
+                                        </form>
+                                        <!-- <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
                                             <input type="hidden" name="page" value="<?= $startPage ?>">
                                             <input type="hidden" name="per_page" value="<?= $per_page ?>"> -->
-                                            <div class="dataTable-search mt-2">
-                                                <form action="">
-                                                    <div class="input-group">
-                                                        <?php if (!empty($search)) : ?>
-                                                            <a class="btn btn-primary" href="ProductList.php" title="回商品管理"><i class="fa-solid fa-left-long"></i> </a>
-                                                        <?php endif; ?>
-                                                        <input type="hidden" name="per_page" value="<?= $per_page ?>">
-                                                        <!-- ↑　在選擇筆數的時候搜尋會依照所選的筆數顯示 -->
-                                                        <input type="search" class="form-control" value="<?php echo isset($_GET["search"]) ? $_GET["search"] : "" ?>" name="search" placeholder="搜尋商品">
-                                                        <button class="btn btn-primary" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-                                                    </div>
-                                                </form>
-                                            </div>
+                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -325,7 +328,7 @@ try {
                                             <form class="mb-2" action="" method="get">
                                                 <label class="ms-2">品牌</label>
                                                 <div class="dataTable-dropdown">
-                                                    <select name="brand" class="dataTable-selector form-select" onchange="this.form.submit()">
+                                                    <select name="brand" class="dataTable-selector form-select">
                                                         <option value="">選擇品牌</option>
                                                         <option value="木入森" <?= ($brand == "木入森") ? 'selected' : '' ?>>木入森</option>
                                                         <option value="水魔素" <?= ($brand == "水魔素") ? 'selected' : '' ?>>水魔素</option>
@@ -335,7 +338,7 @@ try {
                                                 </div>
                                                 <label class="ms-2">類別</label>
                                                 <div class="dataTable-dropdown">
-                                                    <select name="category" class="dataTable-selector form-select" onchange="this.form.submit()">
+                                                    <select name="category" class="dataTable-selector form-select" >
                                                         <option value="">選擇類別</option>
                                                         <option value="犬貓通用" <?= ($category == "犬貓通用") ? 'selected' : '' ?>>犬貓通用</option>
                                                         <option value="犬寶保健" <?= ($category == "犬寶保健") ? 'selected' : '' ?>>犬寶保健</option>
@@ -344,7 +347,7 @@ try {
                                                 </div>
                                                 <label class="ms-2">分類</label>
                                                 <div class="dataTable-dropdown">
-                                                    <select name="sub" class="dataTable-selector form-select" onchange="this.form.submit()">
+                                                    <select name="sub" class="dataTable-selector form-select">
                                                         <option value="">選擇分類</option>
                                                         <option value="魚油粉" <?= ($sub == "魚油粉") ? 'selected' : '' ?>>魚油粉</option>
                                                         <option value="鈣保健" <?= ($sub == "鈣保健") ? 'selected' : '' ?>>鈣保健</option>
@@ -359,7 +362,7 @@ try {
                                                 </div>
                                                 <label class="ms-2">狀態</label>
                                                 <div class="dataTable-dropdown">
-                                                    <select name="product_status" class="dataTable-selector form-select" onchange="this.form.submit()">
+                                                    <select name="product_status" class="dataTable-selector form-select">
                                                         <option value="">選擇類別</option>
                                                         <option value="已上架" <?= ($product_status == "已上架") ? 'selected' : '' ?>>已上架</option>
                                                         <option value="已下架" <?= ($product_status == "已下架") ? 'selected' : '' ?>>已下架</option>
@@ -368,12 +371,11 @@ try {
                                                 <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
                                                 <input type="hidden" name="page" value="<?= $startPage ?>">
                                                 <input type="hidden" name="per_page" value="<?= $per_page ?>">
+                                                <a class="btn btn-primary ms-2" href="ProductList.php">清除條件</a>
                                                 <div class="dataTable-search mt-2">
                                                     <form action="">
                                                         <div class="input-group">
-                                                            <?php if (!empty($search)) : ?>
-                                                                <a class="btn btn-primary" href="ProductList.php" title="回商品管理"><i class="fa-solid fa-left-long"></i> </a>
-                                                            <?php endif; ?>
+                                                            
                                                             <input type="hidden" name="per_page" value="<?= $per_page ?>"> <!-- 在選擇筆數的時候搜尋會依照所選的筆數顯示 -->
                                                             <input type="search" class="form-control" value="<?php echo isset($_GET["search"]) ? $_GET["search"] : "" ?>" name="search" placeholder="搜尋商品">
                                                             <button class="btn btn-primary" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
@@ -427,6 +429,7 @@ try {
                         </div>
                     </section>
                 </div>
+                <?php include("../footer.php") ?>
             </div>
             <footer>
                 <div class="footer clearfix mb-0 text-muted">

@@ -383,6 +383,7 @@ try {
                         </div>
                     </section>
                 </div>
+                <?php include("../footer.php") ?>
             </div>
             <footer>
                 <div class="footer clearfix mb-0 text-muted">
