@@ -216,9 +216,10 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                             </select>
                                         </div>
                                         <label>筆</label>
-                                        <div class="dataTable-search">
+                                        <!-- (原)新增會員 -->
+                                        <!-- <div class="dataTable-search">
                                             <a href="CreateMember.php" class="btn btn-primary"><i class="fa-solid fa-user-plus"></i></a>
-                                        </div>
+                                        </div> -->
                                     </div>
                                     <!-- 會員列表 -->
                                     <div class="dataTable-container">
