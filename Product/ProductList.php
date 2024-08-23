@@ -174,10 +174,10 @@ try {
                                         <!-- 分類開始 -->
                                         <form class="mb-2" action="" method="get">
                                             <?php if ($productCount > 0) : ?>
-                                                
+
                                                 <label class="ms-2">品牌</label>
                                                 <div class="dataTable-dropdown">
-                                                <!-- onchange="this.form.submit() -->
+                                                    <!-- onchange="this.form.submit() -->
                                                     <select name="brand" class="dataTable-selector form-select">
                                                         <option value="">選擇品牌</option>
                                                         <option value="木入森" <?= ($brand == "木入森") ? 'selected' : '' ?>>木入森</option>
@@ -233,7 +233,7 @@ try {
                                                 <a class="btn btn-primary ms-2" href="ProductList.php">清除條件</a>
 
                                                 <div class="input-group mt-2">
-                                                    
+
                                                     <input type="hidden" name="per_page" value="<?= $per_page ?>">
                                                     <!-- ↑　在選擇筆數的時候搜尋會依照所選的筆數顯示 -->
                                                     <input type="search" class="form-control" value="<?php echo isset($_GET["search"]) ? $_GET["search"] : "" ?>" name="search" placeholder="搜尋商品">
@@ -243,7 +243,7 @@ try {
                                         <!-- <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
                                             <input type="hidden" name="page" value="<?= $startPage ?>">
                                             <input type="hidden" name="per_page" value="<?= $per_page ?>"> -->
-                                        
+
 
                                     </div>
                                 </div>
@@ -338,7 +338,7 @@ try {
                                                 </div>
                                                 <label class="ms-2">類別</label>
                                                 <div class="dataTable-dropdown">
-                                                    <select name="category" class="dataTable-selector form-select" >
+                                                    <select name="category" class="dataTable-selector form-select">
                                                         <option value="">選擇類別</option>
                                                         <option value="犬貓通用" <?= ($category == "犬貓通用") ? 'selected' : '' ?>>犬貓通用</option>
                                                         <option value="犬寶保健" <?= ($category == "犬寶保健") ? 'selected' : '' ?>>犬寶保健</option>
@@ -375,71 +375,85 @@ try {
                                                 <div class="dataTable-search mt-2">
                                                     <form action="">
                                                         <div class="input-group">
-                                                            
+
                                                             <input type="hidden" name="per_page" value="<?= $per_page ?>"> <!-- 在選擇筆數的時候搜尋會依照所選的筆數顯示 -->
                                                             <input type="search" class="form-control" value="<?php echo isset($_GET["search"]) ? $_GET["search"] : "" ?>" name="search" placeholder="搜尋商品">
                                                             <button class="btn btn-primary" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                                                         </div>
                                                     </form>
                                                 </div>
-                                                <div class="d-flex justify-content-between">
-                                                    <form action="" method="get">
-                                                        <label class="ms-2">每頁</label>
-                                                        <div class="dataTable-dropdown">
-                                                            <select name="per_page" class="dataTable-selector form-select" onchange="this.form.submit()">
-                                                                <option value="5" <?= ($per_page == 5) ? 'selected' : '' ?>>5</option>
-                                                                <option value="10" <?= ($per_page == 10) ? 'selected' : '' ?>>10</option>
-                                                                <option value="15" <?= ($per_page == 15) ? 'selected' : '' ?>>15</option>
-                                                                <option value="20" <?= ($per_page == 20) ? 'selected' : '' ?>>20</option>
-                                                                <option value="25" <?= ($per_page == 25) ? 'selected' : '' ?>>25</option>
-                                                                <input type="hidden" name="brand" value="<?= $brand ?>">
-                                                                <input type="hidden" name="category" value="<?= $category ?>">
-                                                                <input type="hidden" name="sub" value="<?= $sub ?>">
-                                                                <input type="hidden" name="product_status" value="<?= $product_status ?>">
-                                                            </select>
-                                                        </div>
-                                                        <label class="mb-3">筆</label>
-                                                        <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
-                                                        <!-- <input type="hidden" name="page" value="<?= $startPage ?>"> 保留當前頁碼 -->
-                                                    </form>
-                                                </div>
-                                            </form>
-                                            <tr>
-                                                <td>查無商品</td>
-                                            </tr>
-                                        <?php endif; ?>
-                                        </table>
-                                    </div>
-                                    <!-- 下方顯示筆數 以及分頁變化 -->
-                                    <?php $start_item = ($startPage - 1) * $per_page; ?>
-                                    <div class="dataTable-bottom">
-                                        <div class="dataTable-info">顯示 <?= ($offset + 1) ?> 到 <?= min($offset + $per_page, $productCount) ?> 筆，共 <?= $productCount ?> 筆</div>
-                                        <nav class="dataTable-pagination">
-                                            <ul class="dataTable-pagination-list pagination pagination-primary">
-                                                <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
-                                                    <li class="page-item <?= ($i == $startPage) ? 'active' : '' ?>">
-                                                        <a class="page-link" href="?page=<?= $i ?>&per_page=<?= $per_page ?>&search=<?= urlencode($search) ?>&brand=<?= urlencode($brand) ?>&category=<?= urlencode($category) ?>&sub=<?= urlencode($sub) ?>&product_status=<?= urlencode($product_status) ?>&order=<?= $orderID . ':' . $orderValue ?>"><?= $i ?></a>
-                                                    </li>
-                                                <?php endfor; ?>
-                                            </ul>
-                                        </nav>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </section>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                                    <div class="d-flex justify-content-between">
+                                        <form action="" method="get">
+                                            <label class="ms-2">每頁</label>
+                                            <div class="dataTable-dropdown">
+                                                <select name="per_page" class="dataTable-selector form-select" onchange="this.form.submit()">
+                                                    <option value="5" <?= ($per_page == 5) ? 'selected' : '' ?>>5</option>
+                                                    <option value="10" <?= ($per_page == 10) ? 'selected' : '' ?>>10</option>
+                                                    <option value="15" <?= ($per_page == 15) ? 'selected' : '' ?>>15</option>
+                                                    <option value="20" <?= ($per_page == 20) ? 'selected' : '' ?>>20</option>
+                                                    <option value="25" <?= ($per_page == 25) ? 'selected' : '' ?>>25</option>
+                                                    <input type="hidden" name="brand" value="<?= $brand ?>">
+                                                    <input type="hidden" name="category" value="<?= $category ?>">
+                                                    <input type="hidden" name="sub" value="<?= $sub ?>">
+                                                    <input type="hidden" name="product_status" value="<?= $product_status ?>">
+                                                </select>
+                                            </div>
+                                            <label class="mb-3">筆</label>
+                                            <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
+                                            <!-- <input type="hidden" name="page" value="<?= $startPage ?>"> 保留當前頁碼 -->
+                                        </form>
+                                        <div>
+                                            <a class="btn btn-primary ms-2" href="create-product.php">新增商品</a>
+                                        </div>
+                                    </div>
+                                    </form>
+                                    <tr>
+                                        <td>查無商品</td>
+                                    </tr>
+                                <?php endif; ?>
+                                </table>
+                                </div>
+                                <!-- 下方顯示筆數 以及分頁變化 -->
+                                <?php $start_item = ($startPage - 1) * $per_page; ?>
+                                <div class="dataTable-bottom">
+                                    <div class="dataTable-info">顯示 <?= ($offset + 1) ?> 到 <?= min($offset + $per_page, $productCount) ?> 筆，共 <?= $productCount ?> 筆</div>
+                                    <nav class="dataTable-pagination">
+                                        <ul class="dataTable-pagination-list pagination pagination-primary">
+                                            <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
+                                                <li class="page-item <?= ($i == $startPage) ? 'active' : '' ?>">
+                                                    <a class="page-link" href="?page=<?= $i ?>&per_page=<?= $per_page ?>&search=<?= urlencode($search) ?>&brand=<?= urlencode($brand) ?>&category=<?= urlencode($category) ?>&sub=<?= urlencode($sub) ?>&product_status=<?= urlencode($product_status) ?>&order=<?= $orderID . ':' . $orderValue ?>"><?= $i ?></a>
+                                                </li>
+                                            <?php endfor; ?>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
                 </div>
                 <?php include("../footer.php") ?>
             </div>
-            <footer>
-                <div class="footer clearfix mb-0 text-muted">
-                    <div class="float-start">
-                    </div>
-                    <div class="float-end">
-                    </div>
-                </div>
-            </footer>
         </div>
+    </div>
+    </section>
+    </div>
+    
+    </div>
+    <footer>
+        <div class="footer clearfix mb-0 text-muted">
+            <div class="float-start">
+            </div>
+            <div class="float-end">
+            </div>
+        </div>
+    </footer>
+    </div>
     </div>
     <script src="../assets/static/js/components/dark.js"></script>
     <script src="../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
