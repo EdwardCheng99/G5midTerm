@@ -59,6 +59,37 @@ $total_page = ceil($CommCounts / $per_page);
     <title>寵物溝通師管理</title>
     <?php include("../headlink.php") ?>
     <style>
+        #mainTable th:nth-child(1),
+        #mainTable td:nth-child(1) {
+            width: 5em;
+        }
+
+        #mainTable th:nth-child(2),
+        #mainTable td:nth-child(2) {
+            width: 10em;
+        }
+
+        #mainTable th:nth-child(3),
+        #mainTable td:nth-child(3) {
+            width: 5em;
+        }
+
+        #mainTable th:nth-child(4),
+        #mainTable td:nth-child(4) {
+            width: 25em;
+        }
+
+        #mainTable th:nth-child(5),
+        #mainTable td:nth-child(5) {
+            width: 15em;
+        }
+
+        #mainTable th:nth-child(6),
+        #mainTable td:nth-child(6) {
+            width: 10em;
+        }
+    </style>
+    <style>
 
     </style>
 </head>
@@ -128,7 +159,7 @@ $total_page = ceil($CommCounts / $per_page);
                                             <label>筆</label>
                                             <?php if (!isset($_GET["search"])) : ?>
                                                 <div>
-                                                <a href="Creat-communicator.php" class="btn btn-primary mb-2">新增師資</a>
+                                                    <a href="Creat-communicator.php" class="btn btn-primary mb-2">新增師資</a>
                                                 </div>
                                             <?php endif ?>
                                         <?php endif ?>
@@ -152,18 +183,17 @@ $total_page = ceil($CommCounts / $per_page);
 
                                     <div class="dataTable-container">
                                         <?php if ($CommCount > 0) : ?>
-                                            <table class="table table-striped dataTable-table" id="table1">
+                                            <table class="table table-striped dataTable-table" id="mainTable">
                                                 <thead>
-                                                    <tr>
-                                                        <th data-sortable="" class="asc" aria-sort="descending"><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">編號</a></th>
-                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommName:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">名稱</a></th>
-                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommSex:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">性別</a></th>
-                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateid:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">證書編號</a></th>
-                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">取證日期</a></th>
-                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommStatus:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刊登狀態</a></th>
+                                                    <th data-sortable="" class="<?= $orderID == 'PetCommID' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" aria-sort="descending"><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">編號</a></th>
+                                                    <th class="<?= $orderID == 'PetCommName' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommName:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">名稱</a></th>
+                                                    <th class="<?= $orderID == 'PetCommSex' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommSex:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">性別</a></th>
+                                                    <th class="<?= $orderID == 'PetCommCertificateid' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateid:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">證書編號</a></th>
+                                                    <th class="<?= $orderID == 'PetCommCertificateDate' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">取證日期</a></th>
+                                                    <th class="<?= $orderID == 'PetCommStatus' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommStatus:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刊登狀態</a></th>
 
-                                                        <th></th>
-                                                        <th></th>
+                                                    <th></th>
+                                                    <th></th>
 
                                                     </tr>
                                                 </thead>

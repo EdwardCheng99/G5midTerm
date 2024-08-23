@@ -22,7 +22,7 @@ if (isset($_GET["p"]) && isset($_GET["order"]) && isset($_GET["perPage"])) {
     $start_item = ($page - 1) * $per_page;
     $sql = "SELECT * FROM Petcommunicator WHERE valid=1 ORDER BY $orderID $orderValue LIMIT $start_item, $per_page ";
     $stmt = $dbHost->prepare($sql);
-} elseif (isset($_GET["search"])) {
+} elseif (isset($_GET["search"]) && $_GET["search"]!= "") {
     $search = $_GET["search"];
     $sql = "SELECT * FROM Petcommunicator WHERE PetCommName LIKE :search AND valid=1";
     $stmt = $dbHost->prepare($sql);
@@ -56,6 +56,32 @@ $total_page = ceil($CommCounts / $per_page);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>寵物溝通師管理</title>
     <?php include("../headlink.php") ?>
+    <style>
+        #mainTable th:nth-child(1),
+  #mainTable td:nth-child(1) {
+    width: 5em; 
+  }
+        #mainTable th:nth-child(2),
+  #mainTable td:nth-child(2) {
+    width: 10em; 
+  }
+  #mainTable th:nth-child(3),
+  #mainTable td:nth-child(3) {
+    width: 5em; 
+  }
+  #mainTable th:nth-child(4),
+  #mainTable td:nth-child(4) {
+    width: 25em; 
+  }
+  #mainTable th:nth-child(5),
+  #mainTable td:nth-child(5) {
+    width: 15em; 
+  }
+  #mainTable th:nth-child(6),
+  #mainTable td:nth-child(6) {
+    width: 10em; 
+  }
+    </style>
 </head>
 
 <body>
@@ -149,7 +175,7 @@ $total_page = ceil($CommCounts / $per_page);
 
                                     <div class="dataTable-container">
                                         <?php if ($CommCount > 0) : ?>
-                                            <table class="table table-striped dataTable-table" id="table1">
+                                            <table class="table table-striped dataTable-table" id="mainTable">
                                                 <thead>
                                                     <tr>
                                                         <th data-sortable="" class="<?= $orderID=='PetCommID' ?($orderValue === 'ASC' ? 'asc' : 'desc') : ''?>" aria-sort="descending"><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">編號</a></th>
@@ -216,7 +242,7 @@ $total_page = ceil($CommCounts / $per_page);
                                                 </tbody>
                                             </table>
                                         <?php else : ?>
-                                            查無溝通師
+                                            <h4 class="mt-3">查無溝通師</h4>
                                         <?php endif; ?>
                                     </div>
                                     <?php if (!isset($_GET["search"])) : ?>
