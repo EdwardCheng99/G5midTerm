@@ -28,7 +28,7 @@ try {
 // 計算 SQL 查詢的起始位置
 $start = ($page - 1) * $perPage;
 
-$orderClause = "ORDER BY MemberID ASC";
+$orderClause = "ORDER BY MemberID DESC";
 if (isset($_GET["sorter"])) {
     $sorter = (int)$_GET["sorter"];
     switch($sorter) {
@@ -164,9 +164,9 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                 <form action="">
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 col-12">
-                                            <div class="form-group">
+                                            <div class="input-group mb-3">
                                                 <!-- $memberLevel -->
-                                                <label for="">會員等級</label>
+                                                <span class="input-group-text" for="">會員等級</span>
                                                 <select class="form-select" id="basicSelect" name="searchLevel">
                                                     <option value="">全部等級</option> <!-- 新增的選項 -->
                                                     <option value="銅" <?= $searchLevel == 1 ? 'selected' : '' ?>>銅</option>
@@ -181,9 +181,9 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-4 col-12">
-                                            <div class="form-group">
+                                            <div class="input-group mb-3">
                                                 <!-- $memberName -->
-                                                <label for="">會員名稱</label>
+                                                <span class="input-group-text" for="">會員名稱</span>
                                                 <input type="search" id="" class="form-control" placeholder="" 
                                                 value="<?php if(isset($_GET["searchName"]))
                                                         echo  $searchName;
@@ -191,7 +191,7 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                                         echo '';?>"name="searchName">
                                             </div>
                                         </div>
-                                        <div class="col-12 d-flex justify-content-end">
+                                        <div class="col-auto">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">查詢</button>
                                             <?php if(isset($_GET["searchLevel"]) || isset($_GET["serachName"])): ?>
                                             <a class="btn btn-light-secondary me-1 mb-1" href="MemberList.php?p=1&sorter=1">清除查詢結果</a>
@@ -230,12 +230,12 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                                 <table class="table table-striped dataTable-table">
                                                     <thead>
                                                         <tr>
-                                                            <th><a href="#" class="sort-link" data-sorter="1">ID</th>
-                                                            <th><a href="#" class="sort-link" data-sorter="2">Name</a></th>
-                                                            <th><a href="#" class="sort-link" data-sorter="3">Level</a></th>
-                                                            <th>Email</th>
-                                                            <th>Phone</th>
-                                                            <th><a href="#" class="sort-link" data-sorter="4">CreateDate</a></th>
+                                                            <th><a href="#" class="sort-link" data-sorter="1">會員編號</th>
+                                                            <th><a href="#" class="sort-link" data-sorter="2">會員名稱</a></th>
+                                                            <th><a href="#" class="sort-link" data-sorter="3">會員等級</a></th>
+                                                            <th>電子信箱</th>
+                                                            <th>手機號碼</th>
+                                                            <th><a href="#" class="sort-link" data-sorter="4">建立日期</a></th>
                                                             <th>編輯使用者</th>
                                                         </tr>
                                                     </thead>
