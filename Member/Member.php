@@ -57,7 +57,7 @@ try {
 </head>
 
 <body>
-    <?php include("../modals.php"); ?>
+    <?php include("../Member/modals.php"); ?>
     <script src="../assets/static/js/initTheme.js"></script>
     <div id="app">
         <?php include("../sidebar.php") ?>
@@ -94,13 +94,13 @@ try {
                                             <div class="row">
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="first-name-vertical">ID :</label>
+                                                        <label for="first-name-vertical">會員編號 :</label>
                                                         <input readonly type="text" class="form-control" name="id" value="<?= $row["MemberID"] ?>">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="first-name-vertical">Name <span class="text-danger">*</span></label>
+                                                        <label for="first-name-vertical">會員姓名 <span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" name="name" value="<?= $row["MemberName"] ?>">
                                                     </div>
                                                 </div>
@@ -118,19 +118,19 @@ try {
                                         </div> -->
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="password-vertical">Password <span class="text-danger">*</span></label>
+                                                        <label for="password-vertical">會員密碼 <span class="text-danger">*</span></label>
                                                         <input type="text" id="password-vertical" class="form-control" name="password" placeholder="Password" value="<?= $row["MemberPassword"] ?>">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="first-name-vertical">NickName</label>
+                                                        <label for="first-name-vertical">會員暱稱</label>
                                                         <input type="text" id="first-name-vertical" class="form-control" name="nickname" placeholder="" value="<?= $row["MemberNickName"] ?>">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="email-id-vertical">Level <span class="text-danger">*</span></label>
+                                                        <label for="email-id-vertical">會員等級 <span class="text-danger">*</span></label>
                                                         <select class="form-select" id="basicSelect" name="level">
                                                             <option value="1" <?= ($row["MemberLevel"] == 1) ? "selected" : '' ?>>銅</option>
                                                             <option value="2" <?= ($row["MemberLevel"] == 2) ? "selected" : '' ?>>銀</option>
@@ -140,37 +140,37 @@ try {
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="contact-info-vertical">Email <span class="text-danger">*</span></label>
+                                                        <label for="contact-info-vertical">電子郵件 <span class="text-danger">*</span></label>
                                                         <input type="email" id="contact-info-vertical" class="form-control" name="email" placeholder="" value="<?= $row["MembereMail"] ?>">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="password-vertical">Phone <span class="text-danger">*</span></label>
+                                                        <label for="password-vertical">手機號碼 <span class="text-danger">*</span></label>
                                                         <input type="text" id="password-vertical" class="form-control" name="phone" placeholder="" value="<?= $row["MemberPhone"] ?>">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="first-name-vertical">Tel</label>
+                                                        <label for="first-name-vertical">聯絡電話</label>
                                                         <input type="tel" id="first-name-vertical" class="form-control" name="tel" placeholder="" value="<?= $row["MemberTel"] ?>">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="email-id-vertical">Address <span class="text-danger">*</span></label>
+                                                        <label for="email-id-vertical">聯絡地址 <span class="text-danger">*</span></label>
                                                         <input type="text" id="email-id-vertical" class="form-control" name="address" placeholder="" value="<?= $row["MemberAddress"] ?>">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="contact-info-vertical">Birth <span class="text-danger">*</span></label>
+                                                        <label for="contact-info-vertical">出生日期 <span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input active" placeholder="Select date.." name="birth" readonly="readonly" value="<?= $row["MemberBirth"] ?>">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="password-vertical">Gender <span class="text-danger">*</span></label>
+                                                        <label for="password-vertical">性別 <span class="text-danger">*</span></label>
                                                         <select class="form-select" id="basicSelect" name="gender">
                                                             <option value="0" <?= ($row["MemberGender"] == 0) ? "selected" : '' ?>>男</option>
                                                             <option value="1" <?= ($row["MemberGender"] == 1) ? "selected" : '' ?>>女</option>
@@ -180,7 +180,7 @@ try {
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="first-name-vertical">Valid <span class="text-danger">*</span></label>
+                                                        <label for="first-name-vertical">帳號狀態 <span class="text-danger">*</span></label>
                                                         <select class="form-select" id="basicSelect" name="valid">
                                                             <option value="1" <?= ($row["MemberGender"] == 1) ? "selected" : '' ?>>有效</option>
                                                             <option value="0" <?= ($row["MemberGender"] == 0) ? "selected" : '' ?>>無效</option>
@@ -189,7 +189,7 @@ try {
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="email-id-vertical">BlackList <span class="text-danger">*</span></label>
+                                                        <label for="email-id-vertical">黑名單狀態 <span class="text-danger">*</span></label>
                                                         <select class="form-select" id="basicSelect" name="blacklist">
                                                             <option value="0" <?= ($row["MemberIsBlacklisted"] == 0) ? "selected" : '' ?>>關閉</option>
                                                             <option value="1" <?= ($row["MemberIsBlacklisted"] == 1) ? "selected" : '' ?>>開啟</option>
@@ -198,7 +198,7 @@ try {
                                                 </div>
                                                 <div class="col-md-6 col-12 opacity-75">
                                                     <div class="form-group">
-                                                        <label for="contact-info-vertical">Created_at : </label>
+                                                        <label for="contact-info-vertical">建立日期 : </label>
                                                         <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input active" placeholder="Select date.." name="" disabled="disabled" value="<?= $row["MemberCreateDate"] ?>">
                                                     </div>
                                                 </div>
@@ -210,7 +210,7 @@ try {
                                         </div> -->
                                                 <div class="col-md-6 col-12 opacity-75">
                                                     <div class="form-group">
-                                                        <label for="contact-info-vertical">Uptate_at : </label>
+                                                        <label for="contact-info-vertical">更新日期 : </label>
                                                         <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input active" placeholder="Select date.." name="" disabled="disabled" value="<?= $row["MemberUpdateDate"] ?>">
                                                     </div>
                                                 </div>
@@ -221,7 +221,7 @@ try {
                                             </div>
                                         </div> -->
                                                 <div class="col-12 d-flex justify-content-end">
-                                                    <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
+                                                    <button type="submit" class="btn btn-primary me-1 mb-1">確認修改</button>
                                                 </div>
                                             </div>
                                         </div>

@@ -4,36 +4,11 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once("../pdoConnect.php");
 
-// 從 POST 請求中獲取表單資料
-// 檢查是否是透過繳交表單進入此頁
-if(!isset($_POST["account"])){
-    echo "帳號不能為空";
-    exit;
-}
-if(!isset($_POST["name"])){
-    echo "請循正常管道進入此頁";
-    exit;
-}
-$password = $_POST["password"];
 
-if(empty($password)){
-    echo "密碼不能為空";
-    exit;
-}
-
-$rePassword = $_POST["repassword"];
-
-if($rePassword != $password){
-    echo "兩次輸入的密碼不相同";
-    exit;
-}
-
-$errorMsg = "";
-
-// 建立變數儲存表單傳入的資料
 $name = $_POST["name"];
 $account = $_POST["account"];
-$password = md5($password); // 加密密碼
+$password = $_POST["password"];
+$rePassword = $_POST["repassword"];
 switch($_POST["level"]){
             case "銅":$level = 1;break; 
             case "銀":$level = 2;break;
@@ -51,15 +26,21 @@ $now = date('Y-m-d H:i:s');
 $birth = isset($_POST["birth"]) ? $_POST["birth"] : ""; // 可null
 $tel = isset($_POST["tel"]) ? $_POST["tel"] : ""; // 可null
 $nickname = isset($_POST["nickname"]) ? $_POST["nickname"] : ""; // 可null
+// 從 POST 請求中獲取表單資料
+// 檢查是否是透過繳交表單進入此頁
+$errorMsg = [];
+if(empty($account))$errorMsg[] = "帳號不得為空";
+if(empty($name))$errorMsg[] = "名子不得為空";
+if(empty($password))$errorMsg[] = "密碼不得為空";
+if($rePassword != $password)$errorMsg[] = "兩次密碼不同，請重新輸入";
+if(empty($email))$errorMsg[] = "電子郵件不得為空";
+if(empty($phone))$errorMsg[] = "電話不得為空";
+if(empty($address))$errorMsg[] = "地址不得為空";
+if(empty($gender))$errorMsg[] = "性別不得為空";
+// if(empty($valid))$errorMsg[] = "有效會員不得為空";
+// if(empty($blacklist))$errorMsg[] = "黑名單不得為空";
 
-if(empty($account))$errorMsg.="帳號,";
-if(empty($password))$errorMsg.="密碼,";
-if(empty($email))$errorMsg.="email,";
-if(empty($phone))$errorMsg.="手機號碼,";
-if(empty($address))$errorMsg.="地址,";
-
-
-
+$password = md5($password); // 加密密碼
 
 $sqlCheck = "SELECT * FROM `Member` WHERE MemberAccount = '$account'";
 $stmt = $dbHost->prepare($sqlCheck);
@@ -73,12 +54,15 @@ try{
 }
 $userAccount = $stmt->rowCount();
 if($userAccount>0){
-    echo "該帳號已存在";
-    exit;
+    $errorMsg[] = "該帳號已存在";
 }
 
 
-
+if(!empty($errorMsg)){
+    $error_message = implode('、', $errorMsg);
+    echo json_encode(['status' => 0, 'message' => $error_message]);
+    exit;
+}
 // 準備 SQL 語句
 $sql = "INSERT INTO Member (
             MemberAccount, MemberName, MemberPassword, 
@@ -113,18 +97,13 @@ try {
         ":now" => $now,
     ]);
 
-    header("Location: createMember.php?status=success");
-    exit;
-
+    echo json_encode(['status' => 1, 'message' => '新增成功']);
 } catch (PDOException $e) {
-    header("Location: createMember.php?status=error&message=" . urlencode($e->getMessage()));
+    echo json_encode(['status' => 0, 'message' => '新增失敗, ERROR: ' . urlencode($e->getMessage())]);
+    echo "預處理陳述式執行失敗！ <br/>";
+    echo "Error: " . $e->getMessage() . "<br/>";
+    $db_host = NULL;
     exit;
-}
+}    
 
-// 關閉資料庫連接
-$db_host = NULL;
-
-// 成功後重定向回會員列表頁面
-header("Location: MemberList.php");
-exit;
 ?>

@@ -6,26 +6,28 @@ require_once("../pdoConnect.php");
 
 $errorMsg = false;
 
-$id = $_POST["id"];
-if(isset($_POST["name"]))$name = $_POST["name"];else $errorMsg = true;
-if(isset($_POST["email"]))$email = $_POST["email"];else $errorMsg = true;
-if(isset($_POST["phone"]))$phone = $_POST["phone"];else $errorMsg = true;
-if(isset($_POST["password"]))$password = $_POST["password"];else $errorMsg = true;
-if(isset($_POST["level"]))$level = $_POST["level"];else $errorMsg = true;
-if(isset($_POST["tel"]))$tel = $_POST["tel"];else $errorMsg = true;
-if(isset($_POST["address"]))$address = $_POST["address"];else $errorMsg = true;
-if(isset($_POST["birth"]))$birth = $_POST["birth"];else $errorMsg = true;
-if(isset($_POST["gender"]))$gender = $_POST["gender"];else $errorMsg = true;
-if(isset($_POST["valid"]))$valid = $_POST["valid"];else $errorMsg = true;
-if(isset($_POST["blacklist"]))$blacklist = $_POST["blacklist"];else $errorMsg = true;
-$nickname = $_POST["nickname"]; // 非必填
+$id = $_POST["id"] ?? null;
+$name = $_POST["name"] ?? null;
+$email = $_POST["email"] ?? null;
+$phone = $_POST["phone"] ?? null;
+$password = $_POST["password"] ?? null;
+$level = $_POST["level"] ?? null;
+$address = $_POST["address"] ?? null;
+$birth = $_POST["birth"] ?? null;
+$gender = $_POST["gender"];
+$valid = $_POST["valid"];
+$blacklist = $_POST["blacklist"];
+
+// 非必填欄位
+$nickname = $_POST["nickname"] ?? ''; 
+$tel = $_POST["tel"] ?? '';
+
 $date = date('Y-m-d H:i:s');
 
-if($errorMsg = true){
+if(!$id || !$name || !$email || !$phone || !$password || !$level || !$address || !$birth) {
     echo "<script>alert('必填欄位不得為空！'); window.location.href = 'Member.php?MemberID=$id';</script>";
     exit;
 }
-
 
 $sql = "UPDATE Member 
         SET MemberName = :name, 

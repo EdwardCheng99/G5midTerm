@@ -12,6 +12,7 @@
 </head>
 
 <body>
+    <?php include("../Member/modals.php"); ?>
     <script src="../assets/static/js/initTheme.js"></script>
     
     <div id="app">
@@ -43,7 +44,7 @@
                         <!-- 會員資訊 -->
                         <div class="card">
                             <div class="card-body">
-                                <form class="form form-vertical" action="doCreateMember.php" method="post">
+                                <form class="form form-vertical" method="post" id="createForm">
                                     <div class="form-body">
                                         <div class="row">
                                             <!-- <div class="col-md-6 col-12">
@@ -54,14 +55,14 @@
                                         </div> -->
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="first-name-vertical">Name <span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" name="name" value="">
+                                                    <label for="first-name-vertical">會員姓名 <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" name="name" id="name" value="">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="first-name-vertical">Account  <span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" name="account" value="">
+                                                    <label for="first-name-vertical">會員帳號  <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" name="account" id="account" value="">
                                                 </div>
                                             </div>
                                             <!-- <div class="col-md-6 col-12 d-none">
@@ -78,26 +79,26 @@
                                         </div> -->
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="password-vertical">Password  <span class="text-danger">*</span></label>
-                                                    <input type="text" id="password-vertical" class="form-control" name="password" placeholder="Password" value="">
+                                                    <label for="password-vertical">會員密碼  <span class="text-danger">*</span></label>
+                                                    <input type="text" id="password" class="form-control" name="password" placeholder="Password"  value="">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="password-vertical">rePassword  <span class="text-danger">*</span></label>
-                                                    <input type="text" id="password-vertical" class="form-control" name="repassword" placeholder="rePassword" value="">
+                                                    <label for="password-vertical">重新輸入密碼  <span class="text-danger">*</span></label>
+                                                    <input type="text" id="repassword" class="form-control" name="repassword" id="repassword" placeholder="rePassword" value="">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="first-name-vertical">NickName</label>
-                                                    <input type="text" id="first-name-vertical" class="form-control" name="nickname" placeholder="" value="">
+                                                    <label for="first-name-vertical">會員暱稱</label>
+                                                    <input type="text" id="nickname" class="form-control" name="nickname" placeholder="" value="">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="email-id-vertical">Level  <span class="text-danger">*</span></label>
-                                                    <select class="form-select" id="basicSelect" name="level">
+                                                    <label for="email-id-vertical">會員等級  <span class="text-danger">*</span></label>
+                                                    <select class="form-select" id="level" name="level">
                                                         <option>銅</option>
                                                         <option>銀</option>
                                                         <option>金</option>
@@ -106,38 +107,38 @@
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="contact-info-vertical">Email  <span class="text-danger">*</span></label>
-                                                    <input type="email" id="contact-info-vertical" class="form-control" name="email" placeholder="" value="">
+                                                    <label for="contact-info-vertical">電子信箱  <span class="text-danger">*</span></label>
+                                                    <input type="email" id="email" class="form-control" name="email" placeholder="" value="">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="password-vertical">Phone  <span class="text-danger">*</span></label>
-                                                    <input type="text" id="password-vertical" class="form-control" name="phone" placeholder="" value="">
+                                                    <label for="password-vertical">手機號碼  <span class="text-danger">*</span></label>
+                                                    <input type="text" id="phone" class="form-control" name="phone" placeholder="" value="">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="first-name-vertical">Tel</label>
-                                                    <input type="tel" id="first-name-vertical" class="form-control" name="tel" placeholder="" value="">
+                                                    <label for="first-name-vertical">聯絡電話</label>
+                                                    <input type="tel" id="tel" class="form-control" name="tel" placeholder="" value="">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="email-id-vertical">Address  <span class="text-danger">*</span></label>
-                                                    <input type="text" id="email-id-vertical" class="form-control" name="address" placeholder="" value="">
+                                                    <label for="email-id-vertical">聯絡地址  <span class="text-danger">*</span></label>
+                                                    <input type="text" id="address" class="form-control" name="address" placeholder="" value="">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="contact-info-vertical">Birth  <span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input active" placeholder="Select date.." name="birth" readonly="readonly" value="">
+                                                    <label for="contact-info-vertical">出生日期  <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input active" id="birth" placeholder="Select date.." name="birth" readonly="readonly" value="">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="password-vertical">Gender  <span class="text-danger">*</span></label>
-                                                    <select class="form-select" id="basicSelect" name="gender">
+                                                    <label for="password-vertical">性別  <span class="text-danger">*</span></label>
+                                                    <select class="form-select" id="gender" name="gender">
                                                         <option value="男">男</option>
                                                         <option value="女">女</option>
                                                         <option value="其他">其他</option>
@@ -146,7 +147,7 @@
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="first-name-vertical">Valid  <span class="text-danger">*</span></label>
+                                                    <label for="first-name-vertical">帳號狀態  <span class="text-danger">*</span></label>
                                                     <select class="form-select" id="valid" name="valid">
                                                         <option value="1">有效</option>
                                                         <option value="0">無效</option>
@@ -155,8 +156,8 @@
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="email-id-vertical">BlackList  <span class="text-danger">*</span></label>
-                                                    <select class="form-select" id="basicSelect" name="blacklist">
+                                                    <label for="email-id-vertical">黑名單狀態  <span class="text-danger">*</span></label>
+                                                    <select class="form-select" id="blacklist" name="blacklist">
                                                         <option value="0">正常</option>
                                                         <option value="1">拉黑</option>
                                                     </select>
@@ -168,16 +169,15 @@
                                                 <label for="password-vertical">Created_UserID</label>
                                                 <input type="text" id="password-vertical" class="form-control" name="createuserid" placeholder="" value="">
                                             </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="password-vertical">Uptate_UserID</label>
-                                                <input type="text" id="password-vertical" class="form-control" name="updateuserid" placeholder="" value="">
                                             </div>
-                                        </div> -->
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="password-vertical">Uptate_UserID</label>
+                                                    <input type="text" id="password-vertical" class="form-control" name="updateuserid" placeholder="" value="">
+                                                </div>
+                                            </div> -->
                                             <div class="col-12 d-flex justify-content-end">
-                                                <button type="submit" class="btn btn-primary me-1 mb-1" data-bs-dismiss="modal">Submit</button>
-                                                <button type="reset" class="btn btn-light-secondary me-1 mb-1">Reset</button>
+                                                <button type="submit" class="btn btn-primary me-1 mb-1" data-bs-dismiss="modal">註冊</button>
                                             </div>
                                         </div>
                                     </div>
@@ -201,18 +201,36 @@
     </div>
     </div>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const status = urlParams.get('status');
-            const message = urlParams.get('message');
+        const createModal = new bootstrap.Modal('#createModal', {
+            keyboard: true
+        }) // 用bootstrap的 modal來裝訊息
+        const info = document.querySelector("#modalBody .info");
+        const form = document.querySelector("#createForm");
 
-            if (status === 'success') {
-                alert('會員資料已成功新增。');
-            } else if (status === 'error') {
-                alert('新增會員資料時發生錯誤：' + decodeURIComponent(message));
+        form.addEventListener("submit", function(event) {
+            event.preventDefault(); // 阻止表单的默认提交行为
+
+            const formData = new FormData(form);
+
+            $.ajax({
+                method: "POST",
+                url: "/G5midTerm/Member/doCreateMember.php",
+                data: formData,
+                dataType: "json",
+                processData: false, 
+                contentType: false 
+            })
+            .done(function(response) {
+                let status = response.status;
+                if (status == 0 || status == 1) {
+                info.textContent = response.message;
+                createModal.show();
             }
+            })
+            .fail(function(jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+            });
         });
-    </script>
     </script>
     <script>
         src = "https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"

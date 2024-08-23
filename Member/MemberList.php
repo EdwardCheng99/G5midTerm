@@ -268,7 +268,7 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                     </div>
                                     <!-- 頁數索引 -->
                                     <div class="dataTable-bottom">
-                                        <div class="dataTable-info">Showing <?= $start + 1 ?> to <?= min($start + $perPage, $userCountAll) ?> of <?= $userCountAll ?> entries</div>
+                                        <div class="dataTable-info">顯示 <?= $start + 1 ?> 到 <?= min($start + $perPage, $userCountAll) ?> 共 <?= $userCountAll ?> 筆</div>
                                         <?php if($totalPage > 1): ?>
                                         <nav class="dataTable-pagination">
                                             <ul class="dataTable-pagination-list pagination pagination-primary">
@@ -372,7 +372,12 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                 window.location.href = 'doDeleteMember.php?MemberID=' + memberIDToDelete;
             }
         });
+
+        <?php if(isset($_SESSION["message"])): ?>
+        
+        <?php endif;?>
     </script>
+    
     <script src="../assets/static/js/components/dark.js"></script>
     <script src="../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="../assets/compiled/js/app.js"></script>
