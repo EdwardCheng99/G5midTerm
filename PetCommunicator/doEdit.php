@@ -13,8 +13,6 @@ if ($_FILES["PetCommImg"]["error"] == 0) {
     $fileInfo = pathinfo($filename);
     $extension = $fileInfo["extension"];
     $newFilename = time() . ".$extension";
-
-
     if (move_uploaded_file($_FILES["PetCommImg"]["tmp_name"], "./images/" . $newFilename)) {
         $imgSql = ", PetCommImg = :PetCommImg";
     } else {
@@ -54,10 +52,8 @@ $sql = "UPDATE petcommunicator SET
     PetCommUpdateDate = :PetCommUpdateDate" 
     .$imgSql."
     WHERE PetCommID = :PetCommID";
-
 try {
     $stmt = $dbHost->prepare($sql);
-
     $stmt->bindParam(':PetCommName', $PetCommName);
     $stmt->bindParam(':PetCommSex', $PetCommSex);
     if (isset($newFilename)) {
@@ -76,7 +72,6 @@ try {
     $stmt->bindParam(':PetCommID', $PetCommID, PDO::PARAM_INT);
 
     $stmt->execute();
-
     header("location: petcommunicator.php?id=$PetCommID");
 } catch (PDOException $e) {
     echo "預處理陳述式執行失敗！ <br/>";
@@ -84,5 +79,4 @@ try {
     $dbHost = NULL;
     exit;
 }
-
 $dbHost = null;
