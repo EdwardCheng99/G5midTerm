@@ -17,7 +17,7 @@ $CalculateType_options = [];
 $MemberLevel_options = [];
 $PromotionType_options = [];
 $IsCumulative_options = [];
-$Valid_options = [];
+$EnableStatus_options = [];
 
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     if ($row['Type'] == 'PromotionCondition') {
@@ -28,8 +28,8 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $MemberLevel_options[] = $row;
     } elseif ($row['Type'] == 'PromotionType') {
         $PromotionType_options[] = $row;
-    } elseif ($row['Type'] == 'Valid') {
-        $Valid_options[] = $row;
+    } elseif ($row['Type'] == 'EnableStatus') {
+        $EnableStatus_options[] = $row;
     } elseif ($row['Type'] == 'IsCumulative') {
         $IsCumulative_options[] = $row;
     }
@@ -219,6 +219,23 @@ try {
                                                 </select>
                                             </div>
                                         </div>
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label for="" class="required">啟用狀態</label>
+                                                <select class="form-select" name="" id="EnableStatus">
+                                                    <?php
+                                                    if (!empty($EnableStatus_options)) {
+                                                        foreach ($EnableStatus_options as $option) {
+                                                            $selected = ($option['Value'] == $row["EnableStatus"]) ? 'selected' : '';
+                                                            echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
+                                                        }
+                                                    } else {
+                                                        echo "<option value=''>No options available</option>";
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
                                         <div class="divider couponarea">
                                             <div class="divider-text">優惠券</div>
                                         </div>
@@ -246,23 +263,7 @@ try {
                                                 <input type="number" name="" class="form-control" id="CouponUseMax" placeholder="" value="<?= $row["CouponUseMax"] ?>">
                                             </div>
                                         </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="">優惠券狀態</label>
-                                                <select class="form-select" name="" id="CouponIsValid">
-                                                    <?php
-                                                    if (!empty($Valid_options)) {
-                                                        foreach ($Valid_options as $option) {
-                                                            $selected = ($option['Value'] == $row["CouponIsValid"]) ? 'selected' : '';
-                                                            echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
-                                                        }
-                                                    } else {
-                                                        echo "<option value=''>No options available</option>";
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                        </div>
+
                                         <div class="col-12 d-flex justify-content-end">
                                             <button type="button" class="btn btn-primary me-1 mb-1" id="send">送出</button>
                                             <a href="DiscountList.php" class="btn btn-light-secondary me-1 mb-1">返回</a>
@@ -295,7 +296,7 @@ try {
         const CouponInfo = document.querySelector("#CouponInfo");
         const CouponReceiveEndTime = document.querySelector("#CouponReceiveEndTime");
         const CouponUseMax = document.querySelector("#CouponUseMax");
-        const CouponIsValid = document.querySelector("#CouponIsValid");
+        const EnableStatus = document.querySelector("#EnableStatus");
         const send = document.querySelector("#send");
         const infoModal = new bootstrap.Modal('#infoModal', {
             keyboard: true
@@ -342,7 +343,7 @@ try {
             let CouponInfoVal = (CouponInfo.value !== "") ? CouponInfo.value : null;
             let CouponReceiveEndTimeVal = (CouponReceiveEndTime.value !== "") ? CouponReceiveEndTime.value : null;
             let CouponUseMaxVal = (CouponUseMax.value !== "") ? CouponUseMax.value : null;
-            let CouponIsValidVal = (CouponIsValid.value !== "") ? CouponIsValid.value : null;
+            let EnableStatusVal = (EnableStatus.value !== "") ? EnableStatus.value : null;
 
             $.ajax({
                     method: "POST",
@@ -364,7 +365,7 @@ try {
                         CouponInfo: CouponInfoVal,
                         CouponReceiveEndTime: CouponReceiveEndTimeVal,
                         CouponUseMax: CouponUseMaxVal,
-                        CouponIsValid: CouponIsValidVal
+                        EnableStatus: EnableStatusVal
                     } //如果需要
                 })
                 .done(function(response) {

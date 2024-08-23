@@ -29,7 +29,7 @@
                 <h3>後台管理系統</h3>
             </div>
             <div class="page-content">
-                <section class="row">
+                <!-- <section class="row">
                     <div class="col-12 col-lg-9">
                         <div class="row">
                             <div class="col-6 col-lg-3 col-md-6">
@@ -339,7 +339,7 @@
                             </div>
                         </div>
                     </div>
-                </section>
+                </section> -->
             </div>
 
             <footer>

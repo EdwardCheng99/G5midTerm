@@ -90,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ]);
                 echo "<script>
                         alert('活動創建成功');
-                            window.location.href = 'OfficialEventsList.php';
+                            window.location.href = 'OfficialEventsList.php?p=1&order=0';
                       </script>";
             } catch (PDOException $e) {
                 echo "圖片資訊插入失敗：" . $e->getMessage() . "<br>";

@@ -1,5 +1,9 @@
 <?php
-$currentPage = basename($_SERVER['PHP_SELF']);
+// 取得當前頁面的資料夾路徑
+$currentDirectory = dirname($_SERVER['PHP_SELF']);
+
+// 使用 basename() 取得當前頁面的資料夾名稱
+$currentFolderName = basename($currentDirectory);
 ?>
 
 <div id="sidebar">
@@ -48,15 +52,15 @@ $currentPage = basename($_SERVER['PHP_SELF']);
         </div>
         <div class="sidebar-menu">
             <ul class="menu">
-                <li class="sidebar-item <?php if ($currentPage == 'index.php') {
-                                            echo 'active';
-                                        } ?>">
+                <!-- <li class="sidebar-item <?php if ($currentFolderName == 'index.php') {
+                                                    echo 'active';
+                                                } ?>">
                     <a href="/G5midTerm/index.php" class='sidebar-link'>
                         <i class="bi bi-grid-fill"></i>
                         <span>首頁</span>
                     </a>
-                </li>
-                <li class="sidebar-item <?php if ($currentPage == 'MemberList.php') {
+                </li> -->
+                <li class="sidebar-item <?php if ($currentFolderName == 'Member') {
                                             echo 'active';
                                         } ?>">
                     <a href="/G5midTerm/Member/MemberList.php" class='sidebar-link'>
@@ -64,15 +68,15 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                         <span>會員資料管理</span>
                     </a>
                 </li>
-                <li class="sidebar-item <?php if ($currentPage == 'OrderList.php') {
+                <li class="sidebar-item <?php if ($currentFolderName == 'Order') {
                                             echo 'active';
                                         } ?>">
-                    <a href="/G5midTerm/Member/OrderList.php" class='sidebar-link'>
+                    <a href="/G5midTerm/Order/OrderList.php" class='sidebar-link'>
                         <i class="fa-regular fa-clipboard fa-fw"></i>
                         <span>訂單管理</span>
                     </a>
                 </li>
-                <li class="sidebar-item <?php if ($currentPage == 'ProductList.php') {
+                <li class="sidebar-item <?php if ($currentFolderName == 'Product') {
                                             echo 'active';
                                         } ?>">
                     <a href="/G5midTerm/Product/ProductList.php" class='sidebar-link'>
@@ -80,16 +84,16 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                         <span>商品管理</span>
                     </a>
                 </li>
-                <li class="sidebar-item <?php if ($currentPage == 'ProductCategoryList.php') {
-                                            echo 'active';
-                                        } ?>">
+                <!-- <li class="sidebar-item <?php if ($currentFolderName == 'ProductCategoryList.php') {
+                                                    echo 'active';
+                                                } ?>">
                     <a href="/G5midTerm/Product/ProductCategoryList.php" class='sidebar-link'>
                         <i class="fa-solid fa-list fa-fw"></i>
                         <span>商品類別管理</span>
                     </a>
-                </li>
+                </li> -->
 
-                <li class="sidebar-item <?php if ($currentPage == 'DiscountList.php') {
+                <li class="sidebar-item <?php if ($currentFolderName == 'Promotion') {
                                             echo 'active';
                                         } ?>">
                     <a href="/G5midTerm/Promotion/DiscountList.php" class='sidebar-link'>
@@ -97,15 +101,15 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                         <span>促銷管理</span>
                     </a>
                 </li>
-                <li class="sidebar-item <?php if ($currentPage == 'CouponList.php') {
-                                            echo 'active';
-                                        } ?>">
+                <!-- <li class="sidebar-item <?php if ($currentFolderName == 'CouponList.php') {
+                                                    echo 'active';
+                                                } ?>">
                     <a href="/G5midTerm/Promotion/CouponList.php" class='sidebar-link'>
                         <i class="fa-solid fa-ticket fa-fw"></i>
                         <span>優惠券管理</span>
                     </a>
-                </li>
-                <li class="sidebar-item <?php if ($currentPage == 'ArticleList.php') {
+                </li> -->
+                <li class="sidebar-item <?php if ($currentFolderName == 'Article') {
                                             echo 'active';
                                         } ?>">
                     <a href="/G5midTerm/Article/ArticleList.php" class='sidebar-link'>
@@ -113,15 +117,15 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                         <span>文章管理</span>
                     </a>
                 </li>
-                <li class="sidebar-item <?php if ($currentPage == 'TagList.php') {
-                                            echo 'active';
-                                        } ?>">
+                <!-- <li class="sidebar-item <?php if ($currentFolderName == 'TagList.php') {
+                                                    echo 'active';
+                                                } ?>">
                     <a href="/G5midTerm/Article/TagList.php" class='sidebar-link'>
                         <i class="fa-solid fa-tags fa-fw"></i>
                         <span>標籤管理</span>
                     </a>
-                </li>
-                <li class="sidebar-item <?php if ($currentPage == 'OfficialEventsList.php') {
+                </li> -->
+                <li class="sidebar-item <?php if ($currentFolderName == 'Events') {
                                             echo 'active';
                                         } ?>">
                     <a href="/G5midTerm/Events/OfficialEventsList.php?p=1&order=0" class='sidebar-link'>
@@ -129,15 +133,15 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                         <span>官方活動管理</span>
                     </a>
                 </li>
-                <li class="sidebar-item <?php if ($currentPage == 'VendorList.php') {
-                                            echo 'active';
-                                        } ?>">
+                <!-- <li class="sidebar-item <?php if ($currentFolderName == 'VendorList.php') {
+                                                    echo 'active';
+                                                } ?>">
                     <a href="/G5midTerm/Events/VendorList.php" class='sidebar-link'>
                         <i class="fa-solid fa-handshake fa-fw"></i>
                         <span>廠商管理</span>
                     </a>
-                </li>
-                <li class="sidebar-item <?php if ($currentPage == 'petcommunicators.php') {
+                </li> -->
+                <li class="sidebar-item <?php if ($currentFolderName == 'PetCommunicator') {
                                             echo 'active';
                                         } ?>">
                     <a href="/G5midTerm/PetCommunicator/petcommunicators.php" class='sidebar-link'>
