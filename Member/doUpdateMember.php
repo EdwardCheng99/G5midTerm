@@ -4,21 +4,28 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once("../pdoConnect.php");
 
-$id = $_POST["id"];
-$name = $_POST["name"];
-$email = $_POST["email"];
-$phone = $_POST["phone"];
-$password = $_POST["password"];
-$nickname = $_POST["nickname"];
-$level = $_POST["level"];
-$tel = $_POST["tel"];
-$address = $_POST["address"];
-$birth = $_POST["birth"];
-$gender = $_POST["gender"];
-$valid = $_POST["valid"];
-$blacklist = $_POST["blacklist"];
+$errorMsg = false;
 
+$id = $_POST["id"];
+if(isset($_POST["name"]))$name = $_POST["name"];else $errorMsg = true;
+if(isset($_POST["email"]))$email = $_POST["email"];else $errorMsg = true;
+if(isset($_POST["phone"]))$phone = $_POST["phone"];else $errorMsg = true;
+if(isset($_POST["password"]))$password = $_POST["password"];else $errorMsg = true;
+if(isset($_POST["level"]))$level = $_POST["level"];else $errorMsg = true;
+if(isset($_POST["tel"]))$tel = $_POST["tel"];else $errorMsg = true;
+if(isset($_POST["address"]))$address = $_POST["address"];else $errorMsg = true;
+if(isset($_POST["birth"]))$birth = $_POST["birth"];else $errorMsg = true;
+if(isset($_POST["gender"]))$gender = $_POST["gender"];else $errorMsg = true;
+if(isset($_POST["valid"]))$valid = $_POST["valid"];else $errorMsg = true;
+if(isset($_POST["blacklist"]))$blacklist = $_POST["blacklist"];else $errorMsg = true;
+$nickname = $_POST["nickname"]; // 非必填
 $date = date('Y-m-d H:i:s');
+
+if($errorMsg = true){
+    echo "<script>alert('必填欄位不得為空！'); window.location.href = 'Member.php?MemberID=$id';</script>";
+    exit;
+}
+
 
 $sql = "UPDATE Member 
         SET MemberName = :name, 
@@ -55,14 +62,7 @@ try {
         ':updatedate' => $date,
         ':id' => $id
     ]);
-
-    // 使用 jQuery 显示模态框
-    echo "<script>
-        $(document).ready(function(){
-            $('#alertModal').modal('show');
-        });
-        window.location.href = 'MemberList.php';
-    </script>";
+    echo "<script>alert('會員資料更新成功！'); window.location.href = 'Member.php?MemberID=$id';</script>";
     exit;
 
 } catch (PDOException $e) {

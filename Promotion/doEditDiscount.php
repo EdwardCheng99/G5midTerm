@@ -16,7 +16,7 @@ $CouponSerial = $_POST["CouponSerial"];
 $CouponInfo = $_POST["CouponInfo"];
 $CouponReceiveEndTime = $_POST["CouponReceiveEndTime"];
 $CouponUseMax = $_POST["CouponUseMax"];
-$CouponIsValid = $_POST["CouponIsValid"];
+$EnableStatus = $_POST["EnableStatus"];
 $now = date('Y-m-d H:i:s');
 
 //檢查不可為空
@@ -83,7 +83,7 @@ $sql = "UPDATE Discount SET
     CouponInfo = :CouponInfo,
     CouponReceiveEndTime = :CouponReceiveEndTime,
     CouponUseMax = :CouponUseMax,
-    CouponIsValid = :CouponIsValid,
+    EnableStatus = :EnableStatus,
     UpdateDate = :UpdateDate,
     UpdateUserID = 1
 WHERE ID = :ID";
@@ -108,7 +108,7 @@ try {
         ':CouponInfo' => ($CouponInfo !== "" && isset($CouponInfo)) ? $CouponInfo : null,
         ':CouponReceiveEndTime' => ($CouponReceiveEndTime !== "" && isset($CouponReceiveEndTime)) ? $CouponReceiveEndTime : null,
         ':CouponUseMax' => ($CouponUseMax !== "" && isset($CouponUseMax)) ? $CouponUseMax : null,
-        ':CouponIsValid' => ($CouponIsValid !== "" && isset($CouponIsValid)) ? $CouponIsValid : null,
+        ':EnableStatus' => ($EnableStatus !== "" && isset($EnableStatus)) ? $EnableStatus : null,
         ':UpdateDate' => ($now !== "" && isset($now)) ? $now : null,
     ]);
     echo json_encode(['status' => 1, 'message' => '修改成功']);
