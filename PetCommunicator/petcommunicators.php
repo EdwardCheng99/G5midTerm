@@ -99,7 +99,6 @@ $total_page = ceil($CommCounts / $per_page);
 
         .comment-row.open {
             max-height: 500px;
-            /* Adjust as needed */
         }
     </style>
 </head>
@@ -220,16 +219,14 @@ $total_page = ceil($CommCounts / $per_page);
                                                             <td><?= $user["PetCommCertificateid"] ?></td>
                                                             <td><?= $user["PetCommCertificateDate"] ?></td>
                                                             <td><?= $user["PetCommStatus"] ?></td>
-
                                                             <td>
                                                                 <a href="Edit-communicator.php?id=<?= $user["PetCommID"] ?>"> <i class="fa-solid fa-pen-to-square fa-lg"></i></a>
                                                             </td>
-
                                                             <td>
                                                                 <a href="WarningAlert.php?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&del=<?= $user["PetCommID"] ?>&order=<?= $order ?>&perPage=<?= $per_page ?>"><i class="fa-solid fa-trash-can"></i></a>
                                                             </td>
                                                             <td>
-                                                                <button class="btn btn-primary card-control" id="cardControl-<?= $user["PetCommID"] ?>"><i class="fa-solid fa-angles-down"></i></button>
+                                                                <button class="btn btn-outline-primary card-control " id="cardControl-<?= $user["PetCommID"] ?>"><i class="fa-solid fa-angles-down"></i></button>
                                                             </td>
 
                                                         </tr>
@@ -329,12 +326,18 @@ $total_page = ceil($CommCounts / $per_page);
         cardControl.forEach(
             function(button) {
                 button.addEventListener('click', function() {
+                    const icon = button.querySelector('i');
+                    
                     const userId = button.id.split('-')[1];
                     const cardList = document.querySelector(`#cardlist-${userId}`);
                     if (cardList.classList.contains("d-none")) {
                         cardList.classList.remove("d-none");
+                        icon.classList.remove("fa-angles-down");
+                    icon.classList.add("fa-angles-up");
                     }else{
                         cardList.classList.add("d-none");
+                        icon.classList.add("fa-angles-down");
+                    icon.classList.remove("fa-angles-up");
                     }
                 })
             })

@@ -88,6 +88,19 @@ $total_page = ceil($CommCounts / $per_page);
         #mainTable td:nth-child(6) {
             width: 10em;
         }
+        .updateDate {
+            right: 10px
+        }
+
+        .comment-row {
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+            max-height: 0;
+        }
+
+        .comment-row.open {
+            max-height: 500px;
+        }
     </style>
     <style>
 
@@ -208,8 +221,41 @@ $total_page = ceil($CommCounts / $per_page);
                                                             <td>
                                                                 <a href="petcommunicator.php?id=<?= $user["PetCommID"] ?>"><i class="fa-solid fa-circle-info"></i></a>
                                                             </td>
+                                                            <td>
+                                                                <button class="btn btn-outline-primary card-control" id="cardControl-<?= $user["PetCommID"] ?>"><i class="fa-solid fa-angles-down"></i></button>
+                                                            </td>
 
 
+                                                        </tr>
+                                                        <tr id="cardlist-<?= $user["PetCommID"] ?>" class="card-list d-none ">
+                                                            <td colspan="9">
+                                                                <div class="comment position-relative">
+                                                                    <div class="comment-header">
+                                                                        <div class="pr-50">
+                                                                            <div class="avatar avatar-2xl">
+                                                                                <img src="./images/<?= $user["PetCommImg"] ?>" alt="Avatar">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="comment-body">
+                                                                            <div class="comment-profileName"><?= $user["PetCommName"] ?></div>
+                                                                            <div class="comment-time">Email:<?= $user["PetCommEmail"] ?></div>
+                                                                            <div class="comment-message">
+                                                                                <p class="list-group-item-text truncate mb-20">
+                                                                                    [服務項目]<br><?= $user["PetCommService"] ?>
+                                                                                </p>
+                                                                                <p class="list-group-item-text truncate mb-20">
+                                                                                    [預約費用]<br><?= $user["PetCommFee"] ?>
+                                                                                </p>
+                                                                            </div>
+                                                                            <a href="petcommunicator.php?id=<?= $user["PetCommID"] ?>" class="btn icon icon-left btn-primary me-2 text-nowrap"><i class="bi bi-eye-fill"></i> ShowALL</a>
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="text-end position-absolute updateDate">
+                                                                        <p>上次更新:<?= $user["PetCommUpdateDate"] ?></p>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
                                                         </tr>
                                                     <?php endforeach ?>
                                                 </tbody>
@@ -248,11 +294,26 @@ $total_page = ceil($CommCounts / $per_page);
         </div>
     </div>
     <script>
-        const delBtn = document.querySelector("#delBtn");
-        const warningAlert = document.querySelector("#warningAlert");
-        delBtn.addEventListener("click", function() {
-            warningAlert.classList.add('flex');
-        })
+        // 名片卡
+        const cardControl = document.querySelectorAll('.card-control')
+        cardControl.forEach(
+            function(button) {
+                button.addEventListener('click', function() {
+                    const icon = button.querySelector('i');
+                    
+                    const userId = button.id.split('-')[1];
+                    const cardList = document.querySelector(`#cardlist-${userId}`);
+                    if (cardList.classList.contains("d-none")) {
+                        cardList.classList.remove("d-none");
+                        icon.classList.remove("fa-angles-down");
+                    icon.classList.add("fa-angles-up");
+                    }else{
+                        cardList.classList.add("d-none");
+                        icon.classList.add("fa-angles-down");
+                    icon.classList.remove("fa-angles-up");
+                    }
+                })
+            })
     </script>
 
     <script src="../assets/static/js/components/dark.js"></script>

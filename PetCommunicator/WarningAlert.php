@@ -96,6 +96,22 @@ $c = ":"
             height: 10em;
             position: relative;
         }
+        #mainTable th:nth-child(1),
+  #mainTable td:nth-child(1) {
+    width: 5em; 
+  }
+        #mainTable th:nth-child(2),
+  #mainTable td:nth-child(2) {
+    width: 10em; 
+  }
+  #mainTable th:nth-child(3),
+  #mainTable td:nth-child(3) {
+    width: 5em; 
+  }
+  #mainTable th:nth-child(4),
+  #mainTable td:nth-child(4) {
+    width: 10em; 
+  }
     </style>
     <?php include("../headlink.php") ?>
     
@@ -270,7 +286,6 @@ $c = ":"
                                                         <th data-sortable=""><a href="?p=<?= $page ?>&order=PetCommCertificateid:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">證書編號</a></th>
                                                         <th data-sortable=""><a href="?p=<?= $page ?>&order=PetCommCertificateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">取證日期</a></th>
                                                         <th data-sortable=""><a href="?p=<?= $page ?>&order=PetCommStatus:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刊登狀態</a></th>
-
                                                         <th></th>
                                                         <th></th>
                                                         <th></th>
@@ -294,13 +309,12 @@ $c = ":"
                                                             <td>
                                                                 <a id="delBtn" href="?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&del=<?= $user["PetCommID"] ?>&perPage=<?= $per_page ?>"><i class="fa-solid fa-trash-can"></i></a>
                                                             </td>
-
                                                         </tr>
                                                     <?php endforeach ?>
                                                 </tbody>
                                             </table>
                                         <?php elseif ($CommCount > 0 && isset($_GET["repost"])) :  ?>
-                                            <table class="table table-striped dataTable-table" id="table1">
+                                            <table class="table table-striped dataTable-table" id="mainTable">
                                                 <thead>
                                                     <tr>
                                                         <th data-sortable="" class="desc" aria-sort="descending"><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">編號</a></th>
@@ -309,8 +323,6 @@ $c = ":"
                                                         <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateid:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刪除者</a></th>
                                                         <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刪除時間</a></th>
                                                         <th data-sortable=""><a href="" class="dataTable-sorter">原因</a></th>
-
-
                                                         <th></th>
                                                         <th></th>
                                                     </tr>
