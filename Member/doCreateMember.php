@@ -14,6 +14,7 @@ switch($_POST["level"]){
             case "銀":$level = 2;break;
             case "金":$level = 3;break;
         };
+$birth = $_POST["birth"];
 $email = $_POST["email"];
 $phone = $_POST["phone"];
 $address = $_POST["address"];
@@ -23,7 +24,6 @@ $blacklist = $_POST["blacklist"];
 
 $now = date('Y-m-d H:i:s');
 
-$birth = isset($_POST["birth"]) ? $_POST["birth"] : ""; // 可null
 $tel = isset($_POST["tel"]) ? $_POST["tel"] : ""; // 可null
 $nickname = isset($_POST["nickname"]) ? $_POST["nickname"] : ""; // 可null
 // 從 POST 請求中獲取表單資料
@@ -37,6 +37,7 @@ if(empty($email))$errorMsg[] = "電子郵件不得為空";
 if(empty($phone))$errorMsg[] = "電話不得為空";
 if(empty($address))$errorMsg[] = "地址不得為空";
 if(empty($gender))$errorMsg[] = "性別不得為空";
+if(empty($birth))$errorMsg[] = "生日不得為空";
 // if(empty($valid))$errorMsg[] = "有效會員不得為空";
 // if(empty($blacklist))$errorMsg[] = "黑名單不得為空";
 

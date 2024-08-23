@@ -373,9 +373,9 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
             }
         });
 
-        <?php if(isset($_SESSION["message"])): ?>
+        // <?php if(isset($_SESSION["message"])): ?>
         
-        <?php endif;?>
+        // <?php endif;?>
     </script>
     
     <script src="../assets/static/js/components/dark.js"></script>
