@@ -113,6 +113,7 @@ try {
 
     <title>商品復原</title>
     <link rel="stylesheet" href="./css.css">
+    <link rel="stylesheet" href="./alert.css">
     <?php include("../headlink.php") ?>
     
 </head>

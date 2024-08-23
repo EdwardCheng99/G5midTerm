@@ -169,23 +169,23 @@ if(isset($_GET["searchName"]) || isset($_GET["dateRange"]) || isset($_GET["searc
                                 <form action="" method="get">
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 col-12">
-                                            <div class="form-group">
+                                            <div class="input-group mb-3">
                                                 <!-- $memberDate -->
-                                                <label for="">選擇日期</label>
-                                                <input type="text" class="form-control flatpickr-range mb-3 flatpickr-input" placeholder="Select date.." readonly="readonly" name="dateRange">
+                                                <span class="input-group-text" for="">選擇日期</span>
+                                                <input type="text" class="form-control flatpickr-range flatpickr-input" placeholder="Select date.." readonly="readonly" name="dateRange">
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-4 col-12">
-                                            <div class="form-group">
+                                            <div class="input-group mb-3">
                                                 <!-- $memberName -->
-                                                <label for="">訂購人名稱</label>
+                                                <span class="input-group-text" for="">訂購人名稱</span>
                                                 <input type="search" id="" class="form-control" placeholder="" value="<?= $searchName ?>" name="searchName">
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-4 col-12">
-                                            <div class="form-group">
+                                            <div class="input-group mb-3">
                                                 <!-- $memberName -->
-                                                <label for="">訂單狀態</label>
+                                                <span class="input-group-text" for="">訂單狀態</span>
                                                 <select class="form-select" name="searchStatus" onchange="this.form.submit()">
                                                     <option value="" <?= ($searchStatus == "") ? 'selected' : '' ?>>全部狀態</option>
                                                     <option value="未出貨" <?= ($searchStatus == "未出貨") ? 'selected' : '' ?>>未出貨</option>
@@ -196,9 +196,9 @@ if(isset($_GET["searchName"]) || isset($_GET["dateRange"]) || isset($_GET["searc
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-4 col-12">
-                                            <div class="form-group">
+                                            <div class="input-group mb-3">
                                                 <!-- $memberName -->
-                                                <label for="">付款方式</label>
+                                                <sapn class="input-group-text" for="">付款方式</sapn>
                                                 <select class="form-select" name="paymentMethod" onchange="this.form.submit()">
                                                     <option value="" <?= ($paymentMethod == "") ? 'selected' : '' ?>>付款狀態</option>
                                                     <option value="信用卡" <?= ($paymentMethod == "信用卡") ? 'selected' : '' ?>>信用卡</option>
@@ -243,13 +243,13 @@ if(isset($_GET["searchName"]) || isset($_GET["dateRange"]) || isset($_GET["searc
                                                 <table class="table table-striped dataTable-table">
                                                     <thead>
                                                         <tr>
-                                                            <th><a href="#" class="sort-link" data-sorter="1">ID</th>
+                                                            <th><a href="#" class="sort-link" data-sorter="1">訂單邊號</th>
                                                             <th>訂購人</th>
                                                             <th>收貨人</th>
-                                                            <th>收貨人電話</th>
+                                                            <th>收貨聯絡電話</th>
                                                             <th>付款方式</th>
-                                                            <th>配送地址</th>
-                                                            <th>訂單狀態</th>
+                                                            <th>收穫地址</th>
+                                                            <th>出貨狀態</th>
                                                             <th><a href="#" class="sort-link" data-sorter="4">訂單日期</a></th>
                                                             <th>編輯訂單</th>
                                                         </tr>
@@ -267,7 +267,7 @@ if(isset($_GET["searchName"]) || isset($_GET["dateRange"]) || isset($_GET["searc
                                                                 <td><?= $order["OrderDeliveryStatus"] ?></td>
                                                                 <td><?= $order["OrderDate"]; ?></td>
                                                                 <td>
-                                                                    <a class="btn btn-primary" href="Order.php?OrderID=<?= $order["OrderID"] ?>"><i class="fa-solid fa-eye"></i></a>
+                                                                    <a class="btn btn-primary" href="Order.php?OrderID=<?= $order["OrderID"] ?>"><i class="fa-solid fa-pen-to-square"></i></a>
                                                                 </td>
                                                             </tr>
                                                         <?php endforeach; ?>

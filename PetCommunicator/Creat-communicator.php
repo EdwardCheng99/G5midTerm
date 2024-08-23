@@ -11,6 +11,7 @@
         .flatpickr-time {
             display: none;
         }
+
         textarea {
             resize: none;
             /* 禁用調整大小功能 */
@@ -48,7 +49,7 @@
                             <div class="card-body">
                                 <a href="petcommunicators.php?p=1" class="btn btn-primary mb-2">返回</a>
 
-                                <form action="doCreat.php" method="post" enctype="multipart/form-data">
+                                <form action="doCreat.php" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="col">
@@ -107,12 +108,12 @@
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label for="" class="required">證照編號</label>
-                                                <input type="text" id="" class="form-control" name="PetCommCertificateid" value="動溝證字第">
+                                                <input type="text" id="" class="form-control" name="PetCommCertificateid" value="動溝證字第" >
                                             </div>
-                                            <div class="form-group"> 
-                                                <label for="" class="form-label required">取證日期</label>
-                                                <input type="text" class=" form-control  flatpickr-no-config active " placeholder="Select date..." readonly="readonly" name="PetCommCertificateDate">
-                                                
+                                            <div class="form-group">
+                                                <label for="" class="form-label">取證日期</label>
+                                                <input type="text" class=" form-control  flatpickr-no-config active " placeholder="Select date..." readonly="readonly" name="PetCommCertificateDate" >
+
                                             </div>
                                             <div class="form-group">
                                                 <div class="mb-3 mt-2">
@@ -161,14 +162,13 @@
             dateFormat: "Y-m-d",
         })
         // 表單驗證
-        function setPrefix() {
-            var input = document.getElementById('certIdInput');
-            var prefix = '動溝證字第';
-            if (input.value.startsWith(prefix)) {
-                input.value = input.value;
-            } else {
-                input.value = prefix + input.value;
+        function validateForm() {
+            var fileInput = document.getElementById('formFile');
+            if (!fileInput.files.length) {
+                alert('請上傳相片');
+                return false; // 阻止表單提交
             }
+            return true; // 允許表單提交
         }
         // 圖檔匯入
         const formFile = document.querySelector("#formFile")
@@ -190,7 +190,7 @@
 
 
 
-    
+
 
 </body>
 

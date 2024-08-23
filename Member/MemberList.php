@@ -28,7 +28,7 @@ try {
 // 計算 SQL 查詢的起始位置
 $start = ($page - 1) * $perPage;
 
-$orderClause = "ORDER BY MemberID ASC";
+$orderClause = "ORDER BY MemberID DESC";
 if (isset($_GET["sorter"])) {
     $sorter = (int)$_GET["sorter"];
     switch($sorter) {
@@ -130,6 +130,8 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
 </head>
 
 <body>
+
+    <?php include("../Member/modals.php"); ?>
     <?= $userCount ?>
     <script src="../assets/static/js/initTheme.js"></script>
     <div id="app">
@@ -162,9 +164,9 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                 <form action="">
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 col-12">
-                                            <div class="form-group">
+                                            <div class="input-group mb-3">
                                                 <!-- $memberLevel -->
-                                                <label for="">會員等級</label>
+                                                <span class="input-group-text" for="">會員等級</span>
                                                 <select class="form-select" id="basicSelect" name="searchLevel">
                                                     <option value="">全部等級</option> <!-- 新增的選項 -->
                                                     <option value="銅" <?= $searchLevel == 1 ? 'selected' : '' ?>>銅</option>
@@ -179,9 +181,9 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-4 col-12">
-                                            <div class="form-group">
+                                            <div class="input-group mb-3">
                                                 <!-- $memberName -->
-                                                <label for="">會員名稱</label>
+                                                <span class="input-group-text" for="">會員名稱</span>
                                                 <input type="search" id="" class="form-control" placeholder="" 
                                                 value="<?php if(isset($_GET["searchName"]))
                                                         echo  $searchName;
@@ -189,7 +191,7 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                                         echo '';?>"name="searchName">
                                             </div>
                                         </div>
-                                        <div class="col-12 d-flex justify-content-end">
+                                        <div class="col-auto">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">查詢</button>
                                             <?php if(isset($_GET["searchLevel"]) || isset($_GET["serachName"])): ?>
                                             <a class="btn btn-light-secondary me-1 mb-1" href="MemberList.php?p=1&sorter=1">清除查詢結果</a>
@@ -214,9 +216,10 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                             </select>
                                         </div>
                                         <label>筆</label>
-                                        <div class="dataTable-search">
+                                        <!-- (原)新增會員 -->
+                                        <!-- <div class="dataTable-search">
                                             <a href="CreateMember.php" class="btn btn-primary"><i class="fa-solid fa-user-plus"></i></a>
-                                        </div>
+                                        </div> -->
                                     </div>
                                     <!-- 會員列表 -->
                                     <div class="dataTable-container">
@@ -227,12 +230,12 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                                 <table class="table table-striped dataTable-table">
                                                     <thead>
                                                         <tr>
-                                                            <th><a href="#" class="sort-link" data-sorter="1">ID</th>
-                                                            <th><a href="#" class="sort-link" data-sorter="2">Name</a></th>
-                                                            <th><a href="#" class="sort-link" data-sorter="3">Level</a></th>
-                                                            <th>Email</th>
-                                                            <th>Phone</th>
-                                                            <th><a href="#" class="sort-link" data-sorter="4">CreateDate</a></th>
+                                                            <th><a href="#" class="sort-link" data-sorter="1">會員編號</th>
+                                                            <th><a href="#" class="sort-link" data-sorter="2">會員名稱</a></th>
+                                                            <th><a href="#" class="sort-link" data-sorter="3">會員等級</a></th>
+                                                            <th>電子信箱</th>
+                                                            <th>手機號碼</th>
+                                                            <th><a href="#" class="sort-link" data-sorter="4">建立日期</a></th>
                                                             <th>編輯使用者</th>
                                                         </tr>
                                                     </thead>
@@ -252,7 +255,8 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                                                 <td><?= $user["MemberCreateDate"]; ?></td>
                                                                 <td>
                                                                     <a class="btn btn-primary" href="Member.php?MemberID=<?= $user["MemberID"] ?>"><i class="fa-solid fa-pen-to-square"></i></a>
-                                                                    <a class="btn btn-primary" href="doDeleteMember.php?MemberID=<?= $user["MemberID"] ?>"><i class="fa-solid fa-trash-can"></i></a>
+                                                                    <a href="#" class="btn btn-primary delete-button" data-member-id="<?= $user['MemberID'] ?>"><i class="fa-solid fa-trash-can"></i></a>
+                                                                    <!-- <a class="btn btn-primary" href="doDeleteMember.php?MemberID=<?= $user["MemberID"] ?>"><i class="fa-solid fa-trash-can"></i></a> -->
                                                                 </td>
                                                             </tr>
                                                         <?php endforeach; ?>
@@ -265,7 +269,7 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                     </div>
                                     <!-- 頁數索引 -->
                                     <div class="dataTable-bottom">
-                                        <div class="dataTable-info">Showing <?= $start + 1 ?> to <?= min($start + $perPage, $userCountAll) ?> of <?= $userCountAll ?> entries</div>
+                                        <div class="dataTable-info">顯示 <?= $start + 1 ?> 到 <?= min($start + $perPage, $userCountAll) ?> 共 <?= $userCountAll ?> 筆</div>
                                         <?php if($totalPage > 1): ?>
                                         <nav class="dataTable-pagination">
                                             <ul class="dataTable-pagination-list pagination pagination-primary">
@@ -299,40 +303,38 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
     </div>
     
     <!-- JavaScript -->
-     <script>
-        document.addEventListener("DOMContentLoaded", function(){
-            const sortLinks = document.querySelectorAll(".sort-link");
+    <script>
+        const sortLinks = document.querySelectorAll(".sort-link");
 
-            sortLinks.forEach(link => {
-                link.addEventListener("click", function(event){
-                    event.preventDefault(); // 避免跳轉
+        sortLinks.forEach(link => {
+            link.addEventListener("click", function(event){
+                event.preventDefault(); // 避免跳轉
 
-                    // 將data-sorter的值抓出來
-                    const sorter = parseInt(this.getAttribute("data-sorter"));
-                    const urlParams = new URLSearchParams(window.location.search);
+                // 將data-sorter的值抓出來
+                const sorter = parseInt(this.getAttribute("data-sorter"));
+                const urlParams = new URLSearchParams(window.location.search);
 
-                    // 判斷當前排序是否為正向，如果是正向的話則改為逆向，反之亦然
-                    const currentSorter = parseInt(urlParams.get('sorter'));
-                    const newSorter = (currentSorter === sorter) ? -sorter : sorter;
+                // 判斷當前排序是否為正向，如果是正向的話則改為逆向，反之亦然
+                const currentSorter = parseInt(urlParams.get('sorter'));
+                const newSorter = (currentSorter === sorter) ? -sorter : sorter;
 
-                    urlParams.set('sorter', newSorter);
+                urlParams.set('sorter', newSorter);
 
-                    // 保留搜索條件
-                    const searchName = document.querySelector('input[name="searchName"]').value;
-                    const searchLevel = document.querySelector('select[name="searchLevel"]').value;
-                    
-                    if(searchName) urlParams.set('searchName', searchName);
-                    if(searchLevel) urlParams.set('searchLevel', searchLevel);
-                    window.location.search = urlParams.toString();
-                });
+                // 保留搜索條件
+                const searchName = document.querySelector('input[name="searchName"]').value;
+                const searchLevel = document.querySelector('select[name="searchLevel"]').value;
+                
+                if(searchName) urlParams.set('searchName', searchName);
+                if(searchLevel) urlParams.set('searchLevel', searchLevel);
+                window.location.search = urlParams.toString();
             });
+        });
 
-            // 選擇頁面功能
-            const selectElement = document.querySelector("#perPageSelect");
-            selectElement.addEventListener("change", function(){
-                const perPage = this.value;
-                changePage(1, perPage);
-            });
+        // 選擇頁面功能
+        const selectElement = document.querySelector("#perPageSelect");
+        selectElement.addEventListener("change", function(){
+            const perPage = this.value;
+            changePage(1, perPage);
         });
 
         function changePage(page, perPage = null){
@@ -350,7 +352,33 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
             if(searchLevel) urlParams.set('searchLevel', searchLevel);
             window.location.search = urlParams.toString();
         }
-     </script>
+
+        // 刪除會員警示modal
+        const deleteButtons = document.querySelectorAll('.delete-button'); // 選擇所有的刪除按鈕
+        const confirmDeleteButton = document.getElementById('confirmDeleteButton');
+        let memberIDToDelete = null;
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                memberIDToDelete = this.getAttribute('data-member-id'); // 獲取要刪除的會員的ID
+                const confirmModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+                confirmModal.show();
+            });
+        });
+
+        // 確認是否刪除
+        confirmDeleteButton.addEventListener('click', function() {
+            if (memberIDToDelete) {
+                window.location.href = 'doDeleteMember.php?MemberID=' + memberIDToDelete;
+            }
+        });
+
+        // <?php if(isset($_SESSION["message"])): ?>
+        
+        // <?php endif;?>
+    </script>
+    
     <script src="../assets/static/js/components/dark.js"></script>
     <script src="../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="../assets/compiled/js/app.js"></script>

@@ -11,7 +11,7 @@ $CalculateType_options = [];
 $MemberLevel_options = [];
 $PromotionType_options = [];
 $IsCumulative_options = [];
-$Valid_options = [];
+$EnableStatus_options = [];
 
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     if ($row['Type'] == 'PromotionCondition') {
@@ -22,8 +22,8 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $MemberLevel_options[] = $row;
     } elseif ($row['Type'] == 'PromotionType') {
         $PromotionType_options[] = $row;
-    } elseif ($row['Type'] == 'Valid') {
-        $Valid_options[] = $row;
+    } elseif ($row['Type'] == 'EnableStatus') {
+        $EnableStatus_options[] = $row;
     } elseif ($row['Type'] == 'IsCumulative') {
         $IsCumulative_options[] = $row;
     }
@@ -101,6 +101,11 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                             <div class="form-group">
                                                 <label for="" class="required">滿足條件類別</label>
                                                 <select class="form-select" name="" id="PromotionCondition">
+                                                    <!-- <?php if (!empty($PromotionCondition_options)) : ?>
+                                                        <?php foreach ($PromotionCondition_options as $option): ?>
+                                                            
+                                                        <?php endforeach; ?>
+                                                    <?php endif;  ?> -->
                                                     <?php
                                                     if (!empty($PromotionCondition_options)) {
                                                         foreach ($PromotionCondition_options as $option) {
@@ -108,7 +113,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                                             echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
                                                         }
                                                     } else {
-                                                        echo "<option value=''>No options available</option>";
+                                                        echo "<option value=''>無可用選項</option>";
                                                     }
                                                     ?>
                                                 </select>
@@ -131,7 +136,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                                             echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
                                                         }
                                                     } else {
-                                                        echo "<option value=''>No options available</option>";
+                                                        echo "<option value=''>無可用選項</option>";
                                                     }
                                                     ?>
                                                 </select>
@@ -154,7 +159,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                                             echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
                                                         }
                                                     } else {
-                                                        echo "<option value=''>No options available</option>";
+                                                        echo "<option value=''>無可用選項</option>";
                                                     }
                                                     ?>
                                                 </select>
@@ -171,7 +176,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                                             echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
                                                         }
                                                     } else {
-                                                        echo "<option value=''>No options available</option>";
+                                                        echo "<option value=''>無可用選項</option>";
                                                     }
                                                     ?>
                                                 </select>
@@ -188,7 +193,24 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                                             echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
                                                         }
                                                     } else {
-                                                        echo "<option value=''>No options available</option>";
+                                                        echo "<option value=''>無可用選項</option>";
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label for="" class="required">啟用狀態</label>
+                                                <select class="form-select" name="" id="EnableStatus">
+                                                    <?php
+                                                    if (!empty($EnableStatus_options)) {
+                                                        foreach ($EnableStatus_options as $option) {
+                                                            $selected = ($option['Value'] == 1) ? 'selected' : '';
+                                                            echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
+                                                        }
+                                                    } else {
+                                                        echo "<option value=''>無可用選項</option>";
                                                     }
                                                     ?>
                                                 </select>
@@ -221,23 +243,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                                 <input type="number" name="" class="form-control" id="CouponUseMax" placeholder="">
                                             </div>
                                         </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="">優惠券狀態</label>
-                                                <select class="form-select" name="" id="CouponIsValid">
-                                                    <?php
-                                                    if (!empty($Valid_options)) {
-                                                        foreach ($Valid_options as $option) {
-                                                            $selected = ($option['Value'] == 1) ? 'selected' : '';
-                                                            echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
-                                                        }
-                                                    } else {
-                                                        echo "<option value=''>No options available</option>";
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                        </div>
+
                                         <div class="col-12 d-flex justify-content-end">
                                             <button type="button" class="btn btn-primary me-1 mb-1" id="send">送出</button>
                                             <a href="DiscountList.php" class="btn btn-light-secondary me-1 mb-1">返回</a>
@@ -269,7 +275,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         const CouponInfo = document.querySelector("#CouponInfo");
         const CouponReceiveEndTime = document.querySelector("#CouponReceiveEndTime");
         const CouponUseMax = document.querySelector("#CouponUseMax");
-        const CouponIsValid = document.querySelector("#CouponIsValid");
+        const EnableStatus = document.querySelector("#EnableStatus");
         const send = document.querySelector("#send");
         const infoModal = new bootstrap.Modal('#infoModal', {
             keyboard: true
@@ -316,7 +322,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             let CouponInfoVal = (CouponInfo.value !== "") ? CouponInfo.value : null;
             let CouponReceiveEndTimeVal = (CouponReceiveEndTime.value !== "") ? CouponReceiveEndTime.value : null;
             let CouponUseMaxVal = (CouponUseMax.value !== "") ? CouponUseMax.value : null;
-            let CouponIsValidVal = (CouponIsValid.value !== "") ? CouponIsValid.value : null;
+            let EnableStatusVal = (EnableStatus.value !== "") ? EnableStatus.value : null;
 
             $.ajax({
                     method: "POST",
@@ -337,7 +343,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                         CouponInfo: CouponInfoVal,
                         CouponReceiveEndTime: CouponReceiveEndTimeVal,
                         CouponUseMax: CouponUseMaxVal,
-                        CouponIsValid: CouponIsValidVal
+                        EnableStatus: EnableStatusVal
                     } //如果需要
                 })
                 .done(function(response) {

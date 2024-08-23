@@ -4,32 +4,35 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once("../pdoConnect.php");
 
-$id = $_POST["id"];
-$name = $_POST["name"];
-$email = $_POST["email"];
-$phone = $_POST["phone"];
-$admin = $_POST["admin"];
-$PCid = $_POST["pcid"];
-$password = $_POST["password"];
-$nickname = $_POST["nickname"];
-$level = $_POST["level"];
-$tel = $_POST["tel"];
-$address = $_POST["address"];
-$birth = $_POST["birth"];
+$errorMsg = false;
+
+$id = $_POST["id"] ?? null;
+$name = $_POST["name"] ?? null;
+$email = $_POST["email"] ?? null;
+$phone = $_POST["phone"] ?? null;
+$password = $_POST["password"] ?? null;
+$level = $_POST["level"] ?? null;
+$address = $_POST["address"] ?? null;
+$birth = $_POST["birth"] ?? null;
 $gender = $_POST["gender"];
 $valid = $_POST["valid"];
 $blacklist = $_POST["blacklist"];
-$createuserid = $_POST["createuserid"];
-$updateuserid = $_POST["updateuserid"];
+
+// 非必填欄位
+$nickname = $_POST["nickname"] ?? ''; 
+$tel = $_POST["tel"] ?? '';
 
 $date = date('Y-m-d H:i:s');
+
+if(!$id || !$name || !$email || !$phone || !$password || !$level || !$address || !$birth) {
+    echo "<script>alert('必填欄位不得為空！'); window.location.href = 'Member.php?MemberID=$id';</script>";
+    exit;
+}
 
 $sql = "UPDATE Member 
         SET MemberName = :name, 
             MemberPhone = :phone, 
             MembereMail = :email, 
-            MemberAdmin = :admin, 
-            MemberPCID = :pcid, 
             MemberPassword = :password, 
             MemberNickName = :nickname, 
             MemberLevel = :level, 
@@ -39,20 +42,16 @@ $sql = "UPDATE Member
             MemberGender = :gender, 
             MemberValid = :valid, 
             MemberIsBlacklisted = :blacklist, 
-            MemberCreateUserID = :createuserid, 
-            MemberUpdateDate = :updatedate, 
-            MemberUpdateUserID = :updateuserid
+            MemberUpdateDate = :updatedate
         WHERE MemberID = :id";
 
 $stmt = $dbHost->prepare($sql);
 
-try{
+try {
     $stmt->execute([
         ':name' => $name,
         ':phone' => $phone,
         ':email' => $email,
-        ':admin' => $admin,
-        ':pcid' => $PCid,
         ':password' => $password,
         ':nickname' => $nickname,
         ':level' => $level,
@@ -62,20 +61,16 @@ try{
         ':gender' => $gender,
         ':valid' => $valid,
         ':blacklist' => $blacklist,
-        ':createuserid' => $createuserid,
         ':updatedate' => $date,
-        ':updateuserid' => $updateuserid,
         ':id' => $id
     ]);
-    echo "<script>
-        alert('會員資料修改成功。');
-        window.location.href = 'MemberList.php';
-        </script>";
+    echo "<script>alert('會員資料更新成功！'); window.location.href = 'Member.php?MemberID=$id';</script>";
     exit;
-}catch(PDOException $e){
+
+} catch (PDOException $e) {
     echo "預處理陳述式執行失敗！ <br/>";
     echo "Error: " . $e->getMessage() . "<br/>";
-    $db_host = NULL;
+    $dbHost = NULL;
     exit;
 }
 
