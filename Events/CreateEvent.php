@@ -34,7 +34,7 @@ $vendors = $stmt->fetchAll(PDO::FETCH_ASSOC); // 獲取所有 vendor 的數據
             overflow: hidden;
             /* 確保圖片不會超出邊界 */
             /* 背景顏色，用於佔位 */
-            margin-bottom: -0.8rem;
+            margin-bottom: -0.6rem;
         }
 
 
@@ -98,7 +98,7 @@ $vendors = $stmt->fetchAll(PDO::FETCH_ASSOC); // 獲取所有 vendor 的數據
                             <!-- 預覽圖片的區域 -->
                             <div class="mb-3">
                                 <label for="image" class="form-label">封面圖片</label>
-                                <input type="file" class="form-control imagePreviewFileName" id="image" accept="image/*" name="image" required>
+                                <input type="file" class="form-control imagePreviewFileName" id="image" accept="image/*" name="image">
                                 <!-- 預留預覽圖片框 -->
                                 <div id="image-preview-wrapper" class="image-preview-wrapper">
                                     <img id="image-preview" src="#" alt="圖片預覽" class="img-fluid d-none" />
@@ -117,10 +117,10 @@ $vendors = $stmt->fetchAll(PDO::FETCH_ASSOC); // 獲取所有 vendor 的數據
                             <div class="mb-3"> <label for="eventTime" class="form-label col-3">活動時間</label>
                                 <div class="row">
                                     <div class="col">
-                                        <input id="eventStartTime" name="EventStartTime" type="text" class="form-control  flatpickr-no-config flatpickr-input active " placeholder="開始時間" readonly="readonly" required>
+                                        <input id="eventStartTime" name="EventStartTime" type="text" class="form-control  flatpickr-no-config flatpickr-input active " placeholder="開始時間" readonly="readonly">
                                     </div>
                                     <div class="col">
-                                        <input id="eventEndTime" name="EventEndTime" type="text" class="form-control  flatpickr-no-config flatpickr-input active " placeholder="結束時間" readonly="readonly" required>
+                                        <input id="eventEndTime" name="EventEndTime" type="text" class="form-control  flatpickr-no-config flatpickr-input active " placeholder="結束時間" readonly="readonly">
                                     </div>
                                 </div>
 
@@ -129,9 +129,9 @@ $vendors = $stmt->fetchAll(PDO::FETCH_ASSOC); // 獲取所有 vendor 的數據
                                 <label for="editor-container" class="form-label">活動內容</label>
                                 <div id="full">
                                 </div>
-                                <input type="hidden" id="EventInfo" name="EventInfo" require>
+                                <input type="hidden" id="EventInfo" name="EventInfo">
                             </div>
-                            <div class="mb-3">
+                            <!-- <div class="mb-3">
                                 <label for="eventTag" class="form-label col-3">活動標籤</label>
                                 <div class="form-group">
                                     <select class="choices form-select multiple-remove" multiple="multiple" id="eventTag" name="eventTag">
@@ -144,14 +144,14 @@ $vendors = $stmt->fetchAll(PDO::FETCH_ASSOC); // 獲取所有 vendor 的數據
                                         <option value="pet" selected>寵物</option>
                                     </select>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="card">
                         <div class="card-body">
                             <div class="mb-3">
                                 <label for="vendorList" class="form-label">主辦廠商</label>
-                                <select class="choices form-select" id="vendorList" name="VendorID" required>
+                                <select class="choices form-select" id="vendorList" name="VendorID">
                                     <option value="">請選擇廠商</option>
                                     <?php foreach ($vendors as $vendor): ?>
                                         <option value="<?php echo $vendor['VendorID']; ?>">
@@ -383,6 +383,48 @@ $vendors = $stmt->fetchAll(PDO::FETCH_ASSOC); // 獲取所有 vendor 的數據
 
             // Handle form submission
         });
+    </script>
+    <script>
+        // Function to validate times and show alerts
+
+        //老師改的正確版驗證提交表單
+        const eventSignStartTime = document.getElementById('EventSignStartTime');
+        const eventSignEndTime = document.getElementById('EventSignEndTime');
+        const eventStartTime = document.getElementById('EventStartTime');
+        const eventEndTime = document.getElementById('EventEndTime');
+        const eventPublishStartTime = document.getElementById('EventPublishStartTime');
+        const eventPublishEndTime = document.getElementById('EventPublishEndTime');
+        const now = new Date();
+
+
+        document.querySelector("#send").addEventListener("click", function(e) {
+            e.preventDefault();
+
+            const eventSignStartTime = new Date(document.getElementById('EventSignStartTime').value);
+            const eventSignEndTime = new Date(document.getElementById('EventSignEndTime').value);
+            const eventStartTime = new Date(document.getElementById('EventStartTime').value);
+            const eventEndTime = new Date(document.getElementById('EventEndTime').value);
+            const eventPublishStartTime = new Date(document.getElementById('EventPublishStartTime').value);
+            const eventPublishEndTime = new Date(document.getElementById('EventPublishEndTime').value);
+
+            // Validation logic
+            if (eventSignEndTime < eventSignStartTime) {
+                alert("報名結束時間不能早於報名開始時間！");
+                return;
+            }
+
+            if (eventEndTime < eventStartTime) {
+                alert("活動結束時間不能早於活動開始時間！");
+                return;
+            }
+
+            if (eventPublishEndTime < eventPublishStartTime) {
+                alert("下架時間不能早於上架時間！");
+                return;
+            }
+
+            document.getElementById('creatEventForm').submit();
+        })
     </script>
     <script src="../assets/static/js/pages/form-element-select.js"></script>
 

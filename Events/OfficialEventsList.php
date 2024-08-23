@@ -2,9 +2,12 @@
 require_once("../pdoConnect.php");
 
 $page = isset($_GET['p']) ? (int)$_GET['p'] : 1;
-$per_page = isset($_GET['per_page']) ? (int)$_GET['per_page'] : 5;
+$per_page = isset($_GET['per_page']) ? (int)$_GET['per_page'] : 10;
 $start_item = ($page - 1) * $per_page;
-
+$search = $_GET["search"] ?? "";
+$start_time = $_GET["start_time"] ?? "";
+$end_time = $_GET["end_time"] ?? "";
+$order = $_GET["order"] ?? "";
 // 根據選擇的行數顯示相應數量的結果
 // $sql .= " LIMIT $start_item, $per_page";
 
@@ -209,158 +212,164 @@ try {
                     <div class="card">
                         <div class="card-body">
                             <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-                                <div class="dataTable-top">
-                                    <form action="" method="get">
-                                        <input type="hidden" name="p" value="<?= $page ?>">
-                                        <input type="hidden" name="order" value="<?= $order ?>">
-                                        <label>每頁</label>
-                                        <div class="dataTable-dropdown">
-                                            <select name="per_page" class="dataTable-selector form-select" onchange="if(this.form)this.form.submit();">
-                                                <option value="5" <?= ($per_page == 5) ? 'selected' : '' ?>>5</option>
-                                                <option value="10" <?= ($per_page == 10) ? 'selected' : '' ?>>10</option>
-                                                <option value="15" <?= ($per_page == 15) ? 'selected' : '' ?>>15</option>
-                                                <option value="20" <?= ($per_page == 20) ? 'selected' : '' ?>>20</option>
-                                            </select>
-                                        </div>
-                                        <label>筆</label>
-
-                                    </form>
-                                    <div class="">
+                                <div class="row justify-content-center align-items-center">
+                                    <div class="dataTable-top col">
+                                        <form action="" method="get">
+                                            <input type="hidden" name="p" value="<?= $page ?>">
+                                            <input type="hidden" name="order" value="<?= $order ?>">
+                                            <input type="hidden" name="search" value="<?= $search ?>">
+                                            <input type="hidden" name="start_time" value="<?php echo isset($start_time) ? $start_time : ''; ?>">
+                                            <input type="hidden" name="end_time" value="<?php echo isset($end_time) ? $start_time : ''; ?>">
+                                            <label>每頁</label>
+                                            <div class="dataTable-dropdown">
+                                                <select name="per_page" class="dataTable-selector form-select" onchange="if(this.form)this.form.submit();">
+                                                    <option value="5" <?= ($per_page == 5) ? 'selected' : '' ?>>5</option>
+                                                    <option value="10" <?= ($per_page == 10) ? 'selected' : '' ?>>10</option>
+                                                    <option value="15" <?= ($per_page == 15) ? 'selected' : '' ?>>15</option>
+                                                    <option value="20" <?= ($per_page == 20) ? 'selected' : '' ?>>20</option>
+                                                </select>
+                                            </div>
+                                            <label>筆</label>
+                                        </form>
+                                    </div>
+                                    <div class="col text-end">
                                         <button class="btn btn-primary me-1 mb-1" type="button"><a class="text-white" href="./CreateEvent.php"><i class="fa-regular fa-calendar-plus text-white"></i> 新增</a></button>
                                     </div>
                                 </div>
-                                <div class="dataTable-container">
-                                    <?php if ($eventCount > 0): ?>
 
-                                        <table class="table table-striped dataTable-table" id="table1">
-                                            <thead>
-                                                <tr>
+                            </div>
+                            <div class="dataTable-container">
+                                <?php if ($eventCount > 0): ?>
 
-                                                    <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&order=<?php if ($order == 1) echo "2";
-                                                                                                                                else echo "1"; ?>&per_page=<?= $per_page ?>
+                                    <table class="table table-striped dataTable-table" id="table1">
+                                        <thead>
+                                            <tr>
+
+                                                <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&order=<?php if ($order == 1) echo "2";
+                                                                                                                            else echo "1"; ?>&per_page=<?= $per_page ?>
 " class="dataTable-sorter">活動標題</a></th>
-                                                    <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&per_page=<?= $per_page ?>&order=<?php if ($order == 3) echo "4";
-                                                                                                                                                        else echo "3"; ?>" class="dataTable-sorter">活動狀態</a></th>
+                                                <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&per_page=<?= $per_page ?>&order=<?php if ($order == 3) echo "4";
+                                                                                                                                                    else echo "3"; ?>" class="dataTable-sorter">活動狀態</a></th>
 
-                                                    <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&per_page=<?= $per_page ?>&order=<?php if ($order == 5) echo "6";
-                                                                                                                                                        else echo "5"; ?>" class="dataTable-sorter">活動日期</a></th>
-                                                    <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&order=<?php if ($order == 7) echo "8";
-                                                                                                                                else echo "7"; ?>" class="dataTable-sorter">地區</a></th>
+                                                <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&per_page=<?= $per_page ?>&order=<?php if ($order == 5) echo "6";
+                                                                                                                                                    else echo "5"; ?>" class="dataTable-sorter">活動日期</a></th>
+                                                <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&order=<?php if ($order == 7) echo "8";
+                                                                                                                            else echo "7"; ?>" class="dataTable-sorter">地區</a></th>
 
-                                                    <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&per_page=<?= $per_page ?>&order=<?php if ($order == 9) echo "10";
-                                                                                                                                                        else echo "9"; ?>" class="dataTable-sorter">人數上限 </a></th>
-                                                    <th data-sortable=""><a href="#" class="dataTable-sorter">已報名</a></th>
-                                                    <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&per_page=<?= $per_page ?>&order=<?php if ($order == 13) echo "14";
-                                                                                                                                                        else echo "13"; ?>" class="dataTable-sorter">金額</a></th>
-                                                    <!-- <th data-sortable=""><a href="#" class="dataTable-sorter">折扣金額</a></th> -->
-                                                    <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&per_page=<?= $per_page ?>&order=<?php if ($order == 15) echo "16";
-                                                                                                                                                        else echo "15"; ?>" class="dataTable-sorter">上架狀態</a></th>
-                                                    <th></th>
-                                                    <th></th>
+                                                <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&per_page=<?= $per_page ?>&order=<?php if ($order == 9) echo "10";
+                                                                                                                                                    else echo "9"; ?>" class="dataTable-sorter">人數上限 </a></th>
+                                                <th data-sortable=""><a href="#" class="dataTable-sorter">已報名</a></th>
+                                                <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&per_page=<?= $per_page ?>&order=<?php if ($order == 13) echo "14";
+                                                                                                                                                    else echo "13"; ?>" class="dataTable-sorter">金額</a></th>
+                                                <!-- <th data-sortable=""><a href="#" class="dataTable-sorter">折扣金額</a></th> -->
+                                                <th data-sortable=""><a href="OfficialEventsList.php?p=<?= $page ?>&per_page=<?= $per_page ?>&order=<?php if ($order == 15) echo "16";
+                                                                                                                                                    else echo "15"; ?>" class="dataTable-sorter">上架狀態</a></th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($rows as $event): ?>
+                                                <tr>
+                                                    <!-- <td>全網站</td> -->
+
+                                                    <td><?= $event["EventTitle"] ?></td>
+                                                    <?php
+                                                    $currentDate = new DateTime();
+                                                    $EventSignStartTime = new DateTime($event["EventSignStartTime"]);
+                                                    $EventSignEndTime = new DateTime($event["EventSignEndTime"]);
+                                                    if ($currentDate > $EventSignEndTime) {
+                                                        $status = "截止報名";
+                                                    } elseif ($currentDate >= $EventSignStartTime && $currentDate <= $EventSignEndTime) {
+                                                        $status = "報名中";
+                                                    } else {
+                                                        $status = "未開放";
+                                                    }
+                                                    ?>
+                                                    <td><?= $status ?></td>
+                                                    <td>
+                                                        <ul class="list-group list-unstyled">
+                                                            <?php $newEventStartTime = (new DateTime($event["EventStartTime"]))->format('Y-m-d H:i');
+                                                            $newEventEndTime = (new DateTime($event["EventEndTime"]))->format('Y-m-d H:i') ?>
+                                                            <li><?= $newEventStartTime ?></li>
+                                                            <li><?= $newEventEndTime ?></li>
+                                                        </ul>
+                                                    </td>
+                                                    <?php
+                                                    $location = '線上活動'; // 預設為線上活動
+                                                    if (strpos($event["EventLocation"], 'north') !== false) {
+                                                        $location = '北部';
+                                                    } elseif (strpos($event["EventLocation"], 'central') !== false) {
+                                                        $location = '中部';
+                                                    } elseif (strpos($event["EventLocation"], 'south') !== false) {
+                                                        $location = '南部';
+                                                    } elseif (strpos($event["EventLocation"], 'east') !== false) {
+                                                        $location = '東部';
+                                                    }
+                                                    ?><td><?= $location ?></td>
+                                                    <td><?= $event["EventParticipantLimit"] ?></td>
+                                                    <td>50人</td>
+                                                    <?php
+                                                    $EventFee = $event["EventFee"];
+                                                    $newEventFee = number_format($EventFee, 0) ?>
+                                                    <td class="text-end"><?= $newEventFee ?>
+
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-check form-switch">
+                                                            <?php
+                                                            $newEventStatus = $event["EventStatus"];
+                                                            ?>
+                                                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault_<?= $event["EventID"] ?>"
+                                                                <?= $newEventStatus == 'published' ? 'checked' : '' ?>>
+
+                                                            <label class="form-check-label" for="flexSwitchCheckDefault"></label>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <a href="./EventEdit.php?id=<?= $event["EventID"] ?>"> <i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="pdoDeleteEvent.php?id=<?= $event["EventID"] ?>"><i class="fa-solid fa-trash-can fa-lg"></i></a>
+                                                    </td>
+
+
                                                 </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php foreach ($rows as $event): ?>
-                                                    <tr>
-                                                        <!-- <td>全網站</td> -->
-
-                                                        <td><?= $event["EventTitle"] ?></td>
-                                                        <?php
-                                                        $currentDate = new DateTime();
-                                                        $EventSignStartTime = new DateTime($event["EventSignStartTime"]);
-                                                        $EventSignEndTime = new DateTime($event["EventSignEndTime"]);
-                                                        if ($currentDate > $EventSignEndTime) {
-                                                            $status = "截止報名";
-                                                        } elseif ($currentDate >= $EventSignStartTime && $currentDate <= $EventSignEndTime) {
-                                                            $status = "報名中";
-                                                        } else {
-                                                            $status = "未開放";
-                                                        }
-                                                        ?>
-                                                        <td><?= $status ?></td>
-                                                        <td>
-                                                            <ul class="list-group list-unstyled">
-                                                                <?php $newEventStartTime = (new DateTime($event["EventStartTime"]))->format('Y-m-d H:i');
-                                                                $newEventEndTime = (new DateTime($event["EventEndTime"]))->format('Y-m-d H:i') ?>
-                                                                <li><?= $newEventStartTime ?></li>
-                                                                <li><?= $newEventEndTime ?></li>
-                                                            </ul>
-                                                        </td>
-                                                        <?php
-                                                        $location = '線上活動'; // 預設為線上活動
-                                                        if (strpos($event["EventLocation"], 'north') !== false) {
-                                                            $location = '北部';
-                                                        } elseif (strpos($event["EventLocation"], 'central') !== false) {
-                                                            $location = '中部';
-                                                        } elseif (strpos($event["EventLocation"], 'south') !== false) {
-                                                            $location = '南部';
-                                                        } elseif (strpos($event["EventLocation"], 'east') !== false) {
-                                                            $location = '東部';
-                                                        }
-                                                        ?><td><?= $location ?></td>
-                                                        <td><?= $event["EventParticipantLimit"] ?></td>
-                                                        <td>50人</td>
-                                                        <?php
-                                                        $EventFee = $event["EventFee"];
-                                                        $newEventFee = number_format($EventFee, 0) ?>
-                                                        <td class="text-end"><?= $newEventFee ?>
-
-                                                        </td>
-                                                        <td>
-                                                            <div class="form-check form-switch">
-                                                                <?php
-                                                                $newEventStatus = $event["EventStatus"];
-                                                                ?>
-                                                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault_<?= $event["EventID"] ?>"
-                                                                    <?= $newEventStatus == 'published' ? 'checked' : '' ?>>
-
-                                                                <label class="form-check-label" for="flexSwitchCheckDefault"></label>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <a href="./EventEdit.php?id=<?= $event["EventID"] ?>"> <i class="fa-solid fa-pen-to-square fa-lg"></i></a>
-                                                        </td>
-                                                        <td>
-                                                            <a href="pdoDeleteEvent.php?id=<?= $event["EventID"] ?>"><i class="fa-solid fa-trash-can fa-lg"></i></a>
-                                                        </td>
-
-
-                                                    </tr>
-                                                <?php endforeach; ?>
-                                            </tbody>
-                                        </table>
-                                    <?php else: ?>
-                                        <p class="ps-2 pt-3">沒有相關的活動，請重新輸入關鍵詞</p>
-                                    <?php endif; ?>
-                                </div>
-                                <div class="dataTable-bottom">
-                                    <div class="dataTable-info">Showing <?= $eventCount ?> of <?= $eventCountAll ?> entries</div>
-                                    <nav class="dataTable-pagination justify-content-center">
-                                        <ul class="dataTable-pagination-list pagination pagination-primary">
-                                            <li class="pager page-item">
-                                                <a href="OfficialEventsList.php?p=<?= max(1, $page - 1) ?>&order=<?= $order ?>&per_page=<?= $per_page ?>&search=<?= $_GET["search"] ?? "" ?>" data-page="1" class="page-link">‹</a>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                <?php else: ?>
+                                    <p class="ps-2 pt-3">沒有相關的活動，請重新輸入關鍵詞</p>
+                                <?php endif; ?>
+                            </div>
+                            <div class="dataTable-bottom">
+                                <div class="dataTable-info">Showing <?= $eventCount ?> of <?= $eventCountAll ?> entries</div>
+                                <nav class="dataTable-pagination justify-content-center">
+                                    <ul class="dataTable-pagination-list pagination pagination-primary">
+                                        <li class="pager page-item">
+                                            <a href="OfficialEventsList.php?p=<?= max(1, $page - 1) ?>&order=<?= $order ?>&per_page=<?= $per_page ?>&search=<?= $_GET["search"] ?? "" ?>&start_time=<?= $_GET["start_time"] ?? "" ?>&end_time=<?= $_GET["end_time"] ?? "" ?>" data-page="1" class="page-link">‹</a>
+                                        </li>
+                                        <?php for ($i = 1; $i <= $total_Page; $i++): ?>
+                                            <li class="page-item">
+                                                <a href="OfficialEventsList.php?p=<?= $i ?>&order=<?= $order ?>&per_page=<?= $per_page ?>&search=<?= $_GET["search"] ?? "" ?>&start_time=<?= $_GET["start_time"] ?? "" ?>&end_time=<?= $_GET["end_time"] ?? "" ?>" data-page="<?= $i ?>" class="page-link <?php if ($page == $i) echo "active" ?>">
+                                                    <?= $i ?>
+                                                </a>
                                             </li>
-                                            <?php for ($i = 1; $i <= $total_Page; $i++): ?>
-                                                <li class="page-item">
-                                                    <a href="OfficialEventsList.php?p=<?= $i ?>&order=<?= $order ?>&per_page=<?= $per_page ?>&search=<?= $_GET["search"] ?? "" ?>" data-page="<?= $i ?>" class="page-link <?php if ($page == $i) echo "active" ?>">
-                                                        <?= $i ?>
-                                                    </a>
-                                                </li>
-                                            <?php endfor; ?>
-                                            <li class="pager page-item">
-                                                <a href="OfficialEventsList.php?p=<?= min($total_Page, $page + 1) ?>&order=<?= $order ?>&per_page=<?= $per_page ?>&search=<?= $_GET["search"] ?? "" ?>" data-page="<?= ($i + 1) ?>" class="page-link">›</a>
-                                            </li>
-                                        </ul>
-                                    </nav>
+                                        <?php endfor; ?>
+                                        <li class="pager page-item">
+                                            <a href="OfficialEventsList.php?p=<?= min($total_Page, $page + 1) ?>&order=<?= $order ?>&per_page=<?= $per_page ?>&search=<?= $_GET["search"] ?? "" ?>&start_time=<?= $_GET["start_time"] ?? "" ?>&end_time=<?= $_GET["end_time"] ?? "" ?>" data-page="<?= ($i + 1) ?>" class="page-link">›</a>
+                                        </li>
+                                    </ul>
+                                </nav>
 
-                                </div>
                             </div>
                         </div>
                     </div>
-                </section>
             </div>
-            <?php include("../footer.php") ?>
+            </section>
         </div>
+        <?php include("../footer.php") ?>
+    </div>
     </div>
     <?php include("../js.php") ?>
     <script>
