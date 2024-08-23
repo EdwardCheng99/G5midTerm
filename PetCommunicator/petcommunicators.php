@@ -15,14 +15,11 @@ if (isset($_GET["p"]) && isset($_GET["order"]) && isset($_GET["perPage"])) {
     $orderArray = explode(':', $_GET['order']);
     $orderID = $orderArray[0];
     $orderValue = $orderArray[1] == 'DESC' ? 'DESC' : 'ASC';
-
-
-
     $page = $_GET["p"];
     $start_item = ($page - 1) * $per_page;
     $sql = "SELECT * FROM Petcommunicator WHERE valid=1 ORDER BY $orderID $orderValue LIMIT $start_item, $per_page ";
     $stmt = $dbHost->prepare($sql);
-} elseif (isset($_GET["search"])) {
+} elseif (isset($_GET["search"]) && $_GET["search"] != "") {
     $search = $_GET["search"];
     $sql = "SELECT * FROM Petcommunicator WHERE PetCommName LIKE :search AND valid=1";
     $stmt = $dbHost->prepare($sql);
@@ -34,8 +31,6 @@ if (isset($_GET["p"]) && isset($_GET["order"]) && isset($_GET["perPage"])) {
 try {
     $stmtAll->execute();
     $CommCounts = $stmtAll->rowCount();
-
-
     $stmt->execute();
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $CommCount = $stmt->rowCount();
@@ -56,17 +51,65 @@ $total_page = ceil($CommCounts / $per_page);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>寵物溝通師管理</title>
     <?php include("../headlink.php") ?>
+    <style>
+        #mainTable th:nth-child(1),
+        #mainTable td:nth-child(1) {
+            width: 5em;
+        }
+
+        #mainTable th:nth-child(2),
+        #mainTable td:nth-child(2) {
+            width: 10em;
+        }
+
+        #mainTable th:nth-child(3),
+        #mainTable td:nth-child(3) {
+            width: 5em;
+        }
+
+        #mainTable th:nth-child(4),
+        #mainTable td:nth-child(4) {
+            width: 25em;
+        }
+
+        #mainTable th:nth-child(5),
+        #mainTable td:nth-child(5) {
+            width: 15em;
+        }
+
+        #mainTable th:nth-child(6),
+        #mainTable td:nth-child(6) {
+            width: 10em;
+        }
+
+        .updateDate {
+            right: 10px
+        }
+
+        .comment-row {
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+            max-height: 0;
+        }
+
+        .comment-row.open {
+            max-height: 500px;
+        }
+    </style>
 </head>
 
 <body>
     <script src="../assets/static/js/initTheme.js"></script>
     <div id="app">
         <?php include("../sidebar.php") ?>
-        <div id="main" class='layout-navbar navbar-fixed'>
-            <header>
+        <div id="main">
+        <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
             </header>
-            <div id="main-content">
                 <div class="page-heading">
+                    <!-- 標題抬頭 -->
                     <div class="page-title">
                         <div class="row">
                             <div class="col-12 col-md-6 order-md-1 order-last">
@@ -84,20 +127,28 @@ $total_page = ceil($CommCounts / $per_page);
                         </div>
                     </div>
                     <section class="section">
-
+                        <!-- 搜尋框 -->
                         <div class="card">
                             <div class="card-body">
-
-                                <?php if (!isset($_GET["search"])) : ?>
-                                    <a href="Creat-communicator.php" class="btn btn-primary mb-2">新增師資</a>
-                                <?php endif ?>
+                                <div class="dataTable-search">
+                                    <form action="">
+                                        <div class="input-group ">
+                                            <input type="search" class="form-control" name="search" placeholder="請搜尋溝通師名稱...">
+                                            <button type="submit" class="btn btn-primary">搜尋</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 主要內容框 -->
+                        <div class="card">
+                            <div class="card-body">
                                 <?php if (isset($_GET["search"])) : ?>
                                     <a href="petcommunicators.php" class="btn btn-primary mb-2">返回</a>
                                 <?php endif ?>
                                 <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-
                                     <div class="dataTable-top">
-
+                                        <!-- 每頁筆數 -->
                                         <?php if (!isset($_GET["search"])) : ?>
                                             <label>每頁</label>
                                             <div class="dataTable-dropdown">
@@ -115,17 +166,13 @@ $total_page = ceil($CommCounts / $per_page);
                                             </div>
                                             <label>筆</label>
                                         <?php endif ?>
-                                        <div class="dataTable-search">
-                                            <form action="">
-                                                <div class="input-group ">
-                                                    <input type="search" class="form-control" name="search" placeholder="請搜尋溝通師名稱...">
-                                                    <button type="submit" class="btn btn-primary">搜尋</button>
-                                                </div>
-                                            </form>
-                                        </div>
+                                        <?php if (!isset($_GET["search"])) : ?>
+                                            <div>
+                                                <a href="Creat-communicator.php" class="btn btn-primary mb-2">新增師資</a>
+                                            </div>
+                                        <?php endif ?>
                                     </div>
-
-
+                                    <!-- 頁籤 -->
                                     <ul class="nav nav-tabs">
                                         <li class="nav-item">
                                             <a class="nav-link active" aria-current="page" href="">全部名單</a>
@@ -137,29 +184,26 @@ $total_page = ceil($CommCounts / $per_page);
                                             <a class="nav-link" href="SoftDelList.php">刪除名單</a>
                                         </li>
                                     </ul>
-
-
-
                                     <div class="dataTable-container">
                                         <?php if ($CommCount > 0) : ?>
-                                            <table class="table table-striped dataTable-table" id="table1">
+                                            <table class="table table-striped dataTable-table" id="mainTable">
                                                 <thead>
+                                                    <!-- 資料清單標題 -->
                                                     <tr>
-                                                        <th data-sortable="" class="desc" aria-sort="descending"><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">編號</a></th>
-                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommName:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">名稱</a></th>
-                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommSex:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">性別</a></th>
-                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateid:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">證書編號</a></th>
-                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">取證日期</a></th>
-                                                        <th data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommStatus:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刊登狀態</a></th>
-
+                                                        <th data-sortable="" class="<?= $orderID == 'PetCommID' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" aria-sort="descending"><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">編號</a></th>
+                                                        <th class="<?= $orderID == 'PetCommName' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommName:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">名稱</a></th>
+                                                        <th class="<?= $orderID == 'PetCommSex' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommSex:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">性別</a></th>
+                                                        <th class="<?= $orderID == 'PetCommCertificateid' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateid:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">證書編號</a></th>
+                                                        <th class="<?= $orderID == 'PetCommCertificateDate' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">取證日期</a></th>
+                                                        <th class="<?= $orderID == 'PetCommStatus' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommStatus:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刊登狀態</a></th>
                                                         <th></th>
                                                         <th></th>
                                                         <th></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <?php $false=false; ?>
                                                     <?php foreach ($rows as $user): ?>
+                                                        <!-- 資料清單 -->
                                                         <tr>
                                                             <td><?= $user["PetCommID"] ?></td>
                                                             <td><?= $user["PetCommName"] ?></td>
@@ -171,57 +215,73 @@ $total_page = ceil($CommCounts / $per_page);
                                                                 <a href="Edit-communicator.php?id=<?= $user["PetCommID"] ?>"> <i class="fa-solid fa-pen-to-square fa-lg"></i></a>
                                                             </td>
                                                             <td>
-                                                                <a href="petcommunicator.php?id=<?= $user["PetCommID"] ?>"><i class="fa-solid fa-circle-info"></i></a>
-                                                            </td>
-                                                            <td>
                                                                 <a href="WarningAlert.php?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&del=<?= $user["PetCommID"] ?>&order=<?= $order ?>&perPage=<?= $per_page ?>"><i class="fa-solid fa-trash-can"></i></a>
                                                             </td>
-
+                                                            <td>
+                                                                <button class="btn btn-outline-primary card-control " id="cardControl-<?= $user["PetCommID"] ?>"><i class="fa-solid fa-angles-down"></i></button>
+                                                            </td>
                                                         </tr>
-                                                        
-                                                        <?php if(!$false){ ?>
-                                                        <!-- <tr class="d-none">
+                                                        <!-- 動態清單名片 -->
+                                                        <tr id="cardlist-<?= $user["PetCommID"] ?>" class="card-list d-none ">
                                                             <td colspan="9">
-                                                                <div class="comment">
+                                                                <div class="comment position-relative">
                                                                     <div class="comment-header">
                                                                         <div class="pr-50">
                                                                             <div class="avatar avatar-2xl">
-                                                                                <img src="./assets/compiled/jpg/2.jpg" alt="Avatar">
+                                                                                <img src="./images/<?= $user["PetCommImg"] ?>" alt="Avatar">
                                                                             </div>
                                                                         </div>
                                                                         <div class="comment-body">
-                                                                            <div class="comment-profileName">Muhammad Alfian </div>
-                                                                            <div class="comment-time">8 seconds ago</div>
+                                                                            <div class="comment-profileName"><?= $user["PetCommName"] ?></div>
+                                                                            <div class="comment-time">Email:<?= $user["PetCommEmail"] ?></div>
                                                                             <div class="comment-message">
-                                                                                <p class="list-group-item-text truncate mb-20">Your <a href="https://github.com/alfianchii/confess" target="_blank">confession</a> will be processed. Stay tuned!</p>
+                                                                                <p class="list-group-item-text truncate mb-20">
+                                                                                    [服務項目]<br><?= $user["PetCommService"] ?>
+                                                                                </p>
+                                                                                <p class="list-group-item-text truncate mb-20">
+                                                                                    [預約費用]<br><?= $user["PetCommFee"] ?>
+                                                                                </p>
                                                                             </div>
-                                                                            <div class="comment-actions">
-                                                                                <button class="btn icon icon-left btn-primary me-2 text-nowrap"><i class="bi bi-eye-fill"></i> Show</button>
-                                                                                <button class="btn icon icon-left btn-warning me-2 text-nowrap"><i class="bi bi-pencil-square"></i> Edit</button>
-                                                                                <button class="btn icon icon-left btn-danger me-2 text-nowrap"><i class="bi bi-x-circle"></i> Remove</button>
-                                                                            </div>
+                                                                            <a href="petcommunicator.php?id=<?= $user["PetCommID"] ?>" class="btn icon icon-left btn-primary me-2 text-nowrap"><i class="bi bi-eye-fill"></i> ShowALL</a>
                                                                         </div>
+                                                                    </div>
+                                                                    <div class="text-end position-absolute updateDate">
+                                                                        <p>上次更新:<?= $user["PetCommUpdateDate"] ?></p>
                                                                     </div>
                                                                 </div>
                                                             </td>
-                                                        </tr> -->
-                                                        <?php $false=true; }?>
-                                                        
+                                                        </tr>
                                                     <?php endforeach ?>
                                                 </tbody>
                                             </table>
                                         <?php else : ?>
-                                            查無溝通師
+                                            <h4 class="mt-3">查無溝通師</h4>
                                         <?php endif; ?>
                                     </div>
                                     <?php if (!isset($_GET["search"])) : ?>
                                         <div class="dataTable-bottom">
                                             <div class="dataTable-info">顯示 <?= $start_item + 1 ?> 到 <?= $start_item + $per_page ?> 共 <?= $CommCounts ?> 筆</div>
-                                            <nav aria-label="Page navigation">
-                                                <ul class=" pagination pagination-primary">
-                                                    <?php for ($i = 1; $i <= $total_page; $i++) : ?>
-                                                        <li class="page-item <?php if ($page == $i) echo "active" ?>"><a href="petcommunicators.php?p=<?= $i ?>&perPage=<?= $per_page ?>&order=<?= $order ?>" class="page-link"><?= $i ?></a></li>
+                                            <!-- 動態分頁 -->
+                                            <nav aria-label="Page navigation example">
+                                                <ul class="pagination pagination-primary">
+                                                    <?php
+                                                    $display_pages = 3;
+                                                    $start = max(1, $page - floor($display_pages / 2));
+                                                    $end = min($total_page, $start + $display_pages - 1);
+                                                    if ($end - $start + 1 < $display_pages) {
+                                                        $start = max(1, $end - $display_pages + 1);
+                                                    }
+                                                    $start = max(1, $start);
+                                                    ?>
+                                                    <li class="page-item <?= $page == 1 ? "d-none" : "" ?>"><a class="page-link" href="petcommunicators.php?p=<?= $page - 1 ?>&perPage=<?= $per_page ?>&order=<?= $order ?>">
+                                                            <span aria-hidden="true"><i class="bi bi-chevron-left "></i></span>
+                                                        </a></li>
+                                                    <?php for ($i = $start; $i <= $end; $i++) : ?>
+                                                        <li class="page-item <?= $page == $i ? "active" : "" ?>"><a class="page-link" href="petcommunicators.php?p=<?= $i ?>&perPage=<?= $per_page ?>&order=<?= $order ?>"><?= $i ?></a></li>
                                                     <?php endfor; ?>
+                                                    <li class="page-item <?= $page == $total_page ? "d-none" : "" ?>"><a class="page-link" href="petcommunicators.php?p=<?= $page + 1 ?>&perPage=<?= $per_page ?>&order=<?= $order ?>">
+                                                            <span aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
+                                                        </a></li>
                                                 </ul>
                                             </nav>
                                         </div>
@@ -231,31 +291,31 @@ $total_page = ceil($CommCounts / $per_page);
                         </div>
                     </section>
                 </div>
-
-            </div>
-            <footer>
-                <div class="footer clearfix mb-0 text-muted">
-                    <div class="float-start">
-                    </div>
-                    <div class="float-end">
-                    </div>
-                </div>
-            </footer>
+                <?php include("../footer.php") ?>
         </div>
     </div>
+    <?php include("../js.php") ?>
     <script>
-        const delBtn = document.querySelector("#delBtn");
-        const warningAlert = document.querySelector("#warningAlert");
-        delBtn.addEventListener("click", function() {
-            warningAlert.classList.add('flex');
-        })
+        // 清單動態名片卡
+        const cardControl = document.querySelectorAll('.card-control')
+        cardControl.forEach(
+            function(button) {
+                button.addEventListener('click', function() {
+                    const icon = button.querySelector('i');
+
+                    const userId = button.id.split('-')[1];
+                    const cardList = document.querySelector(`#cardlist-${userId}`);
+                    if (cardList.classList.contains("d-none")) {
+                        cardList.classList.remove("d-none");
+                        icon.classList.remove("fa-angles-down");
+                        icon.classList.add("fa-angles-up");
+                    } else {
+                        cardList.classList.add("d-none");
+                        icon.classList.add("fa-angles-down");
+                        icon.classList.remove("fa-angles-up");
+                    }
+                })
+            })
     </script>
-
-    <script src="../assets/static/js/components/dark.js"></script>
-    <script src="../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-    <script src="../assets/compiled/js/app.js"></script>
-
-
 </body>
-
 </html>

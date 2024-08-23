@@ -24,7 +24,7 @@ $sub = isset($_GET["sub"]) ? $_GET["sub"] : ''; // 新增分類變數
 
 
 $sql = "SELECT * FROM product
-WHERE product_valid=0 AND product_status='已下架'";
+WHERE product_status='已下架'";
 if ($search) {
     $sql .= " AND product_name LIKE :search";
 }
@@ -59,7 +59,7 @@ $stmt->bindValue(':limit', $per_page, PDO::PARAM_INT);
 $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 
 // 總商品數顯示分頁
-$countPage = "SELECT COUNT(*) FROM product WHERE product_valid=0 AND product_status='已下架'";
+$countPage = "SELECT COUNT(*) FROM product WHERE product_status='已下架'";
 if ($search) {
     $countPage .= " AND product_name LIKE :search";
 }
@@ -113,28 +113,28 @@ try {
 
     <title>商品復原</title>
     <link rel="stylesheet" href="./css.css">
+    <link rel="stylesheet" href="./alert.css">
     <?php include("../headlink.php") ?>
-    
+
 </head>
 
 
 <body>
     <script src="../assets/static/js/initTheme.js"></script>
-     <!-- 刪除 -->
+    <!-- 刪除 -->
     <div id="delAlert" class="warningalert d-flex justify-content-center align-items-center">
         <form action="doRepairProduct.php" method="post">
-            <input type="hidden" name="product_id" id="" value="<?=$product_id?>">
-        <div class="warningcard card p-4">
-            <h1>確定要復原?</h1>
-            <div class="text-end">
-                <button type="submit" class="btn btn-danger">確定</button>
-                <a href="RepairProduct.php?product_id=<?= $product_id ?>&per_page=<?= $per_page ?>&brand=<?= $brand ?>&category=<?= $category ?>&sub=<?= $sub ?>&order=<?= $orderID ?>:<?= $orderValue ?>&page=<?= $startPage ?>" class="btn btn-secondary" >取消</a>
+            <input type="hidden" name="product_id" id="" value="<?= $product_id ?>">
+            <div class="warningcard card p-4">
+                <h1>確定要上架此商品?</h1>
+                <div class="text-end">
+                    <button type="submit" class="btn btn-danger">確定</button>
+                    <a href="RepairProduct.php?product_id=<?= $product_id ?>&per_page=<?= $per_page ?>&brand=<?= $brand ?>&category=<?= $category ?>&sub=<?= $sub ?>&order=<?= $orderID ?>:<?= $orderValue ?>&page=<?= $startPage ?>" class="btn btn-secondary">取消</a>
+                </div>
             </div>
-        </div>
         </form>
     </div>
-    <!--  -->
-    
+    <!-- Alert 內容 -->
     <div id="app">
         <?php include("../sidebar.php") ?>
         <div id="main" class='layout-navbar navbar-fixed'>
@@ -163,10 +163,7 @@ try {
                             <div class="card-body">
                                 <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
                                     <div class="dataTable-top">
-
-                                        共計 <?= $productCount ?> 樣商品 
                                         <a class="btn btn-primary ms-2" href="ProductList.php"><i class="fa-solid fa-arrow-left"></i>返回</a>
-
                                     </div>
                                     <div>
                                         <?php if ($productCount > 0) : ?>
@@ -184,7 +181,6 @@ try {
                                                 <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
                                                 <input type="hidden" name="page" value="<?= $startPage ?>"> <!-- 保留當前頁碼 -->
                                                 <input type="hidden" name="per_page" value="<?= $per_page ?>">
-
                                                 <label class="ms-2">類別</label>
                                                 <div class="dataTable-dropdown">
                                                     <select name="category" class="dataTable-selector form-select" onchange="this.form.submit()">
@@ -194,7 +190,6 @@ try {
                                                         <option value="貓皇保健" <?= ($category == "貓皇保健") ? 'selected' : '' ?>>貓皇保健</option>
                                                     </select>
                                                 </div>
-
                                                 <label class="ms-2">分類</label>
                                                 <div class="dataTable-dropdown">
                                                     <select name="sub" class="dataTable-selector form-select" onchange="this.form.submit()">
@@ -222,13 +217,7 @@ try {
                                                         </div>
                                                     </form>
                                                 </div>
-
-
-
                                             </form>
-
-
-
                                             <tbody>
                                                 <!-- <?php foreach ($rows as $row) : ?>
                                                     <tr>
@@ -236,7 +225,6 @@ try {
                                                     </tr>
                                                 <?php endforeach; ?> -->
                                             </tbody>
-
                                     </div>
                                     <!-- 控制每頁筆數 -->
                                     <form action="" method="get">
@@ -255,9 +243,7 @@ try {
                                         <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
                                         <input type="hidden" name="page" value="<?= $startPage ?>"> <!-- 保留當前頁碼 -->
                                     </form>
-
                                     <div class="dataTable-container">
-
                                         <!-- 商品內容 -->
                                         <table class="table table-striped dataTable-table" id="table1">
                                             <thead>
@@ -272,12 +258,11 @@ try {
                                                     <th data-sortable=""><a href="#" class="dataTable-sorter ms-2">商品操作</a></th>
                                                 </tr>
                                             </thead>
-
                                             <tbody>
                                                 <?php foreach ($rows as $row) : ?>
                                                     <tr>
                                                         <td><?= $row["product_id"] ?></td>
-                                                        <input type="hidden" name="product_id" value="<?=$row['product_id']?>">
+                                                        <input type="hidden" name="product_id" value="<?= $row['product_id'] ?>">
                                                         <td>
                                                             <div class="ratio ratio-1x1">
                                                                 <img class="object-fit-cover" src="./ProductPicUpLoad/<?= $row["product_img"] ?>" alt="<?= $row["product_name"] ?>">
@@ -289,8 +274,7 @@ try {
                                                         <td><?= $row["product_stock"] ?></td>
                                                         <td><?= $row["product_update_date"] ?></td>
                                                         <td>
-                                                        <a class="ms-4" title="復原商品" href="ProductRepairAlert?product_id=<?= $row['product_id'] ?>&per_page=<?= $per_page ?>&brand=<?= $brand ?>&category=<?= $category ?>&sub=<?= $sub ?>&order=<?= $orderID ?>:<?= $orderValue ?>&page=<?= $startPage ?>"><i class="fa-solid fa-turn-up"></i></a>
-                                                        <a title="刪除商品" href="ProductWarringAlert.php?product_id=<?= $row['product_id'] ?>&per_page=<?= $per_page ?>&brand=<?= $brand ?>&category=<?= $category ?>&sub=<?= $sub ?>&order=<?= $orderID ?>:<?= $orderValue ?>&page=<?= $startPage ?>"><i class="fa-solid fa-trash-can m-1"></i></a>
+                                                            <a class="ms-4" title="復原商品" href="ProductRepairAlert?product_id=<?= $row['product_id'] ?>&per_page=<?= $per_page ?>&brand=<?= $brand ?>&category=<?= $category ?>&sub=<?= $sub ?>&order=<?= $orderID ?>:<?= $orderValue ?>&page=<?= $startPage ?>"><i class="fa-solid fa-turn-up"></i></a>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; ?>
@@ -320,7 +304,6 @@ try {
                                                         <option value="貓皇保健" <?= ($category == "貓皇保健") ? 'selected' : '' ?>>貓皇保健</option>
                                                     </select>
                                                 </div>
-
                                                 <label class="ms-2">分類</label>
                                                 <div class="dataTable-dropdown">
                                                     <select name="sub" class="dataTable-selector form-select" onchange="this.form.submit()">
@@ -362,7 +345,6 @@ try {
                                         <nav class="dataTable-pagination">
                                             <!-- 分頁 -->
                                             <ul class="dataTable-pagination-list pagination pagination-primary">
-
                                                 <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
                                                     <?php
                                                     // 當前頁是否是搜尋頁
@@ -383,6 +365,7 @@ try {
                         </div>
                     </section>
                 </div>
+                <?php include("../footer.php") ?>
             </div>
             <footer>
                 <div class="footer clearfix mb-0 text-muted">
@@ -399,8 +382,5 @@ try {
     <?php include("../js.php") ?>
     <?php include("./product-js.php") ?>
     <script src="../assets/compiled/js/app.js"></script>
-
-
 </body>
-
 </html>

@@ -22,7 +22,7 @@ $stmt->execute();
 $productCount = $stmt->rowCount();
 
 if ($productCount > 0) {
-    $msg = "此商品名稱已存在或是曾被刪除，請更改商品名稱，或是確認是否重複新增";
+    $msg = "此商品名稱已存在，請更改商品名稱以及確認是否重複新增";
     echo "<script>alert('$msg'); window.history.back();</script>";
     return;
 }
@@ -36,6 +36,8 @@ product_sub_category,
 product_origin_price, 
 product_sale_price, 
 product_stock, 
+product_start_time,
+product_end_time,
 product_img, 
 product_info,
 product_create_date,
@@ -48,6 +50,8 @@ product_update_date)
 :product_origin_price, 
 :product_sale_price, 
 :product_stock, 
+:product_start_time,
+:product_end_time,
 :product_img, 
 :product_info,
 :product_create_date,
@@ -59,6 +63,8 @@ $product_sub_category = $_POST["product_sub_category"];
 $product_origin_price = $_POST["product_origin_price"];
 $product_sale_price = $_POST["product_sale_price"];
 $product_stock = $_POST["product_stock"];
+$product_start_time = date('Y-m-d H:i:s', strtotime($_POST["product_start_time"]));
+$product_end_time = date('Y-m-d H:i:s', strtotime($_POST["product_end_time"]));
 $product_img = ""; // 預設為空，待上傳後給值
 $product_info = $_POST["product_info"];
 $now = date('Y-m-d H:i:s');
@@ -90,6 +96,8 @@ $stmt->bindParam(':product_sub_category', $product_sub_category);
 $stmt->bindParam(':product_origin_price', $product_origin_price);
 $stmt->bindParam(':product_sale_price', $product_sale_price);
 $stmt->bindParam(':product_stock', $product_stock);
+$stmt->bindParam(':product_start_time', $product_start_time);
+$stmt->bindParam(':product_end_time', $product_end_time);
 $stmt->bindParam(':product_img', $product_img);
 $stmt->bindParam(':product_info', $product_info);
 $stmt->bindParam(':product_create_date', $now);
@@ -97,8 +105,9 @@ $stmt->bindParam(':product_update_date', $now);
 
 if ($stmt->execute()) {
     $last_id = $dbHost->lastInsertId();
-    echo "新資料輸入成功, id 為 $last_id";
-    header("location: ProductList.php");
+    $success = "新增成功, id 為 $last_id";
+    echo "<script>alert('$success'); 
+    setTimeout(function() { window.location.href = 'ProductList.php'; }, 0);</script>";
     exit;
 } else {
     echo "Error: " . $stmt->errorInfo()[2];

@@ -31,6 +31,8 @@ $product_sub_category = $_POST["product_sub_category"];
 $product_origin_price = $_POST["product_origin_price"];
 $product_sale_price = $_POST["product_sale_price"];
 $product_stock = $_POST["product_stock"];
+$product_start_time = $_POST["product_start_time"];
+$product_end_time = $_POST["product_end_time"];
 $product_info = $_POST["product_info"];
 $product_update_date = date('Y-m-d H:i:s');
 
@@ -45,6 +47,8 @@ $sqlUpdate = "UPDATE product SET
         product_origin_price = :product_origin_price,
         product_sale_price = :product_sale_price,
         product_stock = :product_stock,
+        product_start_time = :product_start_time,
+        product_end_time = :product_end_time,
         product_info = :product_info,
         product_update_date = :product_update_date
         WHERE product_id = :product_id";
@@ -81,6 +85,8 @@ try {
     $stmtUpdate->bindParam(':product_origin_price', $product_origin_price);
     $stmtUpdate->bindParam(':product_sale_price', $product_sale_price);
     $stmtUpdate->bindParam(':product_stock', $product_stock);
+    $stmtUpdate->bindParam(':product_start_time', $product_start_time);
+    $stmtUpdate->bindParam(':product_end_time', $product_end_time);
     $stmtUpdate->bindParam(':product_info', $product_info);
     $stmtUpdate->bindParam(':product_update_date', $product_update_date);
     $stmtUpdate->bindParam(':product_id', $product_id, PDO::PARAM_INT);
