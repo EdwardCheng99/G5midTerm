@@ -58,7 +58,7 @@ $offset = ($page - 1) * $per_page; // 計算查詢的起始點
 
 //排序
 $sortBy = isset($_GET["sortBy"]) ? $_GET["sortBy"] : 'ID'; // 默認按ID排序
-$sortOrder = isset($_GET["sortOrder"]) ? $_GET["sortOrder"] : 'asc'; // 默認升序排序
+$sortOrder = isset($_GET["sortOrder"]) ? $_GET["sortOrder"] : 'desc'; // 默認升序排序
 
 $sqlAll = "SELECT 
 d.*,
