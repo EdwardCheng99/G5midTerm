@@ -29,11 +29,7 @@ if($rePassword != $password){
 }
 
 $errorMsg = "";
-// 暫時用不到
-// $admin = $_POST["admin"];
-// $pcid = $_POST["pcid"];
-// $createuserid = $_POST["createuserid"];
-// $updateuserid = $_POST["updateuserid"];
+
 // 建立變數儲存表單傳入的資料
 $name = $_POST["name"];
 $account = $_POST["account"];
@@ -62,9 +58,6 @@ if(empty($email))$errorMsg.="email,";
 if(empty($phone))$errorMsg.="手機號碼,";
 if(empty($address))$errorMsg.="地址,";
 
-// if(!empty($errorMsg)){
-//     $errorMsg.="不得為空";
-// } 
 
 
 
@@ -106,8 +99,6 @@ try {
     $stmt->execute([
         ":account" => $account,
         ":name" => $name,
-        // ":pcid" => $pcid,
-        // ":admin" => $admin,
         ":password" => $password,
         ":nickname" => $nickname,
         ":level" => $level,
@@ -119,9 +110,7 @@ try {
         ":gender" => $gender,
         ":valid" => $valid,
         ":blacklist" => $blacklist,
-        // ":createuserid" => $createuserid,
         ":now" => $now,
-        // ":updateuserid" => $updateuserid,
     ]);
 
     header("Location: createMember.php?status=success");

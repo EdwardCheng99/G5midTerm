@@ -95,7 +95,7 @@ try {
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="first-name-vertical">ID :</label>
-                                                        <input disabled="disabled" type="text" class="form-control" name="id" value="<?= $row["MemberID"] ?>">
+                                                        <input readonly type="text" class="form-control" name="id" value="<?= $row["MemberID"] ?>">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
@@ -164,7 +164,7 @@ try {
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="contact-info-vertical">Birth</label>
+                                                        <label for="contact-info-vertical">Birth <span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input active" placeholder="Select date.." name="birth" readonly="readonly" value="<?= $row["MemberBirth"] ?>">
                                                     </div>
                                                 </div>
