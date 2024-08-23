@@ -1,39 +1,39 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>文章上架系統</title>
-        <link rel="stylesheet" href="../assets/extensions/quill/quill.snow.css">
-        <link rel="stylesheet" href="../assets/extensions/quill/quill.bubble.css">
-        <link rel="stylesheet" href="../assets/extensions/choices.js/public/assets/styles/choices.css">
-        <?php include("../headlink.php") ?>
 
-    </head>
-    <style>
-    .image-preview-wrapper {
-        width: 100%;
-        /* 設置預覽框的寬度 */
-        height: 250px;
-        /* 設置預覽框的高度 */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
-        /* 確保圖片不會超出邊界 */
-        border-radius: 10px;
-        border: 1px solid lightgrey;
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章上架系統</title>
+    <link rel="stylesheet" href="../assets/extensions/quill/quill.snow.css">
+    <link rel="stylesheet" href="../assets/extensions/quill/quill.bubble.css">
+    <link rel="stylesheet" href="../assets/extensions/choices.js/public/assets/styles/choices.css">
+    <?php include("../headlink.php") ?>
 
-    }
+</head>
+<style>
+.image-preview-wrapper {
+    width: 100%;
+    /* 設置預覽框的寬度 */
+    height: 250px;
+    /* 設置預覽框的高度 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    /* 確保圖片不會超出邊界 */
+    border-radius: 10px;
+    border: 1px solid lightgrey;
+}
 
-    .image-preview-wrapper img {
-        max-width: 100%;
-    }
+.image-preview-wrapper img {
+    max-width: 100%;
+}
 
-    #editor-container {
-        height: 300px;
-    }
-    </style>
+#editor-container {
+    height: 300px;
+}
+</style>
 
 <body>
     <script src="../assets/static/js/initTheme.js"></script>
@@ -71,7 +71,7 @@
                                 <div class="row ">
                                     <div class="mb-3">
                                         <label for="image" class="form-label">封面圖片</label>
-                                        <input type="file" class="form-control" id="image" name="image" >
+                                        <input type="file" class="form-control" id="image" name="image">
                                     </div>
                                 </div>
                                 <!-- 預留預覽圖片框 -->
@@ -89,35 +89,25 @@
                     <section class="section">
                         <div class="card">
                             <div class="card-body">
-
                                 <div class="mb-3">
                                     <label for="title" class="form-label">文章標題</label>
-                                    <input type="text" class="form-control" id="title" name="title" placeholder="輸入文章標題"
-                                        required>
+                                    <input type="text" class="form-control" id="title" name="title"
+                                        placeholder="輸入文章標題">
                                 </div>
                                 <div class="mb-3">
                                     <label for="editor-container" class="form-label">文章內容</label>
                                     <div id="editor-container"></div>
                                     <input type="hidden" id="content" name="content">
                                 </div>
-                                <div class="mb-3">
-                                    <label for="tag" class="form-label">文章標籤</label>
-                                    <div class="form-group">
-                                        <select class="choices form-select multiple-remove" multiple="multiple"
-                                            id="tag">
-                                            <option value="romboid">狗</option>
-                                            <option value="trapeze" selected>貓</option>
-                                            <option value="triangle">保健</option>
-                                            <option value="polygon">醫療小知識</option>
-                                        </select>
-                                    </div>
-                                </div>
                             </div>
                         </div>
+
                     </section>
                     <section class="section">
                         <div class="card">
                             <div class="card-body">
+                                <label for="tag" class="form-label">文章排程</label>
+
                                 <div class="mb-3">
                                     <label for="start_time" class="form-label">上架時間</label>
                                     <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input"
@@ -128,21 +118,23 @@
                                     <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input"
                                         id="end_time" placeholder="Select date.." name="end_time" required>
                                 </div>
-                                <div class="row px-3 mt-5">
-                                <div class="form-check col-4">
-                                    <input class="form-check-input" type="radio" name="flexRadioDefault" value="0"
-                                        id="flexRadioDefault1">
-                                    <label class="form-check-label" for="flexRadioDefault1">
-                                        儲存草稿
-                                    </label>
-                                </div>
-                                <div class="form-check col-4">
-                                    <input class="form-check-input" type="radio" name="flexRadioDefault" value="1"
-                                        id="flexRadioDefault1">
-                                    <label class="form-check-label" for="flexRadioDefault1">
-                                        發布文章
-                                    </label>
-                                </div>
+
+                                <label for="tag" class="form-label mt-5">文章狀態</label>
+                                <div class="row px-3 ">
+                                    <div class="form-check col-4">
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault" value="0"
+                                            id="flexRadioDefault1" checked>
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                            儲存草稿
+                                        </label>
+                                    </div>
+                                    <div class="form-check col-4">
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault" value="1"
+                                            id="flexRadioDefault1">
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                            發布文章
+                                        </label>
+                                    </div>
 
                                 </div>
 
@@ -174,10 +166,12 @@
                 [{
                     font: []
                 }],
+
                 [{
-                    header: [1, 2, 3, 4, 5, 6, false]
+                    size: ['small', false, 'large', 'huge']
                 }],
 
+                ['bold', 'italic', 'underline', 'strike'],
 
                 [{
                     list: 'ordered'
@@ -223,13 +217,13 @@
     document.getElementById('image').addEventListener('change', function(e) {
         const file = e.target.files[0];
         if (file) {
-            const allowedTypes = ['jpg', 'jpeg', 'png'];
+            const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'];
             const fileInfo = file.name.split('.');
             const extension = fileInfo[fileInfo.length - 1].toLowerCase();
 
             // 檢查副檔名
             if (!allowedTypes.includes(extension)) {
-                alert("只允許上傳 jpg, jpeg, png 格式的圖檔。");
+                alert("只允許上傳 jpg, jpeg, png, bmp,webp 格式的圖檔。");
                 e.target.value = ""; // 上傳錯的，清空選擇的檔案
                 document.getElementById('image-preview').classList.add('d-none'); // 隱藏預覽圖
                 return;
@@ -255,13 +249,6 @@
     document.getElementById("articleForm").addEventListener("submit", function(e) {
         e.preventDefault();
 
-        // const imageInput = document.getElementById("image");
-        // const image = imageInput.files.length;
-        // if (image === 0) {
-        //     alert("請上傳圖片");
-        //     e.preventDefault();
-        //     return;
-        // }
         const title = document.getElementById("title").value.trim();
         if (!title) {
             alert("文章標題為必填欄位");
@@ -290,6 +277,11 @@
 
         };
 
+        if (start_time && end_time && new Date(end_time) < new Date(start_time)) {
+            alert('結束日期不能小於開始日期！');
+            e.preventDefault();
+            return;
+        }
 
         const formData = new FormData(document.getElementById("articleForm"));
         fetch("ArticleSubmit.php", {

@@ -1,10 +1,10 @@
 <?php
 require_once("../pdoConnect.php");
-$id = isset($_GET["id"]) ? (int)$_GET["id"] : 0;
+$id = isset($_GET["id"]) ? $_GET["id"] : 0;
 
-$sql = "SELECT article_db.*, images.ImageUrl
+$sql = "SELECT article_db.*, image.ImageUrl
         FROM article_db
-        LEFT JOIN images ON article_db.ArticleID = images.ArticleID
+        LEFT JOIN image ON article_db.ArticleID = image.ArticleID
         WHERE article_db.ArticleID=?";
 $stmt = $dbHost->prepare($sql);
 try {
@@ -87,127 +87,107 @@ try {
                 <form action="DoUpdateArticle.php" id="articleForm" method="post" enctype="multipart/form-data">
                     <section class="section">
                         <div class="card">
-                            < class="card-body">
-                                < class="row ">
+                            <div class="card-body">
+                                <div class="row ">
                                     <div class="col-12 ">
                                         <label for="">文章編號</label>
                                         <input type="text" id="articleID" name="ArticleID"
-                                            value="<?= htmlspecialchars($article['ArticleID']) ?>" readonly>
+                                            value="<?= $article['ArticleID'] ?>" readonly>
                                     </div>
-                                    <input type="hidden" name="existing_image"
-                                        value="<?= htmlspecialchars($article['ImageUrl']) ?>">
+                                    <input type="hidden" name="update_image" value="<?= $article['ImageUrl'] ?>">
 
                                     <div class="mb-3">
                                         <label for="image" class="form-label">封面圖片</label>
                                         <input type="file" class="form-control" id="image" name="image"
-                                            <?php if (empty($article['ImageUrl'])): ?>required<?php endif; ?>>
+                                            <?php if (empty($article['ImageUrl'])): ?> <?php endif; ?>>
                                     </div>
-
-
-                                    <!-- 預留預覽圖片框 -->
-                                    <div class="col">
-                                        <span>圖片預覽</span>
-                                    </div>
-                                    <div id="image-preview-wrapper" class="image-preview-wrapper">
-                                        <?php if (!empty($article['ImageUrl'])): ?>
-                                        <img src="../upload/<?= htmlspecialchars($article['ImageUrl']) ?>" alt="Image"
-                                            class="mt-2" id="image-preview">
-                                        <?php else: ?>
-                                        <img src="" alt="No Image" class="mt-2" id="image-preview"
-                                            style="display: none;">
-                                        <?php endif; ?>
-                                    </div>
+                                </div>
+                                <!-- 預留預覽圖片框 -->
+                                <div class="col">
+                                    <span>圖片預覽</span>
+                                </div>
+                                <div id="image-preview-wrapper" class="image-preview-wrapper">
+                                    <?php if (!empty($article['ImageUrl'])): ?>
+                                    <img src="../upload/<?= $article['ImageUrl'] ?>" alt="Image"
+                                        class="mt-2" id="image-preview">
+                                    <?php else: ?>
+                                    <img src="" alt="No Image" class="mt-2" id="image-preview" style="display: none;">
+                                    <?php endif; ?>
+                                </div>
+                            </div>
                         </div>
                     </section>
 
+                    <!-- 文章內容 -->
+                    <section class="section">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <div class="mb-3">
+                                    <label for="title" class="form-label">文章標題</label>
+                                    <input type="text" class="form-control" id="title" name="title"
+                                        value="<?=($article['ArticleTitle']) ?>">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="editor-container" class="form-label">文章內容</label>
+                                    <div id="editor-container" value="<?=($article['ArticleContent']) ?>"></div>
+                                    <input type="hidden" id="content" name="content"
+                                        >
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="section">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label for="start_time" class="form-label">上架時間</label>
+                                    <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input"
+                                        id="start_time" placeholder="Select date.." name="start_time"
+                                        value="<?=($article['ArticleStartTime']) ?>">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="end_time" class="form-label">下架時間</label>
+                                    <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input"
+                                        id="end_time" placeholder="Select date.." name="end_time"
+                                        value="<?=($article['ArticleEndTime'])?>">
+                                </div>
+                                <label for="tag" class="form-label mt-5">文章狀態</label>
+                                <div class="row px-3">
+                                    <div class="form-check col-4">
+                                        <input class="form-check-input" type="radio" name="status" value="0" id="draft"
+                                            <?php if ($article["ArticleStatus"] == 0) echo "checked"; ?>>
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                            儲存草稿
+                                        </label>
+                                    </div>
+                                    <div class="form-check col-4">
+                                        <input class="form-check-input" type="radio" name="status" value="1"
+                                            id="publish" <?php if ($article["ArticleStatus"] == 1) echo "checked"; ?>>
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                            發布文章
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section>
+                        <div class="row justify-content-center">
+                            <div class="d-flex justify-content-center col-6">
+                                <button type="submit" class="btn btn-primary">更新文章 </button>
+                            </div>
+                            <div class="d-flex justify-content-center  col-6">
+                            <a href="javascript:void(0);" class="btn btn-danger"
+                            onclick="if (confirm('確定要刪除嗎')) { window.location.href='ArticleDelete.php?id=<?= $article['ArticleID'] ?>'; }">刪除文章
+                            </a>
+                        </div>
+                        </div>
+                    </section>
+                </form>
+                <div id="result" class="mt-4"></div>
             </div>
-            </section>
-
-            <!-- 文章內容 -->
-            <section class="section">
-                <div class="card">
-                    <div class="card-body">
-
-                        <div class="mb-3">
-                            <label for="title" class="form-label">文章標題</label>
-                            <input type="text" class="form-control" id="title" name="title"
-                                value="<?=($article['ArticleTitle']) ?>">
-                        </div>
-                        <div class="mb-3">
-                            <label for="editor-container" class="form-label">文章內容</label>
-                            <div id="editor-container"></div>
-                            <input type="hidden" id="content" name="content" id="content"
-                                value="<?=($article['ArticleContent']) ?>">
-                        </div>
-                        <div class="mb-3">
-                            <label for="tag" class="form-label">文章標籤</label>
-                            <div class="form-group">
-                                <select class="choices form-select multiple-remove" multiple="multiple" id="tag">
-                                    <option value="romboid">狗</option>
-                                    <option value="trapeze" selected>貓</option>
-                                    <option value="triangle">保健</option>
-                                    <option value="polygon">醫療小知識</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section class="section">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <label for="start_time" class="form-label">上架時間</label>
-                            <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input"
-                                id="start_time" placeholder="Select date.." name="start_time"
-                                value="<?=($article['ArticleStartTime']) ?>">
-                        </div>
-                        <div class="mb-3">
-                            <label for="end_time" class="form-label">下架時間</label>
-                            <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input"
-                                id="end_time" placeholder="Select date.." name="end_time"
-                                value="<?=($article['ArticleEndTime'])?>">
-                        </div>
-                        <div class="row px-3 mt-5">
-                            <div class="form-check col-4">
-                                <input class="form-check-input" type="radio" name="status" value="0" id="draft"
-                                    <?php if ($article["ArticleStatus"] == 0) echo "checked"; ?>>
-                                <label class="form-check-label" for="flexRadioDefault1">
-                                    儲存草稿
-                                </label>
-                            </div>
-                            <div class="form-check col-4">
-                                <input class="form-check-input" type="radio" name="status" value="1" id="publish"
-                                    <?php if ($article["ArticleStatus"] == 1) echo "checked"; ?>>
-                                <label class="form-check-label" for="flexRadioDefault1">
-                                    發布文章
-                                </label>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-            </section>
-            <section>
-                <div class="row justify-content-center">
-                    <div class="d-flex justify-content-center col-5">
-                        <button type="submit" class="btn btn-primary">更新文章 </button>
-                    </div>
-                    <div class="d-flex justify-content-center  col-5">
-                        <button type="button" class="btn btn-secondary"
-                            onclick="window.location.href='ArticleList.php'">取消更新</button>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-            </form>
-            <div id="result" class="mt-4"></div>
         </div>
-    </div>
     </div>
 
 
@@ -226,10 +206,12 @@ try {
                 [{
                     font: []
                 }],
+
                 [{
-                    header: [1, 2, 3, 4, 5, 6, false]
+                    size: ['small', false, 'large', 'huge']
                 }],
 
+                ['bold', 'italic', 'underline', 'strike'],
 
                 [{
                     list: 'ordered'
@@ -262,8 +244,6 @@ try {
         quill.root.innerHTML = content;
     });
 
-
-
     //上傳圖片
     document.getElementById('image').addEventListener('change', function(e) {
         const file = e.target.files[0];
@@ -281,12 +261,12 @@ try {
     document.getElementById('image').addEventListener('change', function(e) {
         const file = e.target.files[0];
         if (file) {
-            const allowedTypes = ['jpg', 'jpeg', 'png'];
+            const allowedTypes = ['jpg', 'jpeg', 'png','bmp','webp'];
             const fileInfo = file.name.split('.');
             const extension = fileInfo[fileInfo.length - 1].toLowerCase();
 
             if (!allowedTypes.includes(extension)) {
-                alert("只允許上傳 jpg, jpeg, png 格式的圖檔。");
+                alert("只允許上傳 jpg, jpeg, png, bmp, webp 格式的圖檔。");
                 e.target.value = "";
                 return;
             }
@@ -301,8 +281,6 @@ try {
         }
     });
 
-
-
     // 將 Quill 的內容存入隱藏的input
     document.getElementById("content").value = quill.root.innerHTML;
 
@@ -310,13 +288,6 @@ try {
     document.getElementById("articleForm").addEventListener("submit", function(e) {
         e.preventDefault();
 
-        const imageInput = document.getElementById("image");
-        const image = imageInput.files.length;
-        if (image === 0) {
-            alert("請上傳圖片");
-            e.preventDefault();
-            return;
-        }
         const title = document.getElementById("title").value.trim();
         if (!title) {
             alert("文章標題為必填欄位");
@@ -344,31 +315,11 @@ try {
             document.getElementById("end_time").value = "9999-12-31";
 
         };
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const draft = document.getElementById('draft');
-            const startTimeInput = document.getElementById('start_time');
-            const endTimeInput = document.getElementById('end_time');
-
-            function toggleDateInputs() {
-                if (draft.checked) {
-                    startTimeInput.disabled = true;
-                    endTimeInput.disabled = true;
-                    startTimeInput.value = '';
-                    endTimeInput.value = '';
-                } else {
-                    startTimeInput.disabled = false;
-                    endTimeInput.disabled = false;
-                }
-            }
-
-            // 
-            draft.addEventListener('change', toggleDateInputs);
-            document.getElementById('publish').addEventListener('change', toggleDateInputs);
-
-            toggleDateInputs();
-        });
-
+        if (start_time && end_time && new Date(end_time) < new Date(start_time)) {
+            alert('結束日期不能小於開始日期！');
+            e.preventDefault();
+            return;
+    }
 
         document.getElementById("articleForm").submit();
     });
