@@ -14,15 +14,17 @@ switch($_POST["level"]){
             case "銀":$level = 2;break;
             case "金":$level = 3;break;
         };
-$birth = $_POST["birth"];
+$birth = $_POST["birth"] ? $_POST["birth"] : null;
 $email = $_POST["email"];
 $phone = $_POST["phone"];
 $address = $_POST["address"];
 $gender = $_POST["gender"];
-$valid = $_POST["valid"];
-$blacklist = $_POST["blacklist"];
 
 $now = date('Y-m-d H:i:s');
+
+// 從前台進入不會有這兩個選項
+// $valid = $_POST["valid"];
+// $blacklist = $_POST["blacklist"];
 
 $tel = isset($_POST["tel"]) ? $_POST["tel"] : ""; // 可null
 $nickname = isset($_POST["nickname"]) ? $_POST["nickname"] : ""; // 可null
@@ -33,13 +35,14 @@ if(empty($account))$errorMsg[] = "帳號不得為空";
 if(empty($name))$errorMsg[] = "名子不得為空";
 if(empty($password))$errorMsg[] = "密碼不得為空";
 if($rePassword != $password)$errorMsg[] = "兩次密碼不同，請重新輸入";
-if(empty($email))$errorMsg[] = "電子郵件不得為空";
 if(empty($phone))$errorMsg[] = "電話不得為空";
-if(empty($address))$errorMsg[] = "地址不得為空";
-if(empty($gender))$errorMsg[] = "性別不得為空";
-if(empty($birth))$errorMsg[] = "生日不得為空";
+
+// if(empty($address))$errorMsg[] = "地址不得為空";
+// if(empty($gender))$errorMsg[] = "性別不得為空";
+// if(empty($birth))$errorMsg[] = "生日不得為空";
 // if(empty($valid))$errorMsg[] = "有效會員不得為空";
 // if(empty($blacklist))$errorMsg[] = "黑名單不得為空";
+// if(empty($email))$errorMsg[] = "電子郵件不得為空";
 
 $password = md5($password); // 加密密碼
 
@@ -68,12 +71,12 @@ if(!empty($errorMsg)){
 $sql = "INSERT INTO Member (
             MemberAccount, MemberName, MemberPassword, 
             MemberNickName, MemberLevel, MembereMail, MemberPhone, MemberTel, 
-            MemberAddress, MemberBirth, MemberGender, MemberValid, MemberIsBlacklisted, 
+            MemberAddress, MemberBirth, MemberGender, 
             MemberCreateDate, MemberUpdateDate
         ) VALUES (
             :account, :name, :password, 
             :nickname, :level, :email, :phone, :tel, 
-            :address, :birth, :gender, :valid, :blacklist, 
+            :address, :birth, :gender, 
             :now, :now
         )";
 
@@ -93,8 +96,6 @@ try {
         ":address" => $address,
         ":birth" => $birth,
         ":gender" => $gender,
-        ":valid" => $valid,
-        ":blacklist" => $blacklist,
         ":now" => $now,
     ]);
 

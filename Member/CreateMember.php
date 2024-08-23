@@ -145,7 +145,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 col-12">
+                                            <!-- <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="first-name-vertical">帳號狀態  <span class="text-danger">*</span></label>
                                                     <select class="form-select" id="valid" name="valid">
@@ -162,7 +162,7 @@
                                                         <option value="1">拉黑</option>
                                                     </select>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <!-- 管理員 -->
                                             <!-- <div class="col-md-6 col-12">
                                             <div class="form-group">
