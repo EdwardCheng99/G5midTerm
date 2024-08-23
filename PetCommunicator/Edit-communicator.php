@@ -23,7 +23,22 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>寵物溝通師-<?= $row["PetCommName"] ?></title>
-    <link rel="stylesheet" href="./css/css.css">
+    <style>
+        .warningalert {
+            background: rgba(58, 58, 58, 0.438);
+            height: 100%;
+            width: 100%;
+            position: fixed;
+            z-index: 20;
+        }
+
+        .warningcard {
+            background: #fff;
+            width: 30em;
+            height: 10em;
+            position: relative;
+        }
+    </style>
     <?php include("../headlink.php") ?>
     <style>
         #mainTable th:nth-child(1),
@@ -35,7 +50,13 @@ try {
         #mainTable td:nth-child(2) {
             width: 200px;
         }
+        .flatpickr-time {
+            display: none;
+        }
+        
+        
     </style>
+    
 </head>
 
 <body>
@@ -157,13 +178,24 @@ try {
 
                                                 </tr>
                                                 <tr>
+                                                    
                                                     <th>取證日期</th>
-                                                    <td><input class="form-control" type="text" value="<?= $row["PetCommCertificateDate"] ?>" name="PetCommCertificateDate">
-                                                    </td>
+                                                    <td>
+                                                    <div class="form-group"> 
+                                            
+                                                <input type="text" class=" form-control  flatpickr-no-config active " placeholder="Select date..." readonly="readonly" value="<?= $row["PetCommCertificateDate"] ?>" name="PetCommCertificateDate">
+                                                
+                                            </div>
+                                                    
+                                                    
                                                 </tr>
                                                 <tr>
                                                     <th>服務項目</th>
-                                                    <td><input class="form-control" type="text" value="<?= $row["PetCommService"] ?>" name="PetCommService">
+                                                    <td>
+                                                        
+                                                    
+                                                    
+                                                    <input class="form-control" type="text" value="<?= $row["PetCommService"] ?>" name="PetCommService">
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -228,7 +260,13 @@ try {
         </footer>
     </div>
     </div>
+    <?php include("../js.php") ?>
     <script>
+        // 彈跳日期選擇窗
+        flatpickr('.flatpickr-no-config', {
+            enableTime: true,
+            dateFormat: "Y-m-d",
+        })
         // Edit介面刪除按鈕
         const delBtn = document.querySelector("#delBtn");
         const delAlert = document.querySelector("#delAlert");
@@ -263,7 +301,7 @@ try {
     <script src="../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 
     <script src="../assets/compiled/js/app.js"></script>
-    <?php include("../js.php") ?>
+    
 </body>
 
 </html>
