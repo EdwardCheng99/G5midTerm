@@ -280,7 +280,7 @@ try {
                     <!-- 頁數 -->
                     <div class="dataTable-bottom">
                         <div class="dataTable-info ps-3">
-                            顯示第 <?= $start_item + 1 ?> 到第 <?= max($start_item + $per_page, $articleAll) ?> 筆，總共
+                            顯示第 <?= $start_item + 1 ?> 到第 <?= min($start_item + $per_page, $start_item + $articleAll) ?> 筆，總共
                             <?= $articleCountAll ?> 筆
                             <?php endif; ?>
                         </div>
@@ -327,6 +327,16 @@ try {
 </body>
 <?php include("../js.php") ?>
 
+<script>
+document.querySelector('form').addEventListener('submit', function(event) {
+    const startTime = document.getElementById('start_time').value;
+    const endTime = document.getElementById('end_time').value;
 
+    if (endTime && startTime && endTime < startTime) {
+        alert("結束日期不能小於開始日期！");
+        event.preventDefault();
+    }
+});
+</script>
 
 </html>

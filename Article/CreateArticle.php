@@ -90,12 +90,12 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="mb-3">
-                                    <label for="title" class="form-label">文章標題</label>
+                                    <label for="title" class="form-label required">文章標題</label>
                                     <input type="text" class="form-control" id="title" name="title"
                                         placeholder="輸入文章標題">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="editor-container" class="form-label">文章內容</label>
+                                    <label for="editor-container" class="form-label required">文章內容</label>
                                     <div id="editor-container"></div>
                                     <input type="hidden" id="content" name="content">
                                 </div>
@@ -106,8 +106,7 @@
                     <section class="section">
                         <div class="card">
                             <div class="card-body">
-                                <label for="tag" class="form-label">文章排程</label>
-
+                                <label for="tag" class="form-label required">文章排程</label>
                                 <div class="mb-3">
                                     <label for="start_time" class="form-label">上架時間</label>
                                     <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input"

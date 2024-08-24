@@ -66,7 +66,7 @@ try {
                         <div class="row">
                             <div class="col-12 col-md-6">
                                 <a href="ArticleList.php" class="btn btn-primary mb-5">回文章列表</a>
-                                <h1>修改文章</h1>
+                                <h1>編輯文章</h1>
                             </div>
 
                             <div class="col-12 col-md-6 order-md-2 order-first">
@@ -89,8 +89,8 @@ try {
                         <div class="card">
                             <div class="card-body">
                                 <div class="row ">
-                                        <input type="hidden" id="articleID" name="ArticleID"
-                                            value="<?= $article['ArticleID'] ?>" readonly>
+                                    <input type="hidden" id="articleID" name="ArticleID"
+                                        value="<?= $article['ArticleID'] ?>" readonly>
                                     <input type="hidden" name="update_image" value="<?= $article['ImageUrl'] ?>">
 
                                     <div class="mb-3">
@@ -105,8 +105,8 @@ try {
                                 </div>
                                 <div id="image-preview-wrapper" class="image-preview-wrapper">
                                     <?php if (!empty($article['ImageUrl'])): ?>
-                                    <img src="../upload/<?= $article['ImageUrl'] ?>" alt="Image"
-                                        class="mt-2" id="image-preview">
+                                    <img src="../upload/<?= $article['ImageUrl'] ?>" alt="Image" class="mt-2"
+                                        id="image-preview">
                                     <?php else: ?>
                                     <img src="" alt="No Image" class="mt-2" id="image-preview" style="display: none;">
                                     <?php endif; ?>
@@ -119,17 +119,15 @@ try {
                     <section class="section">
                         <div class="card">
                             <div class="card-body">
-
                                 <div class="mb-3">
-                                    <label for="title" class="form-label">文章標題</label>
+                                    <label for="title" class="form-label required">文章標題</label>
                                     <input type="text" class="form-control" id="title" name="title"
                                         value="<?=($article['ArticleTitle']) ?>">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="editor-container" class="form-label">文章內容</label>
+                                    <label for="editor-container" class="form-label required">文章內容</label>
                                     <div id="editor-container" value="<?=($article['ArticleContent']) ?>"></div>
-                                    <input type="hidden" id="content" name="content"
-                                        >
+                                    <input type="hidden" id="content" name="content">
                                 </div>
                             </div>
                         </div>
@@ -137,6 +135,7 @@ try {
                     <section class="section">
                         <div class="card">
                             <div class="card-body">
+                                <label for="tag" class="form-label required">文章排程</label>
                                 <div class="mb-3">
                                     <label for="start_time" class="form-label">上架時間</label>
                                     <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input"
@@ -175,10 +174,10 @@ try {
                                 <button type="submit" class="btn btn-primary">更新文章 </button>
                             </div>
                             <div class="d-flex justify-content-center  col-6">
-                            <a href="javascript:void(0);" class="btn btn-danger"
-                            onclick="if (confirm('確定要刪除嗎')) { window.location.href='ArticleDelete.php?id=<?= $article['ArticleID'] ?>'; }">刪除文章
-                            </a>
-                        </div>
+                                <a href="javascript:void(0);" class="btn btn-danger"
+                                    onclick="if (confirm('確定要刪除嗎')) { window.location.href='ArticleDelete.php?id=<?= $article['ArticleID'] ?>'; }">刪除文章
+                                </a>
+                            </div>
                         </div>
                     </section>
                 </form>
@@ -258,7 +257,7 @@ try {
     document.getElementById('image').addEventListener('change', function(e) {
         const file = e.target.files[0];
         if (file) {
-            const allowedTypes = ['jpg', 'jpeg', 'png','bmp','webp'];
+            const allowedTypes = ['jpg', 'jpeg', 'png', 'bmp', 'webp'];
             const fileInfo = file.name.split('.');
             const extension = fileInfo[fileInfo.length - 1].toLowerCase();
 
@@ -316,7 +315,7 @@ try {
             alert('結束日期不能小於開始日期！');
             e.preventDefault();
             return;
-    }
+        }
 
         document.getElementById("articleForm").submit();
     });
