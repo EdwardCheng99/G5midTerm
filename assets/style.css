@@ -37,3 +37,17 @@
 html[data-bs-theme=dark] .card {
     border-top: 3px solid rgb(142, 158, 216);
 }
+
+
+html[data-bs-theme=dark] .dataTable-sorter::before {
+    border-top: 4px solid #fff;
+}
+
+html[data-bs-theme=dark] .dataTable-sorter::after {
+    border-bottom: 4px solid #fff;
+}
+
+html[data-bs-theme=dark] .asc .dataTable-sorter::after,
+.desc .dataTable-sorter::before {
+    opacity: 1;
+}
