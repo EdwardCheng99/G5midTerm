@@ -69,7 +69,7 @@
 
                         <div class="form-group position-relative has-icon-left mb-4">
                             <label for="password-vertical">手機號碼 <span class="text-danger">*</span></label>
-                            <input type="text" id="phone" class="form-control" name="phone" placeholder="" value="">
+                            <input type="tel" id="phone" class="form-control" name="phone" placeholder="" value="">
                         </div>
 
                         <div class="form-group position-relative has-icon-left mb-4">
@@ -107,7 +107,7 @@
             </div>
             <div class="col-lg-7 d-none d-lg-block">
                 <div id="auth-right">
-
+                    <!-- <img class="object-fit-cover" src="../assets/images/2AE14CDD-1265-470C-9B15F49024186C10_source.webp" alt=""> -->
                 </div>
             </div>
         </div>
