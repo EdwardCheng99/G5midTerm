@@ -3,80 +3,105 @@ require_once("../pdoConnect.php");
 
 // 每頁(預設10)
 $per_page = isset($_GET["per_page"]) ? $_GET["per_page"] : 10;
-
-// 文章總數
-$sqlAll = "SELECT COUNT(*) AS total FROM article_db 
-WHERE ArticleValid=1";
-$stmt = $dbHost->prepare($sqlAll);
-$stmt->execute();
-$articleAll = $stmt->fetchColumn();
-
 // 分頁(預設1)
 $page = isset($_GET["p"]) ? $_GET["p"] : 1;
 $start_item = ($page - 1) * $per_page;
-
-// 搜尋
-$searchName = isset($_GET["searchName"]) ? '%' . $_GET["searchName"] . '%' : '%';
-
-// 搜尋後的文章總數
-$sqlCount = "SELECT COUNT(*) AS total FROM article_db
-WHERE ArticleTitle LIKE :searchName AND ArticleValid=1";
-$stmt = $dbHost->prepare($sqlCount);
-$stmt->bindValue(":searchName", $searchName, PDO::PARAM_STR);
-$stmt->execute();
-$articleCountAll = $stmt->fetchColumn();
-
-//總頁數計算
-$total_page = ceil($articleCountAll / $per_page);
-
-// 排序
-$sorter = isset($_GET["sorter"]) ? $_GET["sorter"] : 1;
-switch ($sorter) {
-    case 1:
-        $orderBy = "ORDER BY ArticleID ASC";
-        break;
-    case -1:
-        $orderBy = "ORDER BY ArticleID DESC";
-        break;
-    case 2:
-        $orderBy = "ORDER BY ArticleTitle ASC";
-        break;
-    case -2:
-        $orderBy = "ORDER BY ArticleTitle DESC";
-        break;
-    case 3:
-        $orderBy = "ORDER BY ArticleStartTime ASC";
-        break;
-    case -3:
-        $orderBy = "ORDER BY ArticleStartTime DESC";
-        break;
-    default:
-        $orderBy = "ORDER BY ArticleID ASC"; // 預設排序
-        break;
-}
-
-// SQL查詢
-$sql = "SELECT article_db.*, images.ImageUrl
-        FROM article_db
-        LEFT JOIN images ON article_db.ArticleID = images.ArticleID
-        WHERE ArticleTitle LIKE :searchName AND ArticleValid=1 
-        $orderBy
-        LIMIT :start_item, :per_page";
+$orderBy = "ORDER BY ArticleUpdateDate DESC"; // 預設排序
 
 try {
+    // 排序邏輯
+    $sorter = isset($_GET["sorter"]) ? $_GET["sorter"] : -5;
+    switch ($sorter) {
+        case 1:
+            $orderBy = "ORDER BY ArticleID ASC";
+            break;
+        case -1:
+            $orderBy = "ORDER BY ArticleID DESC";
+            break;
+        case 2:
+            $orderBy = "ORDER BY ArticleTitle ASC";
+            break;
+        case -2:
+            $orderBy = "ORDER BY ArticleTitle DESC";
+            break;
+        case 3:
+            $orderBy = "ORDER BY ArticleStatus ASC";
+            break;
+        case -3:
+            $orderBy = "ORDER BY ArticleStatus DESC";
+            break;
+        case 4:
+            $orderBy = "ORDER BY ArticleStartTime ASC";
+            break;
+        case -4:
+            $orderBy = "ORDER BY ArticleStartTime DESC";
+            break;
+        case 5:
+            $orderBy = "ORDER BY ArticleUpdateDate ASC";
+            break;
+        case -5:
+            $orderBy = "ORDER BY ArticleUpdateDate DESC";
+            break;
+        default:
+            $orderBy = "ORDER BY ArticleUpdateDate DESC";
+            break;
+    }
+
+    // 初始查詢語句
+    $sql = "SELECT article_db.*, image.ImageUrl
+            FROM article_db
+            LEFT JOIN image ON article_db.ArticleID = image.ArticleID
+            WHERE ArticleValid=1 ";
+
+    // 搜尋條件
+    if (isset($_GET["searchName"])) {
+        $search = $_GET["searchName"];
+        $sql .= " AND (ArticleTitle LIKE '%$search%' OR ArticleStartTime LIKE '%$search%')";
+    }
+
+    if (isset($_GET["start_time"]) && !empty($_GET["start_time"])) {
+        $start_time = $_GET["start_time"];
+        $sql .= " AND ArticleStartTime >= '$start_time'";
+    }
+    if (isset($_GET["end_time"]) && !empty($_GET["end_time"])) {
+        $end_time = $_GET["end_time"];
+        $sql .= " AND ArticleEndTime <= '$end_time'";
+    }
+
+    $sql .= " $orderBy LIMIT $start_item, $per_page";
+
+    // SQL查詢
     $stmt = $dbHost->prepare($sql);
-    $stmt->bindValue(':searchName', $searchName, PDO::PARAM_STR);
-    $stmt->bindValue(':start_item', $start_item, PDO::PARAM_INT);
-    $stmt->bindValue(':per_page', $per_page, PDO::PARAM_INT);
     $stmt->execute();
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // 文章總數
+    $sqlAll = "SELECT COUNT(*) FROM article_db WHERE ArticleValid=1";
+    if (isset($_GET["searchName"])) {
+        $search = $_GET["searchName"];
+        $sqlAll .= " AND (ArticleTitle LIKE '%$search%' OR ArticleStartTime LIKE '%$search%')";
+    }
+    if (isset($_GET["start_time"]) && !empty($_GET["start_time"])) {
+        $start_time = $_GET["start_time"];
+        $sqlAll .= " AND ArticleStartTime >= '$start_time'";
+    }
+    if (isset($_GET["end_time"]) && !empty($_GET["end_time"])) {
+        $end_time = $_GET["end_time"];
+        $sqlAll .= " AND ArticleEndTime <= '$end_time'";
+    }
+
+    $stmtCount = $dbHost->query($sqlAll);
+    $articleCountAll = $stmtCount->fetchColumn();
+    $articleAll = count($rows);
+
+    // 總頁數計算
+    $total_page = ceil($articleCountAll / $per_page);
 } catch (PDOException $e) {
     echo "預處理陳述式執行失敗！ <br/>";
     echo "Error: " . $e->getMessage() . "<br/>";
     $dbHost = NULL;
     exit;
 }
-
 ?>
 <!doctype html>
 <html lang="en">
@@ -89,7 +114,7 @@ try {
 </head>
 <style>
 .text-truncate {
-    max-width: 250px;
+    max-width: 180px;
 }
 </style>
 
@@ -103,7 +128,7 @@ try {
                     <div class="page-title">
                         <div class="row">
                             <div class="col-12 col-md-6 order-md-1 order-last">
-                                <h1>文章管理</h1>
+                                <h3>文章管理</h3>
                             </div>
                             <div class="col-12 col-md-6 order-md-2 order-first">
                                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
@@ -121,21 +146,24 @@ try {
                 <div class="card">
                     <div class="card-body">
                         <form method="GET" action="">
-                            <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-end justify-content-between">
                                 <div class="form-group col-6">
                                     <label for="">文章標題</label>
                                     <input type="search" class="form-control" name="searchName" placeholder="搜尋文章標題"
-                                        value="<?php echo isset($_GET["searchName"]) ? htmlspecialchars($_GET["searchName"]) : ''; ?>">
+                                        value="<?php echo isset($_GET["searchName"]) ?$_GET["searchName"] : ''; ?>">
                                 </div>
-                                <div class="d-flex flex-column form-group col-5">
-                                    <label for="">標籤名稱</label>
-                                    <div class="dataTable-dropdown">
-                                        <select class="dataTable-selector form-select" name="tag" id="tagselect">
-                                            <option value="">無</option>
-                                            <option value="">各種標籤</option>
-                                            <!-- <option value="tag1" <?= (isset($_GET["tag"]) && $_GET["tag"] == 'tag1') ? 'selected' : '' ?>>Tag 1</option>
-                                            <option value="tag2" <?= (isset($_GET["tag"]) && $_GET["tag"] == 'tag2') ? 'selected' : '' ?>>Tag 2</option> -->
-                                        </select>
+                                <div class="form-group d-flex justify-content-between align-items-end col-5">
+                                    <div class="col-5">
+                                        <label for="">發佈時段</label>
+                                        <input type="text" class="form-control flatpickr-no-config flatpickr-input"
+                                            id="start_time" placeholder="選擇開始日期" name="start_time"
+                                            value="<?= $_GET['start_time'] ?? '' ?>">
+                                    </div>
+                                    <div class="col-2 d-flex align-items-center justify-content-center mb-1">~</div>
+                                    <div class="col-5">
+                                        <input type="text" class="form-control flatpickr-no-config flatpickr-input"
+                                            id="end_time" placeholder="選擇結束日期" name="end_time"
+                                            value="<?= $_GET['end_time'] ?? '' ?>">
                                     </div>
                                 </div>
                             </div>
@@ -157,9 +185,9 @@ try {
                                     <form method="GET" action="">
                                         <!-- 隱藏的搜尋條件，確保搜尋條件不會因為筆數選擇而遺失 -->
                                         <input type="hidden" name="searchName" value="<?= $_GET["searchName"] ?? '' ?>">
+                                        <input type="hidden" name="start_time" value="<?= $_GET["start_time"] ?? '' ?>">
+                                        <input type="hidden" name="end_time" value="<?= $_GET["end_time"] ?? '' ?>">
                                         <input type="hidden" name="sorter" value="<?= $sorter ?>">
-
-                                        <!-- <h3>文章列表</h3> -->
                                         <label>每頁</label>
                                         <div class="dataTable-dropdown">
                                             <select class="dataTable-selector form-select" name="per_page"
@@ -176,40 +204,48 @@ try {
                                 </div>
 
                             </div>
-                            <div class="col-1 d-flex align-items-center">
+                            <div class="col-1 d-flex justify-content-end align-items-center">
                                 <a href="../Article/CreateArticle.php"><button type="submit"
                                         class="btn btn-primary me-1 mb-1">新增</button></a>
-
                             </div>
-                            <!-- </div> -->
                         </div>
                         <table class="table table-striped dataTable-table" id="table1">
                             <thead>
                                 <tr>
-                                    <th data-sortable="" class="desc" aria-sort="descending">
-                                        <a href="ArticleList.php?p=<?= $page ?>&sorter=<?= ($sorter == 1) ? -1 : 1 ?>&searchName=<?= $_GET["searchName"] ?? '' ?>&per_page=<?= $per_page ?>"
+                                    <th data-sortable="" class="<?=(($sorter == 1) ? -1 : 1)==1 ? "asc" :"desc" ?>"
+                                        aria-sort="descending">
+                                        <a href="ArticleList.php?p=<?= $page ?>&sorter=<?= ($sorter == 1) ? -1 : 1 ?>&searchName=<?= $_GET["searchName"] ?? '' ?>&start_time=<?= $_GET["start_time"] ?? '' ?>&end_time=<?= $_GET["end_time"] ?? '' ?>&per_page=<?= $per_page ?>"
                                             class="dataTable-sorter">編號</a>
                                     </th>
-                                    <th data-sortable="" class="desc" aria-sort="descending">
-                                        <a href="ArticleList.php?p=<?= $page ?>&sorter=<?= ($sorter == 2) ? -2 : 2 ?>&searchName=<?= $_GET["searchName"] ?? '' ?>&per_page=<?= $per_page ?>"
+                                    <th>封面圖片 </th>
+                                    <th data-sortable="" class="<?=(($sorter == 2) ? -2 : 2)==2 ? "asc" :"desc" ?>"
+                                        aria-sort="descending">
+                                        <a href="ArticleList.php?p=<?= $page ?>&sorter=<?= ($sorter == 2) ? -2 : 2 ?>&searchName=<?= $_GET["searchName"] ?? '' ?>&start_time=<?= $_GET["start_time"] ?? '' ?>&end_time=<?= $_GET["end_time"] ?? '' ?>&per_page=<?= $per_page ?>"
                                             class="dataTable-sorter">文章標題</a>
                                     </th>
-                                    <th>封面圖片 </th>
-
-                                    <th data-sortable="" class="desc" aria-sort="descending">
-                                        <a href="ArticleList.php?p=<?= $page ?>&sorter=<?= ($sorter == 3) ? -3 : 3 ?>&searchName=<?= $_GET["searchName"] ?? '' ?>&per_page=<?= $per_page ?>"
-                                            class="dataTable-sorter">上架時間</a>
+                                    <th data-sortable="" class="<?=(($sorter == 3) ? -3 : 3)==3 ? "asc" :"desc" ?>"
+                                        aria-sort="descending">
+                                        <a href="ArticleList.php?p=<?= $page ?>&sorter=<?= ($sorter == 3) ? -3 : 3?>&searchName=<?= $_GET["searchName"] ?? '' ?>&start_time=<?= $_GET["start_time"] ?? '' ?>&end_time=<?= $_GET["end_time"] ?? '' ?>&per_page=<?= $per_page ?>"
+                                            class="dataTable-sorter">文章狀態</a>
+                                    </th>
+                                    <th data-sortable="" class="<?=(($sorter == 4) ? -4 : 4)==4? "asc" :"desc" ?>"
+                                        aria-sort="descending">
+                                        <a href="ArticleList.php?p=<?= $page ?>&sorter=<?= ($sorter == 4) ? -4 : 4?>&searchName=<?= $_GET["searchName"] ?? '' ?>&start_time=<?= $_GET["start_time"] ?? '' ?>&end_time=<?= $_GET["end_time"] ?? '' ?>&per_page=<?= $per_page ?>"
+                                            class="dataTable-sorter">發佈時間</a>
+                                    </th>
+                                    <th data-sortable="" class="<?=(($sorter == 5) ? -5 : 5)==5? "asc" :"desc" ?>"
+                                        aria-sort="descending">
+                                        <a href="ArticleList.php?p=<?= $page ?>&sorter=<?= ($sorter == 5) ? -5 : 5 ?>&searchName=<?= $_GET["searchName"] ?? '' ?>&start_time=<?= $_GET["start_time"] ?? '' ?>&end_time=<?= $_GET["end_time"] ?? '' ?>&per_page=<?= $per_page ?>"
+                                            class="dataTable-sorter">更新時間</a>
                                     </th>
                                 </tr>
 
                             </thead>
                             <tbody>
                                 <?php if ($articleAll > 0): ?>
-                                <?php foreach ($rows as $article) : ?>
+                                <?php $i = $start_item+1; foreach ($rows as $article) : ?>
                                 <tr>
-                                    <td><?= $article["ArticleID"] ?></td>
-                                    <td class="text-truncate"><?=$article["ArticleTitle"]?>
-                                    </td>
+                                    <td><?= $i++ ?></td>
                                     <td>
                                         <?php if (!empty($article["ImageUrl"])): ?>
                                         <img src="../upload/<?= $article["ImageUrl"] ?>" alt="Image" width="100"
@@ -218,24 +254,24 @@ try {
                                         No Image
                                         <?php endif; ?>
                                     </td>
+                                    <td class="text-truncate"><?=$article["ArticleTitle"]?></td>
+                                    <td><?= $article["ArticleStatus"] ==1 ? "已發布":"草稿"?></td>
                                     <td><?= $article["ArticleStartTime"] ?></td>
+                                    <td><?= $article["ArticleUpdateDate"] ?></td>
                                     <td>
                                         <a href="../Article/UpdateArticle.php?id=<?= $article['ArticleID'] ?>"> <i
                                                 class="fa-solid fa-pen-to-square fa-lg"></i></a>
                                     </td>
                                     <td>
-                                        <a href="javascript:void(0);" class="btn btn-primary"
-                                        onclick="if (confirm('確定要刪除嗎')) { window.location.href='doDeleteArticle.php?id=<?= $article['ArticleID'] ?>'; }">
-                                            <i class="fa-solid fa-trash-can"></i></a>
+                                        <a href="javascript:void(0);" class="fa-solid fa-trash-can"
+                                            onclick="if (confirm('確定要刪除嗎')) { window.location.href='ArticleDelete.php?id=<?= $article['ArticleID'] ?>'; }">
+                                        </a>
                                     </td>
-
+                                    <?php endforeach; ?>
+                                    <?php else: ?>
+                                       <td colspan="8">目前沒有匹配查詢的文章</td>
+                                <?php endif;?>
                                 </tr>
-                                <?php endforeach; ?>
-                                <?php else: ?>
-                                <tr>
-                                    <td>目前沒有文章</td>
-                                </tr>
-                                <?php endif; ?>
                             </tbody>
                         </table>
                     </div>
@@ -244,8 +280,9 @@ try {
                     <!-- 頁數 -->
                     <div class="dataTable-bottom">
                         <div class="dataTable-info ps-3">
-                            顯示 <?= $start_item + 1 ?> 至 <?= min($start_item + $per_page, $articleAll) ?>
-                            筆，共 <?= $articleCountAll ?> 筆資料
+                            顯示第 <?= $start_item + 1 ?> 到第 <?= min($start_item + $per_page, $start_item + $articleAll) ?> 筆，總共
+                            <?= $articleCountAll ?> 筆
+                            <?php endif; ?>
                         </div>
                         <!-- 分頁按鈕 -->
                         <?php if ($total_page > 1): ?>
@@ -254,34 +291,31 @@ try {
                                 <?php if ($page > 1): ?>
                                 <li class="page-item">
                                     <a class="page-link"
-                                        href="ArticleList.php?p=<?= $page - 1 ?>&sorter=<?= $sorter ?>&per_page=<?= $per_page ?>&searchName=<?= $_GET["searchName"]?? ''?>"
-                                        aria-label="Previous">
+                                        href="ArticleList.php?searchName=<?= $_GET["searchName"] ?? '' ?>&start_time=<?= $_GET["start_time"] ?? '' ?>&end_time=<?= $_GET["end_time"] ?? '' ?>&per_page=<?= $per_page ?>&p=<?= $page - 1 ?>&sorter=<?= $sorter ?>">
                                         <span aria-hidden="true"><i class="bi bi-chevron-double-left"></i></span>
                                     </a>
                                 </li>
                                 <?php endif; ?>
                                 <?php for ($i = 1; $i <= $total_page; $i++): ?>
                                 <li class="page-item <?= $i == $page ? 'active' : '' ?>">
-                                <li class="<?= $page == $i ? 'active' : '' ?> page-item">
-                                    <a href="?p=<?= $i ?>&per_page=<?= $per_page ?>&searchName=<?= $_GET["searchName"] ?? '' ?>&sorter=<?= $sorter ?>"
+                                    <a href="ArticleList.php?p=<?= $i ?>&per_page=<?= $per_page ?>&searchName=<?= $_GET["searchName"] ?? '' ?>&start_time=<?= $_GET["start_time"] ?? '' ?>&end_time=<?=$_GET["end_time"] ?? '' ?>&sorter=<?= $sorter ?>"
                                         class="page-link"><?= $i ?></a>
                                 </li>
+
                                 <?php endfor; ?>
                                 <?php if ($page < $total_page): ?>
                                 <li class="page-item">
                                     <a class="page-link"
-                                        href="ArticleList.php?p=<?= $page + 1 ?>&sorter=<?= $sorter ?>&per_page=<?= $per_page ?>&searchName=<?=$_GET["searchName"]?? ''?>"
-                                        aria-label="Next">
+                                        href="ArticleList.php?p=<?= $page + 1 ?>&searchName=<?= $_GET["searchName"] ?? '' ?>&start_time=<?= $_GET["start_time"] ?? '' ?>&end_time=<?= $_GET["end_time"] ?? '' ?>&sorter=<?= $sorter ?>">
                                         <span aria-hidden="true"><i class="bi bi-chevron-double-right"></i></span>
                                     </a>
                                 </li>
-                                </li>
                                 <?php endif; ?>
+
                             </ul>
                         </nav>
                         <?php endif; ?>
                     </div>
-                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -291,8 +325,18 @@ try {
     </div>
 
 </body>
-<script src="../assets/static/js/components/dark.js"></script>
-<script src="../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-<script src="../assets/compiled/js/app.js"></script>
+<?php include("../js.php") ?>
+
+<script>
+document.querySelector('form').addEventListener('submit', function(event) {
+    const startTime = document.getElementById('start_time').value;
+    const endTime = document.getElementById('end_time').value;
+
+    if (endTime && startTime && endTime < startTime) {
+        alert("結束日期不能小於開始日期！");
+        event.preventDefault();
+    }
+});
+</script>
 
 </html>

@@ -23,7 +23,7 @@ $vendors = $stmt->fetchAll(PDO::FETCH_ASSOC); // 獲取所有 vendor 的數據
         .image-preview-wrapper {
             width: 100%;
             /* 設置預覽框的寬度 */
-            height: 250px;
+            height: 400px;
             /* 設置預覽框的高度 */
             border: 1px solid lightgrey;
             border-radius: 0 0 4px 4px;
@@ -81,7 +81,7 @@ $vendors = $stmt->fetchAll(PDO::FETCH_ASSOC); // 獲取所有 vendor 的數據
                     <div class="page-title">
                         <div class="row">
                             <div class="col-12 col-md-6 order-md-1 order-last">
-                                <button type="button" class="btn btn-primary mb-4"> <a class="text-white" href="./OfficialEventsList.php?p=1&order=0">回列表</a></button>
+                                <button type="button" class="btn btn-primary mb-4"> <a class="text-white" href="./OfficialEventsList.php?p=1&order=0"><i class="fa-solid fa-chevron-left"></i>回列表</a></button>
                             </div>
                             <div class="col-12 col-md-6 order-md-2 order-first">
                                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
@@ -109,7 +109,7 @@ $vendors = $stmt->fetchAll(PDO::FETCH_ASSOC); // 獲取所有 vendor 的數據
                     <div class="card">
                         <div class="card-body">
                             <div class="mb-3">
-                                <label for="EventTitle" class="form-label col-3">活動標題</label>
+                                <label for="EventTitle" class="form-label col-3 required">活動標題</label>
                                 <div class="col">
                                     <input type="text" class="form-control mb-3" id="EventTitle" name="EventTitle" placeholder="輸入活動標題" required>
                                 </div>

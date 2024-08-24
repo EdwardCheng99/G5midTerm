@@ -39,7 +39,7 @@ try {
     <?php include("../headlink.php") ?>
     <style>
         .product-img-size {
-            height: 25.5rem;
+            height: 30.75rem;
         }
     </style>
 </head>
@@ -90,6 +90,14 @@ try {
                                                     </div>
                                                     <div class="col-lg">
                                                         <table class="table table-bordered">
+                                                        <tr>
+                                                                <th>上架時間</th>
+                                                                <td><?= $row["product_start_time"] ?></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>下架時間</th>
+                                                                <td><?= $row["product_end_time"] ?></td>
+                                                            </tr>
                                                             <tr>
                                                                 <th>商品編號</th>
                                                                 <td><?= $row["product_id"] ?></td>
