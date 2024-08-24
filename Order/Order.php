@@ -95,7 +95,7 @@ $discountedValue = 0;
             <div id="main-content">
                 <div class="page-heading">
                     <div class="page-title">
-                        <a href="OrderList.php" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i></a>
+                        <a href="OrderList.php" class="btn btn-primary"><i class="fa-solid fa-chevron-left"></i>回列表</a>
                         <div class="row my-3">
                             <div class="col-12 col-md-6 order-md-1 order-last">
                                 <h3>訂單明細</h3>
