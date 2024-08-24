@@ -289,6 +289,7 @@ try {
                             </div>
                             <div class="col-12 d-flex justify-content-center">
                                 <button type="button" class="btn btn-primary me-1 mb-1" id="send">儲存</button>
+                                <button type="button" class="btn btn-danger me-1 mb-1" id="delete">刪除</button>
                             </div>
                         </div>
                     </div>
@@ -316,6 +317,7 @@ try {
         const CouponUseMax = document.querySelector("#CouponUseMax");
         const EnableStatus = document.querySelector("#EnableStatus");
         const send = document.querySelector("#send");
+        const deletebtn = document.querySelector("#delete");
         const infoModal = new bootstrap.Modal('#infoModal', {
             keyboard: true
         }) // 用bootstrap的 modal來裝訊息
@@ -344,25 +346,23 @@ try {
             // 當 PromotionType 改變時再執行
             PromotionType.addEventListener("change", toggleCouponArea);
         });
-
+        let IDVal = ID.value;
+        let NameVal = (Name.value !== "") ? Name.value : null;
+        let StartTimeVal = (StartTime.value !== "") ? StartTime.value : null;
+        let EndTimeVal = (EndTime.value !== "") ? EndTime.value : null;
+        let PromotionConditionVal = (PromotionCondition.value !== "") ? PromotionCondition.value : null;
+        let ConditionMinValueVal = (ConditionMinValue.value !== "") ? ConditionMinValue.value : null;
+        let CalculateTypeVal = (CalculateType.value !== "") ? CalculateType.value : null;
+        let ValueVal = (Value.value !== "") ? Value.value : null;
+        let IsCumulativeVal = (IsCumulative.value !== "") ? IsCumulative.value : null;
+        let MemberLevelVal = (MemberLevel.value !== "") ? MemberLevel.value : null;
+        let PromotionTypeVal = (PromotionType.value !== "") ? PromotionType.value : null;
+        let CouponSerialVal = (CouponSerial.value !== "") ? CouponSerial.value : null;
+        let CouponInfoVal = (CouponInfo.value !== "") ? CouponInfo.value : null;
+        let CouponReceiveEndTimeVal = (CouponReceiveEndTime.value !== "") ? CouponReceiveEndTime.value : null;
+        let CouponUseMaxVal = (CouponUseMax.value !== "") ? CouponUseMax.value : null;
+        let EnableStatusVal = (EnableStatus.value !== "") ? EnableStatus.value : null;
         send.addEventListener("click", function() {
-            let IDVal = ID.value;
-            let NameVal = (Name.value !== "") ? Name.value : null;
-            let StartTimeVal = (StartTime.value !== "") ? StartTime.value : null;
-            let EndTimeVal = (EndTime.value !== "") ? EndTime.value : null;
-            let PromotionConditionVal = (PromotionCondition.value !== "") ? PromotionCondition.value : null;
-            let ConditionMinValueVal = (ConditionMinValue.value !== "") ? ConditionMinValue.value : null;
-            let CalculateTypeVal = (CalculateType.value !== "") ? CalculateType.value : null;
-            let ValueVal = (Value.value !== "") ? Value.value : null;
-            let IsCumulativeVal = (IsCumulative.value !== "") ? IsCumulative.value : null;
-            let MemberLevelVal = (MemberLevel.value !== "") ? MemberLevel.value : null;
-            let PromotionTypeVal = (PromotionType.value !== "") ? PromotionType.value : null;
-            let CouponSerialVal = (CouponSerial.value !== "") ? CouponSerial.value : null;
-            let CouponInfoVal = (CouponInfo.value !== "") ? CouponInfo.value : null;
-            let CouponReceiveEndTimeVal = (CouponReceiveEndTime.value !== "") ? CouponReceiveEndTime.value : null;
-            let CouponUseMaxVal = (CouponUseMax.value !== "") ? CouponUseMax.value : null;
-            let EnableStatusVal = (EnableStatus.value !== "") ? EnableStatus.value : null;
-
             $.ajax({
                     method: "POST",
                     url: "/G5midTerm/Promotion/doEditDiscount.php",
@@ -397,6 +397,26 @@ try {
                         info.innerHTML = response.message
                         infoModal.show();
                         return;
+                    }
+
+
+                }).fail(function(jqXHR, textStatus) {
+                    console.log("Request failed: " + textStatus);
+                });
+        })
+        deletebtn.addEventListener("click", function() {
+            $.ajax({
+                    method: "POST",
+                    url: "/G5midTerm/Promotion/doDeleteDiscount.php",
+                    dataType: "json",
+                    data: {
+                        id: IDVal
+                    } //如果需要
+                })
+                .done(function(response) {
+                    let status = response.status;
+                    if (status == 0 || status == 1) {
+                        window.location.href = "DiscountList.php"
                     }
 
 
