@@ -121,13 +121,13 @@ $discountedValue = 0;
                                         <div class="row">
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="first-name-vertical">ID :</label>
+                                                    <label for="first-name-vertical">訂單編號 :</label>
                                                     <input readonly class="form-control" type="text" name="id" value="<?= $row["OrderID"] ?>">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="first-name-vertical">Name:</label>
+                                                    <label for="first-name-vertical">訂購人姓名:</label>
                                                     <input type="text" id="first-name-vertical" class="form-control" readonly name="" placeholder="" value="<?= $row["Order_Name"] ?>">
                                                 </div>
                                             </div>
@@ -212,7 +212,7 @@ $discountedValue = 0;
                                     <table class="table table-striped mb-0">
                                         <thead>
                                             <tr>
-                                                <th>ID</th>
+                                                <th>訂單編號</th>
                                                 <th></th>
                                                 <th>商品名稱</th>
                                                 <th>數量</th>
