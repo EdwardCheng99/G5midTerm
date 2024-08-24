@@ -72,182 +72,194 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 </div>
                 <section class="section">
                     <div class="row">
-                        <div class="card">
-                            <!-- <div class="card-header">
-                                <h4 class="card-title">主要資訊</h4>
-                            </div> -->
-                            <div class="card-content">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="" class="required">促銷名稱</label>
-                                                <input type="text" name="" class="form-control" id="Name" placeholder="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="" class="required">促銷時間</label>
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control flatpickr-no-config flatpickr-input" placeholder="開始時間" id="StartTime">
-                                                    <input type="text" class="form-control flatpickr-no-config flatpickr-input" placeholder="結束時間" id="EndTime">
+                        <div class="col-12 d-flex justify-content-start mb-2">
+                            <a href="DiscountList.php" class="btn btn-secondary me-1 mb-1">返回</a>
+                        </div>
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">主要資訊</h4>
+                                    <hr class="mb-0">
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="" class="required">促銷名稱</label>
+                                                    <input type="text" name="" class="form-control" id="Name" placeholder="">
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="" class="required">滿足條件類別</label>
-                                                <select class="form-select" name="" id="PromotionCondition">
-                                                    <!-- <?php if (!empty($PromotionCondition_options)) : ?>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="" class="required">促銷時間</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control flatpickr-no-config flatpickr-input" placeholder="開始時間" id="StartTime">
+                                                        <input type="text" class="form-control flatpickr-no-config flatpickr-input" placeholder="結束時間" id="EndTime">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="" class="required">滿足條件類別</label>
+                                                    <select class="form-select" name="" id="PromotionCondition">
+                                                        <!-- <?php if (!empty($PromotionCondition_options)) : ?>
                                                         <?php foreach ($PromotionCondition_options as $option): ?>
                                                             
                                                         <?php endforeach; ?>
                                                     <?php endif;  ?> -->
-                                                    <?php
-                                                    if (!empty($PromotionCondition_options)) {
-                                                        foreach ($PromotionCondition_options as $option) {
-                                                            $selected = ($option['Value'] == 1) ? 'selected' : '';
-                                                            echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
+                                                        <?php
+                                                        if (!empty($PromotionCondition_options)) {
+                                                            foreach ($PromotionCondition_options as $option) {
+                                                                $selected = ($option['Value'] == 1) ? 'selected' : '';
+                                                                echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
+                                                            }
+                                                        } else {
+                                                            echo "<option value=''>無可用選項</option>";
                                                         }
-                                                    } else {
-                                                        echo "<option value=''>無可用選項</option>";
-                                                    }
-                                                    ?>
-                                                </select>
+                                                        ?>
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="" class="">條件值</label>
-                                                <input type="number" name="" class="form-control" id="ConditionMinValue" placeholder="">
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="" class="">條件值</label>
+                                                    <input type="number" name="" class="form-control" id="ConditionMinValue" placeholder="">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="" class="required">金額計算方式</label>
-                                                <select class="form-select" name="" id="CalculateType">
-                                                    <?php
-                                                    if (!empty($CalculateType_options)) {
-                                                        foreach ($CalculateType_options as $option) {
-                                                            $selected = ($option['Value'] == 1) ? 'selected' : '';
-                                                            echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="" class="required">金額計算方式</label>
+                                                    <select class="form-select" name="" id="CalculateType">
+                                                        <?php
+                                                        if (!empty($CalculateType_options)) {
+                                                            foreach ($CalculateType_options as $option) {
+                                                                $selected = ($option['Value'] == 1) ? 'selected' : '';
+                                                                echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
+                                                            }
+                                                        } else {
+                                                            echo "<option value=''>無可用選項</option>";
                                                         }
-                                                    } else {
-                                                        echo "<option value=''>無可用選項</option>";
-                                                    }
-                                                    ?>
-                                                </select>
+                                                        ?>
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="" class="required">折扣數</label>
-                                                <input type="number" name="" class="form-control" id="Value" placeholder="">
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="" class="required">折扣數</label>
+                                                    <input type="number" name="" class="form-control" id="Value" placeholder="">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="" class="">滿額可累計促銷</label>
-                                                <select class="form-select" name="" id="IsCumulative">
-                                                    <?php
-                                                    if (!empty($IsCumulative_options)) {
-                                                        foreach ($IsCumulative_options as $option) {
-                                                            $selected = ($option['Value'] == 0) ? 'selected' : '';
-                                                            echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="" class="">滿額可累計促銷</label>
+                                                    <select class="form-select" name="" id="IsCumulative">
+                                                        <?php
+                                                        if (!empty($IsCumulative_options)) {
+                                                            foreach ($IsCumulative_options as $option) {
+                                                                $selected = ($option['Value'] == 0) ? 'selected' : '';
+                                                                echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
+                                                            }
+                                                        } else {
+                                                            echo "<option value=''>無可用選項</option>";
                                                         }
-                                                    } else {
-                                                        echo "<option value=''>無可用選項</option>";
-                                                    }
-                                                    ?>
-                                                </select>
+                                                        ?>
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="" class="required">適用會員等級</label>
-                                                <select class="form-select" name="" id="MemberLevel">
-                                                    <?php
-                                                    if (!empty($MemberLevel_options)) {
-                                                        foreach ($MemberLevel_options as $option) {
-                                                            $selected = ($option['Value'] == 0) ? 'selected' : '';
-                                                            echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="" class="required">適用會員等級</label>
+                                                    <select class="form-select" name="" id="MemberLevel">
+                                                        <?php
+                                                        if (!empty($MemberLevel_options)) {
+                                                            foreach ($MemberLevel_options as $option) {
+                                                                $selected = ($option['Value'] == 0) ? 'selected' : '';
+                                                                echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
+                                                            }
+                                                        } else {
+                                                            echo "<option value=''>無可用選項</option>";
                                                         }
-                                                    } else {
-                                                        echo "<option value=''>無可用選項</option>";
-                                                    }
-                                                    ?>
-                                                </select>
+                                                        ?>
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="" class="required">促銷方式</label>
-                                                <select class="form-select" name="" id="PromotionType">
-                                                    <?php
-                                                    if (!empty($PromotionType_options)) {
-                                                        foreach ($PromotionType_options as $option) {
-                                                            $selected = ($option['Value'] == 1) ? 'selected' : '';
-                                                            echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="" class="required">促銷方式</label>
+                                                    <select class="form-select" name="" id="PromotionType">
+                                                        <?php
+                                                        if (!empty($PromotionType_options)) {
+                                                            foreach ($PromotionType_options as $option) {
+                                                                $selected = ($option['Value'] == 1) ? 'selected' : '';
+                                                                echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
+                                                            }
+                                                        } else {
+                                                            echo "<option value=''>無可用選項</option>";
                                                         }
-                                                    } else {
-                                                        echo "<option value=''>無可用選項</option>";
-                                                    }
-                                                    ?>
-                                                </select>
+                                                        ?>
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="" class="required">上架狀態</label>
-                                                <select class="form-select" name="" id="EnableStatus">
-                                                    <?php
-                                                    if (!empty($EnableStatus_options)) {
-                                                        foreach ($EnableStatus_options as $option) {
-                                                            $selected = ($option['Value'] == 1) ? 'selected' : '';
-                                                            echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="" class="required">上架狀態</label>
+                                                    <select class="form-select" name="" id="EnableStatus">
+                                                        <?php
+                                                        if (!empty($EnableStatus_options)) {
+                                                            foreach ($EnableStatus_options as $option) {
+                                                                $selected = ($option['Value'] == 1) ? 'selected' : '';
+                                                                echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
+                                                            }
+                                                        } else {
+                                                            echo "<option value=''>無可用選項</option>";
                                                         }
-                                                    } else {
-                                                        echo "<option value=''>無可用選項</option>";
-                                                    }
-                                                    ?>
-                                                </select>
+                                                        ?>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="divider couponarea">
-                                            <div class="divider-text">優惠券</div>
-                                        </div>
-                                        <div class="col-md-6 col-12 couponarea">
-                                            <div class="form-group">
-                                                <label for="" class="required">優惠券序號</label>
-                                                <input type="text" name="" class="form-control" id="CouponSerial" placeholder="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12 couponarea">
-                                            <div class="form-group">
-                                                <label for="" class="required">優惠券說明</label>
-                                                <input type="text" name="" class="form-control" id="CouponInfo" placeholder="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12 couponarea">
-                                            <div class="form-group">
-                                                <label for="" class="required">截止領取時間</label>
-                                                <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="Select date.." id="CouponReceiveEndTime">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12 couponarea">
-                                            <div class="form-group">
-                                                <label for="" class="required">使用次數限制</label>
-                                                <input type="number" name="" class="form-control" id="CouponUseMax" placeholder="">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12 d-flex justify-content-end">
-                                            <button type="button" class="btn btn-primary me-1 mb-1" id="send">送出</button>
-                                            <a href="DiscountList.php" class="btn btn-light-secondary me-1 mb-1">返回</a>
-                                        </div>
-
                                     </div>
                                 </div>
+                            </div>
+                            <div class="card couponarea">
+                                <div class="card-header">
+                                    <h4 class="card-title">優惠券</h4>
+                                    <hr class="mb-0">
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="" class="required">優惠券序號</label>
+                                                    <input type="text" name="" class="form-control" id="CouponSerial" placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="" class="required">優惠券說明</label>
+                                                    <input type="text" name="" class="form-control" id="CouponInfo" placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="" class="required">截止領取時間</label>
+                                                    <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="Select date.." id="CouponReceiveEndTime">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="" class="required">使用次數限制</label>
+                                                    <input type="number" name="" class="form-control" id="CouponUseMax" placeholder="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 d-flex justify-content-center">
+                                <button type="button" class="btn btn-primary me-1 mb-1" id="send">送出</button>
                             </div>
                         </div>
                     </div>
