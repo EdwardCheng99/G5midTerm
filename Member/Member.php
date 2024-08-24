@@ -116,12 +116,12 @@ try {
                                                 <input type="text" id="contact-info-vertical" class="form-control" name="admin" placeholder="Mobile" value="<?= $row["MemberAdmin"] ?>">
                                             </div>
                                         </div> -->
-                                                <div class="col-md-6 col-12">
+                                                <!-- <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="password-vertical">會員密碼 <span class="text-danger">*</span></label>
                                                         <input type="text" id="password-vertical" class="form-control" name="password" placeholder="Password" value="<?= $row["MemberPassword"] ?>">
                                                     </div>
-                                                </div>
+                                                </div> -->
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="first-name-vertical">會員暱稱</label>
@@ -130,7 +130,7 @@ try {
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="email-id-vertical">會員等級 <span class="text-danger">*</span></label>
+                                                        <label for="email-id-vertical">會員等級</label>
                                                         <select class="form-select" id="basicSelect" name="level">
                                                             <option value="1" <?= ($row["MemberLevel"] == 1) ? "selected" : '' ?>>銅</option>
                                                             <option value="2" <?= ($row["MemberLevel"] == 2) ? "selected" : '' ?>>銀</option>
@@ -158,19 +158,19 @@ try {
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="email-id-vertical">聯絡地址 <span class="text-danger">*</span></label>
+                                                        <label for="email-id-vertical">聯絡地址</label>
                                                         <input type="text" id="email-id-vertical" class="form-control" name="address" placeholder="" value="<?= $row["MemberAddress"] ?>">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="contact-info-vertical">出生日期 <span class="text-danger">*</span></label>
+                                                        <label for="contact-info-vertical">出生日期</label>
                                                         <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input active" placeholder="Select date.." name="birth" readonly="readonly" value="<?= $row["MemberBirth"] ?>">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="password-vertical">性別 <span class="text-danger">*</span></label>
+                                                        <label for="password-vertical">性別</label>
                                                         <select class="form-select" id="basicSelect" name="gender">
                                                             <option value="0" <?= ($row["MemberGender"] == 0) ? "selected" : '' ?>>男</option>
                                                             <option value="1" <?= ($row["MemberGender"] == 1) ? "selected" : '' ?>>女</option>
@@ -180,16 +180,16 @@ try {
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="first-name-vertical">帳號狀態 <span class="text-danger">*</span></label>
+                                                        <label for="first-name-vertical">帳號狀態</label>
                                                         <select class="form-select" id="basicSelect" name="valid">
-                                                            <option value="1" <?= ($row["MemberGender"] == 1) ? "selected" : '' ?>>有效</option>
-                                                            <option value="0" <?= ($row["MemberGender"] == 0) ? "selected" : '' ?>>無效</option>
+                                                            <option value="1" <?= ($row["MemberValid"] == 1) ? "selected" : '' ?>>有效</option>
+                                                            <option value="0" <?= ($row["MemberValid"] == 0) ? "selected" : '' ?>>無效</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="email-id-vertical">黑名單狀態 <span class="text-danger">*</span></label>
+                                                        <label for="email-id-vertical">黑名單狀態</label>
                                                         <select class="form-select" id="basicSelect" name="blacklist">
                                                             <option value="0" <?= ($row["MemberIsBlacklisted"] == 0) ? "selected" : '' ?>>關閉</option>
                                                             <option value="1" <?= ($row["MemberIsBlacklisted"] == 1) ? "selected" : '' ?>>開啟</option>
