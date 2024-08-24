@@ -54,7 +54,6 @@ if ($_FILES["PetCommImg"]["error"] == 0) {
         :PetCommCreateDate,
         :PetCommCreateUserID
         )";
-        
     } else {
         echo "上傳圖檔失敗";
     }
@@ -80,7 +79,6 @@ try {
     $stmt->bindParam(':PetCommCreateDate', $now);
     $stmt->bindValue(':PetCommCreateUserID', 'Ben');
 
-
     $stmt->execute();
     $last_id = $dbHost->lastInsertId();
 
@@ -91,6 +89,4 @@ try {
     $dbHost = NULL;
     exit;
 }
-
-
 $dbHost = null;

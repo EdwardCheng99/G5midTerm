@@ -22,22 +22,18 @@ $sql = "UPDATE petcommunicator SET
     PetCommUpdateUserID = :PetCommUpdateUserID,
     PetCommUpdateDate = :PetCommUpdateDate
     WHERE PetCommID = :PetCommID";
-
-
 try {
-
-
     $stmt = $dbHost->prepare($sql);
     $stmt->bindParam(':PetCommID', $PetCommID, PDO::PARAM_INT);
     $stmt->bindParam(':PetCommUpdateUserID', $PetCommUpdateUserID);
     $stmt->bindParam(':PetCommUpdateDate', $PetCommUpdateDate);
     $stmt->execute();
+    header("location: StatusList.php");
 } catch (PDOException $e) {
     echo "預處理陳述式執行失敗！ <br/>";
     echo "Error: " . $e->getMessage() . "<br/>";
     $dbHost = NULL;
     exit;
 }
-    header("location: StatusList.php");
 $dbHost= NULL;
 ?>

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>溝通師新增</title>
-    <link rel="stylesheet" href="../assets/style.css">
+    
     <?php include("../headlink.php") ?>
     <style>
         .flatpickr-time {
@@ -23,11 +23,14 @@
     <script src="../assets/static/js/initTheme.js"></script>
     <div id="app">
         <?php include("../sidebar.php") ?>
-        <div id="main" class='layout-navbar navbar-fixed'>
-            <header>
+        <div id="main">
+            <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
             </header>
-            <div id="main-content">
-                <div class="page-heading">
+            <div class="page-heading">
+                    <!-- 標題抬頭 -->
                     <div class="page-title">
                         <div class="row">
                             <div class="col-12 col-md-6 order-md-1 order-last">
@@ -48,9 +51,9 @@
                         <div class="card">
                             <div class="card-body">
                                 <a href="petcommunicators.php?p=1" class="btn btn-primary mb-2">返回</a>
-
                                 <form action="doCreat.php" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
                                     <div class="row">
+                                        <!-- 左側欄位 -->
                                         <div class="col-6">
                                             <div class="col">
                                                 <input type="hidden" id="" class="form-control" placeholder="" name="PetCommStatus" value="未刊登">
@@ -70,7 +73,6 @@
                                                     </select>
                                                 </div>
                                             </div>
-
                                             <div class="col">
                                                 <div class="form-group mt-2">
                                                     <label for="">服務項目</label>
@@ -100,19 +102,17 @@
                                                     <label for="">介紹</label>
                                                     <textarea rows="16" class="form-control" placeholder="" name="PetCommIntroduction"></textarea>
                                                 </div>
-
                                             </div>
-
-
                                         </div>
+                                        <!-- 右側欄位 -->
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label for="" class="required">證照編號</label>
-                                                <input type="text" id="" class="form-control" name="PetCommCertificateid" value="動溝證字第" >
+                                                <input type="text" id="" class="form-control" name="PetCommCertificateid" value="動溝證字第">
                                             </div>
                                             <div class="form-group">
                                                 <label for="" class="form-label">取證日期</label>
-                                                <input type="text" class=" form-control  flatpickr-no-config active " placeholder="Select date..." readonly="readonly" name="PetCommCertificateDate" >
+                                                <input type="text" class=" form-control  flatpickr-no-config active " placeholder="Select date..." readonly="readonly" name="PetCommCertificateDate">
 
                                             </div>
                                             <div class="form-group">
@@ -125,8 +125,8 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
+                                    <!-- 送出表單按鈕 -->
                                     <div class="row">
                                         <div class="col-12 d-flex justify-content-end m-2">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">送出</button>
@@ -136,25 +136,12 @@
                                 </form>
                             </div>
                         </div>
-
                     </section>
                 </div>
-
-            </div>
-            <footer>
-                <div class="footer clearfix mb-0 text-muted">
-                    <div class="float-start">
-                    </div>
-                    <div class="float-end">
-                    </div>
-                </div>
-            </footer>
+                <?php include("../footer.php") ?>
         </div>
     </div>
     <?php include("../js.php") ?>
-    <script src="../assets/static/js/components/dark.js"></script>
-    <script src="../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-    <script src="../assets/compiled/js/app.js"></script>
     <script>
         // 彈跳日期選擇窗
         flatpickr('.flatpickr-no-config', {
@@ -187,11 +174,6 @@
             }
         });
     </script>
-
-
-
-
-
 </body>
 
 </html>

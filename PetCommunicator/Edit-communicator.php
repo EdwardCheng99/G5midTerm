@@ -50,18 +50,16 @@ try {
         #mainTable td:nth-child(2) {
             width: 200px;
         }
+
         .flatpickr-time {
             display: none;
         }
-        
-        
     </style>
-    
 </head>
 
 <body>
     <script src="../assets/static/js/initTheme.js"></script>
-
+    <!-- 刪除警示窗 -->
     <div id="delAlert" class="warningalert justify-content-center align-items-center d-none">
         <form action="doSoftDel.php" method="post">
             <input type="hidden" name="PetCommID" id="" value="<?= $delrow["PetCommID"] ?>">
@@ -82,7 +80,6 @@ try {
                         <td><?= $row["PetCommSex"] === "Female" ? "女" : "男" ?></td>
                         <td><?= $row["PetCommStatus"] ?></td>
                     </tr>
-
                 </table>
                 <div class="form-group">
                     <label for="" class="">說明</label>
@@ -96,15 +93,17 @@ try {
             </div>
         </form>
     </div>
-    </div>
     <div id="app">
         <?php include("../sidebar.php") ?>
-        <div id="main" class='layout-navbar navbar-fixed'>
-            <header>
-            </header>
-            <div id="main-content">
+        <div id="main">
+            <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+            </header>   
                 <div class="page-heading">
                     <div class="page-title">
+                        <!-- 主標題 -->
                         <div class="row">
                             <div class="col-12 col-md-6 order-md-1 order-last">
                                 <h3>寵物溝通師-<?= $row["PetCommName"] ?></h3>
@@ -119,6 +118,7 @@ try {
                                 </nav>
                             </div>
                         </div>
+                        <!-- 更新時間 -->
                         <div class="row">
                             <div class="col d-flex justify-content-between">
                                 <p>前次更新：<?= $row["PetCommUpdateUserID"] ?>/<?= $row["PetCommUpdateDate"] ?></p>
@@ -127,26 +127,25 @@ try {
                         </div>
                     </div>
                     <section class="section">
-
                         <div class="card">
                             <div class="card-body">
+                                <!-- 返回.刪除按鈕 -->
                                 <div class="d-flex justify-content-between">
                                     <a href="petcommunicator.php?id=<?= $row["PetCommID"] ?>" class="btn btn-primary mb-2">返回</a>
                                     <button type="text" class="btn btn-danger mb-2" id="delBtn">刪除</button>
                                 </div>
+                                <!-- 表單 -->
                                 <form action="doEdit.php" method="post" enctype="multipart/form-data">
                                     <div id="mainTable" class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
                                         <div class="dataTable-container">
                                             <table class="table table table-striped dataTable-table">
-
-
                                                 <tr>
                                                     <th rowspan="10">相片</th>
                                                     <td rowspan="10">
                                                         <div class="form-group">
                                                             <div class="mb-3">
                                                                 <input class="form-control" type="file" id="formFile" name="PetCommImg"
-                                                                value="<?= $row["PetCommImg"] ?>">
+                                                                    value="<?= $row["PetCommImg"] ?>">
                                                             </div>
                                                             <div class="ratio ratio-1x1 ">
                                                                 <img id="imagePreview" class="img-preview object-fit-contain rounded-5" src="./images/<?= $row["PetCommImg"] ?>" alt="Image Preview">
@@ -156,12 +155,10 @@ try {
                                                     <th>編號</th>
                                                     <td><?= $row["PetCommID"] ?></td>
                                                     <input class="form-control" type="hidden" value="<?= $row["PetCommID"] ?>" name="PetCommID"></td>
-
                                                 </tr>
                                                 <tr>
                                                     <th>名稱</th>
                                                     <td><input class="form-control" type="text" value="<?= $row["PetCommName"] ?>" name="PetCommName"></td>
-
                                                 </tr>
                                                 <tr>
                                                     <th>性別</th>
@@ -169,33 +166,23 @@ try {
                                                             <option value="male" <?= $row["PetCommSex"] === "male" ? 'selected' : '' ?>>男</option>
                                                             <option value="Female" <?= $row["PetCommSex"] === 'Female' ? 'selected' : '' ?>>女</option>
                                                         </select></td>
-
                                                 </tr>
                                                 <tr>
                                                     <th>證照</th>
                                                     <td><input class="form-control" type="text" value="<?= $row["PetCommCertificateid"] ?>" name="PetCommCertificateid">
                                                     </td>
-
                                                 </tr>
                                                 <tr>
-                                                    
                                                     <th>取證日期</th>
                                                     <td>
-                                                    <div class="form-group"> 
-                                            
-                                                <input type="text" class=" form-control  flatpickr-no-config active " placeholder="Select date..." readonly="readonly" value="<?= $row["PetCommCertificateDate"] ?>" name="PetCommCertificateDate">
-                                                
-                                            </div>
-                                                    
-                                                    
+                                                        <div class="form-group">
+                                                            <input type="text" class=" form-control  flatpickr-no-config active " placeholder="Select date..." readonly="readonly" value="<?= $row["PetCommCertificateDate"] ?>" name="PetCommCertificateDate">
+                                                        </div>
                                                 </tr>
                                                 <tr>
                                                     <th>服務項目</th>
                                                     <td>
-                                                        
-                                                    
-                                                    
-                                                    <input class="form-control" type="text" value="<?= $row["PetCommService"] ?>" name="PetCommService">
+                                                        <input class="form-control" type="text" value="<?= $row["PetCommService"] ?>" name="PetCommService">
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -221,15 +208,12 @@ try {
                                                             <option value="已刊登" <?= $row["PetCommStatus"] === '已刊登' ? 'selected' : '' ?>>已刊登</option>
                                                             <option value="未刊登" <?= $row["PetCommStatus"] === '未刊登' ? 'selected' : '' ?>>未刊登</option>
                                                         </select>
-
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <th>介紹</th>
-                                                    <td colspan="3"><textarea rows="10" class="form-control" type="text" value="<?= $row["PetCommIntroduction"] ?>" name="PetCommIntroduction"><?= $row["PetCommIntroduction"] ?>
-                                                        
+                                                    <td colspan="3"><textarea rows="10" class="form-control" type="text" value="<?= $row["PetCommIntroduction"] ?>" name="PetCommIntroduction"><?= $row["PetCommIntroduction"] ?>   
                                                     </textarea></td>
-
                                                     <input class="form-control" type="hidden" value="<?= $row["valid"] ?>" name="valid">
                                                 </tr>
                                             </table>
@@ -238,27 +222,13 @@ try {
                                     <div class="d-flex justify-content-end">
                                         <button type="submit" class="btn btn-success mb-2">完成</button>
                                     </div>
+                                </form>
                             </div>
-
-                            </form>
-
                         </div>
-
+                    </section>
                 </div>
-
-                </section>
-            </div>
-
+                <?php include("../footer.php") ?>      
         </div>
-        <footer>
-            <div class="footer clearfix mb-0 text-muted">
-                <div class="float-start">
-                </div>
-                <div class="float-end">
-                </div>
-            </div>
-        </footer>
-    </div>
     </div>
     <?php include("../js.php") ?>
     <script>
@@ -271,7 +241,6 @@ try {
         const delBtn = document.querySelector("#delBtn");
         const delAlert = document.querySelector("#delAlert");
         const delAlertCancel = document.querySelector("#delAlertCancel");
-
         delBtn.addEventListener("click", function() {
             delAlert.classList.remove("d-none");
             delAlert.classList.add("d-flex");
@@ -297,11 +266,6 @@ try {
             }
         });
     </script>
-    <script src="../assets/static/js/components/dark.js"></script>
-    <script src="../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-
-    <script src="../assets/compiled/js/app.js"></script>
-    
 </body>
 
 </html>
