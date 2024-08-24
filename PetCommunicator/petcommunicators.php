@@ -95,6 +95,9 @@ $total_page = ceil($CommCounts / $per_page);
         .comment-row.open {
             max-height: 500px;
         }
+        .dataTable-sorter {
+    padding-right: 16px;
+}
     </style>
 </head>
 
