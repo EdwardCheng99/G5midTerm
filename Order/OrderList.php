@@ -137,7 +137,6 @@ if(isset($_GET["searchName"]) || isset($_GET["dateRange"]) || isset($_GET["searc
 </head>
 
 <body>
-    <?= $userCount ?>
     <script src="../assets/static/js/initTheme.js"></script>
     <div id="app">
         <?php include("../sidebar.php") ?>
@@ -248,7 +247,7 @@ if(isset($_GET["searchName"]) || isset($_GET["dateRange"]) || isset($_GET["searc
                                                             <th>收貨人</th>
                                                             <th>收貨聯絡電話</th>
                                                             <th>付款方式</th>
-                                                            <th>收穫地址</th>
+                                                            <th>收貨地址</th>
                                                             <th>出貨狀態</th>
                                                             <th><a href="#" class="sort-link" data-sorter="4">訂單日期</a></th>
                                                             <th>編輯訂單</th>
