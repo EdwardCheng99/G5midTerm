@@ -1,40 +1,56 @@
-<?php 
+<?php
 require_once("../pdoConnect.php");
 
-if(!isset($_POST["ArticleID"])){
+if (!isset($_POST["ArticleID"])) {
     echo "錯誤";
     exit;
 }
 
 $ArticleID = $_POST["ArticleID"];
 $title = $_POST["title"];
-$start_time = $_POST["start_time"]; //上架開始時間   
-$end_time = $_POST["end_time"]; //下架時間
+$start_time = $_POST["start_time"]; // 上架開始時間   
+$end_time = $_POST["end_time"]; // 下架時間
 $article_status = $_POST["status"];
 $content = $_POST["content"];
-$create_date = date("Y-m-d H:i:s"); //建檔時間
-$create_user_id = 1; 
+
+
 $update_date = date("Y-m-d H:i:s"); // 更新時間
 $update_user_id = 1;
-$newfilename = time() . ".$extension";
+$imageUrl = $_POST["update_image"];
 
-
-// 檢查是否有上傳新圖片
 if (!empty($_FILES['image']['name'])) {
     $image = $_FILES['image']['name'];
     $extension = pathinfo($image, PATHINFO_EXTENSION);
     $newfilename = time() . "." . $extension;
     $imageUrl = "../upload/" . $newfilename;
 
-    // 更新圖片資料庫
-    $imageSql = "UPDATE images SET ImageUrl = ? WHERE ArticleID = ?";
-    $imageStmt = $dbHost->prepare($imageSql);
-    $imageStmt->execute([$imageUrl, $ArticleID]);
-} else {
-    // 保留現有的圖片
-    $imageUrl = $_POST["existing_image"];
-}
+    // 上傳
+    if (move_uploaded_file($_FILES['image']['tmp_name'], $imageUrl)) {
+        $ImageUploadDate = date("Y-m-d H:i:s");
+        $ImageType = $extension; // 設定圖片類型
 
+        // 圖片是否存在
+        $checkImageSql = "SELECT COUNT(*) FROM image WHERE ArticleID = ?";
+        $checkImageStmt = $dbHost->prepare($checkImageSql);
+        $checkImageStmt->execute([$ArticleID]);
+        $imageCount = $checkImageStmt->fetchColumn();
+
+        if ($imageCount > 0) {
+            // 有圖片→更新資料庫
+            $imageSql = "UPDATE image SET ImageUrl = ?, ImageUploadDate = ?, ImageType = ? WHERE ArticleID = ?";
+            $imageStmt = $dbHost->prepare($imageSql);
+            $imageStmt->execute([$imageUrl, $ImageUploadDate, $ImageType, $ArticleID]);
+        } else {
+            // 沒圖片→插入資料庫
+            $imageSql = "INSERT INTO image (ArticleID, ImageName, ImageUrl, ImageUploadDate, ImageType) VALUES (?, ?, ?, ?, ?)";
+            $imageStmt = $dbHost->prepare($imageSql);
+            $imageStmt->execute([$ArticleID, $newfilename, $imageUrl, $ImageUploadDate, $ImageType]);
+        }
+    } else {
+        echo "圖片上傳失敗";
+        exit;
+    }
+}
 
 $sql = "UPDATE article_db 
 SET 
@@ -43,8 +59,6 @@ SET
     ArticleEndTime = :end_time,
     ArticleStatus = :article_status,
     ArticleContent = :content,
-    ArticleCreateDate = :create_date,
-    ArticleCreateUserID = :create_user_id,
     ArticleUpdateDate = :update_date,
     ArticleUpdateUserID = :update_user_id
 WHERE 
@@ -55,11 +69,9 @@ try {
     $stmt->bindParam(":ArticleID", $ArticleID);
     $stmt->bindParam(":start_time", $start_time);
     $stmt->bindParam(":end_time", $end_time);
-    $stmt ->bindParam(":article_status", $article_status);
+    $stmt->bindParam(":article_status", $article_status);
     $stmt->bindParam(":title", $title);
     $stmt->bindParam(":content", $content);
-    $stmt->bindParam(":create_date", $create_date);
-    $stmt->bindParam(":create_user_id", $create_user_id);
     $stmt->bindParam(":update_date", $update_date);
     $stmt->bindParam(":update_user_id", $update_user_id);
     

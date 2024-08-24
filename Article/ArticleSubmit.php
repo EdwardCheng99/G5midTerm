@@ -51,7 +51,7 @@ echo "文章上架成功！";
             $now = date("Y-m-d H:i:s");
             $imageUrl = "../upload/" . $newfilename;
             
-            $sql = "INSERT INTO images (ImageName,ImageUrl, ImageUploadDate, ImageType, ArticleID) 
+            $sql = "INSERT INTO image (ImageName,ImageUrl, ImageUploadDate, ImageType, ArticleID) 
             VALUES (:imageName, :imageUrl, :imageUploadDate, :imageType, :articleID)";//關聯
             try {
                 $stmtImage = $dbHost->prepare($sql);
