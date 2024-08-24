@@ -21,40 +21,44 @@ $now = date('Y-m-d H:i:s');
 //檢查不可為空
 $errors = [];
 if (empty($Name)) {
-    $errors[] = '促銷名稱不能為空';
+    $errors[] = '<span class="text-danger fw-bold">促銷名稱</span>不能為空';
 }
 if (empty($StartTime)) {
-    $errors[] = '開始時間不能為空';
+    $errors[] = '<span class="text-danger fw-bold">開始時間</span>不能為空';
 }
 if (empty($EndTime)) {
-    $errors[] = '結束時間不能為空';
+    $errors[] = '<span class="text-danger fw-bold">結束時間</span>不能為空';
 }
 if (empty($Value)) {
-    $errors[] = '折扣數不能為空';
+    $errors[] = '<span class="text-danger fw-bold">折扣數</span>不能為空';
 }
 
 if ($EndTime < $StartTime) {
-    $errors[] = '結束時間不可小於開始時間';
+    $errors[] = '<span class="text-danger fw-bold">結束時間</span>不可小於<span class="text-danger fw-bold">開始時間</span>';
+}
+
+if ($PromotionCondition == 2 && empty($ConditionMinValue)) {
+    $errors[] = '若為訂單滿額，須填寫<span class="text-danger fw-bold">訂單滿額值</span>';
 }
 
 if ($PromotionType == 2) {
     if (empty($CouponSerial)) {
-        $errors[] = '促銷方式為優惠券，優惠券序號不能為空';
+        $errors[] = '促銷方式為優惠券，<span class="text-danger fw-bold">優惠券序號</span>不能為空';
     }
     if (empty($CouponInfo)) {
-        $errors[] = '促銷方式為優惠券，優惠券說明不能為空';
+        $errors[] = '促銷方式為優惠券，<span class="text-danger fw-bold">優惠券說明</span>不能為空';
     }
     if (empty($CouponReceiveEndTime)) {
-        $errors[] = '促銷方式為優惠券，截止領取時間不能為空';
+        $errors[] = '促銷方式為優惠券，<span class="text-danger fw-bold">截止領取時間</span>不能為空';
     }
     if (empty($CouponUseMax)) {
-        $errors[] = '促銷方式為優惠券，使用次數限制不能為空';
+        $errors[] = '促銷方式為優惠券，<span class="text-danger fw-bold">使用次數限制</span>不能為空';
     }
 }
 
 
 if (!empty($errors)) {
-    $error_message = implode('、', $errors);
+    $error_message = implode('<br>', $errors);
     echo json_encode(['status' => 0, 'message' => $error_message]);
     exit;
 }
