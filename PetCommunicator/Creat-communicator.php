@@ -111,13 +111,13 @@
                                                 <input type="text" id="" class="form-control" name="PetCommCertificateid" value="動溝證字第">
                                             </div>
                                             <div class="form-group">
-                                                <label for="" class="form-label">取證日期</label>
+                                                <label for="" class="form-label required">取證日期</label>
                                                 <input type="text" class=" form-control  flatpickr-no-config active " placeholder="Select date..." readonly="readonly" name="PetCommCertificateDate">
 
                                             </div>
                                             <div class="form-group">
                                                 <div class="mb-3 mt-2">
-                                                    <label for="formFile" class="">相片</label>
+                                                    <label for="formFile" class="required">相片</label>
                                                     <input class="form-control" type="file" id="formFile" name="PetCommImg">
                                                 </div>
                                                 <div class="ratio ratio-4x3 border">
