@@ -16,6 +16,14 @@
             resize: none;
             /* 禁用調整大小功能 */
         }
+
+        .card {
+            border-top: 3px solid #435ebe;
+        }
+
+        html[data-bs-theme=dark] .card {
+            border-top: 3px solid rgb(142, 158, 216);
+        }
     </style>
 </head>
 

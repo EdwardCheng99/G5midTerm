@@ -127,8 +127,16 @@ $c = ":"
         #mainTable td:nth-child(4) {
             width: 10em;
         }
+        
+        
     </style>
     <?php include("../headlink.php") ?>
+    <style>
+        textarea {
+            resize: none;
+            /* 禁用調整大小功能 */
+        }
+    </style>
 
 </head>
 
@@ -321,10 +329,10 @@ $c = ":"
                                                             <a href="Edit-communicator.php?id=<?= $user["PetCommID"] ?>"> <i class="fa-solid fa-pen-to-square fa-lg"></i></a>
                                                         </td>
                                                         <td>
-                                                            <a href="petcommunicator.php?id=<?= $user["PetCommID"] ?>"><i class="fa-solid fa-circle-info"></i></a>
+                                                            <a href="WarningAlert.php?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&del=<?= $user["PetCommID"] ?>&order=<?= $order ?>&perPage=<?= $per_page ?><?=isset($_GET["search"]) ? "&search=".$search : ""?>"><i class="fa-solid fa-trash-can"></i></a>
                                                         </td>
                                                         <td>
-                                                            <a id="delBtn" href="?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&del=<?= $user["PetCommID"] ?>&perPage=<?= $per_page ?>"><i class="fa-solid fa-trash-can"></i></a>
+                                                            <button class="btn btn-outline-primary card-control " id="cardControl-<?= $user["PetCommID"] ?>"><i class="fa-solid fa-angles-down"></i></button>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach ?>

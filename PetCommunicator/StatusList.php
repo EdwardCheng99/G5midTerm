@@ -20,7 +20,7 @@ if (isset($_GET["p"]) && isset($_GET["order"]) && isset($_GET["perPage"])) {
     if (!isset($_GET["search"])) {
         $sql = "SELECT * FROM Petcommunicator WHERE valid=1 AND PetCommStatus = '未刊登' ORDER BY $orderID $orderValue LIMIT $start_item, $per_page ";
         $stmt = $dbHost->prepare($sql);
-    }elseif (isset($_GET["search"])) {
+    } elseif (isset($_GET["search"])) {
         $search = $_GET["search"];
         $sql = "SELECT * FROM Petcommunicator WHERE PetCommName LIKE :search AND valid=1 AND PetCommStatus = '未刊登' ORDER BY $orderID $orderValue";
         $stmt = $dbHost->prepare($sql);
@@ -45,6 +45,7 @@ $total_page = ceil($CommCounts / $per_page);
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -94,11 +95,21 @@ $total_page = ceil($CommCounts / $per_page);
         .comment-row.open {
             max-height: 500px;
         }
+
         .dataTable-sorter {
-    padding-right: 16px;
-}
+            padding-right: 16px;
+        }
+
+        .card {
+            border-top: 3px solid #435ebe;
+        }
+
+        html[data-bs-theme=dark] .card {
+            border-top: 3px solid rgb(142, 158, 216);
+        }
     </style>
 </head>
+
 <body>
     <script src="../assets/static/js/initTheme.js"></script>
     <div id="app">
@@ -134,9 +145,9 @@ $total_page = ceil($CommCounts / $per_page);
                             <div class="dataTable-search">
                                 <form action="">
                                     <div class="input-group ">
-                                        <input type="search" class="form-control" name="search" placeholder="請搜尋溝通師名稱..." value="<?=isset($_GET["search"]) ? $search : ""?>">
-                                        <input type="hidden" name="perPage" value="<?=$per_page?>">
-                                        <input type="hidden" name="p" value="<?=$page?>">
+                                        <input type="search" class="form-control" name="search" placeholder="請搜尋溝通師名稱..." value="<?= isset($_GET["search"]) ? $search : "" ?>">
+                                        <input type="hidden" name="perPage" value="<?= $per_page ?>">
+                                        <input type="hidden" name="p" value="<?= $page ?>">
                                         <input type="hidden" name="order" value="PetCommID:DESC">
                                         <button type="submit" class="btn btn-primary">搜尋</button>
                                     </div>
@@ -193,12 +204,12 @@ $total_page = ceil($CommCounts / $per_page);
                                             <thead>
                                                 <!-- 類別標題 -->
                                                 <tr>
-                                                    <th data-sortable="" class="<?= $orderID == 'PetCommID' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" aria-sort="descending"><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?><?=isset($_GET["search"]) ? "&search=".$search : ""?>" class="dataTable-sorter">編號</a></th>
-                                                    <th class="<?= $orderID == 'PetCommName' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommName:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?><?=isset($_GET["search"]) ? "&search=".$search : ""?>" class="dataTable-sorter">名稱</a></th>
-                                                    <th class="<?= $orderID == 'PetCommSex' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommSex:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?><?=isset($_GET["search"]) ? "&search=".$search : ""?>" class="dataTable-sorter">性別</a></th>
-                                                    <th class="<?= $orderID == 'PetCommCertificateid' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateid:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?><?=isset($_GET["search"]) ? "&search=".$search : ""?>" class="dataTable-sorter">證書編號</a></th>
-                                                    <th class="<?= $orderID == 'PetCommCertificateDate' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?><?=isset($_GET["search"]) ? "&search=".$search : ""?>" class="dataTable-sorter">取證日期</a></th>
-                                                    <th class="<?= $orderID == 'PetCommStatus' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommStatus:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?><?=isset($_GET["search"]) ? "&search=".$search : ""?>" class="dataTable-sorter">刊登狀態</a></th>
+                                                    <th data-sortable="" class="<?= $orderID == 'PetCommID' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" aria-sort="descending"><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?><?= isset($_GET["search"]) ? "&search=" . $search : "" ?>" class="dataTable-sorter">編號</a></th>
+                                                    <th class="<?= $orderID == 'PetCommName' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommName:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?><?= isset($_GET["search"]) ? "&search=" . $search : "" ?>" class="dataTable-sorter">名稱</a></th>
+                                                    <th class="<?= $orderID == 'PetCommSex' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommSex:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?><?= isset($_GET["search"]) ? "&search=" . $search : "" ?>" class="dataTable-sorter">性別</a></th>
+                                                    <th class="<?= $orderID == 'PetCommCertificateid' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateid:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?><?= isset($_GET["search"]) ? "&search=" . $search : "" ?>" class="dataTable-sorter">證書編號</a></th>
+                                                    <th class="<?= $orderID == 'PetCommCertificateDate' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?><?= isset($_GET["search"]) ? "&search=" . $search : "" ?>" class="dataTable-sorter">取證日期</a></th>
+                                                    <th class="<?= $orderID == 'PetCommStatus' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommStatus:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?><?= isset($_GET["search"]) ? "&search=" . $search : "" ?>" class="dataTable-sorter">刊登狀態</a></th>
                                             </thead>
                                             <tbody>
                                                 <?php foreach ($rows as $user): ?>
@@ -301,4 +312,5 @@ $total_page = ceil($CommCounts / $per_page);
             })
     </script>
 </body>
+
 </html>
