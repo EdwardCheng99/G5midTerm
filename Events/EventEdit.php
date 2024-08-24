@@ -113,7 +113,7 @@ if (isset($event['EventLocation'])) {
         .image-preview-wrapper {
             width: 100%;
             /* 設置預覽框的寬度 */
-            height: 250px;
+            height: 400px;
             /* 設置預覽框的高度 */
             border: 1px solid lightgrey;
             border-radius: 0 0 4px 4px;
@@ -210,7 +210,7 @@ if (isset($event['EventLocation'])) {
                 <div class="card">
                     <div class="card-body">
                         <div class="mb-3">
-                            <label for="EventTitle" class="form-label col-3">活動標題</label>
+                            <label for="EventTitle" class="form-label col-3 required">活動標題</label>
                             <div class="col">
                                 <input type="text" class="form-control mb-3" id="EventTitle" name="EventTitle"
                                     value="<?= $event["EventTitle"] ?>" placeholder="輸入活動標題" required>
@@ -243,7 +243,7 @@ if (isset($event['EventLocation'])) {
 
                             <input type="hidden" id="EventInfo" name="EventInfo" require>
                         </div>
-                        <div class="mb-3">
+                        <!-- <div class="mb-3">
                             <label for="eventTag" class="form-label col-3">活動標籤</label>
                             <div class="form-group">
                                 <select class="choices form-select multiple-remove" multiple="multiple" id="eventTag" name="eventTag">
@@ -256,7 +256,7 @@ if (isset($event['EventLocation'])) {
                                     <option value="pet" selected>寵物</option>
                                 </select>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="card">
