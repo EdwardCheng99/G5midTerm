@@ -139,8 +139,8 @@ try {
                                         </div>
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
-                                                <label for="" class="">訂單滿額</label>
-                                                <input type="number" name="" class="form-control" id="ConditionMinValue" placeholder="" value="<?= intval($row["ConditionMinValue"])  ?>">
+                                                <label for="" class="">條件值</label>
+                                                <input type="number" name="" class="form-control" id="ConditionMinValue" placeholder="" value="<?= (isset($row["ConditionMinValue"])) ? intval($row["ConditionMinValue"]) : null ?>">
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-12">
@@ -163,7 +163,7 @@ try {
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
                                                 <label for="" class="required">折扣數</label>
-                                                <input type="number" name="" class="form-control" id="Value" placeholder="" value="<?= intval($row["Value"]) ?>">
+                                                <input type="number" name="" class="form-control" id="Value" placeholder="" value="<?= (isset($row["Value"])) ? intval($row["Value"]) : null ?>">
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-12">
@@ -219,7 +219,7 @@ try {
                                         </div>
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
-                                                <label for="" class="required">啟用狀態</label>
+                                                <label for="" class="required">上架狀態</label>
                                                 <select class="form-select" name="" id="EnableStatus">
                                                     <?php
                                                     if (!empty($EnableStatus_options)) {
@@ -369,12 +369,12 @@ try {
                 .done(function(response) {
                     let status = response.status;
                     if (status == 0) {
-                        info.textContent = response.message;
+                        info.innerHTML = response.message;
                         infoModal.show();
                         return;
                     }
                     if (status == 1) {
-                        info.textContent = response.message
+                        info.innerHTML = response.message
                         infoModal.show();
                         return;
                     }
