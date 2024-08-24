@@ -45,8 +45,8 @@
                     <div class="page-title">
                         <div class="row">
                             <div class="col-12 col-md-6">
-                                <a href="ArticleList.php" class="btn btn-primary mb-5">回文章列表</a>
-                                <h1>新增文章</h1>
+                            <a href="ArticleList.php" class="btn btn-primary mb-5">回列表</a>
+                            <h1>新增文章</h1>
                             </div>
 
                             <div class="col-12 col-md-6 order-md-2 order-first">
@@ -110,12 +110,12 @@
                                 <div class="mb-3">
                                     <label for="start_time" class="form-label">上架時間</label>
                                     <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input"
-                                        id="start_time" placeholder="Select date.." name="start_time" required>
+                                        id="start_time" placeholder="文章發佈時間" name="start_time" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="end_time" class="form-label">下架時間</label>
                                     <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input"
-                                        id="end_time" placeholder="Select date.." name="end_time" required>
+                                        id="end_time" placeholder="文章下架時間" name="end_time" required>
                                 </div>
 
                                 <label for="tag" class="form-label mt-5">文章狀態</label>

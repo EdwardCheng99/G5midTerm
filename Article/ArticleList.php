@@ -65,7 +65,7 @@ try {
     }
     if (isset($_GET["end_time"]) && !empty($_GET["end_time"])) {
         $end_time = $_GET["end_time"];
-        $sql .= " AND ArticleEndTime <= '$end_time'";
+        $sql .= " AND ArticleStartTime <= '$end_time'";
     }
 
     $sql .= " $orderBy LIMIT $start_item, $per_page";
@@ -87,7 +87,7 @@ try {
     }
     if (isset($_GET["end_time"]) && !empty($_GET["end_time"])) {
         $end_time = $_GET["end_time"];
-        $sqlAll .= " AND ArticleEndTime <= '$end_time'";
+        $sqlAll .= " AND ArticleStartTime <= '$end_time'";
     }
 
     $stmtCount = $dbHost->query($sqlAll);
@@ -212,11 +212,7 @@ try {
                         <table class="table table-striped dataTable-table" id="table1">
                             <thead>
                                 <tr>
-                                    <th data-sortable="" class="<?=(($sorter == 1) ? -1 : 1)==1 ? "asc" :"desc" ?>"
-                                        aria-sort="descending">
-                                        <a href="ArticleList.php?p=<?= $page ?>&sorter=<?= ($sorter == 1) ? -1 : 1 ?>&searchName=<?= $_GET["searchName"] ?? '' ?>&start_time=<?= $_GET["start_time"] ?? '' ?>&end_time=<?= $_GET["end_time"] ?? '' ?>&per_page=<?= $per_page ?>"
-                                            class="dataTable-sorter">編號</a>
-                                    </th>
+                                    <th>編號</th>
                                     <th>封面圖片 </th>
                                     <th data-sortable="" class="<?=(($sorter == 2) ? -2 : 2)==2 ? "asc" :"desc" ?>"
                                         aria-sort="descending">
@@ -269,8 +265,8 @@ try {
                                     </td>
                                     <?php endforeach; ?>
                                     <?php else: ?>
-                                       <td colspan="8">目前沒有匹配查詢的文章</td>
-                                <?php endif;?>
+                                    <td colspan="8">目前沒有匹配查詢的文章</td>
+                                    <?php endif;?>
                                 </tr>
                             </tbody>
                         </table>
@@ -280,7 +276,8 @@ try {
                     <!-- 頁數 -->
                     <div class="dataTable-bottom">
                         <div class="dataTable-info ps-3">
-                            顯示第 <?= $start_item + 1 ?> 到第 <?= min($start_item + $per_page, $start_item + $articleAll) ?> 筆，總共
+                            顯示第 <?= $start_item + 1 ?> 到第 <?= min($start_item + $per_page, $start_item + $articleAll) ?>
+                            筆，總共
                             <?= $articleCountAll ?> 筆
                             <?php endif; ?>
                         </div>
@@ -306,7 +303,7 @@ try {
                                 <?php if ($page < $total_page): ?>
                                 <li class="page-item">
                                     <a class="page-link"
-                                        href="ArticleList.php?p=<?= $page + 1 ?>&searchName=<?= $_GET["searchName"] ?? '' ?>&start_time=<?= $_GET["start_time"] ?? '' ?>&end_time=<?= $_GET["end_time"] ?? '' ?>&sorter=<?= $sorter ?>">
+                                        href="ArticleList.php?p=<?= $total_page ?>&searchName=<?= $_GET["searchName"] ?? '' ?>&start_time=<?= $_GET["start_time"] ?? '' ?>&end_time=<?= $_GET["end_time"] ?? '' ?>&per_page=<?= $per_page ?>&sorter=<?= $sorter ?>">
                                         <span aria-hidden="true"><i class="bi bi-chevron-double-right"></i></span>
                                     </a>
                                 </li>
