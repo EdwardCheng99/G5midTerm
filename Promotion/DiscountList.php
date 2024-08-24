@@ -22,6 +22,7 @@ $searchPromotionType = isset($_GET["searchPromotionType"]) ? $_GET["searchPromot
 $searchStartTime = isset($_GET["searchStartTime"]) ? $_GET["searchStartTime"] : '';
 $searchEndTime = isset($_GET["searchEndTime"]) ? $_GET["searchEndTime"] : '';
 $searchEnableStatus = isset($_GET["searchEnableStatus"]) ? $_GET["searchEnableStatus"] : '';
+$searchCalculateType = isset($_GET["searchCalculateType"]) ? $_GET["searchCalculateType"] : '';
 
 
 // 定義陣列要存查詢條件SQL語法與對應參數
@@ -48,6 +49,11 @@ if ((isset($searchStartTime) && $searchStartTime !== "") && (isset($searchEndTim
 if (isset($searchEnableStatus)  && $searchEnableStatus !== "") {
     $conditions[] = "d.EnableStatus = :searchEnableStatus";
     $params[':searchEnableStatus'] = $searchEnableStatus;
+}
+
+if (isset($searchCalculateType)  && $searchCalculateType !== "") {
+    $conditions[] = "d.CalculateType = :searchCalculateType";
+    $params[':searchCalculateType'] = $searchCalculateType;
 }
 
 
@@ -202,11 +208,21 @@ try {
                                     </div>
                                     <div class="col-lg-3 col-md-4 col-12">
                                         <div class="input-group mb-3">
-                                            <label class="input-group-text" for="inputGroupSelect01">啟用狀態</label>
+                                            <label class="input-group-text" for="inputGroupSelect01">計算方式</label>
+                                            <select class="form-select" id="inputGroupSelect01" name="searchCalculateType">
+                                                <option value="" <?= ($searchCalculateType == "") ? 'selected' : '' ?>>全部</option>
+                                                <option value="1" <?= ($searchCalculateType == 1) ? 'selected' : '' ?>>%</option>
+                                                <option value="2" <?= ($searchCalculateType == 2) ? 'selected' : '' ?>>元</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-12">
+                                        <div class="input-group mb-3">
+                                            <label class="input-group-text" for="inputGroupSelect01">上架狀態</label>
                                             <select class="form-select" id="inputGroupSelect01" name="searchEnableStatus">
                                                 <option value="" <?= ($searchEnableStatus == "") ? 'selected' : '' ?>>全部</option>
-                                                <option value="1" <?= ($searchEnableStatus == 1) ? 'selected' : '' ?>>啟用</option>
-                                                <option value="0" <?= ($searchEnableStatus == 0) ? 'selected' : '' ?>>停用</option>
+                                                <option value="1" <?= ($searchEnableStatus == 1) ? 'selected' : '' ?>>上架</option>
+                                                <option value="0" <?= ($searchEnableStatus == 0) ? 'selected' : '' ?>>下架</option>
                                             </select>
                                         </div>
                                     </div>
@@ -238,7 +254,7 @@ try {
 
                                         </div>
                                         <div class="col-auto">
-                                            <a class="btn btn-primary me-1 mb-1" href="DiscountCreate.php"><i class="fa-solid fa-circle-plus"></i></a>
+                                            <a class="btn btn-primary me-1 mb-1" href="DiscountCreate.php"><i class="fa-solid fa-plus"></i></a>
                                         </div>
                                     </div>
                                     <div class="dataTable-container table-responsive">
@@ -275,11 +291,11 @@ try {
                                                                 } ?>" onclick="sortTable('Value')">
                                                         <a href="#" class="dataTable-sorter">折扣數</a>
                                                     </th>
-                                                    <th class="<?php if ($sortBy == "CalculateType") {
-                                                                    echo $sortOrder == "asc" ? 'asc' : 'desc';
-                                                                } ?>" onclick="sortTable('CalculateType')">
+                                                    <!-- <th class="<?php if ($sortBy == "CalculateType") {
+                                                                        echo $sortOrder == "asc" ? 'asc' : 'desc';
+                                                                    } ?>" onclick="sortTable('CalculateType')">
                                                         <a href="#" class="dataTable-sorter">計算方式</a>
-                                                    </th>
+                                                    </th> -->
                                                     <th class="<?php if ($sortBy == "MemberLevel") {
                                                                     echo $sortOrder == "asc" ? 'asc' : 'desc';
                                                                 } ?>" onclick="sortTable('MemberLevel')">
@@ -293,7 +309,7 @@ try {
                                                     <th class="<?php if ($sortBy == "EnableStatus") {
                                                                     echo $sortOrder == "asc" ? 'asc' : 'desc';
                                                                 } ?>" onclick="sortTable('EnableStatus')">
-                                                        <a href="#" class="dataTable-sorter">啟用狀態</a>
+                                                        <a href="#" class="dataTable-sorter">上架狀態</a>
                                                     </th>
                                                     <th></th>
                                                     <th></th>
@@ -307,10 +323,10 @@ try {
                                                         <td><?= $discount["StartTime"] ?> ~<br> <?= $discount["EndTime"] ?></td>
                                                         <td><?= $discount["PromotionConditionDP"] ?></td>
                                                         <td><?php if ($discount["ConditionMinValue"] != 0) {
-                                                                echo number_format($discount["ConditionMinValue"]);
+                                                                echo number_format($discount["ConditionMinValue"]) . "元";
                                                             } ?></td>
-                                                        <td><?= number_format($discount["Value"]) ?></td>
-                                                        <td><?= $discount["CalculateTypeDP"] ?></td>
+                                                        <td><?= number_format($discount["Value"]) . $discount["CalculateTypeDP"] ?></td>
+                                                        <!-- <td><?= $discount["CalculateTypeDP"] ?></td> -->
                                                         <td><?= $discount["MemberLevelDP"] ?></td>
                                                         <td><?= $discount["PromotionTypeDP"] ?></td>
                                                         <td><?= $discount["EnableStatusDP"] ?></td>
