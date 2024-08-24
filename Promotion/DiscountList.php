@@ -8,9 +8,9 @@ if (isset($_SESSION['SESmessage'])) {
     echo "
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('info').innerText = '$message';
-            var myModal = new bootstrap.Modal(document.getElementById('infoModal'));
-            myModal.show();
+            document.querySelector('#info').innerHTML = '$message';
+            var infoModal = new bootstrap.Modal(document.querySelector('#infoModal'));
+            infoModal.show();
         });
     </script>";
     unset($_SESSION['SESmessage']); // 顯示後清除訊息
@@ -41,7 +41,7 @@ if (isset($searchPromotionType)  && $searchPromotionType !== "") {
 }
 
 if ((isset($searchStartTime) && $searchStartTime !== "") && (isset($searchEndTime) && $searchEndTime !== "")) {
-    $conditions[] = "(d.StartTime <= :searchStartTime AND d.EndTime >= :searchEndTime)";
+    $conditions[] = "(d.StartTime >= :searchStartTime AND d.EndTime <= :searchEndTime)";
     $params[':searchStartTime'] = $searchStartTime;
     $params[':searchEndTime'] = $searchEndTime;
 }
@@ -123,6 +123,7 @@ try {
     $stmtsql->bindValue(':per_page', $per_page, PDO::PARAM_INT);
     $stmtsql->execute();
     $discountsql = $stmtsql->fetchAll(PDO::FETCH_ASSOC);
+    $discountcount = $stmtsql->rowCount();
 } catch (PDOException $e) {
     echo "預處理陳述式執行失敗！ <br/>";
     echo "Error: " . $e->getMessage() . "<br/>";
@@ -227,8 +228,10 @@ try {
                                         </div>
                                     </div>
                                     <div class="col-auto">
-                                        <button type="submit" class="btn btn-primary me-1 mb-1"><i class="fa-solid fa-magnifying-glass" id="searchbtn"></i></button>
-                                        <a class="btn btn-light-secondary me-1 mb-1" href="DiscountList.php" id="resetBtn"><i class="fa-solid fa-delete-left"></i></a>
+                                        <!-- <button type="submit" class="btn btn-primary me-1 mb-1"><i class="fa-solid fa-magnifying-glass" id="searchbtn"></i></button> -->
+                                        <button type="submit" class="btn btn-primary me-1 mb-1">查詢</button>
+                                        <!-- <a class="btn btn-light-secondary me-1 mb-1" href="DiscountList.php" id="resetBtn"><i class="fa-solid fa-delete-left"></i></a> -->
+                                        <a class="btn btn-light-secondary me-1 mb-1" href="DiscountList.php" id="resetBtn">清除</a>
                                     </div>
                                 </div>
                             </div>
@@ -237,161 +240,169 @@ try {
                         <div class="card">
                             <div class="card-body">
                                 <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-                                    <div class="dataTable-top">
-                                        <div class="col-auto">
-                                            <label>每頁</label>
-                                            <div class="dataTable-dropdown">
-                                                <select class="dataTable-selector form-select" id="itemsPerPage" name="per_page" onchange="this.form.submit()">
-                                                    <option value="5" <?= ($per_page == 5) ? 'selected' : '' ?>>5</option>
-                                                    <option value="10" <?= ($per_page == 10) ? 'selected' : '' ?>>10</option>
-                                                    <option value="15" <?= ($per_page == 15) ? 'selected' : '' ?>>15</option>
-                                                    <option value="20" <?= ($per_page == 20) ? 'selected' : '' ?>>20</option>
-                                                    <option value="25" <?= ($per_page == 25) ? 'selected' : '' ?>>25</option>
-                                                </select>
+                                    <?php if ($discountcount > 0): ?>
+                                        <div class="dataTable-top">
+                                            <div class="col-auto">
+                                                <label>每頁</label>
+                                                <div class="dataTable-dropdown">
+                                                    <select class="dataTable-selector form-select" id="itemsPerPage" name="per_page" onchange="this.form.submit()">
+                                                        <option value="5" <?= ($per_page == 5) ? 'selected' : '' ?>>5</option>
+                                                        <option value="10" <?= ($per_page == 10) ? 'selected' : '' ?>>10</option>
+                                                        <option value="15" <?= ($per_page == 15) ? 'selected' : '' ?>>15</option>
+                                                        <option value="20" <?= ($per_page == 20) ? 'selected' : '' ?>>20</option>
+                                                        <option value="25" <?= ($per_page == 25) ? 'selected' : '' ?>>25</option>
+                                                    </select>
+
+                                                </div>
+                                                <label>筆</label>
 
                                             </div>
-                                            <label>筆</label>
+                                            <div class="col-auto">
+                                                <!-- <a class="btn btn-primary me-1 mb-1" href="DiscountCreate.php"><i class="fa-solid fa-plus"></i></a> -->
+                                                <a class="btn btn-primary me-1 mb-1" href="DiscountCreate.php">新增</a>
+                                            </div>
+                                        </div>
 
-                                        </div>
-                                        <div class="col-auto">
-                                            <a class="btn btn-primary me-1 mb-1" href="DiscountCreate.php"><i class="fa-solid fa-plus"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="dataTable-container table-responsive">
-                                        <table class="table table-striped table-hover dataTable-table mb-0">
-                                            <thead>
-                                                <tr class="text-nowrap">
-                                                    <th class="<?php if ($sortBy == "ID") {
-                                                                    echo $sortOrder == "asc" ? 'asc' : 'desc';
-                                                                } ?>" onclick="sortTable('ID')">
-                                                        <a href="#" class="dataTable-sorter">ID</a>
-                                                    </th>
-                                                    <th class="<?php if ($sortBy == "Name") {
-                                                                    echo $sortOrder == "asc" ? 'asc' : 'desc';
-                                                                } ?>" onclick="sortTable('Name')">
-                                                        <a href="#" class="dataTable-sorter">促銷名稱</a>
-                                                    </th>
-                                                    <th class="<?php if ($sortBy == "StartTime") {
-                                                                    echo $sortOrder == "asc" ? 'asc' : 'desc';
-                                                                } ?>" onclick="sortTable('StartTime')" style="min-width:190px">
-                                                        <a href="#" class="dataTable-sorter">促銷時間</a>
-                                                    </th>
-                                                    <th class="<?php if ($sortBy == "PromotionCondition") {
-                                                                    echo $sortOrder == "asc" ? 'asc' : 'desc';
-                                                                } ?>" onclick="sortTable('PromotionCondition')">
-                                                        <a href="#" class="dataTable-sorter">滿足條件</a>
-                                                    </th>
-                                                    <th class="<?php if ($sortBy == "ConditionMinValue") {
-                                                                    echo $sortOrder == "asc" ? 'asc' : 'desc';
-                                                                } ?>" onclick="sortTable('ConditionMinValue')">
-                                                        <a href="#" class="dataTable-sorter">條件值</a>
-                                                    </th>
-                                                    <th class="<?php if ($sortBy == "Value") {
-                                                                    echo $sortOrder == "asc" ? 'asc' : 'desc';
-                                                                } ?>" onclick="sortTable('Value')">
-                                                        <a href="#" class="dataTable-sorter">折扣數</a>
-                                                    </th>
-                                                    <!-- <th class="<?php if ($sortBy == "CalculateType") {
+                                        <div class="dataTable-container table-responsive">
+                                            <table class="table table-striped table-hover dataTable-table mb-0">
+                                                <thead>
+                                                    <tr class="text-nowrap">
+                                                        <th class="<?php if ($sortBy == "ID") {
                                                                         echo $sortOrder == "asc" ? 'asc' : 'desc';
-                                                                    } ?>" onclick="sortTable('CalculateType')">
+                                                                    } ?>" onclick="sortTable('ID')">
+                                                            <a href="#" class="dataTable-sorter">ID</a>
+                                                        </th>
+                                                        <th class="<?php if ($sortBy == "Name") {
+                                                                        echo $sortOrder == "asc" ? 'asc' : 'desc';
+                                                                    } ?>" onclick="sortTable('Name')">
+                                                            <a href="#" class="dataTable-sorter">促銷名稱</a>
+                                                        </th>
+                                                        <th class="<?php if ($sortBy == "StartTime") {
+                                                                        echo $sortOrder == "asc" ? 'asc' : 'desc';
+                                                                    } ?>" onclick="sortTable('StartTime')" style="min-width:190px">
+                                                            <a href="#" class="dataTable-sorter">促銷時間</a>
+                                                        </th>
+                                                        <th class="<?php if ($sortBy == "PromotionCondition") {
+                                                                        echo $sortOrder == "asc" ? 'asc' : 'desc';
+                                                                    } ?>" onclick="sortTable('PromotionCondition')">
+                                                            <a href="#" class="dataTable-sorter">滿足條件</a>
+                                                        </th>
+                                                        <th class="<?php if ($sortBy == "ConditionMinValue") {
+                                                                        echo $sortOrder == "asc" ? 'asc' : 'desc';
+                                                                    } ?>" onclick="sortTable('ConditionMinValue')">
+                                                            <a href="#" class="dataTable-sorter">條件值</a>
+                                                        </th>
+                                                        <th class="<?php if ($sortBy == "Value") {
+                                                                        echo $sortOrder == "asc" ? 'asc' : 'desc';
+                                                                    } ?>" onclick="sortTable('Value')">
+                                                            <a href="#" class="dataTable-sorter">折扣數</a>
+                                                        </th>
+                                                        <!-- <th class="<?php if ($sortBy == "CalculateType") {
+                                                                            echo $sortOrder == "asc" ? 'asc' : 'desc';
+                                                                        } ?>" onclick="sortTable('CalculateType')">
                                                         <a href="#" class="dataTable-sorter">計算方式</a>
                                                     </th> -->
-                                                    <th class="<?php if ($sortBy == "MemberLevel") {
-                                                                    echo $sortOrder == "asc" ? 'asc' : 'desc';
-                                                                } ?>" onclick="sortTable('MemberLevel')">
-                                                        <a href="#" class="dataTable-sorter">會員等級</a>
-                                                    </th>
-                                                    <th class="<?php if ($sortBy == "PromotionType") {
-                                                                    echo $sortOrder == "asc" ? 'asc' : 'desc';
-                                                                } ?>" onclick="sortTable('PromotionType')">
-                                                        <a href="#" class="dataTable-sorter">促銷方式</a>
-                                                    </th>
-                                                    <th class="<?php if ($sortBy == "EnableStatus") {
-                                                                    echo $sortOrder == "asc" ? 'asc' : 'desc';
-                                                                } ?>" onclick="sortTable('EnableStatus')">
-                                                        <a href="#" class="dataTable-sorter">上架狀態</a>
-                                                    </th>
-                                                    <th></th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php foreach ($discountsql as $discount): ?>
-                                                    <tr>
-                                                        <td><?= $discount["ID"] ?></td>
-                                                        <td><?= $discount["Name"] ?></td>
-                                                        <td><?= $discount["StartTime"] ?> ~<br> <?= $discount["EndTime"] ?></td>
-                                                        <td><?= $discount["PromotionConditionDP"] ?></td>
-                                                        <td><?php if ($discount["ConditionMinValue"] != 0) {
-                                                                echo number_format($discount["ConditionMinValue"]) . "元";
-                                                            } ?></td>
-                                                        <td><?= number_format($discount["Value"]) . $discount["CalculateTypeDP"] ?></td>
-                                                        <!-- <td><?= $discount["CalculateTypeDP"] ?></td> -->
-                                                        <td><?= $discount["MemberLevelDP"] ?></td>
-                                                        <td><?= $discount["PromotionTypeDP"] ?></td>
-                                                        <td><?= $discount["EnableStatusDP"] ?></td>
-                                                        <td>
-                                                            <a class="btn btn-primary" href="DiscountEdit.php?id=<?= $discount["ID"] ?>"> <i class="fa-solid fa-pen-to-square"></i></a>
-                                                        </td>
-                                                        <td>
-                                                            <a href="#" class="btn btn-primary delete-btn"
-                                                                data-id="<?= $discount["ID"] ?>"
-                                                                data-name="<?= $discount["Name"] ?>"
-                                                                data-starttime="<?= $discount["StartTime"] ?>"
-                                                                data-endtime="<?= $discount["EndTime"] ?>"><i class="fa-solid fa-trash-can"></i></a>
-                                                        </td>
+                                                        <th class="<?php if ($sortBy == "MemberLevel") {
+                                                                        echo $sortOrder == "asc" ? 'asc' : 'desc';
+                                                                    } ?>" onclick="sortTable('MemberLevel')">
+                                                            <a href="#" class="dataTable-sorter">會員等級</a>
+                                                        </th>
+                                                        <th class="<?php if ($sortBy == "PromotionType") {
+                                                                        echo $sortOrder == "asc" ? 'asc' : 'desc';
+                                                                    } ?>" onclick="sortTable('PromotionType')">
+                                                            <a href="#" class="dataTable-sorter">促銷方式</a>
+                                                        </th>
+                                                        <th class="<?php if ($sortBy == "EnableStatus") {
+                                                                        echo $sortOrder == "asc" ? 'asc' : 'desc';
+                                                                    } ?>" onclick="sortTable('EnableStatus')">
+                                                            <a href="#" class="dataTable-sorter">上架狀態</a>
+                                                        </th>
+                                                        <th></th>
+                                                        <th></th>
                                                     </tr>
-                                                <?php endforeach; ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="dataTable-bottom mt-3">
-                                        <div class="dataTable-info">顯示 <?= $offset + 1 ?> 到 <?= min($offset + $per_page, $discountAllcount) ?> 筆，共 <?= $total_page ?> 頁，共 <?= $discountAllcount ?> 筆</div>
-                                        <nav aria-label="Page navigation example">
-                                            <ul class="pagination pagination-primary">
-                                                <!-- 回到第一頁 -->
-                                                <li class="page-item <?= ($page == 1) ? 'd-none' : '' ?>">
-                                                    <a class="page-link" href="#" id="firstPage">
-                                                        <span aria-hidden="true"><i class="fa-solid fa-angles-left"></i></span>
-                                                    </a>
-                                                </li>
-                                                <!-- 上一頁 -->
-                                                <li class="page-item <?= ($page == 1) ? 'd-none' : '' ?>">
-                                                    <a class="page-link" href="#" id="prevPage">
-                                                        <span aria-hidden="true"><i class="fa-solid fa-angle-left"></i></span>
-                                                    </a>
-                                                </li>
+                                                </thead>
+                                                <tbody>
 
-                                                <!-- 顯示頁碼 -->
-                                                <?php
-                                                //限制頁碼只出現前兩筆與後兩筆
-                                                $start_page = max(1, $page - 2);  // 確保開始頁碼不小於1
-                                                $end_page = min($total_page, $page + 2);  // 確保結束頁碼不大於總頁數
+                                                    <?php foreach ($discountsql as $discount): ?>
+                                                        <tr>
+                                                            <td><?= $discount["ID"] ?></td>
+                                                            <td><?= $discount["Name"] ?></td>
+                                                            <td><?= $discount["StartTime"] ?> ~<br> <?= $discount["EndTime"] ?></td>
+                                                            <td><?= $discount["PromotionConditionDP"] ?></td>
+                                                            <td><?php if ($discount["ConditionMinValue"] != 0) {
+                                                                    echo number_format($discount["ConditionMinValue"]) . "元";
+                                                                } ?></td>
+                                                            <td><?= number_format($discount["Value"]) . $discount["CalculateTypeDP"] ?></td>
+                                                            <!-- <td><?= $discount["CalculateTypeDP"] ?></td> -->
+                                                            <td><?= $discount["MemberLevelDP"] ?></td>
+                                                            <td><?= $discount["PromotionTypeDP"] ?></td>
+                                                            <td><?= $discount["EnableStatusDP"] ?></td>
+                                                            <td>
+                                                                <a class="" href="DiscountEdit.php?id=<?= $discount["ID"] ?>"> <i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+                                                            </td>
+                                                            <td>
+                                                                <a href="#" class=" delete-btn"
+                                                                    data-id="<?= $discount["ID"] ?>"
+                                                                    data-name="<?= $discount["Name"] ?>"
+                                                                    data-starttime="<?= $discount["StartTime"] ?>"
+                                                                    data-endtime="<?= $discount["EndTime"] ?>"><i class="fa-solid fa-trash-can fa-lg"></i></a>
+                                                            </td>
+                                                        </tr>
+                                                    <?php endforeach; ?>
 
-                                                for ($i = $start_page; $i <= $end_page; $i++): ?>
-                                                    <li class="page-item <?= ($page == $i) ? 'active' : '' ?>">
-                                                        <a class="page-link page-link-js" href="#" data-page="<?= $i ?>">
-                                                            <?= $i ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="dataTable-bottom mt-3">
+                                            <div class="dataTable-info">顯示 <?= $offset + 1 ?> 到 <?= min($offset + $per_page, $discountAllcount) ?> 筆，共 <?= $total_page ?> 頁，共 <?= $discountAllcount ?> 筆</div>
+                                            <nav aria-label="Page navigation example">
+                                                <ul class="pagination pagination-primary">
+                                                    <!-- 回到第一頁 -->
+                                                    <li class="page-item <?= ($page == 1) ? 'd-none' : '' ?>">
+                                                        <a class="page-link" href="#" id="firstPage">
+                                                            <span aria-hidden="true"><i class="fa-solid fa-angles-left"></i></span>
                                                         </a>
                                                     </li>
-                                                <?php endfor; ?>
+                                                    <!-- 上一頁 -->
+                                                    <li class="page-item <?= ($page == 1) ? 'd-none' : '' ?>">
+                                                        <a class="page-link" href="#" id="prevPage">
+                                                            <span aria-hidden="true"><i class="fa-solid fa-angle-left"></i></span>
+                                                        </a>
+                                                    </li>
 
-                                                <!-- 下一頁 -->
-                                                <li class="page-item <?= ($page == $total_page) ? 'd-none' : '' ?>">
-                                                    <a class="page-link" href="#" id="nextPage">
-                                                        <span aria-hidden="true"><i class="fa-solid fa-angle-right"></i></span>
-                                                    </a>
-                                                </li>
-                                                <!-- 回到最後一頁 -->
-                                                <li class="page-item <?= ($page == $total_page) ? 'd-none' : '' ?>">
-                                                    <a class="page-link" href="#" id="lastPage">
-                                                        <span aria-hidden="true"><i class="fa-solid fa-angles-right"></i></span>
-                                                    </a>
-                                                </li>
+                                                    <!-- 顯示頁碼 -->
+                                                    <?php
+                                                    //限制頁碼只出現前兩筆與後兩筆
+                                                    $start_page = max(1, $page - 2);  // 確保開始頁碼不小於1
+                                                    $end_page = min($total_page, $page + 2);  // 確保結束頁碼不大於總頁數
 
-                                            </ul>
-                                        </nav>
-                                    </div>
+                                                    for ($i = $start_page; $i <= $end_page; $i++): ?>
+                                                        <li class="page-item <?= ($page == $i) ? 'active' : '' ?>">
+                                                            <a class="page-link page-link-js" href="#" data-page="<?= $i ?>">
+                                                                <?= $i ?>
+                                                            </a>
+                                                        </li>
+                                                    <?php endfor; ?>
+
+                                                    <!-- 下一頁 -->
+                                                    <li class="page-item <?= ($page == $total_page) ? 'd-none' : '' ?>">
+                                                        <a class="page-link" href="#" id="nextPage">
+                                                            <span aria-hidden="true"><i class="fa-solid fa-angle-right"></i></span>
+                                                        </a>
+                                                    </li>
+                                                    <!-- 回到最後一頁 -->
+                                                    <li class="page-item <?= ($page == $total_page) ? 'd-none' : '' ?>">
+                                                        <a class="page-link" href="#" id="lastPage">
+                                                            <span aria-hidden="true"><i class="fa-solid fa-angles-right"></i></span>
+                                                        </a>
+                                                    </li>
+
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                    <?php else : ?>
+                                        查無資料，請重新設定查詢條件。
+                                    <?php endif; ?>
                                 </div>
                             </div>
 
@@ -405,6 +416,7 @@ try {
     </div>
     </div>
     <?php include("../js.php") ?>
+
 
     <script>
         // 點擊刪除按鈕後，將用data-set的方式，將資料傳至modal並顯示modal
@@ -424,11 +436,11 @@ try {
 
                 // 輸入錯誤訊息內容
                 document.querySelector('#delete-info').innerHTML = `
-    <p><strong>ID:</strong> <span>${this.getAttribute('data-id')}</span></p>
-    <p><strong>促銷名稱:</strong> <span>${this.getAttribute('data-name')}</span></p>
-    <p><strong>開始時間:</strong> <span>${this.getAttribute('data-starttime')}</span></p>
-    <p><strong>結束時間:</strong> <span>${this.getAttribute('data-endtime')}</span></p>
-`;
+                    <p><strong>ID:</strong> <span>${this.getAttribute('data-id')}</span></p>
+                    <p><strong>促銷名稱:</strong> <span>${this.getAttribute('data-name')}</span></p>
+                    <p><strong>開始時間:</strong> <span>${this.getAttribute('data-starttime')}</span></p>
+                    <p><strong>結束時間:</strong> <span>${this.getAttribute('data-endtime')}</span></p>
+                `;
 
                 deleteModal.show();
             });
@@ -494,10 +506,10 @@ try {
             });
         });
 
-        const prevPageLink = document.getElementById('prevPage');
-        const nextPageLink = document.getElementById('nextPage');
-        const firstPageLink = document.getElementById('firstPage');
-        const lastPageLink = document.getElementById('lastPage');
+        const prevPageLink = document.querySelector('#prevPage');
+        const nextPageLink = document.querySelector('#nextPage');
+        const firstPageLink = document.querySelector('#firstPage');
+        const lastPageLink = document.querySelector('#lastPage');
 
         if (prevPageLink) {
             prevPageLink.addEventListener('click', function(e) {
