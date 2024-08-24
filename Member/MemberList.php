@@ -132,7 +132,6 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
 <body>
 
     <?php include("../Member/modals.php"); ?>
-    <?= $userCount ?>
     <script src="../assets/static/js/initTheme.js"></script>
     <div id="app">
         <?php include("../sidebar.php") ?>
