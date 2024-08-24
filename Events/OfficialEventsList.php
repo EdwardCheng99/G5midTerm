@@ -201,7 +201,7 @@ try {
                                     <div class="col-lg-2 col-md-4 col-12">
                                         <div class="col d-flex align-items-center pt-3">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">查詢</button>
-                                            <button type="reset" class="btn btn-light-secondary me-1 mb-1"><a href="./OfficialEventsList.php?p=1&order=0">清除</a> </button>
+                                            <button type="reset" class="btn btn-light-secondary me-1 mb-1"><a href="./OfficialEventsList.php?p=1&order=0" class="text-body">清除</a> </button>
                                         </div>
                                     </div>
                                 </div>
@@ -211,30 +211,33 @@ try {
                     <!-- ///////////////////////////////////////////////// -->
                     <div class="card">
                         <div class="card-body">
-                            <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-                                <div class="row justify-content-center align-items-center">
-                                    <div class="dataTable-top col">
-                                        <form action="" method="get">
-                                            <input type="hidden" name="p" value="<?= $page ?>">
-                                            <input type="hidden" name="order" value="<?= $order ?>">
-                                            <input type="hidden" name="search" value="<?= $search ?>">
-                                            <input type="hidden" name="start_time" value="<?php echo isset($start_time) ? $start_time : ''; ?>">
-                                            <input type="hidden" name="end_time" value="<?php echo isset($end_time) ? $start_time : ''; ?>">
-                                            <label>每頁</label>
-                                            <div class="dataTable-dropdown">
-                                                <select name="per_page" class="dataTable-selector form-select" onchange="if(this.form)this.form.submit();">
-                                                    <option value="5" <?= ($per_page == 5) ? 'selected' : '' ?>>5</option>
-                                                    <option value="10" <?= ($per_page == 10) ? 'selected' : '' ?>>10</option>
-                                                    <option value="15" <?= ($per_page == 15) ? 'selected' : '' ?>>15</option>
-                                                    <option value="20" <?= ($per_page == 20) ? 'selected' : '' ?>>20</option>
-                                                </select>
-                                            </div>
-                                            <label>筆</label>
-                                        </form>
+                            <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns  ps-2 pe-2">
+                                <div class="row align-items-center">
+                                    <div class="dataTable-top ">
+                                        <div class="col-auto">
+                                            <form action="" method="get">
+                                                <input type="hidden" name="p" value="<?= $page ?>">
+                                                <input type="hidden" name="order" value="<?= $order ?>">
+                                                <input type="hidden" name="search" value="<?= $search ?>">
+                                                <input type="hidden" name="start_time" value="<?php echo isset($start_time) ? $start_time : ''; ?>">
+                                                <input type="hidden" name="end_time" value="<?php echo isset($end_time) ? $start_time : ''; ?>">
+                                                <label>每頁</label>
+                                                <div class="dataTable-dropdown">
+                                                    <select name="per_page" class="dataTable-selector form-select" onchange="if(this.form)this.form.submit();">
+                                                        <option value="5" <?= ($per_page == 5) ? 'selected' : '' ?>>5</option>
+                                                        <option value="10" <?= ($per_page == 10) ? 'selected' : '' ?>>10</option>
+                                                        <option value="15" <?= ($per_page == 15) ? 'selected' : '' ?>>15</option>
+                                                        <option value="20" <?= ($per_page == 20) ? 'selected' : '' ?>>20</option>
+                                                    </select>
+                                                </div>
+                                                <label>筆</label>
+                                            </form>
+                                        </div>
+                                        <div class="col-auto text-end align-conter-center">
+                                            <button class="btn btn-primary" type="button"><a class="text-white" href="./CreateEvent.php"><i class="fa-regular fa-square-plus"></i> 新增</a></button>
+                                        </div>
                                     </div>
-                                    <div class="col text-end">
-                                        <button class="btn btn-primary me-1 mb-1" type="button"><a class="text-white" href="./CreateEvent.php"><i class="fa-regular fa-calendar-plus text-white"></i> 新增</a></button>
-                                    </div>
+
                                 </div>
 
                             </div>
@@ -339,11 +342,11 @@ try {
                                         </tbody>
                                     </table>
                                 <?php else: ?>
-                                    <p class="ps-2 pt-3">沒有相關的活動，請重新輸入關鍵詞</p>
+                                    <p class="ps-2 pt-3 text-muted">沒有相關的活動，請重新輸入關鍵詞</p>
                                 <?php endif; ?>
                             </div>
                             <div class="dataTable-bottom">
-                                <div class="dataTable-info">Showing <?= $eventCount ?> of <?= $eventCountAll ?> entries</div>
+                                <div class="dataTable-info">顯示 <?= $start_item + 1 ?> 到 <?= min($start_item + $per_page, $eventCountAll) ?> 筆，共 <?= $total_Page ?> 頁，共 <?= $eventCountAll ?> 筆</div>
                                 <nav class="dataTable-pagination justify-content-center">
                                     <ul class="dataTable-pagination-list pagination pagination-primary">
                                         <li class="pager page-item">
