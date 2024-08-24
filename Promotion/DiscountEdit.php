@@ -112,16 +112,14 @@ try {
                                         </div>
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
-                                                <label for="" class="required">開始時間</label>
-                                                <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="Select date.." id="StartTime" value="<?= $row["StartTime"] ?>">
+                                                <label for="" class="required">促銷時間</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control flatpickr-no-config flatpickr-input" placeholder="Select date.." id="StartTime" value="<?= $row["StartTime"] ?>">
+                                                    <input type="text" class="form-control flatpickr-no-config flatpickr-input" placeholder="Select date.." id="EndTime" value="<?= $row["EndTime"] ?>">
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="" class="required">結束時間</label>
-                                                <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="Select date.." id="EndTime" value="<?= $row["EndTime"] ?>">
-                                            </div>
-                                        </div>
+
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
                                                 <label for="" class="required">滿足條件類別</label>
@@ -141,8 +139,8 @@ try {
                                         </div>
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
-                                                <label for="" class="">訂單滿額</label>
-                                                <input type="number" name="" class="form-control" id="ConditionMinValue" placeholder="" value="<?= intval($row["ConditionMinValue"])  ?>">
+                                                <label for="" class="">條件值</label>
+                                                <input type="number" name="" class="form-control" id="ConditionMinValue" placeholder="" value="<?= (isset($row["ConditionMinValue"])) ? intval($row["ConditionMinValue"]) : null ?>">
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-12">
@@ -165,7 +163,7 @@ try {
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
                                                 <label for="" class="required">折扣數</label>
-                                                <input type="number" name="" class="form-control" id="Value" placeholder="" value="<?= intval($row["Value"]) ?>">
+                                                <input type="number" name="" class="form-control" id="Value" placeholder="" value="<?= (isset($row["Value"])) ? intval($row["Value"]) : null ?>">
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-12">
@@ -221,7 +219,7 @@ try {
                                         </div>
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
-                                                <label for="" class="required">啟用狀態</label>
+                                                <label for="" class="required">上架狀態</label>
                                                 <select class="form-select" name="" id="EnableStatus">
                                                     <?php
                                                     if (!empty($EnableStatus_options)) {
@@ -241,25 +239,25 @@ try {
                                         </div>
                                         <div class="col-md-6 col-12 couponarea">
                                             <div class="form-group">
-                                                <label for="" class="">優惠券序號</label>
+                                                <label for="" class="required">優惠券序號</label>
                                                 <input type="text" name="" class="form-control" id="CouponSerial" placeholder="" value="<?= $row["CouponSerial"] ?>">
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-12 couponarea">
                                             <div class="form-group">
-                                                <label for="" class="">優惠券說明</label>
+                                                <label for="" class="required">優惠券說明</label>
                                                 <input type="text" name="" class="form-control" id="CouponInfo" placeholder="" value="<?= $row["CouponInfo"] ?>">
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-12 couponarea">
                                             <div class="form-group">
-                                                <label for="">截止領取時間</label>
+                                                <label for="" class="required">截止領取時間</label>
                                                 <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="Select date.." id="CouponReceiveEndTime" value="<?= $row["CouponReceiveEndTime"] ?>">
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-12 couponarea">
                                             <div class="form-group">
-                                                <label for="">使用次數限制</label>
+                                                <label for="" class="required">使用次數限制</label>
                                                 <input type="number" name="" class="form-control" id="CouponUseMax" placeholder="" value="<?= $row["CouponUseMax"] ?>">
                                             </div>
                                         </div>
@@ -371,12 +369,12 @@ try {
                 .done(function(response) {
                     let status = response.status;
                     if (status == 0) {
-                        info.textContent = response.message;
+                        info.innerHTML = response.message;
                         infoModal.show();
                         return;
                     }
                     if (status == 1) {
-                        info.textContent = response.message
+                        info.innerHTML = response.message
                         infoModal.show();
                         return;
                     }

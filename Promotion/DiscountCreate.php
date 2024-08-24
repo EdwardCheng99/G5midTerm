@@ -87,14 +87,11 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                         </div>
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
-                                                <label for="" class="required">開始時間</label>
-                                                <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="Select date.." id="StartTime">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="" class="required">結束時間</label>
-                                                <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="Select date.." id="EndTime">
+                                                <label for="" class="required">促銷時間</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control flatpickr-no-config flatpickr-input" placeholder="開始時間" id="StartTime">
+                                                    <input type="text" class="form-control flatpickr-no-config flatpickr-input" placeholder="結束時間" id="EndTime">
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-12">
@@ -121,7 +118,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                         </div>
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
-                                                <label for="" class="">訂單滿額</label>
+                                                <label for="" class="">條件值</label>
                                                 <input type="number" name="" class="form-control" id="ConditionMinValue" placeholder="">
                                             </div>
                                         </div>
@@ -201,7 +198,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                         </div>
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
-                                                <label for="" class="required">啟用狀態</label>
+                                                <label for="" class="required">上架狀態</label>
                                                 <select class="form-select" name="" id="EnableStatus">
                                                     <?php
                                                     if (!empty($EnableStatus_options)) {
@@ -349,12 +346,12 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 .done(function(response) {
                     let status = response.status;
                     if (status == 0) {
-                        info.textContent = response.message;
+                        info.innerHTML = response.message;
                         infoModal.show();
                         return;
                     }
                     if (status == 1) {
-                        info.textContent = response.message
+                        info.innerHTML = response.message
                         infoModal.show();
                         return;
                     }
