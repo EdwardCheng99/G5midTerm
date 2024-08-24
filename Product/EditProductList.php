@@ -41,7 +41,7 @@ try {
     <?php include("../headlink.php") ?>
     <style>
         .product-img-size {
-            height: 26rem;
+            height: 35rem;
         }
     </style>
 
@@ -108,8 +108,8 @@ try {
                                                                 <input type="file" id="formFile" name="pic" class="form-control" value="<?= $row["product_img"] ?>">
                                                             </div>
                                                             <div class="col-lg">
-                                                                <div class="ratio ratio-1x1 border mb-2">
-                                                                    <img id="imagePreview" class="img-preview product-img-size" src="./ProductPicUpLoad/<?= $row["product_img"] ?>" alt="Image Preview">
+                                                                <div class="ratio ratio-1x1 border mb-2 product-img-size">
+                                                                    <img id="imagePreview" class="img-preview " src="./ProductPicUpLoad/<?= $row["product_img"] ?>" alt="Image Preview">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -117,26 +117,25 @@ try {
                                                             <table class="table table-bordered">
                                                                 <tr>
                                                                     <th>
-                                                                        <label for="EventPublishStartTime" class="form-label">上架時間</label>
+                                                                        <label for="" class="form-label">上架時間</label>
                                                                     <td>
                                                                         <input
                                                                             type="text"
-                                                                            class="form-control mb-3 flatpickr-no-config flatpickr-input active" id="EventPublishStartTime" name="product_start_time" placeholder="上架時間"  readonly="readonly">
+                                                                            class="form-control mb-3 flatpickr-no-config flatpickr-input active" id="" name="product_start_time" placeholder="上架時間"  readonly="readonly" value="<?= $row["product_start_time"] ?>">
                                                                     </td>
                                                                     </td>
                                                                     </th>
                                                                 </tr>
                                                                 <tr>
                                                                     <th>
-                                                                        <label for="EventPublishEndTime" class="form-label">下架時間</label>
-                                                                    </th>
+                                                                        <label for="" class="form-label">下架時間</label>
                                                                     <td>
                                                                         <input
                                                                             type="text"
-                                                                            class="form-control mb-3 flatpickr-no-config flatpickr-input active"
-                                                                            id="EventPublishEndTime"
-                                                                            placeholder="下架時間" name="product_end_time"  readonly="readonly">
+                                                                            class="form-control mb-3 flatpickr-no-config flatpickr-input active" id="" name="product_end_time" placeholder="下架時間"  readonly="readonly" value="<?= $row["product_end_time"] ?>">
                                                                     </td>
+                                                                    </td>
+                                                                    </th>
                                                                 </tr>
                                                                 <tr>
                                                                     <th class="product-th-width">商品編號</th>

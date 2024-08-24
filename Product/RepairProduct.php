@@ -1,4 +1,4 @@
-<?php  
+<?php
 require_once("../pdoConnect.php");
 
 // 每頁筆數
@@ -203,7 +203,7 @@ try {
                                                         <option value="胰臟保健" <?= ($sub == "胰臟保健") ? 'selected' : '' ?>>胰臟保健</option>
                                                         <option value="眼睛保健" <?= ($sub == "眼睛保健") ? 'selected' : '' ?>>眼睛保健</option>
                                                     </select>
-                                                </div>                                      
+                                                </div>
                                                 <div class="dataTable-search mt-2">
                                                     <form action="">
                                                         <div class="input-group">
@@ -276,7 +276,7 @@ try {
                                                         <td><?= number_format($row["product_sale_price"]) ?></td>
                                                         <td><?= $row["product_stock"] ?></td>
                                                         <td><?= $row["product_update_date"] ?></td>
-                                                        <td>       
+                                                        <td>
                                                             <!-- /ProductList.php?per_page=15&brand=木入森&search=&page=1 -->
                                                             <a class="ms-4" title="上架商品" href="ProductRepairAlert.php?product_id=<?= $row['product_id'] ?>&per_page=<?= $per_page ?>&brand=<?= $brand ?>&category=<?= $category ?>&sub=<?= $sub ?>&order=<?= $orderID ?>:<?= $orderValue ?>&page=<?= $startPage ?>"><i class="fa-solid fa-turn-up"></i></a>
                                                         </td>
@@ -334,7 +334,14 @@ try {
                                                         </div>
                                                     </form>
                                                 </div>
-                                                <div class="d-flex justify-content-between">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                                    <div class="d-flex justify-content-between">
                                         <form action="" method="get">
                                             <label class="ms-2">每頁</label>
                                             <div class="dataTable-dropdown">
@@ -352,51 +359,55 @@ try {
                                             <input type="hidden" name="page" value="<?= $startPage ?>"> <!-- 保留當前頁碼 -->
                                         </form>
                                     </div>
-                                            </form>
-                                            <tr>
-                                                <td>查無商品</td>
-                                            </tr>
-                                        <?php endif; ?>
-                                        </table>
-                                    </div>
-                                    <!-- 下方顯示筆數 以及分頁變化 -->
-                                    <?php $start_item = ($startPage - 1) * $per_page; ?>
-                                    <div class="dataTable-bottom">
-                                        <div class="dataTable-info">顯示 <?= $start_item + 1 ?> 到 <?= $start_item + $per_page ?>筆 共 <?= $productCount ?> 筆</div>
-                                        <nav class="dataTable-pagination">
-                                            <!-- 分頁 -->
-                                            <ul class="dataTable-pagination-list pagination pagination-primary">
-                                                <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
-                                                    <?php
-                                                    // 當前頁是否是搜尋頁
-                                                    $url = "?page=" . $i . "&per_page=" . $per_page; // 包含每頁筆數
-                                                    if ($search) {
-                                                        $url .= "&search=" . urlencode($search);
-                                                    }
-                                                    ?>
-                                                    <li class="page-item <?= ($i == $startPage) ? 'active' : '' ?>">
-                                                        <a class="page-link" href="<?= $url ?>"><?= $i ?></a>
-                                                    </li>
-                                                <?php endfor; ?>
-                                            </ul>
-                                        </nav>
-                                    </div>
+                                    </form>
+                                    <tr>
+                                        <td>查無商品</td>
+                                    </tr>
+                                <?php endif; ?>
+                                </table>
+                                </div>
+                                <!-- 下方顯示筆數 以及分頁變化 -->
+                                <?php $start_item = ($startPage - 1) * $per_page; ?>
+                                <div class="dataTable-bottom">
+                                    <div class="dataTable-info">顯示 <?= $start_item + 1 ?> 到 <?= $start_item + $per_page ?>筆 共 <?= $productCount ?> 筆</div>
+                                    <nav class="dataTable-pagination">
+                                        <!-- 分頁 -->
+                                        <ul class="dataTable-pagination-list pagination pagination-primary">
+                                            <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
+                                                <?php
+                                                // 當前頁是否是搜尋頁
+                                                $url = "?page=" . $i . "&per_page=" . $per_page; // 包含每頁筆數
+                                                if ($search) {
+                                                    $url .= "&search=" . urlencode($search);
+                                                }
+                                                ?>
+                                                <li class="page-item <?= ($i == $startPage) ? 'active' : '' ?>">
+                                                    <a class="page-link" href="<?= $url ?>"><?= $i ?></a>
+                                                </li>
+                                            <?php endfor; ?>
+                                        </ul>
+                                    </nav>
                                 </div>
                             </div>
                         </div>
-                    </section>
                 </div>
                 <?php include("../footer.php") ?>
             </div>
-            <footer>
-                <div class="footer clearfix mb-0 text-muted">
-                    <div class="float-start">
-                    </div>
-                    <div class="float-end">
-                    </div>
-                </div>
-            </footer>
         </div>
+    </div>
+    </section>
+    </div>
+
+    </div>
+    <footer>
+        <div class="footer clearfix mb-0 text-muted">
+            <div class="float-start">
+            </div>
+            <div class="float-end">
+            </div>
+        </div>
+    </footer>
+    </div>
     </div>
     <script src="../assets/static/js/components/dark.js"></script>
     <script src="../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
