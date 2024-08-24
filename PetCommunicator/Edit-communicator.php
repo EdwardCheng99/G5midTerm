@@ -38,12 +38,13 @@ try {
             height: 10em;
             position: relative;
         }
+        
     </style>
     <?php include("../headlink.php") ?>
     <style>
         #mainTable th:nth-child(1),
         #mainTable td:nth-child(1) {
-            width: 20px;
+            width: 10px;
         }
 
         #mainTable th:nth-child(2),
@@ -54,6 +55,14 @@ try {
         .flatpickr-time {
             display: none;
         }
+        textarea {
+            resize: none;
+            /* 禁用調整大小功能 */
+        }
+        .card {
+            border-top: 3px solid #435ebe;
+        }
+        
     </style>
 </head>
 
@@ -118,22 +127,18 @@ try {
                                 </nav>
                             </div>
                         </div>
-                        <!-- 更新時間 -->
+                    </div>
+                    <section class="section">
+                    <a href="petcommunicators.php?p=1" class="btn btn-primary mb-2"><i class="fa-solid fa-chevron-left"></i>回列表</a>
+                        <div class="card">
+                            <div class="card-body">
+                                 <!-- 更新時間 -->
                         <div class="row">
                             <div class="col d-flex justify-content-between">
                                 <p>前次更新：<?= $row["PetCommUpdateUserID"] ?>/<?= $row["PetCommUpdateDate"] ?></p>
                                 <p>創建時間：<?= $row["PetCommCreateUserID"] ?>/<?= $row["PetCommCreateDate"] ?></p>
                             </div>
                         </div>
-                    </div>
-                    <section class="section">
-                        <div class="card">
-                            <div class="card-body">
-                                <!-- 返回.刪除按鈕 -->
-                                <div class="d-flex justify-content-between">
-                                    <a href="petcommunicator.php?id=<?= $row["PetCommID"] ?>" class="btn btn-primary mb-2">返回</a>
-                                    <button type="text" class="btn btn-danger mb-2" id="delBtn">刪除</button>
-                                </div>
                                 <!-- 表單 -->
                                 <form action="doEdit.php" method="post" enctype="multipart/form-data">
                                     <div id="mainTable" class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
@@ -162,7 +167,7 @@ try {
                                                 </tr>
                                                 <tr>
                                                     <th>性別</th>
-                                                    <td><select name="PetCommSex" id="" class="form-control">
+                                                    <td><select name="PetCommSex" id="" class="form-select">
                                                             <option value="male" <?= $row["PetCommSex"] === "male" ? 'selected' : '' ?>>男</option>
                                                             <option value="Female" <?= $row["PetCommSex"] === 'Female' ? 'selected' : '' ?>>女</option>
                                                         </select></td>
@@ -220,7 +225,8 @@ try {
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-end">
-                                        <button type="submit" class="btn btn-success mb-2">完成</button>
+                                        <button type="submit" class="btn btn-primary m-2">完成</button>
+                                        <button type="button" class="btn btn-danger m-2" id="delBtn">刪除</button>
                                     </div>
                                 </form>
                             </div>

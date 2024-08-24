@@ -21,8 +21,17 @@ if (isset($_GET["p"])) {
     if (isset($_GET["del"])) {
         $sqlAll = "SELECT * FROM Petcommunicator WHERE valid=1";
         $stmtAll = $dbHost->prepare($sqlAll);
-        $sql = "SELECT * FROM Petcommunicator WHERE valid=1 ORDER BY $orderID $orderValue LIMIT $start_item, $per_page ";
-        $stmt = $dbHost->prepare($sql);
+
+        if (!isset($_GET["search"])) {
+            $sql = "SELECT * FROM Petcommunicator WHERE valid=1 ORDER BY $orderID $orderValue LIMIT $start_item, $per_page ";
+            $stmt = $dbHost->prepare($sql);
+        }elseif (isset($_GET["search"])) {
+            $search = $_GET["search"];
+            $sql = "SELECT * FROM Petcommunicator WHERE PetCommName LIKE :search AND valid=1 ORDER BY $orderID $orderValue";
+            $stmt = $dbHost->prepare($sql);
+            $stmt->bindValue(':search', "%$search%", PDO::PARAM_STR);
+        }
+        
         $del = $_GET["del"];
         $delsql = "SELECT * FROM Petcommunicator WHERE PetCommID=$del AND valid=1";
         $delstmt = $dbHost->prepare($delsql);
@@ -30,19 +39,21 @@ if (isset($_GET["p"])) {
     if (isset($_GET["repost"])) {
         $sqlAll = "SELECT * FROM Petcommunicator WHERE valid=0";
         $stmtAll = $dbHost->prepare($sqlAll);
-        $sql = "SELECT * FROM Petcommunicator WHERE valid=0 ORDER BY $orderID $orderValue LIMIT $start_item, $per_page ";
-        $stmt = $dbHost->prepare($sql);
+
+        if (!isset($_GET["search"])) {
+            $sql = "SELECT * FROM Petcommunicator WHERE valid=0 ORDER BY $orderID $orderValue LIMIT $start_item, $per_page ";
+            $stmt = $dbHost->prepare($sql);
+        }elseif (isset($_GET["search"])) {
+            $search = $_GET["search"];
+            $sql = "SELECT * FROM Petcommunicator WHERE PetCommName LIKE :search AND valid=0 ORDER BY $orderID $orderValue";
+            $stmt = $dbHost->prepare($sql);
+            $stmt->bindValue(':search', "%$search%", PDO::PARAM_STR);
+        }
+
         $repost = $_GET["repost"];
         $repostsql = "SELECT * FROM Petcommunicator WHERE PetCommID=$repost AND valid=0";
         $repoststmt = $dbHost->prepare($repostsql);
     }
-} elseif (isset($_GET["search"])) {
-    $search = $_GET["search"];
-    $sql = "SELECT * FROM Petcommunicator WHERE PetCommName LIKE :search AND valid=1";
-    $stmt = $dbHost->prepare($sql);
-    $stmt->bindValue(':search', "%$search%", PDO::PARAM_STR);
-} elseif (isset($_GET["repost"])) {
-    echo $_GET["repost"];
 } else {
     header("location: petcommunicators.php");
 }
@@ -116,8 +127,16 @@ $c = ":"
         #mainTable td:nth-child(4) {
             width: 10em;
         }
+        
+        
     </style>
     <?php include("../headlink.php") ?>
+    <style>
+        textarea {
+            resize: none;
+            /* 禁用調整大小功能 */
+        }
+    </style>
 
 </head>
 
@@ -156,7 +175,7 @@ $c = ":"
                     </div>
                     <div class="text-end">
                         <button type="sbumit" class="btn btn-danger">確定</button>
-                        <a href="petcommunicators.php?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&perPage=<?= $per_page ?>" class="btn btn-secondary">取消</a>
+                        <a href="petcommunicators.php?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&perPage=<?= $per_page ?><?=isset($_GET["search"]) ? "&search=".$search : ""?>" class="btn btn-secondary">取消</a>
                     </div>
                 </div>
             </form>
@@ -195,7 +214,7 @@ $c = ":"
                     </div>
                     <div class="text-end">
                         <button type="sbumit" class="btn btn-success">確定</button>
-                        <a href="SoftDelList.php?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&perPage=<?= $per_page ?>" class="btn btn-secondary">取消</a>
+                        <a href="SoftDelList.php?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&perPage=<?= $per_page ?><?=isset($_GET["search"]) ? "&search=".$search : ""?>" class="btn btn-secondary">取消</a>
                     </div>
                 </div>
             </form>
@@ -236,7 +255,7 @@ $c = ":"
                             <div class="dataTable-search">
                                 <form action="">
                                     <div class="input-group ">
-                                        <input type="search" class="form-control" name="search" placeholder="請搜尋溝通師名稱...">
+                                        <input type="search" class="form-control" name="search" placeholder="請搜尋溝通師名稱..." value="<?=isset($_GET["search"]) ? $search : ""?>" >
                                         <button type="submit" class="btn btn-primary">搜尋</button>
                                     </div>
                                 </form>
@@ -310,10 +329,10 @@ $c = ":"
                                                             <a href="Edit-communicator.php?id=<?= $user["PetCommID"] ?>"> <i class="fa-solid fa-pen-to-square fa-lg"></i></a>
                                                         </td>
                                                         <td>
-                                                            <a href="petcommunicator.php?id=<?= $user["PetCommID"] ?>"><i class="fa-solid fa-circle-info"></i></a>
+                                                            <a href="WarningAlert.php?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&del=<?= $user["PetCommID"] ?>&order=<?= $order ?>&perPage=<?= $per_page ?><?=isset($_GET["search"]) ? "&search=".$search : ""?>"><i class="fa-solid fa-trash-can"></i></a>
                                                         </td>
                                                         <td>
-                                                            <a id="delBtn" href="?p=<?= $page ?>&order=<?= $orderID ?>:<?= $orderValue ?>&del=<?= $user["PetCommID"] ?>&perPage=<?= $per_page ?>"><i class="fa-solid fa-trash-can"></i></a>
+                                                            <button class="btn btn-outline-primary card-control " id="cardControl-<?= $user["PetCommID"] ?>"><i class="fa-solid fa-angles-down"></i></button>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach ?>

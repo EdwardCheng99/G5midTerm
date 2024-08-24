@@ -67,21 +67,19 @@ try {
                             </div>
                         </div>
                         <!-- 更新.創建時間顯示 -->
-                        <div class="row">
+                        
+                    </div>
+                    <section class="section">
+                    <a href="petcommunicators.php?p=1" class="btn btn-primary mb-2"><i class="fa-solid fa-chevron-left"></i>回列表</a>
+                        <div class="card">
+                            <div class="card-body">
+                            <div class="row">
                             <div class="col d-flex justify-content-between">
                                 <p>前次更新：<?= $row["PetCommUpdateUserID"] ?>/<?= $row["PetCommUpdateDate"] ?></p>
                                 <p>創建時間：<?= $row["PetCommCreateUserID"] ?>/<?= $row["PetCommCreateDate"] ?></p>
                             </div>
                         </div>
-                    </div>
-                    <section class="section">
-                        <div class="card">
-                            <div class="card-body">
-                                <!-- 返回編輯按鈕 -->
-                                <div class="d-flex justify-content-between">
-                                    <a href="petcommunicators.php?p=1" class="btn btn-primary mb-2">返回</a>
-                                    <a href="Edit-communicator.php?id=<?= $row["PetCommID"] ?>" class="btn btn-primary mb-2">編輯</a>
-                                </div>
+                                
                                 <!-- 個人資料主內容 -->
                                 <div id="mainTable" class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
                                     <div class="dataTable-container">
