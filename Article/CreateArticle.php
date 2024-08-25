@@ -45,7 +45,7 @@
                     <div class="page-title">
                         <div class="row">
                             <div class="col-12 col-md-6">
-                            <a href="ArticleList.php" class="btn btn-primary mb-5">回列表</a>
+                            <a href="ArticleList.php" class="btn btn-primary mb-5"><i class="fa-solid fa-chevron-left"></i>回列表</a>
                             <h1>新增文章</h1>
                             </div>
 
