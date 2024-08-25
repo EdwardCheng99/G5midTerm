@@ -362,7 +362,7 @@ if (isset($event)) {
                 </div>
                 <p class="text-muted fs-6 text-end pe-3">最近更新時間：<?= $event["EventUpdateDate"] ?></p>
                 <div class="d-flex justify-content-center my-3">
-                    <button id="send" type="submit" class="btn btn-primary me-2">送出</button>
+                    <button id="send" type="submit" class="btn btn-primary me-2">儲存</button>
                     <button id="delete" type="submit" class="btn btn-danger "><a class="text-white" href="pdoDeleteEvent.php?id=<?= $event["EventID"] ?>">刪除</a></button>
                 </div>
             </form>
