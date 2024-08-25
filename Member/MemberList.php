@@ -257,8 +257,8 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                                                 <td><?= $user["MemberPhone"]; ?></td>
                                                                 <td><?= $user["MemberCreateDate"]; ?></td>
                                                                 <td>
-                                                                    <a class="btn btn-primary" href="Member.php?MemberID=<?= $user["MemberID"] ?>"><i class="fa-solid fa-pen-to-square"></i></a>
-                                                                    <a href="#" class="btn btn-primary delete-button" data-member-id="<?= $user['MemberID'] ?>"><i class="fa-solid fa-trash-can"></i></a>
+                                                                    <a class="btn-primary" href="Member.php?MemberID=<?= $user["MemberID"] ?>"><i class="fa-solid fa-lg fa-pen-to-square"></i></a>
+                                                                    <a href="#" class="btn-primary delete-button" data-member-id="<?= $user['MemberID'] ?>"><i class="fa-solid fa-lg fa-trash-can"></i></a>
                                                                     <!-- <a class="btn btn-primary" href="doDeleteMember.php?MemberID=<?= $user["MemberID"] ?>"><i class="fa-solid fa-trash-can"></i></a> -->
                                                                 </td>
                                                             </tr>
