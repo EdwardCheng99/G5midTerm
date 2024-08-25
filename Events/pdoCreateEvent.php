@@ -6,26 +6,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $imageUploaded = false;
     // $imageUrl = '';
     // // 處理事件創建
-    $EventStartTime = $_POST['EventStartTime'] ?? null;
-    $EventEndTime = $_POST['EventEndTime'] ?? null;
-    $EventSignStartTime = $_POST['EventSignStartTime'] ?? null;
-    $EventSignEndTime = $_POST['EventSignEndTime'] ?? null;
-    $EventTitle = $_POST['EventTitle'] ?? null;
-    $EventInfo = $_POST['EventInfo'] ?? null;
-    $EventParticipantLimit = $_POST['EventParticipantLimit'] ?? null;
-    $VendorID = $_POST['VendorID'] ?? null;
-    $EventFee = $_POST['EventFee'] ?? null;
-    $EventPublishStartTime = $_POST['EventPublishStartTime'] ?? null;
-    $EventPublishEndTime = $_POST['EventPublishEndTime'] ?? null;
+    $EventStartTime = $_POST['EventStartTime'];
+    $EventEndTime = $_POST['EventEndTime'];
+    $EventSignStartTime = $_POST['EventSignStartTime'];
+    $EventSignEndTime = $_POST['EventSignEndTime'];
+    $EventTitle = $_POST['EventTitle'];
+    $EventInfo = $_POST['EventInfo'];
+    $EventParticipantLimit = $_POST['EventParticipantLimit'];
+    $VendorID = $_POST['VendorID'];
+    $EventFee = $_POST['EventFee'];
+    $EventPublishStartTime = $_POST['EventPublishStartTime'];
+    $EventPublishEndTime = $_POST['EventPublishEndTime'];
     $EventStatus = $_POST['EventStatus'] ?? null;
     $EventRegion = $_POST['EventRegion'] ?? '';
     $EventCity = $_POST['EventCity'] ?? '';
-    $EventAddressDetail = $_POST['event-address-detail'] ?? '';
-    $EventLocation = trim($EventRegion . ' ' . $EventCity . ' ' . $EventAddressDetail);
+    $EventLocation = $_POST['EventLocation'] ?? '';
     $now = date('Y-m-d H:i:s');
 
-    $sql = "INSERT INTO OfficialEvent (EventStartTime, EventEndTime, EventSignStartTime, EventSignEndTime, EventTitle, EventInfo, EventParticipantLimit, VendorID, EventFee, EventPublishStartTime, EventPublishEndTime, EventStatus, EventLocation, EventCreateDate, EventCreateUserID, EventUpdateDate, EventUpdateUserID)
-     VALUES (:EventStartTime, :EventEndTime, :EventSignStartTime, :EventSignEndTime, :EventTitle, :EventInfo, :EventParticipantLimit, :VendorID, :EventFee, :EventPublishStartTime, :EventPublishEndTime, :EventStatus, :EventLocation,:now, 1, :now, 1)";
+    $sql = "INSERT INTO OfficialEvent (EventStartTime, EventEndTime, EventSignStartTime, EventSignEndTime, EventTitle, EventInfo, EventParticipantLimit, VendorID, EventFee, EventPublishStartTime, EventPublishEndTime, EventStatus, EventRegion, EventCity, EventLocation, EventCreateDate, EventCreateUserID, EventUpdateDate, EventUpdateUserID)
+     VALUES (:EventStartTime, :EventEndTime, :EventSignStartTime, :EventSignEndTime, :EventTitle, :EventInfo, :EventParticipantLimit, :VendorID, :EventFee, :EventPublishStartTime, :EventPublishEndTime, :EventStatus, :EventRegion, :EventCity, :EventLocation,:now, 1, :now, 1)";
 
     $stmt = $dbHost->prepare($sql);
 
@@ -43,6 +42,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ":EventPublishStartTime" => $EventPublishStartTime,
             ":EventPublishEndTime" => $EventPublishEndTime,
             ":EventStatus" => $EventStatus,
+            ":EventRegion" => $EventRegion,
+            ":EventCity" => $EventCity,
             ":EventLocation" => $EventLocation,
             ":now" => $now,
         ]);
@@ -90,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ]);
                 echo "<script>
                         alert('活動創建成功');
-                            window.location.href = 'OfficialEventsList.php?p=1&order=0';
+                            window.location.href = 'OfficialEventsList.php?p=1&order=99';
                       </script>";
             } catch (PDOException $e) {
                 echo "圖片資訊插入失敗：" . $e->getMessage() . "<br>";
@@ -101,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit;
         }
     } else {
-        echo "沒有圖片被上傳或上傳過程中出錯。<br>";
+        // echo "沒有圖片被上傳或上傳過程中出錯。<br>";
     }
 }
 $dbHost = NULL;

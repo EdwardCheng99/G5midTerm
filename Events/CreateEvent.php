@@ -14,10 +14,8 @@ $vendors = $stmt->fetchAll(PDO::FETCH_ASSOC); // 獲取所有 vendor 的數據
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CreateEvent</title>
     <?php include("../headlink.php") ?>
-
     <!-- Quill Editor -->
     <link rel="stylesheet" href="../assets/extensions/quill/quill.snow.css">
-    <!-- <link rel="stylesheet" href="../assets/extensions/quill/quill.bubble.css"> -->
     <link rel="stylesheet" href="../assets/extensions/choices.js/public/assets/styles/choices.css">
     <style>
         .image-preview-wrapper {
@@ -62,6 +60,10 @@ $vendors = $stmt->fetchAll(PDO::FETCH_ASSOC); // 獲取所有 vendor 的數據
             overflow-y: auto;
             /* 允許垂直滾動 */
         }
+
+        .page-heading {
+            margin: 0 0 -1rem;
+        }
     </style>
 </head>
 
@@ -76,23 +78,26 @@ $vendors = $stmt->fetchAll(PDO::FETCH_ASSOC); // 獲取所有 vendor 的數據
                 </a>
             </header>
             <!-- Event -->
-            <form id="creatEventForm" action="./pdoCreateEvent.php" method="POST" enctype="multipart/form-data">
-                <div class="page-heading">
-                    <div class="page-title">
-                        <div class="row">
-                            <div class="col-12 col-md-6 order-md-1 order-last">
-                                <button type="button" class="btn btn-primary mb-4"> <a class="text-white" href="./OfficialEventsList.php?p=1&order=0"><i class="fa-solid fa-chevron-left"></i>回列表</a></button>
-                            </div>
-                            <div class="col-12 col-md-6 order-md-2 order-first">
-                                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
-                                    <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="index.html"><i class="fa-solid fa-house"></i></a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">活動管理</li>
-                                    </ol>
-                                </nav>
-                            </div>
+
+            <div class="page-heading">
+
+                <div class="page-title">
+                    <div class="row">
+                        <div class="col-12 col-md-6 order-md-1 order-last">
+                            <h3 class="">新增活動</h3>
+                            <button type="button" class="btn btn-secondary mb-4"> <a class="text-white" href="./OfficialEventsList.php?p=1&order=99">返回</a></button>
+                        </div>
+                        <div class="col-12 col-md-6 order-md-2 order-first">
+                            <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="index.html"><i class="fa-solid fa-house"></i></a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">活動管理</li>
+                                </ol>
+                            </nav>
                         </div>
                     </div>
+                </div>
+                <form id="creatEventForm" action="./pdoCreateEvent.php" method="POST" enctype="multipart/form-data">
                     <div class="card">
                         <div class="card-body">
                             <!-- 預覽圖片的區域 -->
@@ -115,12 +120,12 @@ $vendors = $stmt->fetchAll(PDO::FETCH_ASSOC); // 獲取所有 vendor 的數據
                                 </div>
                             </div>
                             <div class="mb-3"> <label for="eventTime" class="form-label col-3">活動時間</label>
-                                <div class="row">
+                                <div class="row gy-3">
                                     <div class="col">
-                                        <input id="eventStartTime" name="EventStartTime" type="text" class="form-control  flatpickr-no-config flatpickr-input active " placeholder="開始時間" readonly="readonly">
+                                        <input id="EventStartTime" name="EventStartTime" type="text" class="form-control  flatpickr-no-config flatpickr-input active " placeholder="開始時間" readonly="readonly">
                                     </div>
                                     <div class="col">
-                                        <input id="eventEndTime" name="EventEndTime" type="text" class="form-control  flatpickr-no-config flatpickr-input active " placeholder="結束時間" readonly="readonly">
+                                        <input id="EventEndTime" name="EventEndTime" type="text" class="form-control  flatpickr-no-config flatpickr-input active " placeholder="結束時間" readonly="readonly">
                                     </div>
                                 </div>
 
@@ -150,7 +155,7 @@ $vendors = $stmt->fetchAll(PDO::FETCH_ASSOC); // 獲取所有 vendor 的數據
                     <div class="card">
                         <div class="card-body">
                             <div class="mb-3">
-                                <label for="vendorList" class="form-label">主辦廠商</label>
+                                <label for="vendorList" class="form-label required">主辦廠商</label>
                                 <select class="choices form-select" id="vendorList" name="VendorID">
                                     <option value="">請選擇廠商</option>
                                     <?php foreach ($vendors as $vendor): ?>
@@ -206,7 +211,7 @@ $vendors = $stmt->fetchAll(PDO::FETCH_ASSOC); // 獲取所有 vendor 的數據
                                 </div>
                             </div>
 
-                            <div id="EventLocation" class="mb-4">
+                            <div id="EventAddress" class="mb-4">
                                 <!-- <label class="form-label">活動地址</label>  -->
                                 <div class="row g-3">
                                     <div class="col-md-2">
@@ -225,7 +230,7 @@ $vendors = $stmt->fetchAll(PDO::FETCH_ASSOC); // 獲取所有 vendor 的數據
                                         </select>
                                     </div>
                                     <div class="col-md">
-                                        <input type="text" class="form-control" id="event-address-detail" name="event-address-detail" placeholder="詳細地址" disabled>
+                                        <input type="text" class="form-control" id="EventLocation" name="EventLocation" placeholder="詳細地址" disabled>
                                     </div>
                                 </div>
                             </div>
@@ -266,10 +271,10 @@ $vendors = $stmt->fetchAll(PDO::FETCH_ASSOC); // 獲取所有 vendor 的數據
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="d-flex justify-content-center mt-3 mb-3">
-                    <button type="submit" class="btn btn-primary">送出</button>
-                </div>
+            </div>
+            <div class="d-flex justify-content-center mt-3 mb-3">
+                <button id="send" type="submit" class="btn btn-primary">送出</button>
+            </div>
             </form>
 
             <?php include("../footer.php") ?>
@@ -287,29 +292,29 @@ $vendors = $stmt->fetchAll(PDO::FETCH_ASSOC); // 獲取所有 vendor 的數據
     <script src="../assets/static/js/pages/quill.js"></script>
     <!-- <script src="../assets/extensions/quill/quill.min.js"></script> -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // 假設 #full 是您想要使用的 Quill 編輯器
-            var quill = Quill.find(document.querySelector('#full'));
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     // 假設 #full 是您想要使用的 Quill 編輯器
+        //     var quill = Quill.find(document.querySelector('#full'));
 
-            if (!quill) {
-                console.error('Quill editor not found');
-                return;
-            }
+        //     if (!quill) {
+        //         console.error('Quill editor not found');
+        //         return;
+        //     }
 
-            document.getElementById('creatEventForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const EventTitle = document.getElementById('EventTitle').value;
-                const EventInfo = quill.root.innerHTML;
-                document.getElementById('EventInfo').value = EventInfo;
+        //     document.getElementById('creatEventForm').addEventListener('submit', function(e) {
+        //         e.preventDefault();
+        //         const EventTitle = document.getElementById('EventTitle').value;
+        //         const EventInfo = quill.root.innerHTML;
+        //         document.getElementById('EventInfo').value = EventInfo;
 
-                console.log('EventInfo content:', EventInfo); // 用於調試
+        //         console.log('EventInfo content:', EventInfo); // 用於調試
 
-                // 如果驗證通過，提交表單
-                this.submit();
-            });
+        //         // 如果驗證通過，提交表單
+        //         this.submit();
+        //     });
 
-            // 其他事件監聽器和邏輯保持不變...
-        });
+        //     // 其他事件監聽器和邏輯保持不變...
+        // });
         // 預覽圖片
         document.getElementById('image').addEventListener('change', function(event) {
             const file = event.target.files[0]; // 取得上傳的圖片
@@ -332,7 +337,7 @@ $vendors = $stmt->fetchAll(PDO::FETCH_ASSOC); // 獲取所有 vendor 的數據
         //實體地址填入欄位
         document.addEventListener('DOMContentLoaded', function() {
             const eventTypeRadios = document.querySelectorAll('input[name="eventType"]');
-            const addressFields = document.querySelectorAll('#EventLocation select, #EventLocation input');
+            const addressFields = document.querySelectorAll('#EventAddress select, #EventAddress input');
             const regionSelect = document.getElementById('EventRegion');
             const citySelect = document.getElementById('EventCity');
 
@@ -385,6 +390,216 @@ $vendors = $stmt->fetchAll(PDO::FETCH_ASSOC); // 獲取所有 vendor 的數據
         });
     </script>
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const elementIds = {
+                'EventTitle': '活動標題',
+                "vendorList": "主辦廠商",
+                'EventSignStartTime': '報名開始時間',
+                'EventSignEndTime': '報名結束時間',
+                'EventStartTime': '活動開始時間',
+                'EventEndTime': '活動結束時間',
+                'EventPublishStartTime': '活動上架時間',
+                'EventPublishEndTime': '活動下架時間',
+                'EventParticipantLimit': '報名人數限制',
+                'EventFee': '活動金額'
+            };
+            const defaultDate = "9999-12-31 23:59:59";
+            const defaultParticipantLimit = 9999;
+            const defaultEventFee = 0;
+
+            // 初始化 Quill 編輯器
+            var quill = Quill.find(document.querySelector('#full'));
+            if (!quill) {
+                console.error('Quill editor not found');
+                return;
+            }
+
+            document.querySelector("#send").addEventListener("click", function(e) {
+                e.preventDefault(); // 阻止默認的提交行為
+
+                let errors = [];
+                const dates = {};
+
+                // 獲取 Quill 編輯器的內容並設置到隱藏的 input 字段
+                const EventInfo = quill.root.innerHTML;
+                document.getElementById('EventInfo').value = EventInfo;
+
+                console.log('EventInfo content:', EventInfo); // 用於調試
+
+
+                // 檢查日期輸入、人數限制和活動費用並進行驗證
+                for (const [id, name] of Object.entries(elementIds)) {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        if (id === 'EventParticipantLimit') {
+                            if (!element.value.trim()) {
+                                errors.push(`${name}未填寫，預設為9999人`);
+                                element.value = defaultParticipantLimit;
+                            } else {
+                                const limit = parseInt(element.value);
+                                if (isNaN(limit) || limit <= 0) {
+                                    errors.push(`${name}必須是正整數`);
+                                }
+                            }
+                        } else if (id === 'EventFee') {
+                            if (!element.value.trim()) {
+                                errors.push(`${name}未填寫，預設為0元`);
+                                element.value = defaultEventFee;
+                            } else {
+                                const fee = parseFloat(element.value);
+                                if (isNaN(fee) || fee < 0) {
+                                    errors.push(`${name}必須是非負數`);
+                                }
+                            }
+                        } else if (id == 'EventTitle') {
+                            if (!element.value.trim()) {
+                                errors.push(`${name}不能為空`);
+                            }
+                        } else if (id === 'vendorList') {
+                            if (!element.value.trim()) {
+                                errors.push(`${name}不能為空`);
+                            } else {
+                                const vendorID = parseInt(element.value);
+                                if (isNaN(vendorID) || vendorID <= 0) {
+                                    errors.push(`${name}必須是正整數`);
+                                }
+                            }
+                        } else {
+                            if (!element.value.trim()) {
+                                errors.push(`${name}未填寫，預設為9999-12-31 23:59:59`);
+                                element.value = defaultDate;
+                            }
+                            dates[id] = new Date(element.value);
+                            if (isNaN(dates[id].getTime())) {
+                                errors.push(`${name}格式不正確`);
+                            }
+                        }
+                    } else {
+                        errors.push(`請輸入${name}欄位資訊`);
+                    }
+                }
+
+                // 日期邏輯驗證
+                if (dates.EventSignEndTime < dates.EventSignStartTime) {
+                    errors.push("報名結束時間不能早於報名開始時間");
+                }
+                if (dates.EventEndTime < dates.EventStartTime) {
+                    errors.push("活動結束時間不能早於活動開始時間");
+                }
+                if (dates.EventPublishEndTime < dates.EventPublishStartTime) {
+                    errors.push("下架時間不能早於上架時間");
+                }
+
+                // 如果有錯誤，顯示所有錯誤訊息
+                if (errors.length > 0) {
+                    alert("以下項目未完成或有誤：\n" + errors.join("\n"));
+                    console.log("表單驗證失敗，未提交");
+                } else {
+                    // 如果所有驗證都通過，提交表單
+                    document.getElementById('creatEventForm').submit();
+                }
+            });
+        });
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     const elementIds = {
+        //         'EventTitle': '活動標題',
+        //         "vendorList": "主辦廠商",
+        //         'EventSignStartTime': '報名開始時間',
+        //         'EventSignEndTime': '報名結束時間',
+        //         'EventStartTime': '活動開始時間',
+        //         'EventEndTime': '活動結束時間',
+        //         'EventPublishStartTime': '活動上架時間',
+        //         'EventPublishEndTime': '活動下架時間',
+        //         'EventParticipantLimit': '報名人數限制',
+        //         'EventFee': '活動金額'
+        //     };
+        //     const defaultDate = "9999-12-31 23:59:59";
+        //     const defaultParticipantLimit = 9999;
+        //     const defaultEventFee = 0;
+
+        //     document.querySelector("#send").addEventListener("click", function(e) {
+        //         e.preventDefault(); // 阻止默認的提交行為
+
+        //         let errors = [];
+        //         const dates = {};
+
+        //         // 檢查日期輸入、人數限制和活動費用並進行驗證
+        //         for (const [id, name] of Object.entries(elementIds)) {
+        //             const element = document.getElementById(id);
+        //             if (element) {
+        //                 if (id === 'EventParticipantLimit') {
+        //                     if (!element.value.trim()) {
+        //                         errors.push(`${name}未填寫，預設為9999人`);
+        //                         element.value = defaultParticipantLimit;
+        //                     } else {
+        //                         const limit = parseInt(element.value);
+        //                         if (isNaN(limit) || limit <= 0) {
+        //                             errors.push(`${name}必須是正整數`);
+        //                         }
+        //                     }
+        //                 } else if (id === 'EventFee') {
+        //                     if (!element.value.trim()) {
+        //                         errors.push(`${name}未填寫，預設為0元`);
+        //                         element.value = defaultEventFee;
+        //                     } else {
+        //                         const fee = parseFloat(element.value);
+        //                         if (isNaN(fee) || fee < 0) {
+        //                             errors.push(`${name}必須是非負數`);
+        //                         }
+        //                     }
+        //                 } else if (id == 'EventTitle') {
+        //                     if (!element.value.trim()) {
+        //                         errors.push(`${name}不能為空`);
+        //                     }
+        //                 } else if (id === 'vendorList') {
+        //                     if (!element.value.trim()) {
+        //                         errors.push(`${name}不能為空`);
+        //                     } else {
+        //                         const vendorID = parseInt(element.value);
+        //                         if (isNaN(vendorID) || vendorID <= 0) {
+        //                             errors.push(`${name}必須是正整數`);
+        //                         }
+        //                     }
+        //                 } else {
+        //                     if (!element.value.trim()) {
+        //                         errors.push(`${name}未填寫，預設為9999-12-31 23:59:59`);
+        //                         element.value = defaultDate;
+        //                     }
+        //                     dates[id] = new Date(element.value);
+        //                     if (isNaN(dates[id].getTime())) {
+        //                         errors.push(`${name}格式不正確`);
+        //                     }
+        //                 }
+        //             } else {
+        //                 errors.push(`請輸入${name}欄位資訊`);
+        //             }
+        //         }
+        //         // 檢查活動標題
+        //         const eventTitleElement = document.getElementById('EventTitle');
+        //         // 日期邏輯驗證
+        //         if (dates.EventSignEndTime < dates.EventSignStartTime) {
+        //             errors.push("報名結束時間不能早於報名開始時間");
+        //         }
+        //         if (dates.EventEndTime < dates.EventStartTime) {
+        //             errors.push("活動結束時間不能早於活動開始時間");
+        //         }
+        //         if (dates.EventPublishEndTime < dates.EventPublishStartTime) {
+        //             errors.push("下架時間不能早於上架時間");
+        //         }
+
+        //         // 如果有錯誤，顯示所有錯誤訊息
+        //         if (errors.length > 0) {
+        //             alert("以下項目未完成或有誤：\n" + errors.join("\n"));
+        //             console.log("表單驗證失敗，未提交");
+        //         } else {
+        //             // 如果所有驗證都通過，提交表單
+        //             // alert("表單驗證成功，已提交");
+        //             document.getElementById('creatEventForm').submit();
+        //         }
+        //     });
+        // });
+    </script>
+    <!-- <script>
         // Function to validate times and show alerts
 
         //老師改的正確版驗證提交表單
@@ -425,7 +640,7 @@ $vendors = $stmt->fetchAll(PDO::FETCH_ASSOC); // 獲取所有 vendor 的數據
 
             document.getElementById('creatEventForm').submit();
         })
-    </script>
+    </script> -->
     <script src="../assets/static/js/pages/form-element-select.js"></script>
 
 </body>
