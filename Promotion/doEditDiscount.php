@@ -39,7 +39,7 @@ if ($EndTime < $StartTime) {
 }
 
 if ($PromotionCondition == 2 && empty($ConditionMinValue)) {
-    $errors[] = '若為訂單滿額，須填寫<span class="text-danger fw-bold">訂單滿額值</span>';
+    $errors[] = '若為訂單滿額，須填寫<span class="text-danger fw-bold">消費門檻值</span>';
 }
 
 if ($PromotionType == 2) {
@@ -69,6 +69,10 @@ if ($PromotionType == 1) {
     $CouponInfo = NULL;
     $CouponReceiveEndTime = NULL;
     $CouponUseMax = NULL;
+}
+
+if ($PromotionCondition == 1) {
+    $ConditionMinValue = NULL;
 }
 
 
