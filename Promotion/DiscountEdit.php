@@ -115,15 +115,15 @@ try {
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="" class="required">促銷名稱</label>
-                                                    <input type="text" name="" class="form-control" id="Name" placeholder="" value="<?= $row["Name"] ?>">
+                                                    <input type="text" name="" class="form-control" id="Name" placeholder="請輸入促銷名稱" value="<?= $row["Name"] ?>">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="" class="required">促銷時間</label>
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control flatpickr-no-config flatpickr-input" placeholder="Select date.." id="StartTime" value="<?= $row["StartTime"] ?>">
-                                                        <input type="text" class="form-control flatpickr-no-config flatpickr-input" placeholder="Select date.." id="EndTime" value="<?= $row["EndTime"] ?>">
+                                                        <input type="text" class="form-control flatpickr-no-config flatpickr-input" placeholder="請選擇促銷開始時間" id="StartTime" value="<?= $row["StartTime"] ?>">
+                                                        <input type="text" class="form-control flatpickr-no-config flatpickr-input" placeholder="請選擇促銷結束時間" id="EndTime" value="<?= $row["EndTime"] ?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -152,7 +152,7 @@ try {
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="" class="required">折扣數</label>
+                                                    <label for="" class="required">優惠金額</label>
                                                     <div class="input-group">
                                                         <input type="number" min="0" name="" class="form-control" id="Value" placeholder="" value="<?= (isset($row["Value"])) ? intval($row["Value"]) : null ?>">
                                                         <div class="col-2">
@@ -174,7 +174,7 @@ try {
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="" class="">滿額可累計促銷</label>
+                                                    <label for="" class="">滿額可累計優惠</label>
                                                     <select class="form-select" name="" id="IsCumulative">
                                                         <?php
                                                         if (!empty($IsCumulative_options)) {
@@ -225,7 +225,7 @@ try {
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="" class="required">上架狀態</label>
+                                                    <label for="" class="required">啟用狀態</label>
                                                     <select class="form-select" name="" id="EnableStatus">
                                                         <?php
                                                         if (!empty($EnableStatus_options)) {

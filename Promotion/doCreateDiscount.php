@@ -30,7 +30,7 @@ if (empty($EndTime)) {
     $errors[] = '<span class="text-danger fw-bold">結束時間</span>不能為空';
 }
 if (empty($Value)) {
-    $errors[] = '<span class="text-danger fw-bold">折扣數</span>不能為空';
+    $errors[] = '<span class="text-danger fw-bold">優惠金額</span>不能為空';
 }
 
 if ($EndTime < $StartTime) {
@@ -45,9 +45,9 @@ if ($PromotionType == 2) {
     if (empty($CouponSerial)) {
         $errors[] = '促銷方式為優惠券，<span class="text-danger fw-bold">優惠券序號</span>不能為空';
     }
-    if (empty($CouponInfo)) {
-        $errors[] = '促銷方式為優惠券，<span class="text-danger fw-bold">優惠券說明</span>不能為空';
-    }
+    // if (empty($CouponInfo)) {
+    //     $errors[] = '促銷方式為優惠券，<span class="text-danger fw-bold">優惠券說明</span>不能為空';
+    // }
     if (empty($CouponReceiveEndTime)) {
         $errors[] = '促銷方式為優惠券，<span class="text-danger fw-bold">截止領取時間</span>不能為空';
     }
