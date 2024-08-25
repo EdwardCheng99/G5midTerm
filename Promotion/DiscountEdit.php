@@ -172,7 +172,7 @@ try {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 col-12">
+                                            <div class="col-md-6 col-12 ConditionMinArea">
                                                 <div class="form-group">
                                                     <label for="" class="">滿額可累計優惠</label>
                                                     <select class="form-select" name="" id="IsCumulative">
