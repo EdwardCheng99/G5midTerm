@@ -132,7 +132,7 @@ try {
                                             </tr>
                                             <tr>
                                                 <th>介紹</th>
-                                                <td colspan="3"><?= $row["PetCommIntroduction"] ?></td>
+                                                <td colspan="3"><?=  nl2br($row["PetCommIntroduction"]) ?></td>
                                             </tr>
                                         </table>
                                     </div>

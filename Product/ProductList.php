@@ -22,11 +22,10 @@ $category = isset($_GET["category"]) ? $_GET["category"] : '';
 $sub = isset($_GET["sub"]) ? $_GET["sub"] : '';
 $product_status = isset($_GET["product_status"]) ? $_GET["product_status"] : '';
 
-
 // 計算總商品數
 $countSql = "SELECT COUNT(*) FROM product WHERE product_valid=1";
 if ($search) {
-    $countSql .= " AND product_name LIKE :search OR product_origin_price LIKE :search";
+    $countSql .= " AND (product_name LIKE :search OR product_origin_price LIKE :search)";
 }
 if ($brand) {
     $countSql .= " AND product_brand = :brand";
@@ -40,7 +39,6 @@ if ($sub) {
 if ($product_status) {
     $countSql .= " AND product_status = :product_status";
 }
-
 
 $countStmt = $dbHost->prepare($countSql);
 if ($search) {
@@ -68,7 +66,7 @@ $startPage = max(1, min($startPage, $totalPages));
 // 查詢商品資料
 $sql = "SELECT * FROM product WHERE product_valid=1";
 if ($search) {
-    $sql .= " AND product_name LIKE :search  OR product_origin_price LIKE :search";
+    $sql .= " AND (product_name LIKE :search OR product_origin_price LIKE :search)";
 }
 if ($brand) {
     $sql .= " AND product_brand = :brand";
@@ -113,8 +111,6 @@ try {
     exit;
 }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -127,6 +123,9 @@ try {
     <?php include("../headlink.php") ?>
     <?php include("../sidebar.php") ?>
     <link rel="stylesheet" href="./css.css">
+    <link rel="stylesheet" href="../assets/style.css">
+
+
     <style>
         .product-img-size {
             min-width: 8rem;
@@ -134,6 +133,11 @@ try {
 
         .product-name-size {
             max-width: 10rem;
+        }
+
+        .card {
+            /* border-top: 3px solid #435ebe ; */
+            box-shadow: var(--bs-box-shadow) !important;
         }
     </style>
 
@@ -202,6 +206,7 @@ try {
                                                         <option value="犬貓通用" <?= ($category == "犬貓通用") ? 'selected' : '' ?>>犬貓通用</option>
                                                         <option value="犬寶保健" <?= ($category == "犬寶保健") ? 'selected' : '' ?>>犬寶保健</option>
                                                         <option value="貓皇保健" <?= ($category == "貓皇保健") ? 'selected' : '' ?>>貓皇保健</option>
+                                                        <option value="沐洗口腔護理" <?= ($category == "沐洗口腔護理") ? 'selected' : '' ?>>沐洗口腔護理</option>
                                                     </select>
 
                                                 </div>
@@ -210,6 +215,9 @@ try {
 
                                                     <select name="sub" class="dataTable-selector form-select">
                                                         <option value="">選擇分類</option>
+                                                        <option value="沐浴" <?= ($sub == "沐浴") ? 'selected' : '' ?>>沐浴</option>
+                                                        <option value="清潔" <?= ($sub == "清潔") ? 'selected' : '' ?>>清潔</option>
+                                                        <option value="排毛粉" <?= ($sub == "排毛粉") ? 'selected' : '' ?>>排毛粉</option>
                                                         <option value="魚油粉" <?= ($sub == "魚油粉") ? 'selected' : '' ?>>魚油粉</option>
                                                         <option value="鈣保健" <?= ($sub == "鈣保健") ? 'selected' : '' ?>>鈣保健</option>
                                                         <option value="腸胃保健" <?= ($sub == "腸胃保健") ? 'selected' : '' ?>>腸胃保健</option>
@@ -219,25 +227,26 @@ try {
                                                         <option value="皮膚保健" <?= ($sub == "皮膚保健") ? 'selected' : '' ?>>皮膚保健</option>
                                                         <option value="胰臟保健" <?= ($sub == "胰臟保健") ? 'selected' : '' ?>>胰臟保健</option>
                                                         <option value="眼睛保健" <?= ($sub == "眼睛保健") ? 'selected' : '' ?>>眼睛保健</option>
+                                                        <option value="基礎保養" <?= ($sub == "基礎保養") ? 'selected' : '' ?>>基礎保養</option>
                                                     </select>
 
                                                 </div>
                                                 <label class="ms-2">狀態</label>
                                                 <div class="dataTable-dropdown">
                                                     <select name="product_status" class="dataTable-selector form-select">
-                                                        <option value="">選擇類別</option>
+                                                        <option value="">選擇狀態</option>
                                                         <option value="已上架" <?= ($product_status == "已上架") ? 'selected' : '' ?>>已上架</option>
                                                         <option value="已下架" <?= ($product_status == "已下架") ? 'selected' : '' ?>>已下架</option>
                                                     </select>
                                                 </div>
-                                                <a class="btn btn-primary ms-2" href="ProductList.php">清除條件</a>
+                                                <a class="btn btn-primary ms-2" href="ProductList.php">清除</a>
 
                                                 <div class="input-group mt-2">
 
                                                     <input type="hidden" name="per_page" value="<?= $per_page ?>">
                                                     <!-- ↑　在選擇筆數的時候搜尋會依照所選的筆數顯示 -->
                                                     <input type="search" class="form-control" value="<?php echo isset($_GET["search"]) ? $_GET["search"] : "" ?>" name="search" placeholder="搜尋商品">
-                                                    <button class="btn btn-primary" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                                    <button class="btn btn-primary" type="submit">查詢</button>
                                                 </div>
                                         </form>
                                         <!-- <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
@@ -285,15 +294,33 @@ try {
                                         <table class="table table-striped dataTable-table" id="table1">
                                             <thead>
                                                 <tr>
-                                                    <th data-sortable="" class="<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" aria-sort="descending"><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_id:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">ID</a></th>
-                                                    <th data-sortable=""><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_img:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">圖片</a></th>
-                                                    <th data-sortable=""><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_name:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">名稱</a></th>
-                                                    <th data-sortable=""><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_status:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">狀態</a></th>
-                                                    <th data-sortable=""><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_origin_price:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">原價</a></th>
-                                                    <th data-sortable=""><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&search=<?= urlencode($search) ?>&brand=<?= urlencode($brand) ?>&category=<?= urlencode($category) ?>&sub=<?= urlencode($sub) ?>&order=product_stock:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">庫存</a></th>
-                                                    <th data-sortable=""><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_start_time:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">上架時間</a></th>
-                                                    <th data-sortable=""><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_update_date:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">下架時間</a></th>
-                                                    <th data-sortable=""><a href="#" class="dataTable-sorter ms-2">商品操作</a></th>
+                                                    <th data-sortable="">
+                                                        <a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&search=<?= urlencode($search) ?>&brand=<?= urlencode($brand) ?>&category=<?= urlencode($category) ?>&sub=<?= urlencode($sub) ?>&product_status=<?= urlencode($product_status) ?>&order=product_id:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="">ID</a>
+                                                    </th>
+
+                                                    <th data-sortable="">
+                                                        <a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&search=<?= urlencode($search) ?>&brand=<?= urlencode($brand) ?>&category=<?= urlencode($category) ?>&sub=<?= urlencode($sub) ?>&product_status=<?= urlencode($product_status) ?>&order=product_img:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="">圖片</a>
+                                                    </th>
+                                                    <th data-sortable="">
+                                                        <a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&search=<?= urlencode($search) ?>&brand=<?= urlencode($brand) ?>&category=<?= urlencode($category) ?>&sub=<?= urlencode($sub) ?>&product_status=<?= urlencode($product_status) ?>&order=product_name:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="">名稱</a>
+                                                    </th>
+                                                    <th data-sortable="">
+                                                        <a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&search=<?= urlencode($search) ?>&brand=<?= urlencode($brand) ?>&category=<?= urlencode($category) ?>&sub=<?= urlencode($sub) ?>&product_status=<?= urlencode($product_status) ?>&order=product_status:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="">狀態</a>
+                                                    </th>
+                                                    <th data-sortable="">
+                                                        <a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&search=<?= urlencode($search) ?>&brand=<?= urlencode($brand) ?>&category=<?= urlencode($category) ?>&sub=<?= urlencode($sub) ?>&product_status=<?= urlencode($product_status) ?>&order=product_origin_price:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="">原價</a>
+                                                    </th>
+                                                    <th data-sortable="">
+                                                        <a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&search=<?= urlencode($search) ?>&brand=<?= urlencode($brand) ?>&category=<?= urlencode($category) ?>&sub=<?= urlencode($sub) ?>&product_status=<?= urlencode($product_status) ?>&order=product_stock:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="">庫存</a>
+                                                    </th>
+                                                    <th data-sortable="">
+                                                        <a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&search=<?= urlencode($search) ?>&brand=<?= urlencode($brand) ?>&category=<?= urlencode($category) ?>&sub=<?= urlencode($sub) ?>&product_status=<?= urlencode($product_status) ?>&order=product_start_time:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="">上架時間</a>
+                                                    </th>
+                                                    <th data-sortable="">
+                                                        <a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&search=<?= urlencode($search) ?>&brand=<?= urlencode($brand) ?>&category=<?= urlencode($category) ?>&sub=<?= urlencode($sub) ?>&product_status=<?= urlencode($product_status) ?>&order=product_update_date:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="">下架時間</a>
+                                                    </th>
+
+                                                    <th data-sortable=""><a href="#" class="ms-2">商品操作</a></th>
                                                     <!-- href="?page=<?= $i ?>&per_page=<?= $per_page ?>&search=<?= urlencode($search) ?>&brand=<?= urlencode($brand) ?>&category=<?= urlencode($category) ?>&sub=<?= urlencode($sub) ?>&product_status=<?= urlencode($product_status) ?>&order=<?= $orderID . ':' . $orderValue ?>" -->
                                                 </tr>
                                             </thead>
@@ -315,10 +342,10 @@ try {
                                                         <td><?= $row["product_start_time"] ?></td>
                                                         <td><?= $row["product_end_time"] ?></td>
                                                         <td>
-                                                            <a title="編輯商品" href="EditProductList.php?product_id=<?= $row['product_id'] ?>"><i class="fa-solid fa-pen-to-square fa-lg m-1"></i></a>
-                                                            <a title="檢視商品" href="product.php?product_id=<?= $row['product_id'] ?>"><i class="fa-solid fa-circle-info m-1"></i></a>
+                                                            <a title="編輯商品" href="EditProductList.php?product_id=<?= $row['product_id'] ?>"><i class="fa-solid fa-pen-to-square fa-lg m-2"></i></a>
+                                                            <a title="檢視商品" href="product.php?product_id=<?= $row['product_id'] ?>"><i class="fa-solid fa-circle-info m-2"></i></a>
                                                             <!-- /ProductList.php?per_page=15&brand=木入森&search=&page=1 -->
-                                                            <a title="刪除商品" href="ProductWarringAlert.php?product_id=<?= $row['product_id'] ?>&per_page=<?= $per_page ?>&brand=<?= $brand ?>&category=<?= $category ?>&sub=<?= $sub ?>&order=<?= $orderID ?>:<?= $orderValue ?>&page=<?= $startPage ?>"><i class="fa-solid fa-trash-can m-1"></i></a>
+                                                            <a title="刪除商品" href="ProductWarringAlert.php?product_id=<?= $row['product_id'] ?>&per_page=<?= $per_page ?>&brand=<?= $brand ?>&category=<?= $category ?>&sub=<?= $sub ?>&order=<?= $orderID ?>:<?= $orderValue ?>&page=<?= $startPage ?>"><i class="fa-solid fa-trash-can m-2"></i></a>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; ?>
@@ -343,12 +370,16 @@ try {
                                                         <option value="犬貓通用" <?= ($category == "犬貓通用") ? 'selected' : '' ?>>犬貓通用</option>
                                                         <option value="犬寶保健" <?= ($category == "犬寶保健") ? 'selected' : '' ?>>犬寶保健</option>
                                                         <option value="貓皇保健" <?= ($category == "貓皇保健") ? 'selected' : '' ?>>貓皇保健</option>
+                                                        <option value="沐洗口腔護理" <?= ($category == "沐洗口腔護理") ? 'selected' : '' ?>>沐洗口腔護理</option>
                                                     </select>
                                                 </div>
                                                 <label class="ms-2">分類</label>
                                                 <div class="dataTable-dropdown">
                                                     <select name="sub" class="dataTable-selector form-select">
                                                         <option value="">選擇分類</option>
+                                                        <option value="沐浴" <?= ($sub == "沐浴") ? 'selected' : '' ?>>沐浴</option>
+                                                        <option value="清潔" <?= ($sub == "清潔") ? 'selected' : '' ?>>清潔</option>
+                                                        <option value="排毛粉" <?= ($sub == "排毛粉") ? 'selected' : '' ?>>排毛粉</option>
                                                         <option value="魚油粉" <?= ($sub == "魚油粉") ? 'selected' : '' ?>>魚油粉</option>
                                                         <option value="鈣保健" <?= ($sub == "鈣保健") ? 'selected' : '' ?>>鈣保健</option>
                                                         <option value="腸胃保健" <?= ($sub == "腸胃保健") ? 'selected' : '' ?>>腸胃保健</option>
@@ -358,12 +389,13 @@ try {
                                                         <option value="皮膚保健" <?= ($sub == "皮膚保健") ? 'selected' : '' ?>>皮膚保健</option>
                                                         <option value="胰臟保健" <?= ($sub == "胰臟保健") ? 'selected' : '' ?>>胰臟保健</option>
                                                         <option value="眼睛保健" <?= ($sub == "眼睛保健") ? 'selected' : '' ?>>眼睛保健</option>
+                                                        <option value="基礎保養" <?= ($sub == "基礎保養") ? 'selected' : '' ?>>基礎保養</option>
                                                     </select>
                                                 </div>
                                                 <label class="ms-2">狀態</label>
                                                 <div class="dataTable-dropdown">
                                                     <select name="product_status" class="dataTable-selector form-select">
-                                                        <option value="">選擇類別</option>
+                                                        <option value="">選擇狀態</option>
                                                         <option value="已上架" <?= ($product_status == "已上架") ? 'selected' : '' ?>>已上架</option>
                                                         <option value="已下架" <?= ($product_status == "已下架") ? 'selected' : '' ?>>已下架</option>
                                                     </select>
@@ -371,7 +403,7 @@ try {
                                                 <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
                                                 <input type="hidden" name="page" value="<?= $startPage ?>">
                                                 <input type="hidden" name="per_page" value="<?= $per_page ?>">
-                                                <a class="btn btn-primary ms-2" href="ProductList.php">清除條件</a>
+                                                <a class="btn btn-primary ms-2" href="ProductList.php">清除</a>
                                                 <div class="dataTable-search mt-2">
                                                     <form action="">
                                                         <div class="input-group">
@@ -436,6 +468,7 @@ try {
                                 </div>
                             </div>
                         </div>
+                    </section>
                 </div>
                 <?php include("../footer.php") ?>
             </div>
@@ -443,7 +476,7 @@ try {
     </div>
     </section>
     </div>
-    
+
     </div>
     <footer>
         <div class="footer clearfix mb-0 text-muted">

@@ -214,22 +214,22 @@ try {
                                 <tr>
                                     <th>編號</th>
                                     <th>封面圖片 </th>
-                                    <th data-sortable="" class="<?=(($sorter == 2) ? -2 : 2)==2 ? "asc" :"desc" ?>"
+                                    <th data-sortable="" class="<?= ($sorter == 2) ? 'asc' : (($sorter == -2) ? 'desc' : '') ?>"
                                         aria-sort="descending">
                                         <a href="ArticleList.php?p=<?= $page ?>&sorter=<?= ($sorter == 2) ? -2 : 2 ?>&searchName=<?= $_GET["searchName"] ?? '' ?>&start_time=<?= $_GET["start_time"] ?? '' ?>&end_time=<?= $_GET["end_time"] ?? '' ?>&per_page=<?= $per_page ?>"
                                             class="dataTable-sorter">文章標題</a>
                                     </th>
-                                    <th data-sortable="" class="<?=(($sorter == 3) ? -3 : 3)==3 ? "asc" :"desc" ?>"
+                                    <th data-sortable="" class="<?= ($sorter == 3) ? 'asc' : (($sorter == -3) ? 'desc' : '') ?>"
                                         aria-sort="descending">
                                         <a href="ArticleList.php?p=<?= $page ?>&sorter=<?= ($sorter == 3) ? -3 : 3?>&searchName=<?= $_GET["searchName"] ?? '' ?>&start_time=<?= $_GET["start_time"] ?? '' ?>&end_time=<?= $_GET["end_time"] ?? '' ?>&per_page=<?= $per_page ?>"
                                             class="dataTable-sorter">文章狀態</a>
                                     </th>
-                                    <th data-sortable="" class="<?=(($sorter == 4) ? -4 : 4)==4? "asc" :"desc" ?>"
+                                    <th data-sortable="" class="<?= ($sorter == 4) ? 'asc' : (($sorter == -4) ? 'desc' : '') ?>"
                                         aria-sort="descending">
                                         <a href="ArticleList.php?p=<?= $page ?>&sorter=<?= ($sorter == 4) ? -4 : 4?>&searchName=<?= $_GET["searchName"] ?? '' ?>&start_time=<?= $_GET["start_time"] ?? '' ?>&end_time=<?= $_GET["end_time"] ?? '' ?>&per_page=<?= $per_page ?>"
                                             class="dataTable-sorter">發佈時間</a>
                                     </th>
-                                    <th data-sortable="" class="<?=(($sorter == 5) ? -5 : 5)==5? "asc" :"desc" ?>"
+                                    <th data-sortable="" class="<?=($sorter == 5) ? "asc": (($sorter == -5) ? 'desc' : '' )?>"
                                         aria-sort="descending">
                                         <a href="ArticleList.php?p=<?= $page ?>&sorter=<?= ($sorter == 5) ? -5 : 5 ?>&searchName=<?= $_GET["searchName"] ?? '' ?>&start_time=<?= $_GET["start_time"] ?? '' ?>&end_time=<?= $_GET["end_time"] ?? '' ?>&per_page=<?= $per_page ?>"
                                             class="dataTable-sorter">更新時間</a>

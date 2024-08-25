@@ -87,72 +87,65 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="" class="required">促銷名稱</label>
-                                                    <input type="text" name="" class="form-control" id="Name" placeholder="">
+                                                    <input type="text" name="" class="form-control" id="Name" placeholder="請輸入促銷名稱">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="" class="required">促銷時間</label>
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control flatpickr-no-config flatpickr-input" placeholder="開始時間" id="StartTime">
-                                                        <input type="text" class="form-control flatpickr-no-config flatpickr-input" placeholder="結束時間" id="EndTime">
+                                                        <input type="text" class="form-control flatpickr-no-config flatpickr-input" placeholder="請選擇促銷開始時間" id="StartTime">
+                                                        <input type="text" class="form-control flatpickr-no-config flatpickr-input" placeholder="請選擇促銷結束時間" id="EndTime">
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="" class="required">滿足條件類別</label>
-                                                    <select class="form-select" name="" id="PromotionCondition">
-                                                        <!-- <?php if (!empty($PromotionCondition_options)) : ?>
-                                                        <?php foreach ($PromotionCondition_options as $option): ?>
-                                                            
-                                                        <?php endforeach; ?>
-                                                    <?php endif;  ?> -->
-                                                        <?php
-                                                        if (!empty($PromotionCondition_options)) {
-                                                            foreach ($PromotionCondition_options as $option) {
-                                                                $selected = ($option['Value'] == 1) ? 'selected' : '';
-                                                                echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
-                                                            }
-                                                        } else {
-                                                            echo "<option value=''>無可用選項</option>";
-                                                        }
-                                                        ?>
-                                                    </select>
+                                                    <label for="" class="required">消費門檻</label>
+                                                    <div class="input-group">
+                                                        <select class="form-select" name="" id="PromotionCondition">
+                                                            <?php if (!empty($PromotionCondition_options)) : ?>
+                                                                <?php foreach ($PromotionCondition_options as $option): ?>
+                                                                    <option value="<?= $option['Value'] ?>"
+                                                                        <?= $option['Value'] == 1 ? 'selected' : '' ?>>
+                                                                        <?= $option['Description'] ?>
+                                                                    </option>
+                                                                <?php endforeach; ?>
+                                                            <?php else : ?>
+                                                                無可用選項
+                                                            <?php endif;  ?>
+                                                        </select>
+                                                        <span class="input-group-text ConditionMinArea">滿</span>
+                                                        <input type="number" min="0" name="" class="form-control ConditionMinArea" id="ConditionMinValue" placeholder="請輸入最低門檻數字">
+                                                        <span class="input-group-text ConditionMinArea">元</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="" class="">條件值</label>
-                                                    <input type="number" name="" class="form-control" id="ConditionMinValue" placeholder="">
+                                                    <label for="" class="required">優惠金額</label>
+                                                    <div class="input-group">
+                                                        <input type="number" min="0" name="" class="form-control" id="Value" placeholder="請輸入數字 並 選擇優惠計算為百分比或固定金額">
+                                                        <div class="col-2">
+                                                            <select class="form-select" name="" id="CalculateType">
+                                                                <?php
+                                                                if (!empty($CalculateType_options)) {
+                                                                    foreach ($CalculateType_options as $option) {
+                                                                        $selected = ($option['Value'] == 1) ? 'selected' : '';
+                                                                        echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
+                                                                    }
+                                                                } else {
+                                                                    echo "<option value=''>無可用選項</option>";
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 col-12">
+                                            <div class="col-md-6 col-12 ConditionMinArea">
                                                 <div class="form-group">
-                                                    <label for="" class="required">金額計算方式</label>
-                                                    <select class="form-select" name="" id="CalculateType">
-                                                        <?php
-                                                        if (!empty($CalculateType_options)) {
-                                                            foreach ($CalculateType_options as $option) {
-                                                                $selected = ($option['Value'] == 1) ? 'selected' : '';
-                                                                echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
-                                                            }
-                                                        } else {
-                                                            echo "<option value=''>無可用選項</option>";
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label for="" class="required">折扣數</label>
-                                                    <input type="number" name="" class="form-control" id="Value" placeholder="">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label for="" class="">滿額可累計促銷</label>
+                                                    <label for="" class="">滿額可累計優惠</label>
                                                     <select class="form-select" name="" id="IsCumulative">
                                                         <?php
                                                         if (!empty($IsCumulative_options)) {
@@ -203,7 +196,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="" class="required">上架狀態</label>
+                                                    <label for="" class="required">啟用狀態</label>
                                                     <select class="form-select" name="" id="EnableStatus">
                                                         <?php
                                                         if (!empty($EnableStatus_options)) {
@@ -233,25 +226,32 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="" class="required">優惠券序號</label>
-                                                    <input type="text" name="" class="form-control" id="CouponSerial" placeholder="">
+                                                    <div class="input-group">
+                                                        <input type="text" name="" class="form-control" id="CouponSerial" placeholder="請輸入序號，可為中英混雜數字與符號">
+                                                        <button
+                                                            type="button"
+                                                            class="btn btn-primary" id="randombtn">
+                                                            隨機產生
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="" class="required">優惠券說明</label>
-                                                    <input type="text" name="" class="form-control" id="CouponInfo" placeholder="">
+                                                    <label for="" class="">優惠券說明</label>
+                                                    <input type="text" name="" class="form-control" id="CouponInfo" placeholder="請輸入優惠券說明">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="" class="required">截止領取時間</label>
-                                                    <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="Select date.." id="CouponReceiveEndTime">
+                                                    <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="請輸入截止領取時間" id="CouponReceiveEndTime">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="" class="required">使用次數限制</label>
-                                                    <input type="number" name="" class="form-control" id="CouponUseMax" placeholder="">
+                                                    <input type="number" min="0" name="" class="form-control" id="CouponUseMax" placeholder="請輸入數字">
                                                 </div>
                                             </div>
                                         </div>
@@ -290,12 +290,13 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             keyboard: true
         }) // 用bootstrap的 modal來裝訊息
         const info = document.querySelector("#info")
-        const couponarea = document.querySelectorAll(".couponarea")
 
-
-        //判斷促銷方式＝優惠券，優惠券區塊顯示
+        //判斷促銷方式＝優惠券，優惠券區塊顯示     
         document.addEventListener("DOMContentLoaded", function() {
+
             // 定義顯示或隱藏 couponarea 區塊的函式
+            const couponarea = document.querySelectorAll(".couponarea")
+
             function toggleCouponArea() {
                 if (PromotionType.value == 2) {
                     couponarea.forEach(element => {
@@ -313,7 +314,47 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
             // 當 PromotionType 改變時再執行
             PromotionType.addEventListener("change", toggleCouponArea);
+
+            //判斷滿足條件＝訂單滿額，消費門檻顯示      
+            const ConditionMinArea = document.querySelectorAll(".ConditionMinArea")
+
+            function toggleConditionMinArea() {
+                if (PromotionCondition.value == 2) {
+                    ConditionMinArea.forEach(element => {
+                        element.classList.remove('d-none'); // 移除隱藏的 class，顯示
+                    });
+                } else {
+                    ConditionMinArea.forEach(element => {
+                        element.classList.add('d-none'); // 添加隱藏的 class，隱藏
+                    });
+                }
+            }
+            toggleConditionMinArea()
+
+            PromotionCondition.addEventListener("change", toggleConditionMinArea);
+
         });
+
+        //產生亂數序號
+        const randombtn = document.querySelector("#randombtn")
+
+        function generateRandomSerial() {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+[]{}|;:,.<>?';
+            let serial = '';
+            for (let i = 0; i < 10; i++) {
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                serial += characters[randomIndex];
+            }
+            return serial;
+        }
+        randombtn.addEventListener("click", function() {
+            const randomSerial = generateRandomSerial();
+            CouponSerial.value = randomSerial;
+
+        })
+
+
+
 
 
         send.addEventListener("click", function() {

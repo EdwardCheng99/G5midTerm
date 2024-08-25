@@ -111,11 +111,24 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>商品復原</title>
+    <title>已下架商品</title>
     <link rel="stylesheet" href="./css.css">
     <link rel="stylesheet" href="./alert.css">
     <?php include("../headlink.php") ?>
+    <style>
+        .product-img-size {
+            min-width: 8rem;
+        }
 
+        .product-name-size {
+            max-width: 10rem;
+        }
+
+        .card {
+            /* border-top: 3px solid #435ebe ; */
+            box-shadow: var(--bs-box-shadow) !important;
+        }
+    </style>
 </head>
 
 
@@ -145,14 +158,14 @@ try {
                     <div class="page-title">
                         <div class="row">
                             <div class="col-12 col-md-6 order-md-1 order-last">
-                                <h3>商品復原</h3>
+                                <h3>已下架商品</h3>
                                 <p class="text-subtitle text-muted"></p>
                             </div>
                             <div class="col-12 col-md-6 order-md-2 order-first">
                                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="index.html"><i class="fa-solid fa-house"></i></a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">商品復原</li>
+                                        <li class="breadcrumb-item active" aria-current="page">已下架商品</li>
                                     </ol>
                                 </nav>
                             </div>
@@ -163,7 +176,7 @@ try {
                             <div class="card-body">
                                 <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
                                     <div class="dataTable-top">
-                                        <a class="btn btn-primary ms-2" href="ProductList.php"><i class="fa-solid fa-arrow-left"></i>返回</a>
+                                        <a class="btn btn-primary ms-2" href="ProductList.php"><i class="fa-solid fa-chevron-left"></i>回列表</a>
                                     </div>
                                     <div>
                                         <?php if ($productCount > 0) : ?>
@@ -188,12 +201,16 @@ try {
                                                         <option value="犬貓通用" <?= ($category == "犬貓通用") ? 'selected' : '' ?>>犬貓通用</option>
                                                         <option value="犬寶保健" <?= ($category == "犬寶保健") ? 'selected' : '' ?>>犬寶保健</option>
                                                         <option value="貓皇保健" <?= ($category == "貓皇保健") ? 'selected' : '' ?>>貓皇保健</option>
+                                                        <option value="沐洗口腔護理" <?= ($category == "沐洗口腔護理") ? 'selected' : '' ?>>沐洗口腔護理</option>
                                                     </select>
                                                 </div>
                                                 <label class="ms-2">分類</label>
                                                 <div class="dataTable-dropdown">
                                                     <select name="sub" class="dataTable-selector form-select" onchange="this.form.submit()">
                                                         <option value="">選擇分類</option>
+                                                        <option value="沐浴" <?= ($sub == "沐浴") ? 'selected' : '' ?>>沐浴</option>
+                                                        <option value="清潔" <?= ($sub == "清潔") ? 'selected' : '' ?>>清潔</option>
+                                                        <option value="排毛粉" <?= ($sub == "排毛粉") ? 'selected' : '' ?>>排毛粉</option>
                                                         <option value="魚油粉" <?= ($sub == "魚油粉") ? 'selected' : '' ?>>魚油粉</option>
                                                         <option value="鈣保健" <?= ($sub == "鈣保健") ? 'selected' : '' ?>>鈣保健</option>
                                                         <option value="腸胃保健" <?= ($sub == "腸胃保健") ? 'selected' : '' ?>>腸胃保健</option>
@@ -205,6 +222,7 @@ try {
                                                         <option value="眼睛保健" <?= ($sub == "眼睛保健") ? 'selected' : '' ?>>眼睛保健</option>
                                                     </select>
                                                 </div>
+                                                <a class="btn btn-primary ms-2" href="ProductList.php">清除</a>
                                                 <div class="dataTable-search mt-2">
                                                     <form action="">
                                                         <div class="input-group">
@@ -226,7 +244,15 @@ try {
                                                 <?php endforeach; ?> -->
                                             </tbody>
                                     </div>
-                                    <!-- 控制每頁筆數 -->
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                                    <div class="dataTable-container">
+                                        <!-- 控制每頁筆數 -->
                                     <form action="" method="get">
                                         <label class="ms-2">每頁</label>
                                         <div class="dataTable-dropdown">
@@ -243,19 +269,33 @@ try {
                                         <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
                                         <input type="hidden" name="page" value="<?= $startPage ?>"> <!-- 保留當前頁碼 -->
                                     </form>
-                                    <div class="dataTable-container">
                                         <!-- 商品內容 -->
                                         <table class="table table-striped dataTable-table" id="table1">
                                             <thead>
                                                 <tr>
-                                                    <th data-sortable="" class="desc" aria-sort="descending"><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_id:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">ID</a></th>
-                                                    <th data-sortable=""><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_img:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">圖片</a></th>
-                                                    <th data-sortable=""><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_name:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">名稱</a></th>
-                                                    <th data-sortable=""><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_origin_price:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">原價</a></th>
-                                                    <th data-sortable=""><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_sale_price:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">售價</a></th>
-                                                    <th data-sortable=""><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_stock:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">庫存</a></th>
-                                                    <th data-sortable=""><a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&order=product_update_date:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">上次更新時間</a></th>
-                                                    <th data-sortable=""><a href="#" class="dataTable-sorter ms-2">商品操作</a></th>
+                                                    <th data-sortable="" class="desc" aria-sort="descending">
+                                                        <a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&search=<?= urlencode($search) ?>&brand=<?= urlencode($brand) ?>&category=<?= urlencode($category) ?>&sub=<?= urlencode($sub) ?>&product_status=<?= urlencode($product_status) ?>&order=product_id:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="">ID</a>
+                                                    </th>
+                                                    <th data-sortable="">
+                                                        <a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&search=<?= urlencode($search) ?>&brand=<?= urlencode($brand) ?>&category=<?= urlencode($category) ?>&sub=<?= urlencode($sub) ?>&product_status=<?= urlencode($product_status) ?>&order=product_img:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="">圖片</a>
+                                                    </th>
+                                                    <th data-sortable="">
+                                                        <a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&search=<?= urlencode($search) ?>&brand=<?= urlencode($brand) ?>&category=<?= urlencode($category) ?>&sub=<?= urlencode($sub) ?>&product_status=<?= urlencode($product_status) ?>&order=product_name:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="">名稱</a>
+                                                    </th>
+                                                    <th data-sortable="">
+                                                        <a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&search=<?= urlencode($search) ?>&brand=<?= urlencode($brand) ?>&category=<?= urlencode($category) ?>&sub=<?= urlencode($sub) ?>&product_status=<?= urlencode($product_status) ?>&order=product_status:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="">狀態</a>
+                                                    </th>
+                                                    <th data-sortable="">
+                                                        <a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&search=<?= urlencode($search) ?>&brand=<?= urlencode($brand) ?>&category=<?= urlencode($category) ?>&sub=<?= urlencode($sub) ?>&product_status=<?= urlencode($product_status) ?>&order=product_origin_price:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="">原價</a>
+                                                    </th>
+                                                    <th data-sortable="">
+                                                        <a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&search=<?= urlencode($search) ?>&brand=<?= urlencode($brand) ?>&category=<?= urlencode($category) ?>&sub=<?= urlencode($sub) ?>&product_status=<?= urlencode($product_status) ?>&order=product_stock:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="">庫存</a>
+                                                    </th>
+                                                    <th data-sortable="">
+                                                        <a href="?page=<?= $startPage ?>&per_page=<?= $per_page ?>&search=<?= urlencode($search) ?>&brand=<?= urlencode($brand) ?>&category=<?= urlencode($category) ?>&sub=<?= urlencode($sub) ?>&product_status=<?= urlencode($product_status) ?>&order=product_update_date:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="">上次更新時間</a>
+                                                    </th>
+
+                                                    <th data-sortable=""><a href="#" class=" ms-2">商品操作</a></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -263,14 +303,14 @@ try {
                                                     <tr>
                                                         <td><?= $row["product_id"] ?></td>
                                                         <input type="hidden" name="product_id" value="<?= $row['product_id'] ?>">
-                                                        <td>
+                                                        <td class="product-img-size">
                                                             <div class="ratio ratio-1x1">
                                                                 <img class="object-fit-cover" src="./ProductPicUpLoad/<?= $row["product_img"] ?>" alt="<?= $row["product_name"] ?>">
                                                             </div>
                                                         </td>
-                                                        <td><?= $row["product_name"] ?></td>
+                                                        <td class="product-name-size"><?= $row["product_name"] ?></td>
+                                                        <td><?= $row["product_status"] ?></td>
                                                         <td><?= number_format($row["product_origin_price"]) ?></td>
-                                                        <td><?= number_format($row["product_sale_price"]) ?></td>
                                                         <td><?= $row["product_stock"] ?></td>
                                                         <td><?= $row["product_update_date"] ?></td>
                                                         <td>
@@ -302,12 +342,16 @@ try {
                                                         <option value="犬貓通用" <?= ($category == "犬貓通用") ? 'selected' : '' ?>>犬貓通用</option>
                                                         <option value="犬寶保健" <?= ($category == "犬寶保健") ? 'selected' : '' ?>>犬寶保健</option>
                                                         <option value="貓皇保健" <?= ($category == "貓皇保健") ? 'selected' : '' ?>>貓皇保健</option>
+                                                        <option value="沐洗口腔護理" <?= ($category == "沐洗口腔護理") ? 'selected' : '' ?>>沐洗口腔護理</option>
                                                     </select>
                                                 </div>
                                                 <label class="ms-2">分類</label>
                                                 <div class="dataTable-dropdown">
                                                     <select name="sub" class="dataTable-selector form-select" onchange="this.form.submit()">
                                                         <option value="">選擇分類</option>
+                                                        <option value="沐浴" <?= ($sub == "沐浴") ? 'selected' : '' ?>>沐浴</option>
+                                                        <option value="清潔" <?= ($sub == "清潔") ? 'selected' : '' ?>>清潔</option>
+                                                        <option value="排毛粉" <?= ($sub == "排毛粉") ? 'selected' : '' ?>>排毛粉</option>
                                                         <option value="魚油粉" <?= ($sub == "魚油粉") ? 'selected' : '' ?>>魚油粉</option>
                                                         <option value="鈣保健" <?= ($sub == "鈣保健") ? 'selected' : '' ?>>鈣保健</option>
                                                         <option value="腸胃保健" <?= ($sub == "腸胃保健") ? 'selected' : '' ?>>腸胃保健</option>
@@ -383,4 +427,5 @@ try {
     <?php include("./product-js.php") ?>
     <script src="../assets/compiled/js/app.js"></script>
 </body>
+
 </html>

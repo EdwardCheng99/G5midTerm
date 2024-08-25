@@ -38,8 +38,16 @@ try {
 
     <?php include("../headlink.php") ?>
     <style>
+        .ratio-4x3 {
+            --bs-aspect-ratio: 88%
+        }
         .product-img-size {
             height: 30.75rem;
+        }
+
+        .card {
+            /* border-top: 3px solid #435ebe; */
+            box-shadow: var(--bs-box-shadow) !important;
         }
     </style>
 </head>
@@ -70,27 +78,27 @@ try {
                         </div>
                     </div>
                     <section class="section">
+                        <!-- 回列表及編輯 -->
+                        <div class="py-2 mb-3 d-flex justify-content-between">
+                            <a class="btn btn-primary" href="ProductList.php" title="回商品管理"><i class="fa-solid fa-chevron-left"></i>回列表</a></a>
+                            <a class="btn btn-primary" href="EditProductList.php?product_id=<?= $product_id ?>" title="編輯商品"><i class="fa-solid fa-pen-to-square"></i></a>
+                        </div>
+                        <!-- 檢視內容 -->
                         <div class="card">
                             <div class="card-body">
                                 <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-                                    <!-- NavBar -->
                                     <div class="container">
-                                        <div class="py-2">
-                                            <a class="btn btn-primary" href="ProductList.php" title="回商品管理"><i class="fa-solid fa-left-long"></i></a>
-                                            <a class="btn btn-primary" href="EditProductList.php?product_id=<?= $product_id ?>" title="編輯商品"><i class="fa-solid fa-pen-to-square"></i></a>
-                                        </div>
-                                        <!-- 檢視內容 -->
                                         <div class="row ">
                                             <?php if ($productCount > 0) : ?>
                                                 <?php foreach ($rows as $row) : ?>
-                                                    <div class="col-lg">
+                                                    <div class="col-lg-6">
                                                         <div class="ratio ratio-1x1 product-img-size">
-                                                            <img class="object-fit-cover" src="./ProductPicUpLoad/<?= $row["product_img"] ?>" alt="<?= $row["product_name"] ?>">
+                                                            <img class="" src="./ProductPicUpLoad/<?= $row["product_img"] ?>" alt="<?= $row["product_name"] ?>">
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg">
+                                                    <div class="col-lg-6">
                                                         <table class="table table-bordered">
-                                                        <tr>
+                                                            <tr>
                                                                 <th>上架時間</th>
                                                                 <td><?= $row["product_start_time"] ?></td>
                                                             </tr>
@@ -124,7 +132,7 @@ try {
                                                             </tr>
                                                             <tr>
                                                                 <th>原價</th>
-                                                                <td><?= $row["product_origin_price"] ?></td>
+                                                                <td><?= number_format($row["product_origin_price"], 0) ?></td>
                                                             </tr>
                                                             <!-- <tr>
                                                                 <th>售價</th>
@@ -144,39 +152,41 @@ try {
                                                             </tr>
                                                         </table>
                                                     </div>
-                                                    <div class="col-lg">
-                                                        <table>
-                                                            <tr>
-                                                                <th>商品介紹</th>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><?= $row["product_info"] ?></td>
-                                                            </tr>
-                                                        </table>
-                                                    <?php endforeach; ?>
-                                                    </div>
-                                                <?php endif; ?>
+                                                    <table class="mt-3">
+                                                        <tr>
+                                                            <th>商品介紹</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><?= $row["product_info"] ?></td>
+                                                        </tr>
+                                                    </table>
+                                                <?php endforeach; ?>
                                         </div>
+                                    <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </section>
                 </div>
-                <?php include("../footer.php") ?>
             </div>
-            <footer>
-                <div class="footer clearfix mb-0 text-muted">
-                    <div class="float-start">
-                    </div>
-                    <div class="float-end">
-                    </div>
-                </div>
-            </footer>
+            </section>
         </div>
+        <?php include("../footer.php") ?>
+    </div>
+    <footer>
+        <div class="footer clearfix mb-0 text-muted">
+            <div class="float-start">
+            </div>
+            <div class="float-end">
+            </div>
+        </div>
+    </footer>
+    </div>
     </div>
     <script src="../assets/static/js/components/dark.js"></script>
     <script src="../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="../assets/compiled/js/app.js"></script>
 </body>
+
 </html>

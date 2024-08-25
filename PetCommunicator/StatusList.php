@@ -99,14 +99,6 @@ $total_page = ceil($CommCounts / $per_page);
         .dataTable-sorter {
             padding-right: 16px;
         }
-
-        .card {
-            border-top: 3px solid #435ebe;
-        }
-
-        html[data-bs-theme=dark] .card {
-            border-top: 3px solid rgb(142, 158, 216);
-        }
     </style>
 </head>
 
@@ -210,7 +202,10 @@ $total_page = ceil($CommCounts / $per_page);
                                                     <th class="<?= $orderID == 'PetCommCertificateid' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateid:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?><?= isset($_GET["search"]) ? "&search=" . $search : "" ?>" class="dataTable-sorter">證書編號</a></th>
                                                     <th class="<?= $orderID == 'PetCommCertificateDate' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?><?= isset($_GET["search"]) ? "&search=" . $search : "" ?>" class="dataTable-sorter">取證日期</a></th>
                                                     <th class="<?= $orderID == 'PetCommStatus' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommStatus:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?><?= isset($_GET["search"]) ? "&search=" . $search : "" ?>" class="dataTable-sorter">刊登狀態</a></th>
-                                            </thead>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                                </thead>
                                             <tbody>
                                                 <?php foreach ($rows as $user): ?>
                                                     <!-- 資料清單 -->

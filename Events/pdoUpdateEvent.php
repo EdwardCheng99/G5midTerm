@@ -25,8 +25,7 @@ $EventPublishEndTime = $_POST['EventPublishEndTime'] ?? null;
 $EventStatus = $_POST['EventStatus'] ?? null;
 $EventRegion = $_POST['EventRegion'] ?? '';
 $EventCity = $_POST['EventCity'] ?? '';
-$EventAddressDetail = $_POST['event-address-detail'] ?? '';
-$EventLocation = trim($EventRegion . ' ' . $EventCity . ' ' . $EventAddressDetail);
+$EventLocation = $_POST['EventLocation'] ?? '';
 $now = date('Y-m-d H:i:s');
 
 // 去除千位分隔符並確保數據為浮點數，因為後後台資料庫型別為DECIMAL(10,2)
@@ -37,6 +36,7 @@ $EventFee = $EventFee !== null ? number_format($EventFee, 2, '.', '') : null;
 $sql = "UPDATE OfficialEvent SET EventStartTime=:EventStartTime,
     EventEndTime=:EventEndTime,
     EventSignStartTime=:EventSignStartTime,
+    EventSignEndTime=:EventSignEndTime,
     EventEndTime=:EventEndTime, 
     EventTitle = :EventTitle,
     EventInfo=:EventInfo,
@@ -46,6 +46,8 @@ $sql = "UPDATE OfficialEvent SET EventStartTime=:EventStartTime,
     EventPublishStartTime=:EventPublishStartTime,
     EventPublishEndTime=:EventPublishEndTime,
     EventStatus=:EventStatus,
+    EventRegion=:EventRegion,
+    EventCity=:EventCity,
     EventLocation=:EventLocation,
     EventUpdateDate = :now 
 WHERE EventID = :id";
@@ -58,7 +60,7 @@ try {
         ":EventStartTime" => $EventStartTime,
         ":EventEndTime" => $EventEndTime,
         ":EventSignStartTime" => $EventSignStartTime,
-        ":EventSignEndTime" => $EventEndTime,
+        ":EventSignEndTime" => $EventSignEndTime,
         ":EventTitle" => $EventTitle,
         ":EventInfo" => $EventInfo,
         ":EventParticipantLimit" => $EventParticipantLimit,
@@ -67,13 +69,15 @@ try {
         ":EventPublishStartTime" => $EventPublishStartTime,
         ":EventPublishEndTime" => $EventPublishEndTime,
         ":EventStatus" => $EventStatus,
+        ":EventRegion" => $EventRegion,
+        ":EventCity" => $EventCity,
         ":EventLocation" => $EventLocation,
         ":now" => $now,
         ":id" => $id,
     ]);
     echo "<script>
     alert('活動資訊更新成功');
-    window.location.href = 'OfficialEventsList.php?p=1&order=0';
+    window.location.href = 'OfficialEventsList.php?p=1&order=99';
   </script>";
 } catch (PDOException $e) {
     echo "預處理陳述執行失敗！<br/>";

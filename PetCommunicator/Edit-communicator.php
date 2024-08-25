@@ -58,11 +58,7 @@ try {
         textarea {
             resize: none;
             /* 禁用調整大小功能 */
-        }
-        .card {
-            border-top: 3px solid #435ebe;
-        }
-        
+        }    
     </style>
 </head>
 
@@ -153,7 +149,7 @@ try {
                                                                     value="<?= $row["PetCommImg"] ?>">
                                                             </div>
                                                             <div class="ratio ratio-1x1 ">
-                                                                <img id="imagePreview" class="img-preview object-fit-contain rounded-5" src="./images/<?= $row["PetCommImg"] ?>" alt="Image Preview">
+                                                                <img id="imagePreview" class="img-preview object-fit-cover rounded-5" src="./images/<?= $row["PetCommImg"] ?>" alt="Image Preview">
                                                             </div>
                                                         </div>
                                                     </td>
