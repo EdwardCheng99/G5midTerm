@@ -176,7 +176,7 @@ try {
                     </div>
                 </div>
                 <section class="section">
-                    <form action="/G5midTerm/Promotion/DiscountList.php" method="GET">
+                    <form action="/G5midTerm/Promotion/index.php" method="GET">
                         <div class="card">
                             <div class="card-body">
 
@@ -229,9 +229,9 @@ try {
                                     </div>
                                     <div class="col-auto">
                                         <!-- <button type="submit" class="btn btn-primary me-1 mb-1"><i class="fa-solid fa-magnifying-glass" id="searchbtn"></i></button> -->
-                                        <button type="submit" class="btn btn-primary me-1 mb-1">查詢</button>
-                                        <!-- <a class="btn btn-light-secondary me-1 mb-1" href="DiscountList.php" id="resetBtn"><i class="fa-solid fa-delete-left"></i></a> -->
-                                        <a class="btn btn-light-secondary me-1 mb-1" href="DiscountList.php" id="resetBtn">清除</a>
+                                        <button type="submit" class="btn btn-primary me-1 mb-1" id="searchbtn">查詢</button>
+                                        <!-- <a class="btn btn-light-secondary me-1 mb-1" href="index.php" id="resetbtn"><i class="fa-solid fa-delete-left"></i></a> -->
+                                        <a class="btn btn-light-secondary me-1 mb-1" href="index.php" id="resetbtn">清除</a>
                                     </div>
                                 </div>
                             </div>

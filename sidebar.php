@@ -96,7 +96,7 @@ $currentFolderName = basename($currentDirectory);
                 <li class="sidebar-item <?php if ($currentFolderName == 'Promotion') {
                                             echo 'active';
                                         } ?>">
-                    <a href="/G5midTerm/Promotion/DiscountList.php" class='sidebar-link'>
+                    <a href="/G5midTerm/Promotion/index.php" class='sidebar-link'>
                         <i class="fa-solid fa-comment-dollar fa-fw"></i>
                         <span>促銷管理</span>
                     </a>
