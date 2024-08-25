@@ -76,7 +76,6 @@ if (isset($event)) {
 
     <!-- Quill Editor -->
     <link rel="stylesheet" href="../assets/extensions/quill/quill.snow.css">
-    <!-- <link rel="stylesheet" href="../assets/extensions/quill/quill.bubble.css"> -->
     <link rel="stylesheet" href="../assets/extensions/choices.js/public/assets/styles/choices.css">
     <style>
         .image-preview-wrapper {
@@ -129,19 +128,22 @@ if (isset($event)) {
     <div id="app">
         <?php include("../sidebar.php") ?>
         <div id="main">
-            <header class="mb-3">
+            <header class="">
                 <a href="#" class="burger-btn d-block d-xl-none">
                     <i class="bi bi-justify fs-3"></i>
+
                 </a>
+
             </header>
             <!-- Event -->
             <form id="EventEditForm" action="./pdoUpdateEvent.php" method="POST" enctype="multipart/form-data">
+
                 <input type="hidden" name="id" value="<?= $id ?>">
                 <div class="page-heading">
                     <div class="page-title">
                         <div class="row">
                             <div class="col-12 col-md-6 order-md-1 order-last">
-                                <h3 class="">編輯活動</h3>
+                                <h3 class="">編輯活動 </h3>
                                 <button type="button" class="btn btn-secondary mb-4"> <a class="text-white" href="./OfficialEventsList.php?p=1&order=99">返回</a></button>
                             </div>
                             <div class="col-12 col-md-6 order-md-2 order-first">
@@ -350,11 +352,14 @@ if (isset($event)) {
                                         儲存草稿
                                     </label>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <p class="text-muted fs-6 text-end pe-3">最近更新時間：<?= $event["EventUpdateDate"] ?></p>
+                </div>
                 <div class="d-flex justify-content-center my-3">
                     <button id="send" type="submit" class="btn btn-primary me-2">送出</button>
                     <button id="delete" type="submit" class="btn btn-danger "><a class="text-white" href="pdoDeleteEvent.php?id=<?= $event["EventID"] ?>">刪除</a></button>

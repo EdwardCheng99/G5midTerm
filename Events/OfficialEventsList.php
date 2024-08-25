@@ -214,7 +214,7 @@ WHERE OfficialEvent.EventValid = 1";
     <div id="app">
         <?php include("../sidebar.php") ?>
         <div id="main">
-            <header class="mb-3">
+            <header class="">
                 <a href="#" class="burger-btn d-block d-xl-none">
                     <i class="bi bi-justify fs-3"></i>
                 </a>
@@ -286,7 +286,7 @@ WHERE OfficialEvent.EventValid = 1";
                                                 <input type="hidden" name="end_time" value="<?php echo isset($end_time) ? $end_time : ''; ?>">
                                                 <label>每頁</label>
                                                 <div class="dataTable-dropdown">
-                                                    <select name="per_page" class="dataTable-selector form-select" onchange="if(this.form)this.form.submit();">
+                                                    <select name="per_page" class="dataTable-selector form-select" onchange="this.form.p.value=1; if(this.form)this.form.submit();">
                                                         <option value="5" <?= ($per_page == 5) ? 'selected' : '' ?>>5</option>
                                                         <option value="10" <?= ($per_page == 10) ? 'selected' : '' ?>>10</option>
                                                         <option value="15" <?= ($per_page == 15) ? 'selected' : '' ?>>15</option>

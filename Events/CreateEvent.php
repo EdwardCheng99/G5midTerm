@@ -72,7 +72,7 @@ $vendors = $stmt->fetchAll(PDO::FETCH_ASSOC); // 獲取所有 vendor 的數據
     <div id="app">
         <?php include("../sidebar.php") ?>
         <div id="main">
-            <header class="mb-3">
+            <header class="">
                 <a href="#" class="burger-btn d-block d-xl-none">
                     <i class="bi bi-justify fs-3"></i>
                 </a>
