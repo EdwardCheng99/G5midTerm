@@ -265,7 +265,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     </div>
             </div>
             </section>
-            <!-- <?php include("../footer.php") ?> -->
+            <?php include("../footer.php") ?>
         </div>
 
     </div>
