@@ -75,13 +75,6 @@ $total_page = ceil($CommCounts / $per_page);
         #mainTable td:nth-child(4) {
             width: 10em;
         }
-        .card {
-            border-top: 3px solid #435ebe;
-        }
-
-        html[data-bs-theme=dark] .card {
-            border-top: 3px solid rgb(142, 158, 216);
-        }
     </style>
 </head>
 
