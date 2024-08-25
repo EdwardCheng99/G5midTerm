@@ -115,68 +115,66 @@ try {
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="" class="required">促銷名稱</label>
-                                                    <input type="text" name="" class="form-control" id="Name" placeholder="" value="<?= $row["Name"] ?>">
+                                                    <input type="text" name="" class="form-control" id="Name" placeholder="請輸入促銷名稱" value="<?= $row["Name"] ?>">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="" class="required">促銷時間</label>
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control flatpickr-no-config flatpickr-input" placeholder="Select date.." id="StartTime" value="<?= $row["StartTime"] ?>">
-                                                        <input type="text" class="form-control flatpickr-no-config flatpickr-input" placeholder="Select date.." id="EndTime" value="<?= $row["EndTime"] ?>">
+                                                        <input type="text" class="form-control flatpickr-no-config flatpickr-input" placeholder="請選擇促銷開始時間" id="StartTime" value="<?= $row["StartTime"] ?>">
+                                                        <input type="text" class="form-control flatpickr-no-config flatpickr-input" placeholder="請選擇促銷結束時間" id="EndTime" value="<?= $row["EndTime"] ?>">
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="" class="required">滿足條件類別</label>
-                                                    <select class="form-select" name="" id="PromotionCondition">
-                                                        <?php
-                                                        if (!empty($PromotionCondition_options)) {
-                                                            foreach ($PromotionCondition_options as $option) {
-                                                                $selected = ($option['Value'] == $row["PromotionCondition"]) ? 'selected' : '';
-                                                                echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
+                                                    <label for="" class="required">消費門檻</label>
+                                                    <div class="input-group">
+                                                        <select class="form-select" name="" id="PromotionCondition">
+                                                            <?php
+                                                            if (!empty($PromotionCondition_options)) {
+                                                                foreach ($PromotionCondition_options as $option) {
+                                                                    $selected = ($option['Value'] == $row["PromotionCondition"]) ? 'selected' : '';
+                                                                    echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
+                                                                }
+                                                            } else {
+                                                                echo "<option value=''>No options available</option>";
                                                             }
-                                                        } else {
-                                                            echo "<option value=''>No options available</option>";
-                                                        }
-                                                        ?>
-                                                    </select>
+                                                            ?>
+                                                        </select>
+                                                        <span class="input-group-text ConditionMinArea">滿</span>
+                                                        <input type="number" min="0" name="" class="form-control ConditionMinArea" id="ConditionMinValue" placeholder="" value="<?= (isset($row["ConditionMinValue"])) ? intval($row["ConditionMinValue"]) : null ?>">
+                                                        <span class="input-group-text ConditionMinArea">元</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="" class="">條件值</label>
-                                                    <input type="number" name="" class="form-control" id="ConditionMinValue" placeholder="" value="<?= (isset($row["ConditionMinValue"])) ? intval($row["ConditionMinValue"]) : null ?>">
+                                                    <label for="" class="required">優惠金額</label>
+                                                    <div class="input-group">
+                                                        <input type="number" min="0" name="" class="form-control" id="Value" placeholder="" value="<?= (isset($row["Value"])) ? intval($row["Value"]) : null ?>">
+                                                        <div class="col-2">
+                                                            <select class="form-select" name="" id="CalculateType">
+                                                                <?php
+                                                                if (!empty($CalculateType_options)) {
+                                                                    foreach ($CalculateType_options as $option) {
+                                                                        $selected = ($option['Value'] == $row["CalculateType"]) ? 'selected' : '';
+                                                                        echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
+                                                                    }
+                                                                } else {
+                                                                    echo "<option value=''>No options available</option>";
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 col-12">
+                                            <div class="col-md-6 col-12 ConditionMinArea">
                                                 <div class="form-group">
-                                                    <label for="" class="required">金額計算方式</label>
-                                                    <select class="form-select" name="" id="CalculateType">
-                                                        <?php
-                                                        if (!empty($CalculateType_options)) {
-                                                            foreach ($CalculateType_options as $option) {
-                                                                $selected = ($option['Value'] == $row["CalculateType"]) ? 'selected' : '';
-                                                                echo "<option value='" . $option['Value'] . "' $selected>" . $option['Description'] . "</option>";
-                                                            }
-                                                        } else {
-                                                            echo "<option value=''>No options available</option>";
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label for="" class="required">折扣數</label>
-                                                    <input type="number" name="" class="form-control" id="Value" placeholder="" value="<?= (isset($row["Value"])) ? intval($row["Value"]) : null ?>">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label for="" class="">滿額可累計促銷</label>
+                                                    <label for="" class="">滿額可累計優惠</label>
                                                     <select class="form-select" name="" id="IsCumulative">
                                                         <?php
                                                         if (!empty($IsCumulative_options)) {
@@ -227,7 +225,7 @@ try {
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="" class="required">上架狀態</label>
+                                                    <label for="" class="required">啟用狀態</label>
                                                     <select class="form-select" name="" id="EnableStatus">
                                                         <?php
                                                         if (!empty($EnableStatus_options)) {
@@ -259,7 +257,14 @@ try {
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="" class="required">優惠券序號</label>
-                                                    <input type="text" name="" class="form-control" id="CouponSerial" placeholder="" value="<?= $row["CouponSerial"] ?>">
+                                                    <div class="input-group">
+                                                        <input type="text" name="" class="form-control" id="CouponSerial" placeholder="" value="<?= $row["CouponSerial"] ?>">
+                                                        <button
+                                                            type="button"
+                                                            class="btn btn-primary" id="randombtn">
+                                                            隨機產生
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
@@ -277,7 +282,7 @@ try {
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="" class="required">使用次數限制</label>
-                                                    <input type="number" name="" class="form-control" id="CouponUseMax" placeholder="" value="<?= $row["CouponUseMax"] ?>">
+                                                    <input type="number" min="0" name="" class="form-control" id="CouponUseMax" placeholder="" value="<?= $row["CouponUseMax"] ?>">
                                                 </div>
                                             </div>
 
@@ -345,24 +350,62 @@ try {
 
             // 當 PromotionType 改變時再執行
             PromotionType.addEventListener("change", toggleCouponArea);
+
+            //判斷滿足條件＝訂單滿額，消費門檻顯示      
+            const ConditionMinArea = document.querySelectorAll(".ConditionMinArea")
+
+            function toggleConditionMinArea() {
+                if (PromotionCondition.value == 2) {
+                    ConditionMinArea.forEach(element => {
+                        element.classList.remove('d-none'); // 移除隱藏的 class，顯示
+                    });
+                } else {
+                    ConditionMinArea.forEach(element => {
+                        element.classList.add('d-none'); // 添加隱藏的 class，隱藏
+                    });
+                }
+            }
+            toggleConditionMinArea()
+
+            PromotionCondition.addEventListener("change", toggleConditionMinArea);
         });
-        let IDVal = ID.value;
-        let NameVal = (Name.value !== "") ? Name.value : null;
-        let StartTimeVal = (StartTime.value !== "") ? StartTime.value : null;
-        let EndTimeVal = (EndTime.value !== "") ? EndTime.value : null;
-        let PromotionConditionVal = (PromotionCondition.value !== "") ? PromotionCondition.value : null;
-        let ConditionMinValueVal = (ConditionMinValue.value !== "") ? ConditionMinValue.value : null;
-        let CalculateTypeVal = (CalculateType.value !== "") ? CalculateType.value : null;
-        let ValueVal = (Value.value !== "") ? Value.value : null;
-        let IsCumulativeVal = (IsCumulative.value !== "") ? IsCumulative.value : null;
-        let MemberLevelVal = (MemberLevel.value !== "") ? MemberLevel.value : null;
-        let PromotionTypeVal = (PromotionType.value !== "") ? PromotionType.value : null;
-        let CouponSerialVal = (CouponSerial.value !== "") ? CouponSerial.value : null;
-        let CouponInfoVal = (CouponInfo.value !== "") ? CouponInfo.value : null;
-        let CouponReceiveEndTimeVal = (CouponReceiveEndTime.value !== "") ? CouponReceiveEndTime.value : null;
-        let CouponUseMaxVal = (CouponUseMax.value !== "") ? CouponUseMax.value : null;
-        let EnableStatusVal = (EnableStatus.value !== "") ? EnableStatus.value : null;
+
+        //產生亂數序號
+        const randombtn = document.querySelector("#randombtn")
+
+        function generateRandomSerial() {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+[]{}|;:,.<>?';
+            let serial = '';
+            for (let i = 0; i < 10; i++) {
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                serial += characters[randomIndex];
+            }
+            return serial;
+        }
+        randombtn.addEventListener("click", function() {
+            const randomSerial = generateRandomSerial();
+            CouponSerial.value = randomSerial;
+
+        })
+
+
         send.addEventListener("click", function() {
+            let IDVal = ID.value;
+            let NameVal = (Name.value !== "") ? Name.value : null;
+            let StartTimeVal = (StartTime.value !== "") ? StartTime.value : null;
+            let EndTimeVal = (EndTime.value !== "") ? EndTime.value : null;
+            let PromotionConditionVal = (PromotionCondition.value !== "") ? PromotionCondition.value : null;
+            let ConditionMinValueVal = (ConditionMinValue.value !== "") ? ConditionMinValue.value : null;
+            let CalculateTypeVal = (CalculateType.value !== "") ? CalculateType.value : null;
+            let ValueVal = (Value.value !== "") ? Value.value : null;
+            let IsCumulativeVal = (IsCumulative.value !== "") ? IsCumulative.value : null;
+            let MemberLevelVal = (MemberLevel.value !== "") ? MemberLevel.value : null;
+            let PromotionTypeVal = (PromotionType.value !== "") ? PromotionType.value : null;
+            let CouponSerialVal = (CouponSerial.value !== "") ? CouponSerial.value : null;
+            let CouponInfoVal = (CouponInfo.value !== "") ? CouponInfo.value : null;
+            let CouponReceiveEndTimeVal = (CouponReceiveEndTime.value !== "") ? CouponReceiveEndTime.value : null;
+            let CouponUseMaxVal = (CouponUseMax.value !== "") ? CouponUseMax.value : null;
+            let EnableStatusVal = (EnableStatus.value !== "") ? EnableStatus.value : null;
             $.ajax({
                     method: "POST",
                     url: "/G5midTerm/Promotion/doEditDiscount.php",

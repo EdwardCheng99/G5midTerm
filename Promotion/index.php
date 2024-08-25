@@ -40,6 +40,16 @@ if (isset($searchPromotionType)  && $searchPromotionType !== "") {
     $params[':searchPromotionType'] = $searchPromotionType;
 }
 
+if (isset($searchStartTime) && $searchStartTime !== "") {
+    $conditions[] = "d.StartTime >= :searchStartTime ";
+    $params[':searchStartTime'] = $searchStartTime;
+}
+
+if (isset($searchEndTime) && $searchEndTime !== "") {
+    $conditions[] = "d.EndTime <= :searchEndTime ";
+    $params[':searchEndTime'] = $searchEndTime;
+}
+
 if ((isset($searchStartTime) && $searchStartTime !== "") && (isset($searchEndTime) && $searchEndTime !== "")) {
     $conditions[] = "(d.StartTime >= :searchStartTime AND d.EndTime <= :searchEndTime)";
     $params[':searchStartTime'] = $searchStartTime;
@@ -152,8 +162,8 @@ try {
     <div id="app">
         <?php include("../sidebar.php") ?>
         <div id="main">
-            <header class="mb-3">
-                <a href="#" class="burger-btn d-block d-xl-none">
+            <header>
+                <a href="#" class="burger-btn d-block d-xl-none mb-3">
                     <i class="bi bi-justify fs-3"></i>
                 </a>
             </header>
@@ -184,7 +194,7 @@ try {
                                     <div class="col-lg-3 col-md-4 col-12">
                                         <div class="input-group mb-3">
                                             <span class="input-group-text" id="basic-addon1">促銷名稱</span>
-                                            <input type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1" name="searchName"
+                                            <input type="text" class="form-control" placeholder="請輸入促銷名稱" aria-label="Username" aria-describedby="basic-addon1" name="searchName"
                                                 value="<?= $searchName ?>">
                                         </div>
                                     </div>
@@ -193,18 +203,8 @@ try {
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">促銷時間</span>
                                             </div>
-                                            <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="開始時間" readonly="readonly" name="searchStartTime" value="<?= $searchStartTime ?>">
-                                            <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="結束時間" readonly="readonly" name="searchEndTime" value="<?= $searchEndTime ?>">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-4 col-12">
-                                        <div class="input-group mb-3">
-                                            <label class="input-group-text" for="inputGroupSelect01">促銷方式</label>
-                                            <select class="form-select" id="inputGroupSelect01" name="searchPromotionType">
-                                                <option value="" <?= ($searchPromotionType == "") ? 'selected' : '' ?>>全部</option>
-                                                <option value="1" <?= ($searchPromotionType == 1) ? 'selected' : '' ?>>自動套用</option>
-                                                <option value="2" <?= ($searchPromotionType == 2) ? 'selected' : '' ?>>優惠券</option>
-                                            </select>
+                                            <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="請輸入促銷開始時間" readonly="readonly" name="searchStartTime" value="<?= $searchStartTime ?>">
+                                            <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="請輸入促銷結束時間" readonly="readonly" name="searchEndTime" value="<?= $searchEndTime ?>">
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-md-4 col-12">
@@ -219,11 +219,21 @@ try {
                                     </div>
                                     <div class="col-lg-3 col-md-4 col-12">
                                         <div class="input-group mb-3">
-                                            <label class="input-group-text" for="inputGroupSelect01">上架狀態</label>
+                                            <label class="input-group-text" for="inputGroupSelect01">促銷方式</label>
+                                            <select class="form-select" id="inputGroupSelect01" name="searchPromotionType">
+                                                <option value="" <?= ($searchPromotionType == "") ? 'selected' : '' ?>>全部</option>
+                                                <option value="1" <?= ($searchPromotionType == 1) ? 'selected' : '' ?>>自動套用</option>
+                                                <option value="2" <?= ($searchPromotionType == 2) ? 'selected' : '' ?>>優惠券</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-12">
+                                        <div class="input-group mb-3">
+                                            <label class="input-group-text" for="inputGroupSelect01">啟用狀態</label>
                                             <select class="form-select" id="inputGroupSelect01" name="searchEnableStatus">
                                                 <option value="" <?= ($searchEnableStatus == "") ? 'selected' : '' ?>>全部</option>
-                                                <option value="1" <?= ($searchEnableStatus == 1) ? 'selected' : '' ?>>上架</option>
-                                                <option value="0" <?= ($searchEnableStatus == 0) ? 'selected' : '' ?>>下架</option>
+                                                <option value="1" <?= ($searchEnableStatus == 1) ? 'selected' : '' ?>>啟用</option>
+                                                <option value="0" <?= ($searchEnableStatus == 0) ? 'selected' : '' ?>>停用</option>
                                             </select>
                                         </div>
                                     </div>
@@ -285,17 +295,17 @@ try {
                                                         <th class="<?php if ($sortBy == "PromotionCondition") {
                                                                         echo $sortOrder == "asc" ? 'asc' : 'desc';
                                                                     } ?>" onclick="sortTable('PromotionCondition')">
-                                                            <a href="#" class="dataTable-sorter">滿足條件</a>
+                                                            <a href="#" class="dataTable-sorter">消費門檻</a>
                                                         </th>
                                                         <th class="<?php if ($sortBy == "ConditionMinValue") {
                                                                         echo $sortOrder == "asc" ? 'asc' : 'desc';
                                                                     } ?>" onclick="sortTable('ConditionMinValue')">
-                                                            <a href="#" class="dataTable-sorter">條件值</a>
+                                                            <a href="#" class="dataTable-sorter">門檻值</a>
                                                         </th>
                                                         <th class="<?php if ($sortBy == "Value") {
                                                                         echo $sortOrder == "asc" ? 'asc' : 'desc';
                                                                     } ?>" onclick="sortTable('Value')">
-                                                            <a href="#" class="dataTable-sorter">折扣數</a>
+                                                            <a href="#" class="dataTable-sorter">優惠金額</a>
                                                         </th>
                                                         <!-- <th class="<?php if ($sortBy == "CalculateType") {
                                                                             echo $sortOrder == "asc" ? 'asc' : 'desc';
@@ -315,7 +325,7 @@ try {
                                                         <th class="<?php if ($sortBy == "EnableStatus") {
                                                                         echo $sortOrder == "asc" ? 'asc' : 'desc';
                                                                     } ?>" onclick="sortTable('EnableStatus')">
-                                                            <a href="#" class="dataTable-sorter">上架狀態</a>
+                                                            <a href="#" class="dataTable-sorter">啟用狀態</a>
                                                         </th>
                                                         <th></th>
                                                         <th></th>
@@ -439,10 +449,12 @@ try {
             let searchEndTimeVal = searchEndTime.value
 
             // Validation logic
-            if (searchEndTimeVal < searchStartTimeVal) {
-                info.innerHTML = '<span class="text-danger fw-bold">結束時間</span>不可小於<span class="text-danger fw-bold">開始時間</span>';
-                infoModal.show();
-                return
+            if (searchStartTimeVal !== "" && searchEndTimeVal !== "") {
+                if (searchEndTimeVal < searchStartTimeVal) {
+                    info.innerHTML = '<span class="text-danger fw-bold">結束時間</span>不可小於<span class="text-danger fw-bold">開始時間</span>';
+                    infoModal.show();
+                    return
+                }
             }
 
             searchform.submit();
