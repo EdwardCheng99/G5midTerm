@@ -6,7 +6,7 @@ $per_page = isset($_GET['per_page']) ? $_GET['per_page'] : 10; // 預設為 10
 $startPage = isset($_GET['page']) ? $_GET['page'] : 1;
 $offset = ($startPage - 1) * $per_page;
 $orderID = 'product_id ';
-$orderValue = 'ASC';
+$orderValue = 'DESC';
 
 // 排序
 if (isset($_GET['order'])) {
