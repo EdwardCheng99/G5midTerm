@@ -21,11 +21,13 @@ $sql = "
     WHERE OfficialEvent.EventID = :id
     LIMIT 1
 ";
+
 try {
     $stmt = $dbHost->prepare($sql);
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
     $event = $stmt->fetch(PDO::FETCH_ASSOC);
+    // var_dump($event); //先檢查一下有沒有抓到資料最後要刪掉
     if (!$event) {
         echo "找不到ID為 {$id} 的活動";
         exit;
@@ -46,54 +48,21 @@ $vendors = $vendorStmt->fetchAll(PDO::FETCH_ASSOC);
 // $imageStmt = $dbHost->query($imageSql);
 // $images = $imageStmt->fetchAll(PDO::FETCH_ASSOC);
 
-// 調試輸出
-// var_dump($id);
-// var_dump($event);
-function determineEventRegion($location)
-{
-    $regions = [
-        'north' => ['台北', '新北', '基隆', '桃園', '新竹', '宜蘭'],
-        'central' => ['苗栗', '台中', '彰化', '南投', '雲林'],
-        'south' => ['嘉義', '台南', '高雄', '屏東'],
-        'east' => ['花蓮', '台東']
+if (isset($event)) {
+    $eventRegion = $event['EventRegion'];
+    $currentCity = $event['EventCity'];
+    $eventLocation = $event['EventLocation']; // 假設 EventLocation 現在只包含詳細地址
+    $cities = [
+        'north' => ['基隆市', '臺北市', '新北市', '桃園市', '新竹市', '新竹縣', '宜蘭縣'],
+        'central' => ['苗栗縣', '臺中市', '彰化縣', '南投縣', '雲林縣'],
+        'south' => ['嘉義市', '嘉義縣', '臺南市', '高雄市', '屏東縣'],
+        'east' => ['花蓮縣', '臺東縣']
     ];
-
-    foreach ($regions as $region => $cities) {
-        foreach ($cities as $city) {
-            if (strpos($location, $city) !== false) {
-                return $region;
-            }
-        }
-    }
-    return ''; // 如果沒有匹配的區域
-}
-
-// 在獲取事件數據後，使用這個函數
-$eventRegion = determineEventRegion($event['EventLocation']);
-
-// 城市列表
-$cities = [
-    'north' => ['基隆市', '台北市', '新北市', '桃園市', '新竹市', '新竹縣', '宜蘭縣'],
-    'central' => ['苗栗縣', '台中市', '彰化縣', '南投縣', '雲林縣'],
-    'south' => ['嘉義市', '嘉義縣', '台南市', '高雄市', '屏東縣'],
-    'east' => ['花蓮縣', '台東縣']
-];
-
-// 確定當前城市
-$currentCity = '';
-if ($eventRegion && isset($cities[$eventRegion])) {
-    foreach ($cities[$eventRegion] as $city) {
-        if (strpos($event['EventLocation'], $city) !== false) {
-            $currentCity = $city;
-            break;
-        }
-    }
-}
-
-// 提取詳細地址
-$detailAddress = '';
-if (isset($event['EventLocation'])) {
-    $detailAddress = trim(str_replace([$currentCity, $eventRegion], '', $event['EventLocation']));
+} else {
+    // 如果 $event 不存在，設置默認值
+    $eventRegion = '';
+    $currentCity = '';
+    $detailAddress = '';
 }
 ?>
 <!DOCTYPE html>
@@ -172,7 +141,8 @@ if (isset($event['EventLocation'])) {
                     <div class="page-title">
                         <div class="row">
                             <div class="col-12 col-md-6 order-md-1 order-last">
-                                <button type="button" class="btn btn-primary mb-4"> <a class="text-white" href="./OfficialEventsList.php?p=1&order=0">回列表</a></button>
+                                <h3 class="">編輯活動</h3>
+                                <button type="button" class="btn btn-secondary mb-4"> <a class="text-white" href="./OfficialEventsList.php?p=1&order=99">返回</a></button>
                             </div>
                             <div class="col-12 col-md-6 order-md-2 order-first">
                                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
@@ -219,12 +189,12 @@ if (isset($event['EventLocation'])) {
                         <div class="mb-3"> <label for="eventTime" class="form-label col-3">活動時間</label>
                             <div class="row">
                                 <div class="col">
-                                    <input id="eventStartTime" name="EventStartTime" type="text" class="form-control flatpickr-no-config flatpickr-input active"
+                                    <input id="EventStartTime" name="EventStartTime" type="text" class="form-control flatpickr-no-config flatpickr-input active"
                                         placeholder="開始時間" value="<?= $event["EventStartTime"] ?>" required>
                                 </div>
 
                                 <div class=" col">
-                                    <input id="eventEndTime" name="EventEndTime" type="text" class="form-control  flatpickr-no-config flatpickr-input active " placeholder="結束時間" value="<?= $event["EventStartTime"] ?>" required>
+                                    <input id="EventEndTime" name="EventEndTime" type="text" class="form-control  flatpickr-no-config flatpickr-input active " placeholder="結束時間" value="<?= $event["EventEndTime"] ?>" required>
                                 </div>
                             </div>
 
@@ -304,14 +274,14 @@ if (isset($event['EventLocation'])) {
                                 <div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="eventType" id="eventTypeOnline" value="online"
-                                            <?= ($event["EventLocation"] == null || $event["EventLocation"] == "") ? 'checked' : '' ?>>
+                                            <?= ($event["EventRegion"] == null || $event["EventRegion"] == "") ? 'checked' : '' ?>>
                                         <label class="form-check-label" for="eventTypeOnline">
                                             線上活動
                                         </label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="eventType" id="eventTypeOffline" value="offline"
-                                            <?= ($event["EventLocation"] != null && $event["EventLocation"] != "") ? 'checked' : '' ?>>
+                                            <?= ($event["EventRegion"] != null && $event["EventRegion"] != "") ? 'checked' : '' ?>>
                                         <label class="form-check-label" for="eventTypeOffline">
                                             實體活動
                                         </label>
@@ -320,11 +290,11 @@ if (isset($event['EventLocation'])) {
                             </div>
                         </div>
 
-                        <div id="EventLocation" class="mb-4">
+                        <div id="EventAddress" class="mb-4">
                             <div class="row g-3">
                                 <div class="col-md-2">
                                     <select class="form-select" id="EventRegion" name="EventRegion">
-                                        <option selected disabled>選擇區域</option>
+                                        option selected disabled>選擇區域</option>
                                         <option value="north" <?= $eventRegion == 'north' ? 'selected' : '' ?>>北部</option>
                                         <option value="central" <?= $eventRegion == 'central' ? 'selected' : '' ?>>中部</option>
                                         <option value="south" <?= $eventRegion == 'south' ? 'selected' : '' ?>>南部</option>
@@ -336,14 +306,14 @@ if (isset($event['EventLocation'])) {
                                         <option selected disabled>選擇縣市</option>
                                         <?php if ($eventRegion && isset($cities[$eventRegion])): ?>
                                             <?php foreach ($cities[$eventRegion] as $city): ?>
-                                                <option value="<?= $city ?>" <?= $city == $currentCity ? 'selected' : '' ?>><?= $city ?></option>
+                                                <option value="<?= $event["EventCity"] ?>" <?= $event['EventCity'] == $currentCity ? 'selected' : '' ?>><?= $event['EventCity'] ?></option>
                                             <?php endforeach; ?>
                                         <?php endif; ?>
                                     </select>
                                 </div>
                                 <div class="col-md">
-                                    <input type="text" class="form-control" id="event-address-detail" name="event-address-detail"
-                                        placeholder="詳細地址" value="<?= htmlspecialchars($detailAddress) ?>">
+                                    <input type="text" class="form-control" id="EventLocation" name="EventLocation"
+                                        placeholder="詳細地址" value="<?= $event["EventLocation"] ?>">
                                 </div>
                             </div>
                         </div>
@@ -385,8 +355,9 @@ if (isset($event['EventLocation'])) {
                     </div>
                 </div>
 
-                <div class="d-flex justify-content-center mt-3 mb-3">
-                    <button type="submit" class="btn btn-primary">送出</button>
+                <div class="d-flex justify-content-center my-3">
+                    <button id="send" type="submit" class="btn btn-primary me-2">送出</button>
+                    <button id="delete" type="submit" class="btn btn-danger "><a class="text-white" href="pdoDeleteEvent.php?id=<?= $event["EventID"] ?>">刪除</a></button>
                 </div>
             </form>
 
@@ -406,29 +377,29 @@ if (isset($event['EventLocation'])) {
     <script src="../assets/static/js/pages/quill.js"></script>
     <!-- <script src="../assets/extensions/quill/quill.min.js"></script> -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // 假設 #full 是您想要使用的 Quill 編輯器
-            var quill = Quill.find(document.querySelector('#full'));
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     // 假設 #full 是您想要使用的 Quill 編輯器
+        //     var quill = Quill.find(document.querySelector('#full'));
 
-            if (!quill) {
-                console.error('Quill editor not found');
-                return;
-            }
+        //     if (!quill) {
+        //         console.error('Quill editor not found');
+        //         return;
+        //     }
 
 
-            document.getElementById('EventEditForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const EventTitle = document.getElementById('EventTitle').value;
-                const EventInfo = quill.root.innerHTML;
-                document.getElementById('EventInfo').value = EventInfo;
+        //     document.getElementById('EventEditForm').addEventListener('submit', function(e) {
+        //         e.preventDefault();
+        //         const EventTitle = document.getElementById('EventTitle').value;
+        //         const EventInfo = quill.root.innerHTML;
+        //         document.getElementById('EventInfo').value = EventInfo;
 
-                console.log('EventInfo content:', EventInfo); // 用於調試
+        //         console.log('EventInfo content:', EventInfo); // 用於調試
 
-                // 如果驗證通過，提交表單
-                this.submit();
-            });
+        //         // 如果驗證通過，提交表單
+        //         this.submit();
+        //     });
 
-        });
+        // });
         // 預覽框與已帶圖片的切換
         function previewImage(event) {
             const EventImage = document.getElementById('EventImage')
@@ -473,7 +444,7 @@ if (isset($event['EventLocation'])) {
         //實體地址填入欄位
         document.addEventListener('DOMContentLoaded', function() {
             const eventTypeRadios = document.querySelectorAll('input[name="eventType"]');
-            const addressFields = document.querySelectorAll('#EventLocation select, #EventLocation input');
+            const addressFields = document.querySelectorAll('#EventAddress select, #EventAddress input');
             const regionSelect = document.getElementById('EventRegion');
             const citySelect = document.getElementById('EventCity');
 
@@ -523,6 +494,118 @@ if (isset($event['EventLocation'])) {
             });
 
             // Handle form submission
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const elementIds = {
+                'EventTitle': '活動標題',
+                "vendorList": "主辦廠商",
+                'EventSignStartTime': '報名開始時間',
+                'EventSignEndTime': '報名結束時間',
+                'EventStartTime': '活動開始時間',
+                'EventEndTime': '活動結束時間',
+                'EventPublishStartTime': '活動上架時間',
+                'EventPublishEndTime': '活動下架時間',
+                'EventParticipantLimit': '報名人數限制',
+                'EventFee': '活動金額'
+            };
+            const defaultDate = "9999-12-31 23:59:59";
+            const defaultParticipantLimit = 9999;
+            const defaultEventFee = 0;
+
+            // 初始化 Quill 編輯器
+            var quill = Quill.find(document.querySelector('#full'));
+            if (!quill) {
+                console.error('Quill editor not found');
+                return;
+            }
+
+            document.querySelector("#send").addEventListener("click", function(e) {
+                e.preventDefault(); // 阻止默認的提交行為
+
+                let errors = [];
+                const dates = {};
+
+                // 獲取 Quill 編輯器的內容並設置到隱藏的 input 字段
+                const EventInfo = quill.root.innerHTML;
+                document.getElementById('EventInfo').value = EventInfo;
+
+                console.log('EventInfo content:', EventInfo); // 用於調試
+
+
+                // 檢查日期輸入、人數限制和活動費用並進行驗證
+                for (const [id, name] of Object.entries(elementIds)) {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        if (id === 'EventParticipantLimit') {
+                            if (!element.value.trim()) {
+                                errors.push(`${name}未填寫，預設為9999人`);
+                                element.value = defaultParticipantLimit;
+                            } else {
+                                const limit = parseInt(element.value);
+                                if (isNaN(limit) || limit <= 0) {
+                                    errors.push(`${name}必須是正整數`);
+                                }
+                            }
+                        } else if (id === 'EventFee') {
+                            if (!element.value.trim()) {
+                                errors.push(`${name}未填寫，預設為0元`);
+                                element.value = defaultEventFee;
+                            } else {
+                                const fee = parseFloat(element.value);
+                                if (isNaN(fee) || fee < 0) {
+                                    errors.push(`${name}必須是非負數`);
+                                }
+                            }
+                        } else if (id == 'EventTitle') {
+                            if (!element.value.trim()) {
+                                errors.push(`${name}不能為空`);
+                            }
+                        } else if (id === 'vendorList') {
+                            if (!element.value.trim()) {
+                                errors.push(`${name}不能為空`);
+                            } else {
+                                const vendorID = parseInt(element.value);
+                                if (isNaN(vendorID) || vendorID <= 0) {
+                                    errors.push(`${name}必須是正整數`);
+                                }
+                            }
+                        } else {
+                            if (!element.value.trim()) {
+                                errors.push(`${name}未填寫，預設為9999-12-31 23:59:59`);
+                                element.value = defaultDate;
+                            }
+                            dates[id] = new Date(element.value);
+                            if (isNaN(dates[id].getTime())) {
+                                errors.push(`${name}格式不正確`);
+                            }
+                        }
+                    } else {
+                        errors.push(`請輸入${name}欄位資訊`);
+                    }
+                }
+
+                // 日期邏輯驗證
+                if (dates.EventSignEndTime < dates.EventSignStartTime) {
+                    errors.push("報名結束時間不能早於報名開始時間");
+                }
+                if (dates.EventEndTime < dates.EventStartTime) {
+                    errors.push("活動結束時間不能早於活動開始時間");
+                }
+                if (dates.EventPublishEndTime < dates.EventPublishStartTime) {
+                    errors.push("下架時間不能早於上架時間");
+                }
+
+                // 如果有錯誤，顯示所有錯誤訊息
+                if (errors.length > 0) {
+                    alert("以下項目未完成或有誤：\n" + errors.join("\n"));
+                    console.log("表單驗證失敗，未提交");
+                } else {
+                    // 如果所有驗證都通過，提交表單
+                    document.getElementById('EventEditForm').submit();
+                }
+            });
         });
     </script>
     <script src="../assets/static/js/pages/form-element-select.js"></script>
