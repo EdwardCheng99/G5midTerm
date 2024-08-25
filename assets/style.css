@@ -31,12 +31,13 @@
 }
 
 .card {
-    border-top: 3px solid #435ebe;
+    /* border-top: 3px solid #435ebe; */
+    box-shadow: var(--bs-box-shadow) !important;
 }
 
-html[data-bs-theme=dark] .card {
+/* html[data-bs-theme=dark] .card {
     border-top: 3px solid rgb(142, 158, 216);
-}
+} */
 
 
 html[data-bs-theme=dark] .dataTable-sorter::before {
