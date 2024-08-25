@@ -257,7 +257,14 @@ try {
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="" class="required">優惠券序號</label>
-                                                    <input type="text" name="" class="form-control" id="CouponSerial" placeholder="" value="<?= $row["CouponSerial"] ?>">
+                                                    <div class="input-group">
+                                                        <input type="text" name="" class="form-control" id="CouponSerial" placeholder="" value="<?= $row["CouponSerial"] ?>">
+                                                        <button
+                                                            type="button"
+                                                            class="btn btn-primary" id="randombtn">
+                                                            隨機產生
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
@@ -362,6 +369,25 @@ try {
 
             PromotionCondition.addEventListener("change", toggleConditionMinArea);
         });
+
+        //產生亂數序號
+        const randombtn = document.querySelector("#randombtn")
+
+        function generateRandomSerial() {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+[]{}|;:,.<>?';
+            let serial = '';
+            for (let i = 0; i < 10; i++) {
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                serial += characters[randomIndex];
+            }
+            return serial;
+        }
+        randombtn.addEventListener("click", function() {
+            const randomSerial = generateRandomSerial();
+            CouponSerial.value = randomSerial;
+
+        })
+
 
         send.addEventListener("click", function() {
             let IDVal = ID.value;

@@ -226,7 +226,14 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="" class="required">優惠券序號</label>
-                                                    <input type="text" name="" class="form-control" id="CouponSerial" placeholder="請輸入序號，可為中英混雜數字與符號">
+                                                    <div class="input-group">
+                                                        <input type="text" name="" class="form-control" id="CouponSerial" placeholder="請輸入序號，可為中英混雜數字與符號">
+                                                        <button
+                                                            type="button"
+                                                            class="btn btn-primary" id="randombtn">
+                                                            隨機產生
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
@@ -284,11 +291,9 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         }) // 用bootstrap的 modal來裝訊息
         const info = document.querySelector("#info")
 
-
-
-
+        //判斷促銷方式＝優惠券，優惠券區塊顯示     
         document.addEventListener("DOMContentLoaded", function() {
-            //判斷促銷方式＝優惠券，優惠券區塊顯示      
+
             // 定義顯示或隱藏 couponarea 區塊的函式
             const couponarea = document.querySelectorAll(".couponarea")
 
@@ -329,6 +334,27 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             PromotionCondition.addEventListener("change", toggleConditionMinArea);
 
         });
+
+        //產生亂數序號
+        const randombtn = document.querySelector("#randombtn")
+
+        function generateRandomSerial() {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+[]{}|;:,.<>?';
+            let serial = '';
+            for (let i = 0; i < 10; i++) {
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                serial += characters[randomIndex];
+            }
+            return serial;
+        }
+        randombtn.addEventListener("click", function() {
+            const randomSerial = generateRandomSerial();
+            CouponSerial.value = randomSerial;
+
+        })
+
+
+
 
 
         send.addEventListener("click", function() {
