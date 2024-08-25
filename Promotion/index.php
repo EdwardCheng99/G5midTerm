@@ -176,7 +176,7 @@ try {
                     </div>
                 </div>
                 <section class="section">
-                    <form action="/G5midTerm/Promotion/index.php" method="GET">
+                    <form action="/G5midTerm/Promotion/index.php" method="GET" id="searchform">
                         <div class="card">
                             <div class="card-body">
 
@@ -419,6 +419,36 @@ try {
 
 
     <script>
+        // 統一定義infomodal與info
+        const infoModal = new bootstrap.Modal('#infoModal', {
+            keyboard: true
+        })
+        const info = document.querySelector("#info")
+
+        // 檢查查詢條件邏輯
+        const searchbtn = document.querySelector("#searchbtn")
+        const searchStartTime = document.querySelector("[name='searchStartTime']");
+        const searchEndTime = document.querySelector("[name='searchEndTime']");
+        const searchform = document.querySelector("#searchform")
+        const now = new Date();
+
+
+        searchbtn.addEventListener("click", function(e) {
+            e.preventDefault();
+            let searchStartTimeVal = searchStartTime.value
+            let searchEndTimeVal = searchEndTime.value
+
+            // Validation logic
+            if (searchEndTimeVal < searchStartTimeVal) {
+                info.innerHTML = '<span class="text-danger fw-bold">結束時間</span>不可小於<span class="text-danger fw-bold">開始時間</span>';
+                infoModal.show();
+                return
+            }
+
+            searchform.submit();
+        })
+
+
         // 點擊刪除按鈕後，將用data-set的方式，將資料傳至modal並顯示modal
         const deleteButtons = document.querySelectorAll('.delete-btn');
         const deleteModal = new bootstrap.Modal('#deleteModal', {
@@ -445,11 +475,6 @@ try {
                 deleteModal.show();
             });
         });
-
-        const infoModal = new bootstrap.Modal('#infoModal', {
-            keyboard: true
-        })
-        const info = document.querySelector("#info")
 
         //點擊確認刪除，真正執行刪除
         confirmDeleteButton.addEventListener('click', function() {
