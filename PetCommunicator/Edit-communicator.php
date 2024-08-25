@@ -58,11 +58,7 @@ try {
         textarea {
             resize: none;
             /* 禁用調整大小功能 */
-        }
-        .card {
-            border-top: 3px solid #435ebe;
-        }
-        
+        }    
     </style>
 </head>
 

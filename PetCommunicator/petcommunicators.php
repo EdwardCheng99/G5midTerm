@@ -97,17 +97,6 @@ $total_page = ceil($CommCounts / $per_page);
         .comment-row.open {
             max-height: 500px;
         }
-
-        .dataTable-sorter {
-            padding-right: 16px;
-        }
-        .card {
-            border-top: 3px solid #435ebe;
-        }
-
-        html[data-bs-theme=dark] .card {
-            border-top: 3px solid rgb(142, 158, 216);
-        }
     </style>
 </head>
 
