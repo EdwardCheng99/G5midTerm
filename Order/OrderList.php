@@ -266,7 +266,7 @@ if(isset($_GET["searchName"]) || isset($_GET["dateRange"]) || isset($_GET["searc
                                                                 <td><?= $order["OrderDeliveryStatus"] ?></td>
                                                                 <td><?= $order["OrderDate"]; ?></td>
                                                                 <td>
-                                                                    <a class="btn btn-primary" href="Order.php?OrderID=<?= $order["OrderID"] ?>"><i class="fa-solid fa-pen-to-square"></i></a>
+                                                                    <a class="btn-primary" href="Order.php?OrderID=<?= $order["OrderID"] ?>"><i class="fa-solid fa-lg fa-pen-to-square"></i></a>
                                                                 </td>
                                                             </tr>
                                                         <?php endforeach; ?>

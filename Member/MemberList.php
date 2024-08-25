@@ -35,24 +35,46 @@ $start = ($page - 1) * $perPage;
 $orderClause = "ORDER BY MemberID DESC";
 if (isset($_GET["sorter"])) {
     $sorter = (int)$_GET["sorter"];
-    switch($sorter) {
-        case 1: $orderClause = "ORDER BY MemberID ASC"; break;
-        case -1: $orderClause = "ORDER BY MemberID DESC"; break;
-        case 2: $orderClause = "ORDER BY MemberName ASC"; break;
-        case -2: $orderClause = "ORDER BY MemberName DESC"; break;
-        case 3: $orderClause = "ORDER BY MemberLevel ASC"; break;
-        case -3: $orderClause = "ORDER BY MemberLevel DESC"; break;
-        case 4: $orderClause = "ORDER BY MemberCreateDate ASC"; break;
-        case -4: $orderClause = "ORDER BY MemberCreateDate DESC"; break;
+    switch ($sorter) {
+        case 1:
+            $orderClause = "ORDER BY MemberID ASC";
+            break;
+        case -1:
+            $orderClause = "ORDER BY MemberID DESC";
+            break;
+        case 2:
+            $orderClause = "ORDER BY MemberName ASC";
+            break;
+        case -2:
+            $orderClause = "ORDER BY MemberName DESC";
+            break;
+        case 3:
+            $orderClause = "ORDER BY MemberLevel ASC";
+            break;
+        case -3:
+            $orderClause = "ORDER BY MemberLevel DESC";
+            break;
+        case 4:
+            $orderClause = "ORDER BY MemberCreateDate ASC";
+            break;
+        case -4:
+            $orderClause = "ORDER BY MemberCreateDate DESC";
+            break;
     }
 }
 
 $searchName = isset($_GET["searchName"]) ? $_GET["searchName"] : '';
 $searchLevel = isset($_GET["searchLevel"]) ? $_GET["searchLevel"] : '';
-switch($searchLevel){
-    case "銅":$searchLevel = 1;break; 
-    case "銀":$searchLevel = 2;break;
-    case "金":$searchLevel = 3;break;
+switch ($searchLevel) {
+    case "銅":
+        $searchLevel = 1;
+        break;
+    case "銀":
+        $searchLevel = 2;
+        break;
+    case "金":
+        $searchLevel = 3;
+        break;
 }
 
 $sql = "SELECT * FROM Member WHERE MemberValid = 1";
@@ -65,17 +87,23 @@ if (!empty($searchName)) {
     $params[':searchName'] = "%$searchName%";
 }
 if (!empty($searchLevel)) {
-    switch($searchLevel) {
-        case "銅": $searchLevel = 1; break;
-        case "銀": $searchLevel = 2; break;
-        case "金": $searchLevel = 3; break;
+    switch ($searchLevel) {
+        case "銅":
+            $searchLevel = 1;
+            break;
+        case "銀":
+            $searchLevel = 2;
+            break;
+        case "金":
+            $searchLevel = 3;
+            break;
     }
     $conditions[] = "MemberLevel = :searchLevel";
     $params[':searchLevel'] = $searchLevel;
 }
 
 // 如果有查詢條件，將它們添加到查詢語句中
-if (!empty($conditions)) { 
+if (!empty($conditions)) {
     $sql .= " AND " . implode(" AND ", $conditions);
 }
 
@@ -115,9 +143,9 @@ $countStmt->execute();
 $totalRecords = $countStmt->fetchColumn();
 
 // 查詢時不會有分頁是因為被$perPage給限制住了，所以$userCount = $stmt->rowCount();的結果永遠不會超過perPage
-if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
+if (isset($_GET["searchName"]) || isset($_GET["searchLevel"])) {
     $totalPage = ceil($totalRecords / $perPage);
-}else{
+} else {
     $totalPage = ceil($userCountAll / $perPage);
 }
 
@@ -177,27 +205,27 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                                     <option value="金" <?= $searchLevel == 3 ? 'selected' : '' ?>>金</option>
                                                 </select>
                                                 <!-- <input type="search" id="" class="form-control" placeholder="" 
-                                                value="<?php if(isset($_GET["searchLevel"]))
-                                                        echo  $searchLevel;
+                                                value="<?php if (isset($_GET["searchLevel"]))
+                                                            echo  $searchLevel;
                                                         else
-                                                        echo '';?>" name="searchLevel"> -->
+                                                            echo ''; ?>" name="searchLevel"> -->
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-4 col-12">
                                             <div class="input-group mb-3">
                                                 <!-- $memberName -->
                                                 <span class="input-group-text" for="">會員名稱</span>
-                                                <input type="search" id="" class="form-control" placeholder="" 
-                                                value="<?php if(isset($_GET["searchName"]))
-                                                        echo  $searchName;
-                                                        else
-                                                        echo '';?>"name="searchName">
+                                                <input type="search" id="" class="form-control" placeholder=""
+                                                    value="<?php if (isset($_GET["searchName"]))
+                                                                echo  $searchName;
+                                                            else
+                                                                echo ''; ?>" name="searchName">
                                             </div>
                                         </div>
                                         <div class="col-auto">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">查詢</button>
-                                            <?php if(isset($_GET["searchLevel"]) || isset($_GET["serachName"])): ?>
-                                            <a class="btn btn-light-secondary me-1 mb-1" href="MemberList.php?p=1&sorter=1">清除查詢結果</a>
+                                            <?php if (isset($_GET["searchLevel"]) || isset($_GET["serachName"])): ?>
+                                                <a class="btn btn-light-secondary me-1 mb-1" href="MemberList.php?p=1&sorter=1">清除查詢結果</a>
                                             <?php endif; ?>
                                         </div>
                                     </div>
@@ -226,9 +254,9 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                     </div>
                                     <!-- 會員列表 -->
                                     <div class="dataTable-container">
-                                        <?php if ($userCount > 0): 
+                                        <?php if ($userCount > 0):
                                             $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                                            ?>
+                                        ?>
                                             <div class="py-2">
                                                 <table class="table table-striped dataTable-table">
                                                     <thead>
@@ -239,7 +267,8 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                                             <th>電子信箱</th>
                                                             <th>手機號碼</th>
                                                             <th><a href="#" class="sort-link" data-sorter="4">建立日期</a></th>
-                                                            <th>編輯使用者</th>
+                                                            <th></th>
+                                                            <th></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -247,19 +276,27 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                                             <tr>
                                                                 <td><?= $user["MemberID"]; ?></td>
                                                                 <td><?= $user["MemberName"]; ?></td>
-                                                                <td><?php 
-                                                                switch($user["MemberLevel"]){
-                                                                    case 1:echo "銅";break;
-                                                                    case 2:echo "銀";break;
-                                                                    case 3:echo "金";break;
-                                                                } ?></td>
+                                                                <td><?php
+                                                                    switch ($user["MemberLevel"]) {
+                                                                        case 1:
+                                                                            echo "銅";
+                                                                            break;
+                                                                        case 2:
+                                                                            echo "銀";
+                                                                            break;
+                                                                        case 3:
+                                                                            echo "金";
+                                                                            break;
+                                                                    } ?></td>
                                                                 <td><?= $user["MembereMail"]; ?></td>
                                                                 <td><?= $user["MemberPhone"]; ?></td>
                                                                 <td><?= $user["MemberCreateDate"]; ?></td>
                                                                 <td>
-                                                                    <a class="btn btn-primary" href="Member.php?MemberID=<?= $user["MemberID"] ?>"><i class="fa-solid fa-pen-to-square"></i></a>
-                                                                    <a href="#" class="btn btn-primary delete-button" data-member-id="<?= $user['MemberID'] ?>"><i class="fa-solid fa-trash-can"></i></a>
+                                                                    <a class="btn-primary" href="Member.php?MemberID=<?= $user["MemberID"] ?>"><i class="fa-solid fa-lg fa-pen-to-square"></i></a>
                                                                     <!-- <a class="btn btn-primary" href="doDeleteMember.php?MemberID=<?= $user["MemberID"] ?>"><i class="fa-solid fa-trash-can"></i></a> -->
+                                                                </td>
+                                                                <td>
+                                                                    <a href="#" class="btn-primary delete-button" data-member-id="<?= $user['MemberID'] ?>"><i class="fa-solid fa-lg fa-trash-can"></i></a>
                                                                 </td>
                                                             </tr>
                                                         <?php endforeach; ?>
@@ -273,17 +310,17 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                                     <!-- 頁數索引 -->
                                     <div class="dataTable-bottom">
                                         <div class="dataTable-info">顯示 <?= $start + 1 ?> 到 <?= min($start + $perPage, $userCountAll) ?> 共 <?= $userCountAll ?> 筆</div>
-                                        <?php if($totalPage > 1): ?>
-                                        <nav class="dataTable-pagination">
-                                            <ul class="dataTable-pagination-list pagination pagination-primary">
-                                            <?php for($i = 1;$i <= $totalPage; $i++): ?>
-                                                <li class="<?= $page == $i ? 'active' : '' ?> page-item">
-                                                    <a href="#" class="page-link" onclick="changePage(<?= $i ?>)"><?= $i ?></a>
-                                                </li>
-                                            <?php endfor; ?>
-                                            <!-- <li class="pager page-item"><a href="#" data-page="2" class="page-link">›</a></li> -->
-                                            </ul>
-                                        </nav>
+                                        <?php if ($totalPage > 1): ?>
+                                            <nav class="dataTable-pagination">
+                                                <ul class="dataTable-pagination-list pagination pagination-primary">
+                                                    <?php for ($i = 1; $i <= $totalPage; $i++): ?>
+                                                        <li class="<?= $page == $i ? 'active' : '' ?> page-item">
+                                                            <a href="#" class="page-link" onclick="changePage(<?= $i ?>)"><?= $i ?></a>
+                                                        </li>
+                                                    <?php endfor; ?>
+                                                    <!-- <li class="pager page-item"><a href="#" data-page="2" class="page-link">›</a></li> -->
+                                                </ul>
+                                            </nav>
                                         <?php endif; ?>
                                     </div>
                                     <?php $dbHost = null; ?>
@@ -304,13 +341,13 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
             </footer>
         </div>
     </div>
-    
+
     <!-- JavaScript -->
     <script>
         const sortLinks = document.querySelectorAll(".sort-link");
 
         sortLinks.forEach(link => {
-            link.addEventListener("click", function(event){
+            link.addEventListener("click", function(event) {
                 event.preventDefault(); // 避免跳轉
 
                 // 將data-sorter的值抓出來
@@ -326,24 +363,24 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
                 // 保留搜索條件
                 const searchName = document.querySelector('input[name="searchName"]').value;
                 const searchLevel = document.querySelector('select[name="searchLevel"]').value;
-                
-                if(searchName) urlParams.set('searchName', searchName);
-                if(searchLevel) urlParams.set('searchLevel', searchLevel);
+
+                if (searchName) urlParams.set('searchName', searchName);
+                if (searchLevel) urlParams.set('searchLevel', searchLevel);
                 window.location.search = urlParams.toString();
             });
         });
 
         // 選擇頁面功能
         const selectElement = document.querySelector("#perPageSelect");
-        selectElement.addEventListener("change", function(){
+        selectElement.addEventListener("change", function() {
             const perPage = this.value;
             changePage(1, perPage);
         });
 
-        function changePage(page, perPage = null){
+        function changePage(page, perPage = null) {
             const urlParams = new URLSearchParams(window.location.search);
             urlParams.set('p', page);
-            if(perPage !== null){
+            if (perPage !== null) {
                 urlParams.set('perPage', perPage);
             }
 
@@ -351,8 +388,8 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
             const searchName = document.querySelector('input[name="searchName"]').value;
             const searchLevel = document.querySelector('select[name="searchLevel"]').value;
 
-            if(searchName) urlParams.set('searchName', searchName);
-            if(searchLevel) urlParams.set('searchLevel', searchLevel);
+            if (searchName) urlParams.set('searchName', searchName);
+            if (searchLevel) urlParams.set('searchLevel', searchLevel);
             window.location.search = urlParams.toString();
         }
 
@@ -377,11 +414,11 @@ if(isset($_GET["searchName"]) || isset($_GET["searchLevel"])){
             }
         });
 
-        // <?php if(isset($_SESSION["message"])): ?>
-        
-        // <?php endif;?>
+        // <?php if (isset($_SESSION["message"])): ?>
+
+        // <?php endif; ?>
     </script>
-    
+
     <script src="../assets/static/js/components/dark.js"></script>
     <script src="../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="../assets/compiled/js/app.js"></script>

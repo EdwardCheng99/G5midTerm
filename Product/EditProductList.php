@@ -152,7 +152,7 @@ try {
                                                                 <tr>
                                                                     <th class="product-th-width">原價</th>
                                                                     <!-- 不顯示小數點 -->
-                                                                    <td><input class="form-control" type="text" value="<?= number_format($row["product_origin_price"], 0) ?>" name="product_origin_price"></td>
+                                                                    <td><input class="form-control" type="text" value="<?= intval($row["product_origin_price"], 0) ?>" name="product_origin_price"></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <th class="product-th-width">庫存</th>
