@@ -40,8 +40,13 @@ try {
 
     <?php include("../headlink.php") ?>
     <style>
-        .product-img-size {
-            height: 35rem;
+        .ratio-4x3 {
+            --bs-aspect-ratio: 88%
+        }
+
+        .card {
+            /* border-top: 3px solid #435ebe ; */
+            box-shadow: var(--bs-box-shadow) !important;
         }
     </style>
 
@@ -87,18 +92,16 @@ try {
                         </div>
                     </div>
                     <section class="section">
+                        <!-- NavBar -->
+                        <div class="py-2 mb-3 d-flex justify-content-between">
+                            <a class="btn btn-primary mb-3" href="ProductList.php" title="回商品管理"><i class="fa-solid fa-chevron-left"></i>回列表</a></a>
+                        </div>
                         <div class="card">
                             <div class="card-body">
                                 <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
                                     <div class="container">
                                         <form action="doEditProductList.php" method="post" enctype="multipart/form-data">
                                             <div class="row ">
-                                                <!-- NavBar -->
-                                                <div class="py-2 d-flex justify-content-between">
-                                                    <a class="btn btn-primary" href="ProductList.php" title="回商品管理"><i class="fa-solid fa-left-long"></i></a>
-                                                    <a class="btn btn-primary" title="檢視商品" href="product.php?product_id=<?= $product_id ?>"><i class="fa-solid fa-circle-info m-1"></i></a>
-                                                    <button type="submit" class="btn btn-danger" id="delBtn">刪除</button>
-                                                </div>
                                                 <!-- 編輯內容 -->
                                                 <?php if ($productCount > 0) : ?>
                                                     <?php foreach ($rows as $row) : ?>
@@ -108,7 +111,7 @@ try {
                                                                 <input type="file" id="formFile" name="pic" class="form-control" value="<?= $row["product_img"] ?>">
                                                             </div>
                                                             <div class="col-lg">
-                                                                <div class="ratio ratio-1x1 border mb-2 product-img-size">
+                                                                <div class="ratio ratio-4x3 border mb-2">
                                                                     <img id="imagePreview" class="img-preview " src="./ProductPicUpLoad/<?= $row["product_img"] ?>" alt="Image Preview">
                                                                 </div>
                                                             </div>
@@ -121,7 +124,7 @@ try {
                                                                     <td>
                                                                         <input
                                                                             type="text"
-                                                                            class="form-control mb-3 flatpickr-no-config flatpickr-input active" id="" name="product_start_time" placeholder="上架時間"  readonly="readonly" value="<?= $row["product_start_time"] ?>">
+                                                                            class="form-control mb-3 flatpickr-no-config flatpickr-input active" id="" name="product_start_time" placeholder="上架時間" readonly="readonly" value="<?= $row["product_start_time"] ?>">
                                                                     </td>
                                                                     </td>
                                                                     </th>
@@ -132,7 +135,7 @@ try {
                                                                     <td>
                                                                         <input
                                                                             type="text"
-                                                                            class="form-control mb-3 flatpickr-no-config flatpickr-input active" id="" name="product_end_time" placeholder="下架時間"  readonly="readonly" value="<?= $row["product_end_time"] ?>">
+                                                                            class="form-control mb-3 flatpickr-no-config flatpickr-input active" id="" name="product_end_time" placeholder="下架時間" readonly="readonly" value="<?= $row["product_end_time"] ?>">
                                                                     </td>
                                                                     </td>
                                                                     </th>
@@ -143,22 +146,31 @@ try {
                                                                     <input type="hidden" name="product_id" value="<?= $row["product_id"] ?>">
                                                                 </tr>
                                                                 <tr>
+                                                                    <th class="product-th-width">商品名稱</th>
+                                                                    <td><input class="form-control" type="text" value="<?= $row["product_name"] ?>" name="product_name"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="product-th-width">原價</th>
+                                                                    <!-- 不顯示小數點 -->
+                                                                    <td><input class="form-control" type="text" value="<?= number_format($row["product_origin_price"], 0) ?>" name="product_origin_price"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="product-th-width">庫存</th>
+                                                                    <td><input class="form-control" type="text" value="<?= $row["product_stock"] ?>" name="product_stock"></td>
+                                                                </tr>
+                                                                <tr>
                                                                     <th class="product-th-width">商品狀態</th>
                                                                     <td>
-                                                                        <select class="form-control" name="product_status" id="">
+                                                                        <select class="form-select" name="product_status" id="">
                                                                             <option value="已上架" <?= $row["product_status"] === '已上架' ? 'selected' : '' ?>>已上架</option>
                                                                             <option value="已下架" <?= $row["product_status"] === '已下架' ? 'selected' : '' ?>>已下架</option>
                                                                         </select>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <th class="product-th-width">商品名稱</th>
-                                                                    <td><input class="form-control" type="text" value="<?= $row["product_name"] ?>" name="product_name"></td>
-                                                                </tr>
-                                                                <tr>
                                                                     <th class="product-th-width">品牌</th>
                                                                     <td>
-                                                                        <select class="form-control" name="product_brand" id="">
+                                                                        <select class="form-select" name="product_brand" id="">
                                                                             <option value="木入森" <?= $row["product_brand"] === '木入森' ? 'selected' : '' ?>>木入森</option>
                                                                             <option value="水魔素" <?= $row["product_brand"] === '水魔素' ? 'selected' : '' ?>>水魔素</option>
                                                                             <option value="陪心" <?= $row["product_brand"] === '陪心' ? 'selected' : '' ?>>陪心</option>
@@ -169,17 +181,21 @@ try {
                                                                 <tr>
                                                                     <th class="product-th-width">類別</th>
                                                                     <td>
-                                                                        <select class="form-control" name="product_category_name" id="">
+                                                                        <select class="form-select" name="product_category_name" id="">
                                                                             <option value="犬貓通用" <?= $row["product_category_name"] === '犬貓通用' ? 'selected' : '' ?>>犬貓通用</option>
                                                                             <option value="犬寶保健" <?= $row["product_category_name"] === '犬寶保健' ? 'selected' : '' ?>>犬寶保健</option>
                                                                             <option value="貓皇保健" <?= $row["product_category_name"] === '貓皇保健' ? 'selected' : '' ?>>貓皇保健</option>
+                                                                            <option value="沐洗口腔護理" <?= $row["product_category_name"] === '沐洗口腔護理' ? 'selected' : '' ?>>沐洗口腔護理</option>
                                                                         </select>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <th class="product-th-width">分類</th>
                                                                     <td>
-                                                                        <select class="form-control" name="product_sub_category" id="">
+                                                                        <select class="form-select" name="product_sub_category" id="">
+                                                                            <option value="沐浴" <?= $row["product_sub_category"] === '沐浴' ? 'selected' : '' ?>>沐浴</option>
+                                                                            <option value="清潔" <?= $row["product_sub_category"] === '清潔' ? 'selected' : '' ?>>清潔</option>
+                                                                            <option value="排毛粉" <?= $row["product_sub_category"] === '排毛粉' ? 'selected' : '' ?>>排毛粉</option>
                                                                             <option value="魚油粉" <?= $row["product_sub_category"] === '魚油粉' ? 'selected' : '' ?>>魚油粉</option>
                                                                             <option value="鈣保健" <?= $row["product_sub_category"] === '鈣保健' ? 'selected' : '' ?>>鈣保健</option>
                                                                             <option value="腸胃保健" <?= $row["product_sub_category"] === '腸胃保健' ? 'selected' : '' ?>>腸胃保健</option>
@@ -189,16 +205,9 @@ try {
                                                                             <option value="皮膚保健" <?= $row["product_sub_category"] === '皮膚保健' ? 'selected' : '' ?>>皮膚保健</option>
                                                                             <option value="胰臟保健" <?= $row["product_sub_category"] === '胰臟保健' ? 'selected' : '' ?>>胰臟保健</option>
                                                                             <option value="眼睛保健" <?= $row["product_sub_category"] === '眼睛保健' ? 'selected' : '' ?>>眼睛保健</option>
+                                                                            <option value="基礎保養" <?= $row["product_sub_category"] === '基礎保養' ? 'selected' : '' ?>>基礎保養</option>
                                                                         </select>
                                                                     </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th class="product-th-width">原價</th>
-                                                                    <td><input class="form-control" type="text" value="<?= $row["product_origin_price"] ?>" name="product_origin_price"></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th class="product-th-width">庫存</th>
-                                                                    <td><input class="form-control" type="text" value="<?= $row["product_stock"] ?>" name="product_stock"></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <th class="product-th-width">建立時間</th>
@@ -211,43 +220,50 @@ try {
                                                             <?php endforeach; ?>
                                                             </table>
                                                         </div>
-                                                        <div class="col-lg">
-                                                            <?php foreach ($rows as $row) : ?>
-                                                                <table>
-                                                                    <tr>
-                                                                        <th>商品介紹</th>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <textarea rows="25" cols="50" class="form-control" type="text" name="product_info"><?= $row["product_info"] ?></textarea>
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            <?php endforeach; ?>
-                                                        </div>
+                                                        <?php foreach ($rows as $row) : ?>
+                                                            <table>
+                                                                <tr>
+                                                                    <th>商品介紹</th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <textarea rows="10" cols="200" class="form-control" type="text" name="product_info"><?= $row["product_info"] ?></textarea>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        <?php endforeach; ?>
+
                                                     <?php endif; ?>
                                             </div>
-                                            <div class="d-flex justify-content-end mt-2">
-                                                <button type="submit" class="btn btn-primary">儲存</button>
-                                            </div>
-                                        </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </section>
                 </div>
-                <?php include("../footer.php") ?>
-            </div>
-            <footer>
-                <div class="footer clearfix mb-0 text-muted">
-                    <div class="float-start">
-                    </div>
-                    <div class="float-end">
+                <div class="row">
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary">儲存</button>
+                        <button type="submit" class="btn btn-danger ms-5" id="delBtn">刪除</button>
                     </div>
                 </div>
-            </footer>
+            </div>
         </div>
+    </div>
+    </form>
+    </section>
+    </div>
+    <?php include("../footer.php") ?>
+    </div>
+    <footer>
+        <div class="footer clearfix mb-0 text-muted">
+            <div class="float-start">
+            </div>
+            <div class="float-end">
+            </div>
+        </div>
+    </footer>
+    </div>
     </div>
     <?php include("../js.php") ?>
     <?php include("./product-js.php") ?>
@@ -255,4 +271,5 @@ try {
     <script src="../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="../assets/compiled/js/app.js"></script>
 </body>
+
 </html>

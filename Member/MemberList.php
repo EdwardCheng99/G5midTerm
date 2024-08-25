@@ -3,6 +3,10 @@ include("../pdoConnect.php");
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+// $deleteAlert = $_GET["success"];
+// if($deleteAlert == 1 ){
+//     echo "<script>alert('會員刪除成功！');window.location.href = 'MemberList.php?p=1&sorter=1';</script>";
+// }
 
 // 獲取每頁顯示的資料數量，默認為20
 $perPage = isset($_GET['perPage']) ? (int)$_GET['perPage'] : 20;

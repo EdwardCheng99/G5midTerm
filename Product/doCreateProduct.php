@@ -33,6 +33,7 @@ $sql = "INSERT INTO product
 product_brand, 
 product_category_name,
 product_sub_category,
+product_status,
 product_origin_price, 
 product_sale_price, 
 product_stock, 
@@ -47,6 +48,7 @@ product_update_date)
 :product_brand, 
 :product_category_name,
 :product_sub_category,
+:product_status,
 :product_origin_price, 
 :product_sale_price, 
 :product_stock, 
@@ -60,6 +62,7 @@ product_update_date)
 $product_brand = $_POST["product_brand"];
 $product_category_name = $_POST["product_category_name"];
 $product_sub_category = $_POST["product_sub_category"];
+$product_status = $_POST["product_status"];
 $product_origin_price = $_POST["product_origin_price"];
 $product_sale_price = $_POST["product_sale_price"];
 $product_stock = $_POST["product_stock"];
@@ -93,6 +96,7 @@ $stmt->bindParam(':product_name', $productName);
 $stmt->bindParam(':product_brand', $product_brand);
 $stmt->bindParam(':product_category_name', $product_category_name);
 $stmt->bindParam(':product_sub_category', $product_sub_category);
+$stmt->bindParam(':product_status', $product_status);
 $stmt->bindParam(':product_origin_price', $product_origin_price);
 $stmt->bindParam(':product_sale_price', $product_sale_price);
 $stmt->bindParam(':product_stock', $product_stock);

@@ -10,34 +10,28 @@ $per_page = isset($_GET["perPage"]) ? $_GET["perPage"] : 5;
 $orderID = 'PetCommID';
 $orderValue = 'ASC';
 
-if (isset($_GET["p"]) && isset($_GET["order"])) {
-    if (isset($_GET['order'])) {
-        $order = $_GET['order'];
-        $orderArray = explode(':', $_GET['order']);
-        $orderID = $orderArray[0];
-        $orderValue = $orderArray[1] == 'DESC' ? 'DESC' : 'ASC';
-    }
-
-    if (isset($_GET["p"])) {
-        $page = $_GET["p"];
-        $start_item = ($page - 1) * $per_page;
+if (isset($_GET["p"]) && isset($_GET["order"]) && isset($_GET["perPage"])) {
+    $order = $_GET['order'];
+    $orderArray = explode(':', $_GET['order']);
+    $orderID = $orderArray[0];
+    $orderValue = $orderArray[1] == 'DESC' ? 'DESC' : 'ASC';
+    $page = $_GET["p"];
+    $start_item = ($page - 1) * $per_page;
+    if (!isset($_GET["search"])) {
         $sql = "SELECT * FROM Petcommunicator WHERE valid=1 AND PetCommStatus = '未刊登' ORDER BY $orderID $orderValue LIMIT $start_item, $per_page ";
         $stmt = $dbHost->prepare($sql);
+    } elseif (isset($_GET["search"])) {
+        $search = $_GET["search"];
+        $sql = "SELECT * FROM Petcommunicator WHERE PetCommName LIKE :search AND valid=1 AND PetCommStatus = '未刊登' ORDER BY $orderID $orderValue";
+        $stmt = $dbHost->prepare($sql);
+        $stmt->bindValue(':search', "%$search%", PDO::PARAM_STR);
     }
-} elseif (isset($_GET["search"])) {
-    $search = $_GET["search"];
-    $sql = "SELECT * FROM Petcommunicator WHERE PetCommName LIKE :search AND valid=1 AND PetCommStatus = '未刊登'";
-    $stmt = $dbHost->prepare($sql);
-    $stmt->bindValue(':search', "%$search%", PDO::PARAM_STR);
 } else {
-    header("location: StatusList.php?perPage=10&p=1&order=PetCommID%3AASC");
+    header("location: StatusList.php?perPage=10&p=1&order=PetCommID:DESC");
 }
-
 try {
     $stmtAll->execute();
     $CommCounts = $stmtAll->rowCount();
-
-
     $stmt->execute();
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $CommCount = $stmt->rowCount();
@@ -51,6 +45,7 @@ $total_page = ceil($CommCounts / $per_page);
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -100,8 +95,13 @@ $total_page = ceil($CommCounts / $per_page);
         .comment-row.open {
             max-height: 500px;
         }
+
+        .dataTable-sorter {
+            padding-right: 16px;
+        }
     </style>
 </head>
+
 <body>
     <script src="../assets/static/js/initTheme.js"></script>
     <div id="app">
@@ -137,7 +137,10 @@ $total_page = ceil($CommCounts / $per_page);
                             <div class="dataTable-search">
                                 <form action="">
                                     <div class="input-group ">
-                                        <input type="search" class="form-control" name="search" placeholder="請搜尋溝通師名稱...">
+                                        <input type="search" class="form-control" name="search" placeholder="請搜尋溝通師名稱..." value="<?= isset($_GET["search"]) ? $search : "" ?>">
+                                        <input type="hidden" name="perPage" value="<?= $per_page ?>">
+                                        <input type="hidden" name="p" value="<?= $page ?>">
+                                        <input type="hidden" name="order" value="PetCommID:DESC">
                                         <button type="submit" class="btn btn-primary">搜尋</button>
                                     </div>
                                 </form>
@@ -193,13 +196,16 @@ $total_page = ceil($CommCounts / $per_page);
                                             <thead>
                                                 <!-- 類別標題 -->
                                                 <tr>
-                                                    <th data-sortable="" class="<?= $orderID == 'PetCommID' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" aria-sort="descending"><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">編號</a></th>
-                                                    <th class="<?= $orderID == 'PetCommName' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommName:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">名稱</a></th>
-                                                    <th class="<?= $orderID == 'PetCommSex' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommSex:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">性別</a></th>
-                                                    <th class="<?= $orderID == 'PetCommCertificateid' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateid:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">證書編號</a></th>
-                                                    <th class="<?= $orderID == 'PetCommCertificateDate' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">取證日期</a></th>
-                                                    <th class="<?= $orderID == 'PetCommStatus' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommStatus:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?>" class="dataTable-sorter">刊登狀態</a></th>
-                                            </thead>
+                                                    <th data-sortable="" class="<?= $orderID == 'PetCommID' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" aria-sort="descending"><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommID:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?><?= isset($_GET["search"]) ? "&search=" . $search : "" ?>" class="dataTable-sorter">編號</a></th>
+                                                    <th class="<?= $orderID == 'PetCommName' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommName:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?><?= isset($_GET["search"]) ? "&search=" . $search : "" ?>" class="dataTable-sorter">名稱</a></th>
+                                                    <th class="<?= $orderID == 'PetCommSex' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommSex:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?><?= isset($_GET["search"]) ? "&search=" . $search : "" ?>" class="dataTable-sorter">性別</a></th>
+                                                    <th class="<?= $orderID == 'PetCommCertificateid' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateid:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?><?= isset($_GET["search"]) ? "&search=" . $search : "" ?>" class="dataTable-sorter">證書編號</a></th>
+                                                    <th class="<?= $orderID == 'PetCommCertificateDate' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommCertificateDate:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?><?= isset($_GET["search"]) ? "&search=" . $search : "" ?>" class="dataTable-sorter">取證日期</a></th>
+                                                    <th class="<?= $orderID == 'PetCommStatus' ? ($orderValue === 'ASC' ? 'asc' : 'desc') : '' ?>" data-sortable=""><a href="?perPage=<?= $per_page ?>&p=<?= $page ?>&order=PetCommStatus:<?= $orderValue === 'ASC' ? 'DESC' : 'ASC' ?><?= isset($_GET["search"]) ? "&search=" . $search : "" ?>" class="dataTable-sorter">刊登狀態</a></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                                </thead>
                                             <tbody>
                                                 <?php foreach ($rows as $user): ?>
                                                     <!-- 資料清單 -->
@@ -301,4 +307,5 @@ $total_page = ceil($CommCounts / $per_page);
             })
     </script>
 </body>
+
 </html>

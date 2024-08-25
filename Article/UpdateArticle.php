@@ -65,7 +65,7 @@ try {
                     <div class="page-title">
                         <div class="row">
                             <div class="col-12 col-md-6">
-                                <a href="ArticleList.php" class="btn btn-primary mb-5">回文章列表</a>
+                                <a href="ArticleList.php" class="btn btn-primary mb-5">回列表</a>
                                 <h1>編輯文章</h1>
                             </div>
 
@@ -171,11 +171,11 @@ try {
                     <section>
                         <div class="row justify-content-center">
                             <div class="d-flex justify-content-center col-6">
-                                <button type="submit" class="btn btn-primary">更新文章 </button>
+                                <button type="submit" class="btn btn-primary">儲存 </button>
                             </div>
                             <div class="d-flex justify-content-center  col-6">
                                 <a href="javascript:void(0);" class="btn btn-danger"
-                                    onclick="if (confirm('確定要刪除嗎')) { window.location.href='ArticleDelete.php?id=<?= $article['ArticleID'] ?>'; }">刪除文章
+                                    onclick="if (confirm('確定要刪除嗎')) { window.location.href='ArticleDelete.php?id=<?= $article['ArticleID'] ?>'; }">刪除
                                 </a>
                             </div>
                         </div>

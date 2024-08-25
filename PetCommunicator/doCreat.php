@@ -37,7 +37,9 @@ if ($_FILES["PetCommImg"]["error"] == 0) {
         PetCommStatus, 
         valid, 
         PetCommCreateDate,
-        PetCommCreateUserID
+        PetCommCreateUserID,
+        PetCommUpdateUserID,
+        PetCommUpdateDate
         ) VALUES (
         :PetCommName, 
         :PetCommSex, 
@@ -52,7 +54,9 @@ if ($_FILES["PetCommImg"]["error"] == 0) {
         :PetCommStatus, 
         :valid, 
         :PetCommCreateDate,
-        :PetCommCreateUserID
+        :PetCommCreateUserID,
+        :PetCommUpdateUserID,
+        :PetCommUpdateDate
         )";
     } else {
         echo "上傳圖檔失敗";
@@ -78,6 +82,8 @@ try {
     $stmt->bindParam(':valid', $valid);
     $stmt->bindParam(':PetCommCreateDate', $now);
     $stmt->bindValue(':PetCommCreateUserID', 'Ben');
+    $stmt->bindValue(':PetCommUpdateUserID', 'Ben');
+    $stmt->bindValue(':PetCommUpdateDate', $now);
 
     $stmt->execute();
     $last_id = $dbHost->lastInsertId();

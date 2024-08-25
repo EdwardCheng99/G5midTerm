@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>溝通師新增</title>
-    
+
     <?php include("../headlink.php") ?>
     <style>
         .flatpickr-time {
@@ -30,115 +30,113 @@
                 </a>
             </header>
             <div class="page-heading">
-                    <!-- 標題抬頭 -->
-                    <div class="page-title">
-                        <div class="row">
-                            <div class="col-12 col-md-6 order-md-1 order-last">
-                                <h3>溝通師新增</h3>
-                                <p class="text-subtitle text-muted"></p>
-                            </div>
-                            <div class="col-12 col-md-6 order-md-2 order-first">
-                                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
-                                    <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="index.html"><i class="fa-solid fa-house"></i></a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">溝通師新增</li>
-                                    </ol>
-                                </nav>
-                            </div>
+                <!-- 標題抬頭 -->
+                <div class="page-title">
+                    <div class="row">
+                        <div class="col-12 col-md-6 order-md-1 order-last">
+                            <h3>溝通師新增</h3>
+                            <p class="text-subtitle text-muted"></p>
+                        </div>
+                        <div class="col-12 col-md-6 order-md-2 order-first">
+                            <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="index.html"><i class="fa-solid fa-house"></i></a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">溝通師新增</li>
+                                </ol>
+                            </nav>
                         </div>
                     </div>
-                    <section class="section">
+                </div>
+                <section class="section">
+                    <a href="petcommunicators.php?p=1" class="btn btn-primary mb-2"><i class="fa-solid fa-chevron-left"></i>回列表</a>
+                    <form action="doCreat.php" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+                        <input type="hidden" id="" class="form-control" placeholder="" name="PetCommStatus" value="未刊登">
+                        <input type="hidden" id="" class="form-control" placeholder="" name="valid" value="1">
                         <div class="card">
                             <div class="card-body">
-                                <a href="petcommunicators.php?p=1" class="btn btn-primary mb-2">返回</a>
-                                <form action="doCreat.php" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
-                                    <div class="row">
-                                        <!-- 左側欄位 -->
-                                        <div class="col-6">
-                                            <div class="col">
-                                                <input type="hidden" id="" class="form-control" placeholder="" name="PetCommStatus" value="未刊登">
-                                                <input type="hidden" id="" class="form-control" placeholder="" name="valid" value="1">
 
-                                                <div class="form-group">
-                                                    <label for="" class="required">名稱</label>
-                                                    <input type="text" id="" class="form-control" placeholder="" name="PetCommName" required>
-                                                </div>
+                                <div class="row">
+                                    <!-- 左側欄位 -->
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <div class="mb-3 mt-2">
+                                                <label for="formFile" class="required">相片</label>
+                                                <input class="form-control" type="file" id="formFile" name="PetCommImg">
                                             </div>
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <label for="" class="required">性別</label>
-                                                    <select class="dataTable-selector form-select" name="PetCommSex" required>
-                                                        <option value="male">男</option>
-                                                        <option value="female">女</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="form-group mt-2">
-                                                    <label for="">服務項目</label>
-                                                    <input type="text" id="" class="form-control" placeholder="" name="PetCommService">
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <label for="">進行方式</label>
-                                                    <input type="text" id="" class="form-control" placeholder="" name="PetCommApproach">
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <label for="">預約費用</label>
-                                                    <input type="text" id="" class="form-control" placeholder="" name="PetCommFee">
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <label for="" class="required">Eamil</label>
-                                                    <input type="email" id="" class="form-control" placeholder="" name="PetCommEmail" required>
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <label for="">介紹</label>
-                                                    <textarea rows="16" class="form-control" placeholder="" name="PetCommIntroduction"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- 右側欄位 -->
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label for="" class="required">證照編號</label>
-                                                <input type="text" id="" class="form-control" name="PetCommCertificateid" value="動溝證字第">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="" class="form-label">取證日期</label>
-                                                <input type="text" class=" form-control  flatpickr-no-config active " placeholder="Select date..." readonly="readonly" name="PetCommCertificateDate">
-
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="mb-3 mt-2">
-                                                    <label for="formFile" class="">相片</label>
-                                                    <input class="form-control" type="file" id="formFile" name="PetCommImg">
-                                                </div>
-                                                <div class="ratio ratio-4x3 border">
-                                                    <img id="imagePreview" class="img-preview object-fit-contain rounded-5" src="" alt="Image Preview" style="display: none;">
-                                                </div>
+                                            <div class="ratio ratio-4x3 border">
+                                                <img id="imagePreview" class="img-preview object-fit-contain rounded-5" src="" alt="Image Preview" style="display: none;">
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- 送出表單按鈕 -->
-                                    <div class="row">
-                                        <div class="col-12 d-flex justify-content-end m-2">
-                                            <button type="submit" class="btn btn-primary me-1 mb-1">送出</button>
-                                            <button type="reset" class="btn btn-light-secondary me-1 mb-1">清除</button>
+                                    <!-- 右側欄位 -->
+                                    <div class="col-6">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="" class="required mt-2">名稱</label>
+                                                <input type="text" id="" class="form-control" placeholder="" name="PetCommName" required>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="" class="required">性別</label>
+                                                <select class="dataTable-selector form-select" name="PetCommSex" required>
+                                                    <option value="male">男</option>
+                                                    <option value="female">女</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="" class="required">Eamil</label>
+                                                <input type="email" id="" class="form-control" placeholder="" name="PetCommEmail" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="" class="required">證照編號</label>
+                                            <input type="text" id="" class="form-control" name="PetCommCertificateid" value="動溝證字第">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="" class="form-label required">取證日期</label>
+                                            <input type="text" class=" form-control  flatpickr-no-config active " placeholder="Select date..." readonly="readonly" name="PetCommCertificateDate">
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group mt-2">
+                                                <label for="">服務項目</label>
+                                                <input type="text" id="" class="form-control" placeholder="" name="PetCommService">
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="">進行方式</label>
+                                                <input type="text" id="" class="form-control" placeholder="" name="PetCommApproach">
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="">預約費用</label>
+                                                <input type="text" id="" class="form-control" placeholder="" name="PetCommFee">
+                                            </div>
                                         </div>
                                     </div>
-                                </form>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="">介紹</label>
+                                            <textarea rows="10" class="form-control" placeholder="" name="PetCommIntroduction"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </section>
-                </div>
-                <?php include("../footer.php") ?>
+                        <!-- 送出表單按鈕 -->
+                        <div class="col-12 d-flex justify-content-center m-2">
+                            <button type="submit" class="btn btn-primary me-1 mb-1">送出</button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+            <?php include("../footer.php") ?>
         </div>
     </div>
     <?php include("../js.php") ?>

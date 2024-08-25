@@ -171,7 +171,7 @@ if(isset($_GET["searchName"]) || isset($_GET["dateRange"]) || isset($_GET["searc
                                             <div class="input-group mb-3">
                                                 <!-- $memberDate -->
                                                 <span class="input-group-text" for="">選擇日期</span>
-                                                <input type="text" class="form-control flatpickr-range flatpickr-input" placeholder="Select date.." readonly="readonly" name="dateRange">
+                                                <input type="text" class="form-control flatpickr-range flatpickr-input" placeholder="Select date.." value="<?= $dateRange ?>" readonly="readonly" name="dateRange">
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-4 col-12">
