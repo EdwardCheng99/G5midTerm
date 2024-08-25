@@ -40,6 +40,16 @@ if (isset($searchPromotionType)  && $searchPromotionType !== "") {
     $params[':searchPromotionType'] = $searchPromotionType;
 }
 
+if (isset($searchStartTime) && $searchStartTime !== "") {
+    $conditions[] = "d.StartTime >= :searchStartTime ";
+    $params[':searchStartTime'] = $searchStartTime;
+}
+
+if (isset($searchEndTime) && $searchEndTime !== "") {
+    $conditions[] = "d.EndTime <= :searchEndTime ";
+    $params[':searchEndTime'] = $searchEndTime;
+}
+
 if ((isset($searchStartTime) && $searchStartTime !== "") && (isset($searchEndTime) && $searchEndTime !== "")) {
     $conditions[] = "(d.StartTime >= :searchStartTime AND d.EndTime <= :searchEndTime)";
     $params[':searchStartTime'] = $searchStartTime;
@@ -199,21 +209,21 @@ try {
                                     </div>
                                     <div class="col-lg-3 col-md-4 col-12">
                                         <div class="input-group mb-3">
-                                            <label class="input-group-text" for="inputGroupSelect01">促銷方式</label>
-                                            <select class="form-select" id="inputGroupSelect01" name="searchPromotionType">
-                                                <option value="" <?= ($searchPromotionType == "") ? 'selected' : '' ?>>全部</option>
-                                                <option value="1" <?= ($searchPromotionType == 1) ? 'selected' : '' ?>>自動套用</option>
-                                                <option value="2" <?= ($searchPromotionType == 2) ? 'selected' : '' ?>>優惠券</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-4 col-12">
-                                        <div class="input-group mb-3">
                                             <label class="input-group-text" for="inputGroupSelect01">計算方式</label>
                                             <select class="form-select" id="inputGroupSelect01" name="searchCalculateType">
                                                 <option value="" <?= ($searchCalculateType == "") ? 'selected' : '' ?>>全部</option>
                                                 <option value="1" <?= ($searchCalculateType == 1) ? 'selected' : '' ?>>%</option>
                                                 <option value="2" <?= ($searchCalculateType == 2) ? 'selected' : '' ?>>元</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-12">
+                                        <div class="input-group mb-3">
+                                            <label class="input-group-text" for="inputGroupSelect01">促銷方式</label>
+                                            <select class="form-select" id="inputGroupSelect01" name="searchPromotionType">
+                                                <option value="" <?= ($searchPromotionType == "") ? 'selected' : '' ?>>全部</option>
+                                                <option value="1" <?= ($searchPromotionType == 1) ? 'selected' : '' ?>>自動套用</option>
+                                                <option value="2" <?= ($searchPromotionType == 2) ? 'selected' : '' ?>>優惠券</option>
                                             </select>
                                         </div>
                                     </div>
@@ -439,10 +449,12 @@ try {
             let searchEndTimeVal = searchEndTime.value
 
             // Validation logic
-            if (searchEndTimeVal < searchStartTimeVal) {
-                info.innerHTML = '<span class="text-danger fw-bold">結束時間</span>不可小於<span class="text-danger fw-bold">開始時間</span>';
-                infoModal.show();
-                return
+            if (searchStartTimeVal !== "" && searchEndTimeVal !== "") {
+                if (searchEndTimeVal < searchStartTimeVal) {
+                    info.innerHTML = '<span class="text-danger fw-bold">結束時間</span>不可小於<span class="text-danger fw-bold">開始時間</span>';
+                    infoModal.show();
+                    return
+                }
             }
 
             searchform.submit();
