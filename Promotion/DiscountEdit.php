@@ -448,6 +448,7 @@ try {
                 });
         })
         deletebtn.addEventListener("click", function() {
+            let IDVal = ID.value;
             $.ajax({
                     method: "POST",
                     url: "/G5midTerm/Promotion/doDeleteDiscount.php",
