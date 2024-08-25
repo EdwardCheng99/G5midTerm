@@ -73,7 +73,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 <section class="section">
                     <div class="row">
                         <div class="col-12 d-flex justify-content-start mb-2">
-                            <a href="DiscountList.php" class="btn btn-secondary me-1 mb-1">返回</a>
+                            <a href="index.php" class="btn btn-secondary me-1 mb-1">返回</a>
                         </div>
                         <div class="col-12">
                             <div class="card">
