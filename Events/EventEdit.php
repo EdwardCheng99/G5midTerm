@@ -120,6 +120,10 @@ if (isset($event)) {
             overflow-y: auto;
             /* 允許垂直滾動 */
         }
+
+        .updatedatefooter {
+            font-size: 12px;
+        }
     </style>
 </head>
 
@@ -144,7 +148,7 @@ if (isset($event)) {
                         <div class="row">
                             <div class="col-12 col-md-6 order-md-1 order-last">
                                 <h3 class="">編輯活動 </h3>
-                                <button type="button" class="btn btn-secondary mb-4"> <a class="text-white" href="./OfficialEventsList.php?p=1&order=99">返回</a></button>
+                                <button type="button" class="btn btn-primary mb-4"> <a class="text-white" href="./OfficialEventsList.php?p=1&order=99"><i class="fa-solid fa-chevron-left"></i>回列表</a></button>
                             </div>
                             <div class="col-12 col-md-6 order-md-2 order-first">
                                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
@@ -360,7 +364,7 @@ if (isset($event)) {
                     </div>
 
                 </div>
-                <p class="text-muted fs-6 text-end pe-3">最近更新時間：<?= $event["EventUpdateDate"] ?></p>
+                <p class="updatedatefooter text-body-tertiary text-end pe-3">最近更新時間：<?= $event["EventUpdateDate"] ?></p>
                 <div class="d-flex justify-content-center my-3">
                     <button id="send" type="submit" class="btn btn-primary me-2">儲存</button>
                     <button id="delete" type="submit" class="btn btn-danger "><a class="text-white" href="pdoDeleteEvent.php?id=<?= $event["EventID"] ?>">刪除</a></button>
