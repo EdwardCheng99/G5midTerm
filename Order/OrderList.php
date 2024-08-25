@@ -279,7 +279,7 @@ if(isset($_GET["searchName"]) || isset($_GET["dateRange"]) || isset($_GET["searc
                                     </div>
                                     <!-- 頁數索引 -->
                                     <div class="dataTable-bottom">
-                                        <div class="dataTable-info">Showing <?= $start + 1 ?> to <?= min($start + $perPage, $userCountAll) ?> of <?= $userCountAll ?> entries</div>
+                                        <div class="dataTable-info">顯示 <?= $start + 1 ?> 到 <?= min($start + $perPage, $userCountAll) ?> 共 <?= $userCountAll ?> 筆</div>
                                         <?php if($totalPage > 1): ?>
                                         <nav class="dataTable-pagination">
                                             <ul class="dataTable-pagination-list pagination pagination-primary">

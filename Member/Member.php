@@ -25,6 +25,8 @@ try {
     $dbHost = NULL;
     exit;
 }
+
+// $birth = ""
 // 最愛的商品功能 (待修改)
 // if($usersCount>0){
 //     $title = $row["name"];
@@ -165,7 +167,9 @@ try {
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="contact-info-vertical">出生日期</label>
-                                                        <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input active" placeholder="Select date.." name="birth" readonly="readonly" value="<?= $row["MemberBirth"] ?>">
+                                                        <!-- <?php $birth = substr($row["MemberBirth"], 0, 10) ?> -->
+                                                        <!-- <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input active" placeholder="Select date.." name="birth" readonly="readonly" value="<?= $birth ?>"> -->
+                                                        <input type="text" class="form-control flatpickr-no-config active birth" placeholder="" readonly="readonly" name="birth" value="<?= $row["MemberBirth"] ?>">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
@@ -199,7 +203,7 @@ try {
                                                 <div class="col-md-6 col-12 opacity-75">
                                                     <div class="form-group">
                                                         <label for="contact-info-vertical">建立日期 : </label>
-                                                        <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input active" placeholder="Select date.." name="" disabled="disabled" value="<?= $row["MemberCreateDate"] ?>">
+                                                        <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input active" placeholder="" name="" disabled="disabled" value="<?= $row["MemberCreateDate"] ?>">
                                                     </div>
                                                 </div>
                                                 <!-- <div class="col-md-6 col-12 d-none">
@@ -211,7 +215,7 @@ try {
                                                 <div class="col-md-6 col-12 opacity-75">
                                                     <div class="form-group">
                                                         <label for="contact-info-vertical">更新日期 : </label>
-                                                        <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input active" placeholder="Select date.." name="" disabled="disabled" value="<?= $row["MemberUpdateDate"] ?>">
+                                                        <input type="text" class="form-control mb-3 flatpickr-no-config flatpickr-input active" placeholder="" name="" disabled="disabled" value="<?= $row["MemberUpdateDate"] ?>">
                                                     </div>
                                                 </div>
                                                 <!-- <div class="col-md-6 col-12 d-none">
@@ -247,6 +251,12 @@ try {
     </div>
     </div>
     <script>
+        // 日期彈出視窗更改
+        flatpickr('.birth', {
+            enableTime: true,
+            dateFormat: "Y-m-d",
+        })
+
         // 刪除會員警示modal
         const deleteButtons = document.querySelectorAll('.delete-button'); // 選擇所有的刪除按鈕
         const confirmDeleteButton = document.getElementById('confirmDeleteButton');
