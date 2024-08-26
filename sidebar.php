@@ -7,9 +7,9 @@ $currentFolderName = basename($currentDirectory);
 ?>
 <style>
     .sidebar-wrapper .sidebar-header img {
-        height: 4.5rem;
-        padding-left: 20px;
-        padding-top: 10px;
+        height: 2rem;
+        /* padding-left: 20px; */
+        /* padding-top: 10px; */
     }
 </style>
 
@@ -19,7 +19,7 @@ $currentFolderName = basename($currentDirectory);
             <div class="d-flex justify-content-between align-items-center">
                 <div class="logo">
                     <a href="index.php"><img
-                            src="/G5midTerm/assets/pawer_white.svg"
+                            src="/G5midTerm/assets/pawer2white.svg"
                             alt="Logo" srcset=""></a>
                 </div>
                 <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
