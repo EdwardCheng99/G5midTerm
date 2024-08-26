@@ -72,7 +72,7 @@ $vendors = $stmt->fetchAll(PDO::FETCH_ASSOC); // 獲取所有 vendor 的數據
     <div id="app">
         <?php include("../sidebar.php") ?>
         <div id="main">
-            <header class="mb-3">
+            <header class="">
                 <a href="#" class="burger-btn d-block d-xl-none">
                     <i class="bi bi-justify fs-3"></i>
                 </a>
@@ -85,7 +85,7 @@ $vendors = $stmt->fetchAll(PDO::FETCH_ASSOC); // 獲取所有 vendor 的數據
                     <div class="row">
                         <div class="col-12 col-md-6 order-md-1 order-last">
                             <h3 class="">新增活動</h3>
-                            <button type="button" class="btn btn-secondary mb-4"> <a class="text-white" href="./OfficialEventsList.php?p=1&order=99">返回</a></button>
+                            <button type="button" class="btn btn-primary mb-4"> <a class="text-white" href="./OfficialEventsList.php?p=1&order=99"><i class="fa-solid fa-chevron-left"></i>回列表</a></button>
                         </div>
                         <div class="col-12 col-md-6 order-md-2 order-first">
                             <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">

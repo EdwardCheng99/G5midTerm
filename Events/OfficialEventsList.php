@@ -206,6 +206,15 @@ WHERE OfficialEvent.EventValid = 1";
             max-width: 200px;
             min-width: 120px;
         }
+
+        .searchbox2 {
+            flex-grow: 1;
+        }
+
+        .searchbox3 {
+            flex: 1 1 auto;
+            width: 12%;
+        }
     </style>
 </head>
 
@@ -214,7 +223,7 @@ WHERE OfficialEvent.EventValid = 1";
     <div id="app">
         <?php include("../sidebar.php") ?>
         <div id="main">
-            <header class="mb-3">
+            <header class="">
                 <a href="#" class="burger-btn d-block d-xl-none">
                     <i class="bi bi-justify fs-3"></i>
                 </a>
@@ -249,7 +258,7 @@ WHERE OfficialEvent.EventValid = 1";
                                             <input type="search" id="" class="form-control" placeholder="請輸入活動標題關鍵字" name="search" value="<?php echo isset($_GET["search"]) ? htmlspecialchars($_GET["search"]) : "" ?>">
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-4 col-12">
+                                    <div class="col-lg-4 col-md-4 col-12 searchbox2">
                                         <div class="row form-group align-items-center">
                                             <label for="">活動時間</label>
                                             <div class="col">
@@ -261,8 +270,8 @@ WHERE OfficialEvent.EventValid = 1";
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-2 col-md-4 col-12">
-                                        <div class="col d-flex align-items-center pt-3">
+                                    <div class="col-lg-2 col-md-4 col-12 searchbox3">
+                                        <div class="col d-flex align-items-center pt-3 justify-content-end">
                                             <button type="submit" class="btn btn-primary me-1 mb-1">查詢</button>
                                             <button type="reset" class="btn btn-light-secondary me-1 mb-1"><a href="./OfficialEventsList.php?p=1&order=99" class="text-body">清除</a> </button>
                                         </div>
@@ -286,7 +295,7 @@ WHERE OfficialEvent.EventValid = 1";
                                                 <input type="hidden" name="end_time" value="<?php echo isset($end_time) ? $end_time : ''; ?>">
                                                 <label>每頁</label>
                                                 <div class="dataTable-dropdown">
-                                                    <select name="per_page" class="dataTable-selector form-select" onchange="if(this.form)this.form.submit();">
+                                                    <select name="per_page" class="dataTable-selector form-select" onchange="this.form.p.value=1; if(this.form)this.form.submit();">
                                                         <option value="5" <?= ($per_page == 5) ? 'selected' : '' ?>>5</option>
                                                         <option value="10" <?= ($per_page == 10) ? 'selected' : '' ?>>10</option>
                                                         <option value="15" <?= ($per_page == 15) ? 'selected' : '' ?>>15</option>
