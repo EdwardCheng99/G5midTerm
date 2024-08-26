@@ -420,9 +420,10 @@ try {
                     </form>
 
                 </section>
+                <?php include("../footer.php") ?>
             </div>
         </div>
-        <?php include("../footer.php") ?>
+
     </div>
     </div>
     <?php include("../js.php") ?>
