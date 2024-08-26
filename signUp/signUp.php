@@ -53,14 +53,14 @@
                             <input type="text" id="nickname" class="form-control" name="nickname" placeholder="" value="">
                         </div>
 
-                        <div class="form-group position-relative has-icon-left mb-4">
+                        <!-- <div class="form-group position-relative has-icon-left mb-4">
                             <label for="email-id-vertical">會員等級</label>
                             <select class="form-select" id="level" name="level">
                                 <option>銅</option>
                                 <option>銀</option>
                                 <option>金</option>
                             </select>
-                        </div>
+                        </div> -->
 
                         <div class="form-group position-relative has-icon-left mb-4">
                             <label for="contact-info-vertical">電子信箱</label>

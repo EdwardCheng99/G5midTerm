@@ -9,11 +9,11 @@ $name = $_POST["name"];
 $account = $_POST["account"];
 $password = $_POST["password"];
 $rePassword = $_POST["repassword"];
-switch($_POST["level"]){
-            case "銅":$level = 1;break; 
-            case "銀":$level = 2;break;
-            case "金":$level = 3;break;
-        };
+// switch($_POST["level"]){
+//             case "銅":$level = 1;break; 
+//             case "銀":$level = 2;break;
+//             case "金":$level = 3;break;
+//         };
 $birth = $_POST["birth"] ? $_POST["birth"] : null;
 $email = $_POST["email"];
 $phone = $_POST["phone"];
@@ -70,12 +70,12 @@ if(!empty($errorMsg)){
 // 準備 SQL 語句
 $sql = "INSERT INTO Member (
             MemberAccount, MemberName, MemberPassword, 
-            MemberNickName, MemberLevel, MembereMail, MemberPhone, MemberTel, 
+            MemberNickName, MembereMail, MemberPhone, MemberTel, 
             MemberAddress, MemberBirth, MemberGender, 
             MemberCreateDate, MemberUpdateDate
         ) VALUES (
             :account, :name, :password, 
-            :nickname, :level, :email, :phone, :tel, 
+            :nickname, :email, :phone, :tel, 
             :address, :birth, :gender, 
             :now, :now
         )";
@@ -89,7 +89,7 @@ try {
         ":name" => $name,
         ":password" => $password,
         ":nickname" => $nickname,
-        ":level" => $level,
+        // ":level" => $level,
         ":email" => $email,
         ":phone" => $phone,
         ":tel" => $tel,
