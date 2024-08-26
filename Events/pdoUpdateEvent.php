@@ -93,7 +93,7 @@ if (isset($_FILES["image"]) && $_FILES["image"]["error"] == 0) {
     $extension = strtolower($fileInfo["extension"]);
 
     // 檢查文件類型
-    $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
+    $allowedTypes = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
     if (!in_array($extension, $allowedTypes)) {
         echo "只允許上傳 JPG, JPEG, PNG 或 GIF 文件。";
         exit;
