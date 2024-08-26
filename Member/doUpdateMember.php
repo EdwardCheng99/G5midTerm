@@ -23,7 +23,7 @@ $tel = $_POST["tel"] ?? '';
 $date = date('Y-m-d H:i:s');
 
 
-if (!$id || !$name || !$phone || !$email) {
+if (!$id || !$name || !$phone) {
     echo "<script>alert('ID、姓名、電話和電子郵件不得為空！'); window.location.href = 'Member.php?MemberID=$id';</script>";
     exit;
 }

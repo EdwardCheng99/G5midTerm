@@ -40,12 +40,12 @@
 
                         <div class="form-group position-relative has-icon-left mb-4">
                             <label for="password-vertical">會員密碼 <span class="text-danger">*</span></label>
-                            <input type="text" id="password" class="form-control" name="password" placeholder="Password" value="">
+                            <input type="password" id="password" class="form-control" name="password" placeholder="Password" value="">
                         </div>
 
                         <div class="form-group position-relative has-icon-left mb-4">
                             <label for="password-vertical">重新輸入密碼 <span class="text-danger">*</span></label>
-                            <input type="text" id="repassword" class="form-control" name="repassword" id="repassword" placeholder="rePassword" value="">
+                            <input type="password" id="repassword" class="form-control" name="repassword" id="repassword" placeholder="rePassword" value="">
                         </div>
 
                         <div class="form-group position-relative has-icon-left mb-4">

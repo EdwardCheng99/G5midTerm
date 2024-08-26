@@ -142,7 +142,7 @@ try {
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="contact-info-vertical">電子郵件 <span class="text-danger">*</span></label>
+                                                        <label for="contact-info-vertical">電子郵件</label>
                                                         <input type="email" id="contact-info-vertical" class="form-control" name="email" placeholder="" value="<?= $row["MembereMail"] ?>">
                                                     </div>
                                                 </div>
