@@ -199,7 +199,7 @@ if(isset($_GET["searchName"]) || isset($_GET["dateRange"]) || isset($_GET["searc
                                                 <!-- $memberName -->
                                                 <sapn class="input-group-text" for="">付款方式</sapn>
                                                 <select class="form-select" name="paymentMethod" onchange="this.form.submit()">
-                                                    <option value="" <?= ($paymentMethod == "") ? 'selected' : '' ?>>付款狀態</option>
+                                                    <option value="" <?= ($paymentMethod == "") ? 'selected' : '' ?>>選擇方式</option>
                                                     <option value="信用卡" <?= ($paymentMethod == "信用卡") ? 'selected' : '' ?>>信用卡</option>
                                                     <option value="轉帳" <?= ($paymentMethod == "轉帳") ? 'selected' : '' ?>>轉帳</option>
                                                     <option value="貨到付款" <?= ($paymentMethod == "貨到付款") ? 'selected' : '' ?>>貨到付款</option>
